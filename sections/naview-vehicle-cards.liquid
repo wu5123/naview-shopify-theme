@@ -1,0 +1,518 @@
+{% comment %}
+  Naview — Choose Your Model v4
+  Add this file to: Online Store > Themes > Edit code > Sections
+  v4: logo uploader placed before the model-name setting
+{% endcomment %}
+
+{% liquid
+  assign section_dom_id = 'naview-models-' | append: section.id
+%}
+
+<section
+  id="{{ section_dom_id }}"
+  class="naview-models"
+  style="
+    --naview-bg: {{ section.settings.background }};
+    --naview-card-bg: #FFFFFF;
+    --naview-heading: {{ section.settings.heading_color }};
+    --naview-text: {{ section.settings.text_color }};
+    --naview-accent: {{ section.settings.accent_color }};
+    --naview-padding-top: {{ section.settings.padding_top }}px;
+    --naview-padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <span id="naview-models" class="naview-models__anchor" aria-hidden="true"></span>
+
+  <div class="naview-models__container">
+    {% if section.settings.heading != blank %}
+      <div class="naview-models__heading-row">
+        <span class="naview-models__line" aria-hidden="true"></span>
+        <h2 class="naview-models__heading">{{ section.settings.heading | escape }}</h2>
+        <span class="naview-models__line" aria-hidden="true"></span>
+      </div>
+    {% endif %}
+
+    <div class="naview-models__grid" role="list">
+      {% for block in section.blocks %}
+        {% liquid
+          assign vehicle_title = block.settings.title
+        %}
+
+        <article class="naview-model-card" role="listitem" {{ block.shopify_attributes }}>
+          {% if block.settings.link != blank %}
+            <a
+              class="naview-model-card__link"
+              href="{{ block.settings.link }}"
+              aria-label="{{ 'View details for ' | append: vehicle_title | escape }}"
+            >
+          {% else %}
+            <div class="naview-model-card__link">
+          {% endif %}
+
+          <div class="naview-model-card__media">
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 1000
+                | image_tag:
+                  widths: '360, 540, 720, 1000',
+                  sizes: '(min-width: 1200px) 25vw, (min-width: 750px) 50vw, 84vw',
+                  loading: 'lazy',
+                  class: 'naview-model-card__image',
+                  alt: vehicle_title
+              }}
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'naview-model-card__placeholder' }}
+            {% endif %}
+          </div>
+
+          <div class="naview-model-card__content">
+            <div class="naview-model-card__identity">
+              {% if block.settings.logo != blank %}
+                <span class="naview-model-card__brand" aria-hidden="true">
+                  {{
+                    block.settings.logo
+                    | image_url: width: 240
+                    | image_tag:
+                      widths: '80, 120, 160, 240',
+                      sizes: '48px',
+                      loading: 'lazy',
+                      class: 'naview-model-card__logo',
+                      alt: ''
+                  }}
+                </span>
+              {% endif %}
+              <div>
+                <h3 class="naview-model-card__title">{{ vehicle_title | escape }}</h3>
+                <span class="naview-model-card__details">
+                  {{ section.settings.details_label | escape }}
+                </span>
+              </div>
+            </div>
+
+            <span class="naview-model-card__arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+
+          {% if block.settings.link != blank %}
+            </a>
+          {% else %}
+            </div>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% style %}
+  #{{ section_dom_id }} {
+    position: relative;
+    background: var(--naview-bg);
+    padding: var(--naview-padding-top) 20px var(--naview-padding-bottom);
+  }
+
+  #{{ section_dom_id }} .naview-models__anchor {
+    display: block;
+    position: absolute;
+    inset-block-start: 0;
+    scroll-margin-block-start: 88px;
+  }
+
+  #{{ section_dom_id }} * {
+    box-sizing: border-box;
+  }
+
+  #{{ section_dom_id }} .naview-models__container {
+    width: min(1480px, 100%);
+    margin: 0 auto;
+  }
+
+  #{{ section_dom_id }} .naview-models__heading-row {
+    display: grid;
+    grid-template-columns: minmax(40px, 190px) auto minmax(40px, 190px);
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  #{{ section_dom_id }} .naview-models__line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--naview-accent) 45%, transparent)
+    );
+  }
+
+  #{{ section_dom_id }} .naview-models__line:last-child {
+    transform: scaleX(-1);
+  }
+
+  #{{ section_dom_id }} .naview-models__heading {
+    margin: 0;
+    color: var(--naview-heading);
+    font-size: clamp(20px, 1.7vw, 30px);
+    font-weight: 750;
+    line-height: 1.15;
+    letter-spacing: 0.045em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  #{{ section_dom_id }} .naview-models__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  #{{ section_dom_id }} .naview-model-card {
+    min-width: 0;
+    border: 1px solid rgba(20, 54, 105, 0.12);
+    border-radius: 18px;
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    background-image: none !important;
+    box-shadow:
+      0 12px 32px rgba(7, 31, 72, 0.075),
+      0 2px 8px rgba(7, 31, 72, 0.045);
+    overflow: hidden;
+    transition:
+      transform 220ms ease,
+      box-shadow 220ms ease,
+      border-color 220ms ease;
+  }
+
+  #{{ section_dom_id }} .naview-model-card:hover {
+    transform: translateY(-5px);
+    border-color: color-mix(in srgb, var(--naview-accent) 36%, transparent);
+    box-shadow:
+      0 20px 44px rgba(7, 31, 72, 0.13),
+      0 3px 10px rgba(7, 31, 72, 0.06);
+  }
+
+  #{{ section_dom_id }} .naview-model-card__link {
+    display: block;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    background-image: none !important;
+  }
+
+  #{{ section_dom_id }} .naview-model-card__link:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--naview-accent) 55%, white);
+    outline-offset: -3px;
+  }
+
+  #{{ section_dom_id }} .naview-model-card__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 10;
+    padding: 18px 18px 4px;
+    overflow: hidden;
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    background-image: none !important;
+  }
+
+  #{{ section_dom_id }} .naview-model-card__image,
+  #{{ section_dom_id }} .naview-model-card__placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 280ms ease;
+  }
+
+  #{{ section_dom_id }} .naview-model-card:hover .naview-model-card__image {
+    transform: scale(1.035);
+  }
+
+  #{{ section_dom_id }} .naview-model-card__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 92px;
+    padding: 15px 17px 17px;
+    border-top: 0;
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    background-image: none !important;
+  }
+
+  #{{ section_dom_id }} .naview-model-card__identity {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  #{{ section_dom_id }} .naview-model-card__brand {
+    display: flex;
+    flex: 0 0 48px;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 42px;
+  }
+
+  #{{ section_dom_id }} .naview-model-card__logo {
+    display: block;
+    width: 48px;
+    height: 36px;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  #{{ section_dom_id }} .naview-model-card__title {
+    margin: 0 0 3px;
+    overflow: hidden;
+    color: var(--naview-text);
+    font-size: clamp(17px, 1.3vw, 23px);
+    font-weight: 720;
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #{{ section_dom_id }} .naview-model-card__details {
+    display: block;
+    color: var(--naview-accent);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+  }
+
+  #{{ section_dom_id }} .naview-model-card__arrow {
+    display: inline-flex;
+    flex: 0 0 40px;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid color-mix(in srgb, var(--naview-accent) 55%, transparent);
+    border-radius: 50%;
+    color: var(--naview-accent);
+    background: #fff;
+    transition:
+      color 200ms ease,
+      background 200ms ease,
+      transform 200ms ease;
+  }
+
+  #{{ section_dom_id }} .naview-model-card__arrow svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  #{{ section_dom_id }} .naview-model-card:hover .naview-model-card__arrow {
+    color: #fff;
+    background: var(--naview-accent);
+    transform: translateX(2px);
+  }
+
+  @media screen and (max-width: 1100px) {
+    #{{ section_dom_id }} .naview-models__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    #{{ section_dom_id }} {
+      padding-right: 0;
+      padding-left: 0;
+    }
+
+    #{{ section_dom_id }} .naview-models__heading-row {
+      grid-template-columns: minmax(24px, 72px) auto minmax(24px, 72px);
+      gap: 12px;
+      padding: 0 20px;
+      margin-bottom: 18px;
+    }
+
+    #{{ section_dom_id }} .naview-models__heading {
+      font-size: 20px;
+    }
+
+    #{{ section_dom_id }} .naview-models__grid {
+      display: grid;
+      grid-auto-columns: min(84vw, 340px);
+      grid-auto-flow: column;
+      grid-template-columns: none;
+      gap: 14px;
+      padding: 4px 20px 18px;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scroll-padding-left: 20px;
+      scroll-snap-type: inline mandatory;
+      scrollbar-width: none;
+    }
+
+    #{{ section_dom_id }} .naview-models__grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    #{{ section_dom_id }} .naview-model-card {
+      scroll-snap-align: start;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__content {
+      min-height: 88px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #{{ section_dom_id }} .naview-model-card,
+    #{{ section_dom_id }} .naview-model-card__image,
+    #{{ section_dom_id }} .naview-model-card__arrow {
+      transition: none;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Naview model cards",
+  "tag": "section",
+  "class": "section-naview-model-cards",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "CHOOSE YOUR MODEL"
+    },
+    {
+      "type": "text",
+      "id": "details_label",
+      "label": "Card link label",
+      "default": "VIEW DETAILS"
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section background",
+      "default": "#F7FAFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading colour",
+      "default": "#071B3E"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Card title colour",
+      "default": "#081B3C"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent colour",
+      "default": "#1659B7"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "vehicle",
+      "name": "Vehicle card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Brand logo（显示在车型名称前）"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Vehicle name",
+          "default": "Toyota RAV4"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Vehicle image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Product or details page"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Naview model cards",
+      "blocks": [
+        {
+          "type": "vehicle",
+          "settings": {
+            "title": "Toyota RAV4"
+          }
+        },
+        {
+          "type": "vehicle",
+          "settings": {
+            "title": "Honda CR-V"
+          }
+        },
+        {
+          "type": "vehicle",
+          "settings": {
+            "title": "Lexus NX"
+          }
+        },
+        {
+          "type": "vehicle",
+          "settings": {
+            "title": "Ford F-150"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

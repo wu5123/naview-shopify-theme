@@ -1,0 +1,307 @@
+{% comment %}
+  Naview — YouTube Video Showcase
+  Add this file to: Online Store > Themes > Edit code > Sections
+{% endcomment %}
+
+{% liquid
+  assign section_dom_id = 'naview-video-' | append: section.id
+  assign video_url = section.settings.video_url
+%}
+
+<section
+  id="{{ section_dom_id }}"
+  class="naview-video"
+  style="
+    --video-bg: {{ section.settings.background }};
+    --video-heading: {{ section.settings.heading_color }};
+    --video-text: {{ section.settings.text_color }};
+    --video-accent: {{ section.settings.accent_color }};
+    --video-width: {{ section.settings.max_width }}px;
+    --video-padding-top: {{ section.settings.padding_top }}px;
+    --video-padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="naview-video__container">
+    {% if section.settings.heading != blank %}
+      <div class="naview-video__heading-row">
+        <span class="naview-video__line" aria-hidden="true"></span>
+        <h2 class="naview-video__heading">{{ section.settings.heading | escape }}</h2>
+        <span class="naview-video__line" aria-hidden="true"></span>
+      </div>
+    {% endif %}
+
+    {% if section.settings.description != blank %}
+      <p class="naview-video__description">{{ section.settings.description | escape }}</p>
+    {% endif %}
+
+    <div class="naview-video__frame">
+      {% if video_url != blank %}
+        <iframe
+          class="naview-video__iframe"
+          src="https://www.youtube-nocookie.com/embed/{{ video_url.id }}?rel=0&playsinline=1"
+          title="{{ section.settings.video_title | default: section.settings.heading | escape }}"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      {% else %}
+        <div class="naview-video__placeholder">
+          <span class="naview-video__play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="m9 7 8 5-8 5V7Z" fill="currentColor"/>
+            </svg>
+          </span>
+          <p>Paste a YouTube link in this section's settings.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% style %}
+  #{{ section_dom_id }} {
+    padding: var(--video-padding-top) 20px var(--video-padding-bottom);
+    background: #FFFFFF !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  #{{ section_dom_id }} * {
+    box-sizing: border-box;
+  }
+
+  #{{ section_dom_id }} .naview-video__container {
+    width: min(var(--video-width), 100%);
+    margin: 0 auto;
+  }
+
+  #{{ section_dom_id }} .naview-video__heading-row {
+    display: grid;
+    grid-template-columns: minmax(40px, 190px) auto minmax(40px, 190px);
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 14px;
+  }
+
+  #{{ section_dom_id }} .naview-video__line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--video-accent) 45%, transparent)
+    );
+  }
+
+  #{{ section_dom_id }} .naview-video__line:last-child {
+    transform: scaleX(-1);
+  }
+
+  #{{ section_dom_id }} .naview-video__heading {
+    margin: 0;
+    color: var(--video-heading);
+    font-size: clamp(22px, 2.1vw, 34px);
+    font-weight: 760;
+    line-height: 1.15;
+    letter-spacing: 0.045em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  #{{ section_dom_id }} .naview-video__description {
+    max-width: 760px;
+    margin: 0 auto 30px;
+    color: var(--video-text);
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height: 1.55;
+    text-align: center;
+  }
+
+  #{{ section_dom_id }} .naview-video__frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 10px solid #FFFFFF;
+    border-radius: 24px;
+    background: #071B3E;
+    box-shadow:
+      0 24px 60px rgba(7, 31, 72, 0.14),
+      0 4px 14px rgba(7, 31, 72, 0.08);
+  }
+
+  #{{ section_dom_id }} .naview-video__iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  #{{ section_dom_id }} .naview-video__placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    color: #FFFFFF;
+    background:
+      radial-gradient(circle at 50% 42%, rgba(36, 112, 225, 0.35), transparent 32%),
+      linear-gradient(135deg, #0A2149, #07152F);
+    text-align: center;
+  }
+
+  #{{ section_dom_id }} .naview-video__placeholder p {
+    margin: 0;
+    font-size: 15px;
+    opacity: 0.78;
+  }
+
+  #{{ section_dom_id }} .naview-video__play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    border-radius: 50%;
+    color: #FFFFFF;
+    background: var(--video-accent);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  }
+
+  #{{ section_dom_id }} .naview-video__play svg {
+    width: 30px;
+    height: 30px;
+    margin-left: 3px;
+  }
+
+  @media screen and (max-width: 749px) {
+    #{{ section_dom_id }} {
+      padding-right: 16px;
+      padding-left: 16px;
+    }
+
+    #{{ section_dom_id }} .naview-video__heading-row {
+      grid-template-columns: minmax(24px, 60px) auto minmax(24px, 60px);
+      gap: 12px;
+    }
+
+    #{{ section_dom_id }} .naview-video__heading {
+      font-size: 21px;
+    }
+
+    #{{ section_dom_id }} .naview-video__description {
+      margin-bottom: 22px;
+      font-size: 15px;
+    }
+
+    #{{ section_dom_id }} .naview-video__frame {
+      border-width: 6px;
+      border-radius: 16px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Naview YouTube video",
+  "tag": "section",
+  "class": "section-naview-video",
+  "settings": [
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "accept": ["youtube"],
+      "label": "YouTube video link"
+    },
+    {
+      "type": "text",
+      "id": "video_title",
+      "label": "Video accessibility title",
+      "default": "Naview digital rearview mirror demonstration"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "SEE IT IN ACTION"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "See how Naview delivers a wider, clearer rear view in real driving conditions."
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section background",
+      "default": "#F7FAFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading colour",
+      "default": "#071B3E"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Description colour",
+      "default": "#536176"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent colour",
+      "default": "#1769E0"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 40,
+      "unit": "px",
+      "label": "Maximum video width",
+      "default": 1280
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Naview YouTube video"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,733 @@
+{% liquid
+  assign hero_image = section.settings.image
+  assign mobile_image = section.settings.mobile_image
+  assign hero_alt = section.settings.image_alt | default: section.settings.heading_line_1 | escape
+  assign reflection_opacity = section.settings.reflection_opacity | times: 0.01
+%}
+
+<section
+  id="MirrorHero-{{ section.id }}"
+  class="mirror-hero"
+  style="
+    --hero-height: {{ section.settings.desktop_height }}px;
+    --content-width: {{ section.settings.content_width }}px;
+    --accent: {{ section.settings.accent_color }};
+    --text-color: {{ section.settings.text_color }};
+    --reflection-height: {{ section.settings.reflection_height }}px;
+    --reflection-opacity: {{ reflection_opacity }};
+  "
+>
+  {% if hero_image != blank %}
+    <picture class="mirror-hero__media">
+      {% if mobile_image != blank %}
+        <source
+          media="(max-width: 749px)"
+          srcset="
+            {{ mobile_image | image_url: width: 600 }} 600w,
+            {{ mobile_image | image_url: width: 900 }} 900w,
+            {{ mobile_image | image_url: width: 1200 }} 1200w
+          "
+          sizes="100vw"
+        >
+      {% endif %}
+
+      {{
+        hero_image
+        | image_url: width: 3000
+        | image_tag:
+          class: 'mirror-hero__image',
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '750, 1100, 1500, 2000, 2500, 3000',
+          sizes: '100vw',
+          alt: hero_alt
+      }}
+    </picture>
+  {% endif %}
+
+  <div class="mirror-hero__gradient" aria-hidden="true"></div>
+
+  <div class="mirror-hero__inner">
+    <div class="mirror-hero__content">
+      {% if section.settings.eyebrow != blank %}
+        <p class="mirror-hero__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+
+      <h1 class="mirror-hero__heading">
+        <span class="mirror-hero__heading-strong">
+          {{- section.settings.heading_line_1 | escape -}}
+        </span>
+        <span class="mirror-hero__heading-light">
+          {{- section.settings.heading_line_2 | escape -}}
+        </span>
+      </h1>
+
+      {% if section.settings.description != blank %}
+        <p class="mirror-hero__description">{{ section.settings.description | escape }}</p>
+      {% endif %}
+
+      <div class="mirror-hero__actions">
+        {% if section.settings.primary_label != blank %}
+          <a
+            class="mirror-hero__button"
+            href="#naview-models"
+          >
+            <svg class="mirror-hero__button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 13.5 5.8 8a2.6 2.6 0 0 1 2.47-1.78h7.46A2.6 2.6 0 0 1 18.2 8l1.8 5.5v4.15a1 1 0 0 1-1 1h-1.35a1 1 0 0 1-1-1v-.65H7.35v.65a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V13.5Z" />
+              <path d="M4.25 12h15.5M7.25 14.2h.01M16.75 14.2h.01" />
+            </svg>
+            {{ section.settings.primary_label | escape }}
+            <svg class="mirror-hero__button-arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+              <path d="M4 10h11M10.5 5.5 15 10l-4.5 4.5" />
+            </svg>
+          </a>
+        {% endif %}
+
+        {% if section.settings.secondary_label != blank %}
+          <a
+            class="mirror-hero__text-link"
+            {% if section.settings.secondary_link != blank %}
+              href="{{ section.settings.secondary_link }}"
+            {% else %}
+              role="link" aria-disabled="true"
+            {% endif %}
+          >
+            <svg class="mirror-hero__whatsapp-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M20 11.4a8 8 0 0 1-11.8 7l-4.2 1.1 1.12-4.1A8 8 0 1 1 20 11.4Z" />
+              <path d="M9.15 8.55c.12-.28.27-.29.48-.29h.4c.13 0 .29.02.37.23l.64 1.55c.07.18.04.32-.04.45l-.3.39c-.1.1-.2.23-.08.42.32.55.73 1.02 1.27 1.4.17.12.28.1.38 0l.46-.54c.12-.14.25-.16.42-.1l1.44.67c.18.09.24.14.27.25.04.13.04.7-.17.97-.2.27-.6.52-.98.59-.3.06-.68.1-1.1-.04-.25-.08-.58-.19-.99-.37-1.75-.77-2.91-2.55-3-2.68-.1-.13-.7-.94-.7-1.8 0-.86.45-1.28.61-1.46Z" />
+            </svg>
+            <span>{{ section.settings.secondary_label | escape }}</span>
+          </a>
+        {% endif %}
+      </div>
+
+      {% if section.settings.trust_1 != blank
+        or section.settings.trust_2 != blank
+        or section.settings.trust_3 != blank
+      %}
+        <div class="mirror-hero__trust" aria-label="Why choose our digital rearview mirrors">
+          {% if section.settings.trust_1 != blank %}
+            <div class="mirror-hero__trust-item">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 3.4 19 6v5.27c0 4.42-2.97 7.63-7 9.33-4.03-1.7-7-4.91-7-9.33V6l7-2.6Z"/><path d="m8.55 11.9 2.15 2.15 4.76-4.78"/>
+              </svg>
+              <span>{{ section.settings.trust_1 | escape }}</span>
+            </div>
+          {% endif %}
+          {% if section.settings.trust_2 != blank %}
+            <div class="mirror-hero__trust-item">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="10" r="4.75"/><path d="m8.5 13.2-1.1 6.25 4.6-2.2 4.6 2.2-1.1-6.25M12 7.85v4.3M9.85 10h4.3"/>
+              </svg>
+              <span>{{ section.settings.trust_2 | escape }}</span>
+            </div>
+          {% endif %}
+          {% if section.settings.trust_3 != blank %}
+            <div class="mirror-hero__trust-item">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M4.6 12.2v-1.3a7.4 7.4 0 0 1 14.8 0v1.3M5.25 11.6H4.4a1.4 1.4 0 0 0-1.4 1.4v2.3a1.4 1.4 0 0 0 1.4 1.4h1.7v-5.1h-.85ZM18.75 11.6h.85A1.4 1.4 0 0 1 21 13v2.3a1.4 1.4 0 0 1-1.4 1.4h-1.7v-5.1h.85ZM17.9 16.7c0 1.45-1.24 2.62-2.77 2.62h-1.5"/><rect x="11.25" y="18.15" width="2.9" height="1.85" rx=".92"/>
+              </svg>
+              <span>{{ section.settings.trust_3 | escape }}</span>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if hero_image != blank %}
+    <div class="mirror-hero__reflection" aria-hidden="true">
+      <picture class="mirror-hero__reflection-media">
+        {% if mobile_image != blank %}
+          <source
+            media="(max-width: 749px)"
+            srcset="
+              {{ mobile_image | image_url: width: 600 }} 600w,
+              {{ mobile_image | image_url: width: 900 }} 900w,
+              {{ mobile_image | image_url: width: 1200 }} 1200w
+            "
+            sizes="100vw"
+          >
+        {% endif %}
+
+        {{
+          hero_image
+          | image_url: width: 3000
+          | image_tag:
+            class: 'mirror-hero__reflection-image',
+            loading: 'lazy',
+            widths: '750, 1100, 1500, 2000, 2500, 3000',
+            sizes: '100vw',
+            alt: ''
+        }}
+      </picture>
+    </div>
+  {% endif %}
+</section>
+
+{% style %}
+  html {
+    scroll-behavior: smooth;
+  }
+
+  #MirrorHero-{{ section.id }} {
+    position: relative;
+    z-index: 2;
+    isolation: isolate;
+    min-height: var(--hero-height);
+    overflow: visible;
+    background: #edf3f8;
+    color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__media,
+  #MirrorHero-{{ section.id }} .mirror-hero__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__image {
+    display: block;
+    object-fit: cover;
+    object-position: {{ hero_image.presentation.focal_point | default: '50% 50%' }};
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__gradient {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(255, 255, 255, 0.94) 26%,
+        rgba(255, 255, 255, 0.67) 39%,
+        rgba(255, 255, 255, 0.16) 55%,
+        rgba(255, 255, 255, 0) 69%
+      );
+    pointer-events: none;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__reflection {
+    position: absolute;
+    z-index: 3;
+    top: 100%;
+    right: 0;
+    left: 0;
+    height: var(--reflection-height);
+    overflow: hidden;
+    opacity: var(--reflection-opacity);
+    pointer-events: none;
+    filter: blur(1px) saturate(0.82);
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.78) 0%,
+      rgba(0, 0, 0, 0.38) 48%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.78) 0%,
+      rgba(0, 0, 0, 0.38) 48%,
+      transparent 100%
+    );
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__reflection::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(255, 255, 255, 0.94) 26%,
+        rgba(255, 255, 255, 0.67) 39%,
+        rgba(255, 255, 255, 0.16) 55%,
+        rgba(255, 255, 255, 0) 69%
+      );
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__reflection-media {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: block;
+    height: var(--hero-height);
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__reflection-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ hero_image.presentation.focal_point | default: '50% 50%' }};
+    transform: scaleY(-1);
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    min-height: var(--hero-height);
+    width: min(100%, 2200px);
+    margin: 0 auto;
+    padding: 64px clamp(32px, 4.8vw, 104px);
+    box-sizing: border-box;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__content {
+    width: min(100%, var(--content-width));
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__eyebrow {
+    margin: 0 0 26px;
+    color: var(--accent);
+    font-size: clamp(12px, 0.86vw, 16px);
+    font-weight: 750;
+    line-height: 1.2;
+    letter-spacing: 0.33em;
+    text-transform: uppercase;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__heading {
+    margin: 0;
+    color: var(--text-color);
+    font-size: clamp(42px, 3.55vw, 74px);
+    line-height: 1.06;
+    letter-spacing: -0.045em;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__heading-strong,
+  #MirrorHero-{{ section.id }} .mirror-hero__heading-light {
+    display: block;
+    white-space: nowrap;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__heading-strong {
+    font-weight: 700;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__heading-light {
+    margin-top: 9px;
+    color: var(--accent);
+    font-weight: 580;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__description {
+    max-width: 680px;
+    margin: 34px 0 0;
+    color: rgba(18, 24, 32, 0.76);
+    font-size: clamp(17px, 1.08vw, 21px);
+    font-weight: 400;
+    line-height: 1.48;
+    letter-spacing: -0.012em;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__actions {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+    margin-top: 38px;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__button,
+  #MirrorHero-{{ section.id }} .mirror-hero__text-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+    box-sizing: border-box;
+    font-size: 17px;
+    font-weight: 650;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+      transform 180ms ease,
+      background-color 180ms ease,
+      color 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__button {
+    min-width: 232px;
+    padding: 0 28px;
+    border-radius: 11px;
+    background: var(--accent);
+    color: #ffffff;
+    box-shadow: 0 10px 28px rgba(23, 105, 224, 0.19);
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__text-link {
+    gap: 13px;
+    min-width: 232px;
+    padding: 0 24px;
+    border: 1px solid rgba(17, 24, 32, 0.25);
+    border-radius: 11px;
+    color: var(--text-color);
+    background: rgba(255, 255, 255, 0.56);
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__button-icon,
+  #MirrorHero-{{ section.id }} .mirror-hero__button-arrow,
+  #MirrorHero-{{ section.id }} .mirror-hero__whatsapp-icon {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.75;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__button-arrow {
+    width: 19px;
+    height: 19px;
+    margin-left: 5px;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__whatsapp-icon {
+    stroke-width: 1.55;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__trust {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px 38px;
+    margin-top: 38px;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    color: rgba(17, 24, 32, 0.72);
+    font-size: 14px;
+    font-weight: 590;
+    line-height: 1.25;
+    white-space: nowrap;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__trust-item svg {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: #5d6a7d;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.45;
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__button:hover,
+  #MirrorHero-{{ section.id }} .mirror-hero__text-link:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(255, 255, 255, 0.86);
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__button:hover {
+    background: #0f5dcc;
+    box-shadow: 0 14px 34px rgba(23, 105, 224, 0.25);
+  }
+
+  #MirrorHero-{{ section.id }} .mirror-hero__button:focus-visible,
+  #MirrorHero-{{ section.id }} .mirror-hero__text-link:focus-visible {
+    outline: 3px solid rgba(23, 105, 224, 0.38);
+    outline-offset: 4px;
+  }
+
+  @media screen and (max-width: 989px) {
+    #MirrorHero-{{ section.id }} .mirror-hero__gradient {
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.97) 0%,
+          rgba(255, 255, 255, 0.88) 45%,
+          rgba(255, 255, 255, 0.28) 72%,
+          rgba(255, 255, 255, 0) 100%
+        );
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__inner {
+      padding-inline: 36px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    #MirrorHero-{{ section.id }} {
+      min-height: 720px;
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__image {
+      object-position: {{ mobile_image.presentation.focal_point | default: hero_image.presentation.focal_point | default: '64% 50%' }};
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__reflection {
+      height: min(var(--reflection-height), 52px);
+      opacity: min(var(--reflection-opacity), 0.12);
+      filter: blur(0.8px) saturate(0.86);
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__reflection-media {
+      height: 720px;
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__reflection-image {
+      object-position: {{ mobile_image.presentation.focal_point | default: hero_image.presentation.focal_point | default: '64% 50%' }};
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__gradient {
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02) 0%,
+          rgba(255, 255, 255, 0.12) 27%,
+          rgba(255, 255, 255, 0.94) 49%,
+          rgba(255, 255, 255, 1) 66%,
+          rgba(255, 255, 255, 1) 100%
+        );
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__inner {
+      align-items: flex-end;
+      min-height: 720px;
+      padding: 300px 22px 42px;
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__content {
+      width: 100%;
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__eyebrow {
+      margin-bottom: 16px;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__heading {
+      font-size: clamp(36px, 10.5vw, 46px);
+      line-height: 1.04;
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__heading-strong,
+    #MirrorHero-{{ section.id }} .mirror-hero__heading-light {
+      white-space: normal;
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__heading-light {
+      margin-top: 7px;
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__description {
+      margin-top: 23px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__actions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__button {
+      width: 100%;
+      min-width: 0;
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__text-link {
+      min-height: 42px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__trust {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 13px;
+      margin-top: 28px;
+    }
+
+    #MirrorHero-{{ section.id }} .mirror-hero__trust-item {
+      white-space: normal;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #MirrorHero-{{ section.id }} .mirror-hero__button,
+    #MirrorHero-{{ section.id }} .mirror-hero__text-link {
+      transition: none;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Premium mirror hero",
+  "tag": "section",
+  "class": "section-premium-mirror-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile background image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text",
+      "default": "Digital rearview mirror showing a wide rear view"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small label",
+      "default": "DIGITAL REARVIEW MIRROR"
+    },
+    {
+      "type": "text",
+      "id": "heading_line_1",
+      "label": "Heading — bold line",
+      "default": "A Clearer View Behind."
+    },
+    {
+      "type": "text",
+      "id": "heading_line_2",
+      "label": "Heading — blue emphasis line",
+      "default": "Made for Your Vehicle."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Select your vehicle to see the correct mirror, fitment details, installation info, and pricing."
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Primary button label",
+      "default": "FIND MY MIRROR"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary link label",
+      "default": "CHAT ON WHATSAPP"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary link"
+    },
+    {
+      "type": "header",
+      "content": "Trust points"
+    },
+    {
+      "type": "text",
+      "id": "trust_1",
+      "label": "Trust point 1",
+      "default": "Vehicle-Specific Fitment"
+    },
+    {
+      "type": "text",
+      "id": "trust_2",
+      "label": "Trust point 2",
+      "default": "Premium Build Quality"
+    },
+    {
+      "type": "text",
+      "id": "trust_3",
+      "label": "Trust point 3",
+      "default": "Expert Support"
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "min": 520,
+      "max": 760,
+      "step": 20,
+      "unit": "px",
+      "label": "Desktop height",
+      "default": 680
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 520,
+      "max": 820,
+      "step": 20,
+      "unit": "px",
+      "label": "Desktop content width",
+      "default": 760
+    },
+    {
+      "type": "header",
+      "content": "Reflection transition"
+    },
+    {
+      "type": "range",
+      "id": "reflection_height",
+      "min": 40,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Reflection height",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "reflection_opacity",
+      "min": 5,
+      "max": 25,
+      "step": 1,
+      "unit": "%",
+      "label": "Reflection strength",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#1769E0"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#111820"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium mirror hero"
+    }
+  ]
+}
+{% endschema %}
