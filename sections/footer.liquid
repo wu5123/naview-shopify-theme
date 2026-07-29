@@ -377,21 +377,24 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 24px;
+    gap: 16px;
   }
 
   .nv-footer__fitment-request {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
+    justify-content: center;
+    gap: 10px;
+    min-height: 64px;
+    padding: 0 16px;
     color: var(--nv-footer-accent);
-    font-size: 14px;
-    line-height: 1.5;
-    font-weight: 730;
+    font-size: clamp(16px, 1.1vw, 18px);
+    line-height: 1.35;
+    font-weight: 760;
     white-space: nowrap;
     text-decoration-line: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 5px;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 6px;
     transition: color 180ms ease, transform 180ms ease;
   }
 
@@ -404,14 +407,16 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    min-height: 50px;
-    padding: 0 22px;
+    gap: 12px;
+    min-width: 212px;
+    min-height: 64px;
+    padding: 0 28px;
     border: 1px solid #9fc0ec;
-    border-radius: 12px;
+    border-radius: 14px;
     color: var(--nv-footer-text);
     background: #ffffff;
-    font-size: 14px;
+    box-shadow: 0 6px 18px rgba(23, 105, 224, 0.06);
+    font-size: 16px;
     font-weight: 760;
     text-decoration: none;
     white-space: nowrap;
@@ -420,13 +425,13 @@
 
   .nv-footer__fitment-whatsapp:hover {
     border-color: var(--nv-footer-accent);
-    box-shadow: 0 10px 24px rgba(23, 105, 224, 0.12);
-    transform: translateY(-1px);
+    box-shadow: 0 12px 28px rgba(23, 105, 224, 0.14);
+    transform: translateY(-2px);
   }
 
   .nv-footer__whatsapp-logo {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     fill: #25d366;
     stroke: none;
     flex: 0 0 auto;
@@ -725,6 +730,27 @@
     .nv-footer__links a,
     .nv-footer__signup-button {
       transition: none;
+    }
+  }
+
+  /* Keep the two actions visually grouped on wide screens. */
+  @media screen and (min-width: 1200px) {
+    .nv-footer__fitment {
+      grid-template-columns: auto minmax(300px, 1fr) minmax(520px, auto);
+      column-gap: 36px;
+    }
+
+    .nv-footer__fitment-actions {
+      width: 100%;
+      min-width: 520px;
+    }
+
+    .nv-footer__fitment-request {
+      flex: 1 1 280px;
+    }
+
+    .nv-footer__fitment-whatsapp {
+      flex: 0 0 220px;
     }
   }
 
