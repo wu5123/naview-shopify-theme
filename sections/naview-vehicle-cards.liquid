@@ -1,7 +1,7 @@
 {% comment %}
-  Naview — Choose Your Model v4
+  Naview — Choose Model v5
   Add this file to: Online Store > Themes > Edit code > Sections
-  v4: logo uploader placed before the model-name setting
+  v5: DJI-inspired fixed four-card grid and neutral product styling
 {% endcomment %}
 
 {% liquid
@@ -24,13 +24,9 @@
   <span id="naview-models" class="naview-models__anchor" aria-hidden="true"></span>
 
   <div class="naview-models__container">
-    {% if section.settings.heading != blank %}
-      <div class="naview-models__heading-row">
-        <span class="naview-models__line" aria-hidden="true"></span>
-        <h2 class="naview-models__heading">{{ section.settings.heading | escape }}</h2>
-        <span class="naview-models__line" aria-hidden="true"></span>
-      </div>
-    {% endif %}
+    <div class="naview-models__heading-row">
+      <h2 class="naview-models__heading">Choose Model</h2>
+    </div>
 
     <div class="naview-models__grid" role="list">
       {% for block in section.blocks %}
@@ -111,18 +107,21 @@
 {% style %}
   #{{ section_dom_id }} {
     position: relative;
-    background: var(--naview-bg);
-    padding: var(--naview-padding-top) 20px var(--naview-padding-bottom);
+    padding: var(--naview-padding-top) 24px var(--naview-padding-bottom);
+    background: #f5f5f5;
+    color: #111111;
   }
 
   #{{ section_dom_id }} .naview-models__anchor {
-    display: block;
     position: absolute;
     inset-block-start: 0;
+    display: block;
     scroll-margin-block-start: 88px;
   }
 
-  #{{ section_dom_id }} * {
+  #{{ section_dom_id }} *,
+  #{{ section_dom_id }} *::before,
+  #{{ section_dom_id }} *::after {
     box-sizing: border-box;
   }
 
@@ -132,95 +131,73 @@
   }
 
   #{{ section_dom_id }} .naview-models__heading-row {
-    display: grid;
-    grid-template-columns: minmax(40px, 190px) auto minmax(40px, 190px);
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
-    margin-bottom: 24px;
-  }
-
-  #{{ section_dom_id }} .naview-models__line {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      color-mix(in srgb, var(--naview-accent) 45%, transparent)
-    );
-  }
-
-  #{{ section_dom_id }} .naview-models__line:last-child {
-    transform: scaleX(-1);
+    display: block;
+    margin: 0 0 32px;
   }
 
   #{{ section_dom_id }} .naview-models__heading {
     margin: 0;
-    color: var(--naview-heading);
-    font-size: clamp(20px, 1.7vw, 30px);
-    font-weight: 750;
-    line-height: 1.15;
-    letter-spacing: 0.045em;
-    text-align: center;
-    text-transform: uppercase;
+    color: #111111;
+    font-family:
+      "Open Sans",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Arial,
+      sans-serif;
+    font-size: clamp(34px, 3vw, 40px);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+    text-align: left;
+    text-transform: none;
   }
 
   #{{ section_dom_id }} .naview-models__grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
+    gap: 16px;
   }
 
   #{{ section_dom_id }} .naview-model-card {
     min-width: 0;
-    border: 1px solid rgba(20, 54, 105, 0.12);
-    border-radius: 18px;
-    background: #FFFFFF !important;
-    background-color: #FFFFFF !important;
-    background-image: none !important;
-    box-shadow:
-      0 12px 32px rgba(7, 31, 72, 0.075),
-      0 2px 8px rgba(7, 31, 72, 0.045);
     overflow: hidden;
+    border: 0;
+    border-radius: 4px;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     transition:
-      transform 220ms ease,
-      box-shadow 220ms ease,
-      border-color 220ms ease;
+      transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 240ms ease;
   }
 
   #{{ section_dom_id }} .naview-model-card:hover {
-    transform: translateY(-5px);
-    border-color: color-mix(in srgb, var(--naview-accent) 36%, transparent);
-    box-shadow:
-      0 20px 44px rgba(7, 31, 72, 0.13),
-      0 3px 10px rgba(7, 31, 72, 0.06);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
   }
 
   #{{ section_dom_id }} .naview-model-card__link {
-    display: block;
+    display: flex;
+    flex-direction: column;
     height: 100%;
     color: inherit;
     text-decoration: none;
-    background: #FFFFFF !important;
-    background-color: #FFFFFF !important;
-    background-image: none !important;
+    background: #ffffff;
   }
 
   #{{ section_dom_id }} .naview-model-card__link:focus-visible {
-    outline: 3px solid color-mix(in srgb, var(--naview-accent) 55%, white);
-    outline-offset: -3px;
+    outline: 2px solid #111111;
+    outline-offset: -2px;
   }
 
   #{{ section_dom_id }} .naview-model-card__media {
     display: flex;
     align-items: center;
     justify-content: center;
-    aspect-ratio: 16 / 10;
-    padding: 18px 18px 4px;
+    aspect-ratio: 4 / 3;
+    padding: 24px 20px 4px;
     overflow: hidden;
-    background: #FFFFFF !important;
-    background-color: #FFFFFF !important;
-    background-image: none !important;
+    background: #ffffff;
   }
 
   #{{ section_dom_id }} .naview-model-card__image,
@@ -230,24 +207,22 @@
     height: 100%;
     object-fit: contain;
     object-position: center;
-    transition: transform 280ms ease;
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   #{{ section_dom_id }} .naview-model-card:hover .naview-model-card__image {
-    transform: scale(1.035);
+    transform: scale(1.025);
   }
 
   #{{ section_dom_id }} .naview-model-card__content {
     display: flex;
+    flex: 1 1 auto;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    min-height: 92px;
-    padding: 15px 17px 17px;
-    border-top: 0;
-    background: #FFFFFF !important;
-    background-color: #FFFFFF !important;
-    background-image: none !important;
+    gap: 18px;
+    min-height: 112px;
+    padding: 20px 22px 22px;
+    background: #ffffff;
   }
 
   #{{ section_dom_id }} .naview-model-card__identity {
@@ -259,117 +234,199 @@
 
   #{{ section_dom_id }} .naview-model-card__brand {
     display: flex;
-    flex: 0 0 48px;
+    flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 42px;
+    min-width: 34px;
+    max-width: 62px;
+    height: 23px;
   }
 
   #{{ section_dom_id }} .naview-model-card__logo {
     display: block;
-    width: 48px;
-    height: 36px;
+    width: auto;
+    max-width: 62px;
+    height: 23px;
     object-fit: contain;
     object-position: center;
   }
 
   #{{ section_dom_id }} .naview-model-card__title {
-    margin: 0 0 3px;
+    margin: 0;
     overflow: hidden;
-    color: var(--naview-text);
-    font-size: clamp(17px, 1.3vw, 23px);
-    font-weight: 720;
+    color: #111111;
+    font-size: clamp(18px, 1.35vw, 22px);
+    font-weight: 600;
     line-height: 1.15;
+    letter-spacing: -0.025em;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   #{{ section_dom_id }} .naview-model-card__details {
     display: block;
-    color: var(--naview-accent);
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: 0.045em;
-    text-transform: uppercase;
+    margin-top: 7px;
+    color: #6b6b6b;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: 0;
   }
 
   #{{ section_dom_id }} .naview-model-card__arrow {
     display: inline-flex;
-    flex: 0 0 40px;
+    flex: 0 0 38px;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid color-mix(in srgb, var(--naview-accent) 55%, transparent);
+    width: 38px;
+    height: 38px;
+    border: 1px solid #111111;
     border-radius: 50%;
-    color: var(--naview-accent);
-    background: #fff;
+    color: #111111;
+    background: #ffffff;
     transition:
       color 200ms ease,
-      background 200ms ease,
+      background-color 200ms ease,
       transform 200ms ease;
   }
 
   #{{ section_dom_id }} .naview-model-card__arrow svg {
-    width: 20px;
-    height: 20px;
+    width: 19px;
+    height: 19px;
   }
 
   #{{ section_dom_id }} .naview-model-card:hover .naview-model-card__arrow {
-    color: #fff;
-    background: var(--naview-accent);
+    color: #ffffff;
+    background: #111111;
     transform: translateX(2px);
   }
 
   @media screen and (max-width: 1100px) {
-    #{{ section_dom_id }} .naview-models__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media screen and (max-width: 749px) {
     #{{ section_dom_id }} {
-      padding-right: 0;
-      padding-left: 0;
-    }
-
-    #{{ section_dom_id }} .naview-models__heading-row {
-      grid-template-columns: minmax(24px, 72px) auto minmax(24px, 72px);
-      gap: 12px;
-      padding: 0 20px;
-      margin-bottom: 18px;
-    }
-
-    #{{ section_dom_id }} .naview-models__heading {
-      font-size: 20px;
+      padding-right: 18px;
+      padding-left: 18px;
     }
 
     #{{ section_dom_id }} .naview-models__grid {
-      display: grid;
-      grid-auto-columns: min(84vw, 340px);
-      grid-auto-flow: column;
-      grid-template-columns: none;
-      gap: 14px;
-      padding: 4px 20px 18px;
-      overflow-x: auto;
-      overscroll-behavior-inline: contain;
-      scroll-padding-left: 20px;
-      scroll-snap-type: inline mandatory;
-      scrollbar-width: none;
-    }
-
-    #{{ section_dom_id }} .naview-models__grid::-webkit-scrollbar {
-      display: none;
-    }
-
-    #{{ section_dom_id }} .naview-model-card {
-      scroll-snap-align: start;
+      gap: 12px;
     }
 
     #{{ section_dom_id }} .naview-model-card__content {
-      min-height: 88px;
+      gap: 10px;
+      padding-right: 16px;
+      padding-left: 16px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__identity {
+      gap: 8px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__brand,
+    #{{ section_dom_id }} .naview-model-card__logo {
+      max-width: 48px;
+      height: 20px;
+    }
+  }
+
+  @media screen and (max-width: 799px) {
+    #{{ section_dom_id }} {
+      padding-right: 16px;
+      padding-left: 16px;
+    }
+
+    #{{ section_dom_id }} .naview-models__heading-row {
+      margin-bottom: 22px;
+    }
+
+    #{{ section_dom_id }} .naview-models__heading {
+      font-size: 30px;
+      line-height: 1.2;
+    }
+
+    #{{ section_dom_id }} .naview-models__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding: 0;
+      overflow: visible;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__media {
+      aspect-ratio: 4 / 3;
+      padding: 14px 10px 0;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__content {
+      align-items: center;
+      gap: 7px;
+      min-height: 94px;
+      padding: 13px 12px 15px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__identity {
+      gap: 7px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__brand,
+    #{{ section_dom_id }} .naview-model-card__logo {
+      min-width: 0;
+      max-width: 38px;
+      height: 17px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__title {
+      font-size: 16px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__details {
+      margin-top: 5px;
+      font-size: 10px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__arrow {
+      flex-basis: 30px;
+      width: 30px;
+      height: 30px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__arrow svg {
+      width: 15px;
+      height: 15px;
+    }
+  }
+
+  @media screen and (max-width: 420px) {
+    #{{ section_dom_id }} .naview-models__grid {
+      gap: 9px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__content {
+      min-height: 104px;
+      padding: 12px 10px 14px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__identity {
+      align-items: flex-start;
+      gap: 5px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__brand,
+    #{{ section_dom_id }} .naview-model-card__logo {
+      max-width: 31px;
+      height: 16px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__title {
+      font-size: 14px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__details {
+      font-size: 9px;
+    }
+
+    #{{ section_dom_id }} .naview-model-card__arrow {
+      flex-basis: 27px;
+      width: 27px;
+      height: 27px;
     }
   }
 
@@ -393,7 +450,7 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "CHOOSE YOUR MODEL"
+      "default": "Choose Model"
     },
     {
       "type": "text",
