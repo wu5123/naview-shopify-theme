@@ -1,235 +1,273 @@
 {% comment %}
-  Naview — Long Feature Poster
-  Add this file to: Online Store > Themes > Edit code > Sections
+  Naview — Eight-tile Bento Poster
+  Eight independently uploadable images combine into one rectangular poster.
 {% endcomment %}
 
 {% liquid
-  assign section_dom_id = 'naview-poster-' | append: section.id
-  assign poster_image = section.settings.image
-  assign mobile_image = section.settings.mobile_image
-  assign poster_alt = section.settings.image_alt | default: section.settings.heading | escape
+  assign section_dom_id = 'naview-bento-poster-' | append: section.id
 %}
 
 <section
   id="{{ section_dom_id }}"
-  class="naview-poster"
+  class="naview-bento"
   style="
-    --poster-bg: {{ section.settings.background }};
-    --poster-heading: {{ section.settings.heading_color }};
-    --poster-accent: {{ section.settings.accent_color }};
-    --poster-width: {{ section.settings.max_width }}px;
-    --poster-radius: {{ section.settings.border_radius }}px;
-    --poster-padding-top: {{ section.settings.padding_top }}px;
-    --poster-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --bento-background: {{ section.settings.background }};
+    --bento-tile-background: {{ section.settings.tile_background }};
+    --bento-width: {{ section.settings.max_width }}px;
+    --bento-gap: {{ section.settings.gap }}px;
+    --bento-radius: {{ section.settings.corner_radius }}px;
+    --bento-padding-top: {{ section.settings.padding_top }}px;
+    --bento-padding-bottom: {{ section.settings.padding_bottom }}px;
   "
 >
-  <div class="naview-poster__container">
-    {% if section.settings.heading != blank %}
-      <div class="naview-poster__heading-row">
-        <span class="naview-poster__line" aria-hidden="true"></span>
-        <h2 class="naview-poster__heading">{{ section.settings.heading | escape }}</h2>
-        <span class="naview-poster__line" aria-hidden="true"></span>
-      </div>
-    {% endif %}
+  <div class="naview-bento__container">
+    <div class="naview-bento__grid" role="list" aria-label="Naview poster gallery">
+      {% for index in (1..8) %}
+        {% assign image_key = 'tile_' | append: index | append: '_image' %}
+        {% assign tile_image = section.settings[image_key] %}
+        {% assign tile_alt = 'Naview poster image ' | append: index %}
 
-    <div class="naview-poster__frame{% if section.settings.enable_shadow %} naview-poster__frame--shadow{% endif %}">
-      {% if section.settings.link != blank %}
-        <a class="naview-poster__link" href="{{ section.settings.link }}">
-      {% endif %}
-
-      {% if poster_image != blank %}
-        <picture class="naview-poster__picture">
-          {% if mobile_image != blank %}
-            <source
-              media="(max-width: 749px)"
-              srcset="
-                {{ mobile_image | image_url: width: 500 }} 500w,
-                {{ mobile_image | image_url: width: 750 }} 750w,
-                {{ mobile_image | image_url: width: 1000 }} 1000w,
-                {{ mobile_image | image_url: width: 1400 }} 1400w
-              "
-              sizes="100vw"
-            >
+        <div class="naview-bento__tile naview-bento__tile--{{ index }}" role="listitem">
+          {% if tile_image != blank %}
+            {{
+              tile_image
+              | image_url: width: 1800
+              | image_tag:
+                widths: '320, 480, 640, 800, 1000, 1200, 1500, 1800',
+                sizes: '(min-width: 1200px) 34vw, (min-width: 750px) 40vw, 100vw',
+                loading: 'lazy',
+                class: 'naview-bento__image',
+                alt: tile_alt
+            }}
+          {% else %}
+            <div class="naview-bento__placeholder" aria-label="Upload poster image {{ index }}">
+              {{ 'image' | placeholder_svg_tag: 'naview-bento__placeholder-svg' }}
+              <span>Image {{ index }}</span>
+            </div>
           {% endif %}
-
-          {{
-            poster_image
-            | image_url: width: 3200
-            | image_tag:
-              widths: '600, 900, 1200, 1600, 2000, 2400, 2800, 3200',
-              sizes: '(min-width: 1600px) 1500px, 100vw',
-              loading: 'lazy',
-              class: 'naview-poster__image',
-              alt: poster_alt
-          }}
-        </picture>
-      {% else %}
-        <div class="naview-poster__placeholder">
-          {{ 'lifestyle-2' | placeholder_svg_tag: 'naview-poster__placeholder-image' }}
-          <p>Upload your long feature poster in this section's settings.</p>
         </div>
-      {% endif %}
-
-      {% if section.settings.link != blank %}
-        </a>
-      {% endif %}
+      {% endfor %}
     </div>
   </div>
 </section>
 
 {% style %}
   #{{ section_dom_id }} {
-    padding: var(--poster-padding-top) 20px var(--poster-padding-bottom);
-    background: #FFFFFF !important;
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: var(--bento-padding-top) 20px var(--bento-padding-bottom);
+    background: var(--bento-background);
   }
 
   #{{ section_dom_id }} * {
     box-sizing: border-box;
   }
 
-  #{{ section_dom_id }} .naview-poster__container {
-    width: min(var(--poster-width), 100%);
+  #{{ section_dom_id }} .naview-bento__container {
+    width: min(var(--bento-width), 100%);
     margin: 0 auto;
   }
 
-  #{{ section_dom_id }} .naview-poster__heading-row {
+  #{{ section_dom_id }} .naview-bento__grid {
     display: grid;
-    grid-template-columns: minmax(40px, 190px) auto minmax(40px, 190px);
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
-    margin-bottom: 28px;
-  }
-
-  #{{ section_dom_id }} .naview-poster__line {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+    gap: var(--bento-gap);
     width: 100%;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      color-mix(in srgb, var(--poster-accent) 45%, transparent)
-    );
+    aspect-ratio: 3 / 2;
   }
 
-  #{{ section_dom_id }} .naview-poster__line:last-child {
-    transform: scaleX(-1);
+  #{{ section_dom_id }} .naview-bento__tile {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: var(--bento-radius);
+    background: var(--bento-tile-background);
+    isolation: isolate;
   }
 
-  #{{ section_dom_id }} .naview-poster__heading {
-    margin: 0;
-    color: var(--poster-heading);
-    font-size: clamp(22px, 2.1vw, 34px);
-    font-weight: 760;
-    line-height: 1.15;
-    letter-spacing: 0.045em;
-    text-align: center;
+  #{{ section_dom_id }} .naview-bento__tile--1 {
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 2;
+  }
+
+  #{{ section_dom_id }} .naview-bento__tile--2 {
+    grid-column: 3 / span 2;
+    grid-row: 1;
+  }
+
+  #{{ section_dom_id }} .naview-bento__tile--3 {
+    grid-column: 5 / span 2;
+    grid-row: 1 / span 2;
+  }
+
+  #{{ section_dom_id }} .naview-bento__tile--4 {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  #{{ section_dom_id }} .naview-bento__tile--5 {
+    grid-column: 4;
+    grid-row: 2;
+  }
+
+  #{{ section_dom_id }} .naview-bento__tile--6 {
+    grid-column: 1 / span 3;
+    grid-row: 3 / span 2;
+  }
+
+  #{{ section_dom_id }} .naview-bento__tile--7 {
+    grid-column: 4 / span 2;
+    grid-row: 3 / span 2;
+  }
+
+  #{{ section_dom_id }} .naview-bento__tile--8 {
+    grid-column: 6;
+    grid-row: 3 / span 2;
+  }
+
+  #{{ section_dom_id }} .naview-bento__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 500ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    #{{ section_dom_id }} .naview-bento__tile:hover .naview-bento__image {
+      transform: scale(1.025);
+    }
+  }
+
+  #{{ section_dom_id }} .naview-bento__placeholder {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    min-height: 80px;
+    place-items: center;
+    align-content: center;
+    gap: 8px;
+    padding: 14px;
+    color: #6E7781;
+    background: var(--bento-tile-background);
+    font: 600 12px/1.2 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
-  #{{ section_dom_id }} .naview-poster__frame {
-    overflow: hidden;
-    border-radius: var(--poster-radius);
-    background: #FFFFFF;
-  }
-
-  #{{ section_dom_id }} .naview-poster__frame--shadow {
-    box-shadow:
-      0 24px 60px rgba(7, 31, 72, 0.12),
-      0 4px 14px rgba(7, 31, 72, 0.06);
-  }
-
-  #{{ section_dom_id }} .naview-poster__link,
-  #{{ section_dom_id }} .naview-poster__picture,
-  #{{ section_dom_id }} .naview-poster__image {
-    display: block;
-    width: 100%;
-  }
-
-  #{{ section_dom_id }} .naview-poster__link {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  #{{ section_dom_id }} .naview-poster__image {
+  #{{ section_dom_id }} .naview-bento__placeholder-svg {
+    width: min(72px, 45%);
     height: auto;
-    object-fit: contain;
-  }
-
-  #{{ section_dom_id }} .naview-poster__placeholder {
-    display: grid;
-    min-height: 640px;
-    place-items: center;
-    padding: 40px;
-    color: #536176;
-    background: #F7FAFF;
-    text-align: center;
-  }
-
-  #{{ section_dom_id }} .naview-poster__placeholder-image {
-    width: min(760px, 100%);
-    height: auto;
-  }
-
-  #{{ section_dom_id }} .naview-poster__placeholder p {
-    margin: 20px 0 0;
-    font-size: 15px;
+    opacity: 0.5;
   }
 
   @media screen and (max-width: 749px) {
     #{{ section_dom_id }} {
-      padding-right: 0;
-      padding-left: 0;
+      padding-right: 12px;
+      padding-left: 12px;
     }
 
-    #{{ section_dom_id }} .naview-poster__heading-row {
-      grid-template-columns: minmax(24px, 60px) auto minmax(24px, 60px);
-      gap: 12px;
-      padding: 0 20px;
-      margin-bottom: 20px;
+    #{{ section_dom_id }} .naview-bento__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: none;
+      grid-auto-flow: dense;
+      grid-auto-rows: clamp(92px, 25vw, 140px);
+      aspect-ratio: auto;
     }
 
-    #{{ section_dom_id }} .naview-poster__heading {
-      font-size: 21px;
+    #{{ section_dom_id }} .naview-bento__tile--1 {
+      grid-column: 1 / -1;
+      grid-row: span 2;
     }
 
-    #{{ section_dom_id }} .naview-poster__frame {
-      border-radius: min(var(--poster-radius), 14px);
+    #{{ section_dom_id }} .naview-bento__tile--2 {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+
+    #{{ section_dom_id }} .naview-bento__tile--3 {
+      grid-column: span 1;
+      grid-row: span 2;
+    }
+
+    #{{ section_dom_id }} .naview-bento__tile--4 {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+
+    #{{ section_dom_id }} .naview-bento__tile--5 {
+      grid-column: 1 / -1;
+      grid-row: span 1;
+    }
+
+    #{{ section_dom_id }} .naview-bento__tile--6 {
+      grid-column: 1 / -1;
+      grid-row: span 2;
+    }
+
+    #{{ section_dom_id }} .naview-bento__tile--7,
+    #{{ section_dom_id }} .naview-bento__tile--8 {
+      grid-column: span 1;
+      grid-row: span 2;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #{{ section_dom_id }} .naview-bento__image {
+      transition: none;
     }
   }
 {% endstyle %}
 
 {% schema %}
 {
-  "name": "Naview long poster",
+  "name": "Naview bento poster",
   "tag": "section",
-  "class": "section-naview-poster",
+  "class": "section-naview-bento-poster",
   "settings": [
     {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Desktop long poster"
+      "type": "header",
+      "content": "Poster images"
     },
     {
       "type": "image_picker",
-      "id": "mobile_image",
-      "label": "Mobile poster (optional)"
+      "id": "tile_1_image",
+      "label": "Image 1 — large square"
     },
     {
-      "type": "text",
-      "id": "image_alt",
-      "label": "Poster alt text",
-      "default": "Naview digital rearview mirror features"
+      "type": "image_picker",
+      "id": "tile_2_image",
+      "label": "Image 2 — wide"
     },
     {
-      "type": "url",
-      "id": "link",
-      "label": "Poster link (optional)"
+      "type": "image_picker",
+      "id": "tile_3_image",
+      "label": "Image 3 — large square"
     },
     {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading (optional)"
+      "type": "image_picker",
+      "id": "tile_4_image",
+      "label": "Image 4 — small square"
+    },
+    {
+      "type": "image_picker",
+      "id": "tile_5_image",
+      "label": "Image 5 — small square"
+    },
+    {
+      "type": "image_picker",
+      "id": "tile_6_image",
+      "label": "Image 6 — extra wide"
+    },
+    {
+      "type": "image_picker",
+      "id": "tile_7_image",
+      "label": "Image 7 — large square"
+    },
+    {
+      "type": "image_picker",
+      "id": "tile_8_image",
+      "label": "Image 8 — tall"
     },
     {
       "type": "header",
@@ -243,31 +281,29 @@
     },
     {
       "type": "color",
-      "id": "heading_color",
-      "label": "Heading colour",
-      "default": "#071B3E"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent colour",
-      "default": "#1769E0"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_shadow",
-      "label": "Show poster shadow",
-      "default": false
+      "id": "tile_background",
+      "label": "Empty tile background",
+      "default": "#F3F3F3"
     },
     {
       "type": "range",
-      "id": "border_radius",
+      "id": "gap",
       "min": 0,
-      "max": 32,
+      "max": 24,
       "step": 2,
       "unit": "px",
-      "label": "Corner radius",
-      "default": 18
+      "label": "Space between images",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "min": 0,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Image corner radius",
+      "default": 4
     },
     {
       "type": "header",
@@ -291,7 +327,7 @@
       "step": 4,
       "unit": "px",
       "label": "Top padding",
-      "default": 64
+      "default": 48
     },
     {
       "type": "range",
@@ -301,14 +337,13 @@
       "step": 4,
       "unit": "px",
       "label": "Bottom padding",
-      "default": 64
+      "default": 48
     }
   ],
   "presets": [
     {
-      "name": "Naview long poster"
+      "name": "Naview bento poster"
     }
   ]
 }
 {% endschema %}
-
