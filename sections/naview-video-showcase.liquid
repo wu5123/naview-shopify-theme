@@ -1,11 +1,11 @@
 {% comment %}
-  Naview — DJI-style Video Product Feature
-  Add this file to: Online Store > Themes > Edit code > Sections
+  Naview — full-width Shopify video product feature
+  Upload the video directly in the Shopify theme editor.
 {% endcomment %}
 
 {% liquid
   assign section_dom_id = 'naview-video-' | append: section.id
-  assign video_url = section.settings.video_url
+  assign showcase_video = section.settings.showcase_video
   assign buy_now_url = section.settings.buy_now_link | default: '#naview-models'
 %}
 
@@ -13,53 +13,71 @@
   id="{{ section_dom_id }}"
   class="naview-video"
   style="
-    --video-bg: {{ section.settings.background }};
-    --video-heading: {{ section.settings.heading_color }};
-    --video-text: {{ section.settings.text_color }};
-    --video-accent: {{ section.settings.accent_color }};
-    --video-width: {{ section.settings.max_width }}px;
-    --video-padding-top: {{ section.settings.padding_top }}px;
-    --video-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --video-desktop-height: {{ section.settings.desktop_height }}px;
+    --video-mobile-height: {{ section.settings.mobile_height }}px;
   "
+  data-naview-video-feature
 >
-  <div class="naview-video__container">
-    <div class="naview-video__feature">
-      <div class="naview-video__frame">
-        {% if video_url != blank %}
-          <iframe
-            class="naview-video__iframe"
-            src="https://www.youtube-nocookie.com/embed/{{ video_url.id }}?rel=0&playsinline=1&controls=1&autoplay=0&mute=0"
-            title="{{ section.settings.video_title | escape }}"
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-          ></iframe>
-        {% else %}
-          <div class="naview-video__placeholder">
-            <span class="naview-video__play" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="m9 7 8 5-8 5V7Z" fill="currentColor"/>
-              </svg>
-            </span>
-            <p>Paste a YouTube link in this section's settings.</p>
-          </div>
-        {% endif %}
-      </div>
-
-      <div class="naview-video__product-copy">
-        <h2 class="naview-video__product-title">Tailored to Fit Your Vehicle</h2>
-        <p class="naview-video__price">from CAD 999</p>
-        <a class="naview-video__buy-button" href="{{ buy_now_url }}">Buy Now</a>
-      </div>
+  <div class="naview-video__feature">
+    <div class="naview-video__media" aria-hidden="true">
+      {% if showcase_video != blank %}
+        {{
+          showcase_video
+          | video_tag:
+            autoplay: false,
+            loop: true,
+            muted: true,
+            controls: false,
+            playsinline: true,
+            preload: 'metadata',
+            image_size: '2400x',
+            class: 'naview-video__video'
+        }}
+      {% else %}
+        <div class="naview-video__placeholder">
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'naview-video__placeholder-image' }}
+          <p>Upload a Shopify-hosted video in this section's settings.</p>
+        </div>
+      {% endif %}
     </div>
+
+    <div class="naview-video__shade" aria-hidden="true"></div>
+
+    <div class="naview-video__product-copy">
+      <h2 class="naview-video__product-title">Tailored to Fit Your Vehicle</h2>
+      <p class="naview-video__price">from CAD 999</p>
+      <a class="naview-video__buy-button" href="{{ buy_now_url }}">Buy Now</a>
+    </div>
+
+    {% if showcase_video != blank %}
+      <button
+        class="naview-video__sound-button"
+        type="button"
+        aria-label="Turn sound on"
+        aria-pressed="false"
+        data-sound-toggle
+      >
+        <svg class="naview-video__sound-icon naview-video__sound-icon--off" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 9.5v5h3.5l4.5 3.5V6L7.5 9.5H4Z" fill="currentColor"/>
+          <path d="m16 9 5 5m0-5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        <svg class="naview-video__sound-icon naview-video__sound-icon--on" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 9.5v5h3.5l4.5 3.5V6L7.5 9.5H4Z" fill="currentColor"/>
+          <path d="M15.5 9.2a4 4 0 0 1 0 5.6M18 6.8a7.2 7.2 0 0 1 0 10.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </button>
+    {% endif %}
   </div>
 </section>
 
 {% style %}
   #{{ section_dom_id }} {
-    padding: var(--video-padding-top) 24px var(--video-padding-bottom);
-    background: #f5f5f5;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #050505;
     font-family:
       "Open Sans",
       -apple-system,
@@ -75,84 +93,92 @@
     box-sizing: border-box;
   }
 
-  #{{ section_dom_id }} .naview-video__container {
-    width: min(var(--video-width), 100%);
-    margin: 0 auto;
-  }
-
   #{{ section_dom_id }} .naview-video__feature {
     position: relative;
-    overflow: hidden;
-    border-radius: 4px;
-    background: #050505;
-  }
-
-  #{{ section_dom_id }} .naview-video__feature::after {
-    position: absolute;
-    z-index: 1;
-    inset: 0 0 auto;
-    height: 44%;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.58) 0%, rgba(0, 0, 0, 0) 100%);
-    pointer-events: none;
-    content: "";
-  }
-
-  #{{ section_dom_id }} .naview-video__frame {
-    position: relative;
-    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: var(--video-desktop-height);
+    min-height: 520px;
     overflow: hidden;
     background: #050505;
   }
 
-  #{{ section_dom_id }} .naview-video__iframe {
+  #{{ section_dom_id }} .naview-video__media,
+  #{{ section_dom_id }} .naview-video__shade,
+  #{{ section_dom_id }} .naview-video__video,
+  #{{ section_dom_id }} .naview-video__placeholder {
     position: absolute;
     inset: 0;
-    display: block;
     width: 100%;
     height: 100%;
+  }
+
+  #{{ section_dom_id }} .naview-video__media {
+    z-index: 0;
+  }
+
+  #{{ section_dom_id }} .naview-video__video {
+    display: block;
     border: 0;
+    object-fit: cover;
+    object-position: {{ section.settings.video_position }};
+    background: #050505;
+  }
+
+  #{{ section_dom_id }} .naview-video__shade {
+    z-index: 1;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.62) 0%,
+        rgba(0, 0, 0, 0.34) 34%,
+        rgba(0, 0, 0, 0.08) 62%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    pointer-events: none;
   }
 
   #{{ section_dom_id }} .naview-video__product-copy {
     position: absolute;
     z-index: 2;
-    inset: 46px 24px auto;
+    top: 50%;
+    left: clamp(32px, 4vw, 64px);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    width: min(560px, calc(100% - 64px));
     color: #ffffff;
-    text-align: center;
-    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
-    pointer-events: none;
+    text-align: left;
+    transform: translateY(-50%);
   }
 
   #{{ section_dom_id }} .naview-video__product-title {
-    max-width: 900px;
+    max-width: 540px;
     margin: 0;
     color: inherit;
-    font-size: clamp(30px, 3.1vw, 46px);
+    font-size: clamp(38px, 4vw, 56px);
     font-weight: 600;
-    line-height: 1.13;
-    letter-spacing: -0.035em;
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
   }
 
   #{{ section_dom_id }} .naview-video__price {
-    margin: 12px 0 0;
+    margin: 20px 0 0;
     color: inherit;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 400;
     line-height: 1.4;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
   }
 
   #{{ section_dom_id }} .naview-video__buy-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 108px;
-    min-height: 42px;
-    margin-top: 18px;
-    padding: 0 24px;
+    min-width: 110px;
+    min-height: 44px;
+    margin-top: 20px;
+    padding: 0 26px;
     border: 1px solid #ffffff;
     border-radius: 100px;
     color: #111111;
@@ -161,8 +187,6 @@
     font-weight: 500;
     line-height: 20px;
     text-decoration: none;
-    text-shadow: none;
-    pointer-events: auto;
     transition:
       color 200ms ease,
       background-color 200ms ease,
@@ -175,111 +199,207 @@
     transform: translateY(-1px);
   }
 
-  #{{ section_dom_id }} .naview-video__buy-button:focus-visible {
+  #{{ section_dom_id }} .naview-video__buy-button:focus-visible,
+  #{{ section_dom_id }} .naview-video__sound-button:focus-visible {
     outline: 2px solid #ffffff;
     outline-offset: 3px;
   }
 
-  #{{ section_dom_id }} .naview-video__placeholder {
-    display: flex;
-    flex-direction: column;
+  #{{ section_dom_id }} .naview-video__sound-button {
+    position: absolute;
+    z-index: 3;
+    right: clamp(20px, 3vw, 44px);
+    bottom: clamp(20px, 3vw, 38px);
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 14px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.74);
+    border-radius: 50%;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.30);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
+    transition:
+      color 180ms ease,
+      background-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  #{{ section_dom_id }} .naview-video__sound-button:hover {
+    color: #111111;
+    background: #ffffff;
+    transform: scale(1.04);
+  }
+
+  #{{ section_dom_id }} .naview-video__sound-icon {
+    width: 21px;
+    height: 21px;
+  }
+
+  #{{ section_dom_id }} .naview-video__sound-icon--on {
+    display: none;
+  }
+
+  #{{ section_dom_id }} .naview-video__sound-button[aria-pressed="true"] .naview-video__sound-icon--off {
+    display: none;
+  }
+
+  #{{ section_dom_id }} .naview-video__sound-button[aria-pressed="true"] .naview-video__sound-icon--on {
+    display: block;
+  }
+
+  #{{ section_dom_id }} .naview-video__placeholder {
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    color: #ffffff;
+    background: linear-gradient(135deg, #111111, #282828);
+  }
+
+  #{{ section_dom_id }} .naview-video__placeholder-image {
     width: 100%;
     height: 100%;
-    padding: 24px;
-    color: #ffffff;
-    background: linear-gradient(135deg, #101010, #252525);
-    text-align: center;
+    opacity: 0.20;
+    object-fit: cover;
   }
 
   #{{ section_dom_id }} .naview-video__placeholder p {
+    position: absolute;
     margin: 0;
+    padding: 20px;
     font-size: 15px;
-    opacity: 0.76;
+    text-align: center;
   }
 
-  #{{ section_dom_id }} .naview-video__play {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 68px;
-    height: 68px;
-    border: 1px solid rgba(255, 255, 255, 0.72);
-    border-radius: 50%;
-    color: #111111;
-    background: #ffffff;
-  }
-
-  #{{ section_dom_id }} .naview-video__play svg {
-    width: 28px;
-    height: 28px;
-    margin-left: 3px;
-  }
-
-  @media screen and (max-width: 749px) {
-    #{{ section_dom_id }} {
-      padding-right: 16px;
-      padding-left: 16px;
+  @media screen and (min-width: 1600px) {
+    #{{ section_dom_id }} .naview-video__product-copy {
+      left: 48px;
     }
+  }
 
+  @media screen and (max-width: 767px) {
     #{{ section_dom_id }} .naview-video__feature {
-      border-radius: 3px;
+      height: var(--video-mobile-height);
+      min-height: 460px;
+    }
+
+    #{{ section_dom_id }} .naview-video__video {
+      object-position: {{ section.settings.mobile_video_position }};
+    }
+
+    #{{ section_dom_id }} .naview-video__shade {
+      background:
+        linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.64) 0%,
+          rgba(0, 0, 0, 0.26) 50%,
+          rgba(0, 0, 0, 0.12) 100%
+        );
     }
 
     #{{ section_dom_id }} .naview-video__product-copy {
-      inset: 22px 14px auto;
+      top: 48px;
+      left: 20px;
+      width: calc(100% - 40px);
+      transform: none;
     }
 
     #{{ section_dom_id }} .naview-video__product-title {
-      font-size: clamp(22px, 6.5vw, 30px);
-      line-height: 1.12;
+      max-width: 420px;
+      font-size: clamp(30px, 9vw, 42px);
+      line-height: 1.08;
     }
 
     #{{ section_dom_id }} .naview-video__price {
-      margin-top: 7px;
-      font-size: 13px;
+      margin-top: 13px;
+      font-size: 15px;
     }
 
     #{{ section_dom_id }} .naview-video__buy-button {
-      min-width: 90px;
-      min-height: 36px;
-      margin-top: 11px;
-      padding: 0 18px;
-      font-size: 13px;
-    }
-  }
-
-  @media screen and (max-width: 430px) {
-    #{{ section_dom_id }} .naview-video__product-copy {
-      inset: 15px 10px auto;
+      min-width: 98px;
+      min-height: 40px;
+      margin-top: 15px;
+      padding: 0 22px;
+      font-size: 14px;
     }
 
-    #{{ section_dom_id }} .naview-video__product-title {
-      font-size: 19px;
-    }
-
-    #{{ section_dom_id }} .naview-video__price {
-      margin-top: 4px;
-      font-size: 11px;
-    }
-
-    #{{ section_dom_id }} .naview-video__buy-button {
-      min-width: 78px;
-      min-height: 32px;
-      margin-top: 8px;
-      padding: 0 14px;
-      font-size: 12px;
+    #{{ section_dom_id }} .naview-video__sound-button {
+      right: 18px;
+      bottom: 18px;
+      width: 42px;
+      height: 42px;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #{{ section_dom_id }} .naview-video__buy-button {
+    #{{ section_dom_id }} .naview-video__buy-button,
+    #{{ section_dom_id }} .naview-video__sound-button {
       transition: none;
     }
   }
 {% endstyle %}
+
+<script>
+  (() => {
+    const root = document.getElementById('{{ section_dom_id }}');
+    if (!root || root.dataset.videoInitialized === 'true') return;
+
+    const video = root.querySelector('video');
+    if (!video) return;
+
+    root.dataset.videoInitialized = 'true';
+    video.muted = true;
+    video.defaultMuted = true;
+    video.loop = true;
+    video.playsInline = true;
+
+    const soundButton = root.querySelector('[data-sound-toggle]');
+    const setSoundState = (soundOn) => {
+      video.muted = !soundOn;
+      soundButton?.setAttribute('aria-pressed', soundOn ? 'true' : 'false');
+      soundButton?.setAttribute('aria-label', soundOn ? 'Mute video' : 'Turn sound on');
+    };
+
+    soundButton?.addEventListener('click', () => {
+      const soundOn = video.muted;
+      setSoundState(soundOn);
+      if (soundOn) {
+        video.volume = 1;
+        const playPromise = video.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {});
+        }
+      }
+    });
+
+    const playVideo = () => {
+      const playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {});
+      }
+    };
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
+            playVideo();
+          } else {
+            video.pause();
+          }
+        });
+      }, { threshold: [0, 0.35, 0.75] });
+
+      observer.observe(root);
+    } else {
+      playVideo();
+    }
+  })();
+</script>
 
 {% schema %}
 {
@@ -288,16 +408,10 @@
   "class": "section-naview-video",
   "settings": [
     {
-      "type": "video_url",
-      "id": "video_url",
-      "accept": ["youtube"],
-      "label": "YouTube video link"
-    },
-    {
-      "type": "text",
-      "id": "video_title",
-      "label": "Video accessibility title",
-      "default": "Naview digital rearview mirror demonstration"
+      "type": "video",
+      "id": "showcase_video",
+      "label": "Showcase video",
+      "info": "Upload a Shopify-hosted video. It starts automatically, muted, when this section enters the screen. Visitors can turn sound on."
     },
     {
       "type": "url",
@@ -306,66 +420,46 @@
       "info": "Defaults to the vehicle model section when left blank."
     },
     {
-      "type": "header",
-      "content": "Colours"
+      "type": "select",
+      "id": "video_position",
+      "label": "Desktop video position",
+      "default": "50% 50%",
+      "options": [
+        { "value": "25% 50%", "label": "Left" },
+        { "value": "50% 50%", "label": "Center" },
+        { "value": "75% 50%", "label": "Right" }
+      ]
     },
     {
-      "type": "color",
-      "id": "background",
-      "label": "Section background",
-      "default": "#F7FAFF"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading colour",
-      "default": "#071B3E"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Description colour",
-      "default": "#536176"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent colour",
-      "default": "#1769E0"
-    },
-    {
-      "type": "header",
-      "content": "Layout"
+      "type": "select",
+      "id": "mobile_video_position",
+      "label": "Mobile video position",
+      "default": "50% 50%",
+      "options": [
+        { "value": "25% 50%", "label": "Left" },
+        { "value": "50% 50%", "label": "Center" },
+        { "value": "75% 50%", "label": "Right" }
+      ]
     },
     {
       "type": "range",
-      "id": "max_width",
-      "min": 800,
-      "max": 1600,
-      "step": 40,
+      "id": "desktop_height",
+      "min": 520,
+      "max": 760,
+      "step": 20,
       "unit": "px",
-      "label": "Maximum video width",
-      "default": 1280
+      "label": "Desktop height",
+      "default": 640
     },
     {
       "type": "range",
-      "id": "padding_top",
-      "min": 24,
-      "max": 120,
-      "step": 4,
+      "id": "mobile_height",
+      "min": 460,
+      "max": 720,
+      "step": 20,
       "unit": "px",
-      "label": "Top padding",
-      "default": 72
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 24,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Bottom padding",
-      "default": 80
+      "label": "Mobile height",
+      "default": 560
     }
   ],
   "presets": [
