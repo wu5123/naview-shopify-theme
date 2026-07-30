@@ -56,41 +56,23 @@
     <div class="naview-video-hero__copy">
       <p
         class="naview-video-hero__line naview-video-hero__line--one"
-        aria-label="clearview"
+        aria-label="ClearView"
       >
-        <span
-          class="naview-video-hero__typed"
-          data-typewriter
-          data-text="clearview"
-          data-speed="72"
-          aria-hidden="true"
-        >clearview</span>
+        <span class="naview-video-hero__brand-wordmark" aria-hidden="true">
+          <span>Clear</span><span>View</span>
+        </span>
       </p>
 
       <h1
         class="naview-video-hero__line naview-video-hero__line--two"
-        aria-label="DIGITAL REAR MIRROR"
       >
-        <span
-          class="naview-video-hero__typed"
-          data-typewriter
-          data-text="DIGITAL REAR MIRROR"
-          data-speed="46"
-          aria-hidden="true"
-        >DIGITAL REAR MIRROR</span>
+        DIGITAL REAR MIRROR
       </h1>
 
       <p
         class="naview-video-hero__line naview-video-hero__line--three"
-        aria-label="HD View, Day or Night, Rain or Snow"
       >
-        <span
-          class="naview-video-hero__typed"
-          data-typewriter
-          data-text="HD View  Day or Night  Rain or Snow"
-          data-speed="34"
-          aria-hidden="true"
-        >HD View  Day or Night  Rain or Snow</span>
+        HD View&nbsp;&nbsp;Day or Night&nbsp;&nbsp;Rain or Snow
       </p>
 
       <div class="naview-video-hero__actions">
@@ -105,17 +87,6 @@
     </div>
   </div>
 </section>
-
-<noscript>
-  <style>
-    #NaviewVideoHero-{{ section.id }} .naview-video-hero__typed,
-    #NaviewVideoHero-{{ section.id }} .naview-video-hero__actions {
-      visibility: visible !important;
-      opacity: 1 !important;
-      transform: none !important;
-    }
-  </style>
-</noscript>
 
 {% style %}
   #NaviewVideoHero-{{ section.id }} {
@@ -214,6 +185,7 @@
     width: min(100%, 1120px);
     color: var(--nv-text-color);
     text-align: left;
+    animation: naview-hero-copy-enter 520ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
   }
 
   #NaviewVideoHero-{{ section.id }} .naview-video-hero__line {
@@ -223,29 +195,28 @@
     color: inherit;
   }
 
-  #NaviewVideoHero-{{ section.id }} .naview-video-hero__typed {
-    position: relative;
-    display: inline;
-    visibility: hidden;
-    white-space: pre-wrap;
-  }
-
-  #NaviewVideoHero-{{ section.id }} .naview-video-hero__typed.is-typing::after {
-    content: "";
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__brand-wordmark {
     display: inline-block;
-    width: 2px;
-    height: 0.82em;
-    margin-left: 0.08em;
-    background: currentColor;
-    vertical-align: -0.03em;
-    animation: naview-caret-blink 700ms steps(1, end) infinite;
+    font-family:
+      "Arial Black",
+      "Helvetica Neue",
+      "Segoe UI",
+      Arial,
+      sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    font-style: italic;
+    line-height: 1;
+    letter-spacing: -0.075em;
+    transform: scaleX(1.04);
+    transform-origin: left center;
   }
 
   #NaviewVideoHero-{{ section.id }} .naview-video-hero__line--one {
-    min-height: 24px;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
+    min-height: 30px;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 30px;
     letter-spacing: 0;
   }
 
@@ -274,18 +245,6 @@
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 48px;
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(12px);
-    transition:
-      opacity 600ms ease,
-      transform 600ms ease;
-  }
-
-  #NaviewVideoHero-{{ section.id }} .naview-video-hero__actions.is-visible {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
   }
 
   #NaviewVideoHero-{{ section.id }} .naview-video-hero__button {
@@ -345,15 +304,17 @@
     outline-offset: 4px;
   }
 
-  @keyframes naview-caret-blink {
-    0%,
-    48% {
-      opacity: 1;
+  @keyframes naview-hero-copy-enter {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+      filter: blur(2px);
     }
 
-    49%,
-    100% {
-      opacity: 0;
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
     }
   }
 
@@ -400,7 +361,7 @@
 
     #NaviewVideoHero-{{ section.id }} .naview-video-hero__content {
       align-items: flex-end;
-     justify-content: center;
+      justify-content: center;
       padding: 80px 20px 48px;
     }
 
@@ -414,9 +375,13 @@
     }
 
     #NaviewVideoHero-{{ section.id }} .naview-video-hero__line--one {
-      min-height: 20px;
-      font-size: 14px;
-      line-height: 20px;
+      min-height: 24px;
+      font-size: 24px;
+      line-height: 24px;
+    }
+
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__brand-wordmark {
+      font-size: 24px;
     }
 
     #NaviewVideoHero-{{ section.id }} .naview-video-hero__line--two {
@@ -431,7 +396,7 @@
       min-height: 0;
       margin-top: 18px;
       font-size: clamp(17px, 4.7vw, 21px);
-      line-height: 1.35;
+      line-heigight: 1.35;
       letter-spacing: -0.02em;
     }
 
@@ -464,16 +429,9 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #NaviewVideoHero-{{ section.id }} .naview-video-hero__typed,
-    #NaviewVideoHero-{{ section.id }} .naview-video-hero__actions {
-      visibility: visible;
-      opacity: 1;
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__copy {
+      animation: none;
       transform: none;
-      transition: none;
-    }
-
-    #NaviewVideoHero-{{ section.id }} .naview-video-hero__typed::after {
-      display: none;
     }
   }
 {% endstyle %}
@@ -497,49 +455,6 @@
       }
     }
 
-    const typedElements = [...root.querySelectorAll('[data-typewriter]')];
-    const actions = root.querySelector('.naview-video-hero__actions');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (reduceMotion) {
-      typedElements.forEach((element) => {
-        element.textContent = element.dataset.text || '';
-        element.style.visibility = 'visible';
-      });
-      actions?.classList.add('is-visible');
-      return;
-    }
-
-    const wait = (duration) => new Promise((resolve) => window.setTimeout(resolve, duration));
-
-    const typeLine = async (element) => {
-      const text = element.dataset.text || '';
-      const speed = Number(element.dataset.speed) || 42;
-
-      element.textContent = '';
-      element.style.visibility = 'visible';
-      element.classList.add('is-typing');
-
-      for (const character of text) {
-        element.textContent += character;
-        await wait(character === ' ' ? Math.max(18, speed * 0.45) : speed);
-      }
-
-      element.classList.remove('is_typing');
-    };
-
-    const runTypewriter = async () => {
-      await wait(180);
-
-      for (let index = 0; index < typedElements.length; index += 1) {
-        await typeLine(typedElements[index]);
-        await wait(index === 0 ? 150 : 220);
-      }
-
-      actions?.classList.add('is-visible');
-    };
-
-    runTypewriter();
   })();
 </script>
 
