@@ -1,584 +1,547 @@
 {% liquid
-  assign hero_image = section.settings.image
-  assign mobile_image = section.settings.mobile_image
-  assign hero_alt = section.settings.image_alt | default: section.settings.heading_line_1 | escape
-  assign reflection_opacity = section.settings.reflection_opacity | times: 0.01
+  assign hero_video = section.settings.hero_video
+  assign poster_image = section.settings.poster_image
+  assign overlay_opacity = section.settings.video_overlay | times: 0.01
+  assign primary_url = section.settings.primary_link | default: '#naview-models'
+  assign secondary_url = section.settings.secondary_link | default: 'https://wa.me/16137969403'
 %}
 
 <section
-  id="MirrorHero-{{ section.id }}"
-  class="mirror-hero"
+  id="NaviewVideoHero-{{ section.id }}"
+  class="naview-video-hero"
   style="
-    --hero-height: {{ section.settings.desktop_height }}px;
-    --content-width: {{ section.settings.content_width }}px;
-    --accent: {{ section.settings.accent_color }};
-    --text-color: {{ section.settings.text_color }};
-    --reflection-height: {{ section.settings.reflection_height }}px;
-    --reflection-opacity: {{ reflection_opacity }};
+    --nv-hero-height: {{ section.settings.hero_desktop_height }}px;
+    --nv-mobile-height: {{ section.settings.hero_mobile_height }}px;
+    --nv-text-color: {{ section.settings.hero_text_color }};
+    --nv-overlay-opacity: {{ overlay_opacity }};
   "
+  data-naview-video-hero
 >
-  {% if hero_image != blank %}
-    <picture class="mirror-hero__media">
-      {% if mobile_image != blank %}
-        <source
-          media="(max-width: 749px)"
-          srcset="
-            {{ mobile_image | image_url: width: 600 }} 600w,
-            {{ mobile_image | image_url: width: 900 }} 900w,
-            {{ mobile_image | image_url: width: 1200 }} 1200w
-          "
-          sizes="100vw"
-        >
-      {% endif %}
-
+  <div class="naview-video-hero__media" aria-hidden="true">
+    {% if hero_video != blank %}
       {{
-        hero_image
+        hero_video
+        | video_tag:
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          playsinline: true,
+          preload: 'metadata',
+          image_size: '2400x',
+          class: 'naview-video-hero__video'
+      }}
+    {% elsif poster_image != blank %}
+      {{
+        poster_image
         | image_url: width: 3000
         | image_tag:
-          class: 'mirror-hero__image',
+          class: 'naview-video-hero__poster',
           loading: 'eager',
           fetchpriority: 'high',
           widths: '750, 1100, 1500, 2000, 2500, 3000',
           sizes: '100vw',
-          alt: hero_alt
+          alt: ''
       }}
-    </picture>
-  {% endif %}
-
-  <div class="mirror-hero__gradient" aria-hidden="true"></div>
-
-  <div class="mirror-hero__inner">
-    <div class="mirror-hero__content">
-      {% if section.settings.eyebrow != blank %}
-        <p class="mirror-hero__eyebrow">{{ section.settings.eyebrow | escape }}</p>
-      {% endif %}
-
-      <h1 class="mirror-hero__heading">
-        <span class="mirror-hero__heading-strong">
-          {{- section.settings.heading_line_1 | escape -}}
-        </span>
-        <span class="mirror-hero__heading-light">
-          {{- section.settings.heading_line_2 | escape -}}
-        </span>
-      </h1>
-
-      {% if section.settings.description != blank %}
-        <p class="mirror-hero__description">{{ section.settings.description | escape }}</p>
-      {% endif %}
-
-      <div class="mirror-hero__actions">
-        {% if section.settings.primary_label != blank %}
-          <a
-            class="mirror-hero__button"
-            href="#naview-models"
-          >
-            <svg class="mirror-hero__button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M4 13.5 5.8 8a2.6 2.6 0 0 1 2.47-1.78h7.46A2.6 2.6 0 0 1 18.2 8l1.8 5.5v4.15a1 1 0 0 1-1 1h-1.35a1 1 0 0 1-1-1v-.65H7.35v.65a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V13.5Z" />
-              <path d="M4.25 12h15.5M7.25 14.2h.01M16.75 14.2h.01" />
-            </svg>
-            {{ section.settings.primary_label | escape }}
-            <svg class="mirror-hero__button-arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-              <path d="M4 10h11M10.5 5.5 15 10l-4.5 4.5" />
-            </svg>
-          </a>
-        {% endif %}
-
-        {% if section.settings.secondary_label != blank %}
-          <a
-            class="mirror-hero__text-link"
-            aria-label="{{ section.settings.secondary_label | escape }} on WhatsApp"
-            {% if section.settings.secondary_link != blank %}
-              href="{{ section.settings.secondary_link }}"
-              target="_blank"
-              rel="noopener noreferrer"
-            {% else %}
-              role="link" aria-disabled="true"
-            {% endif %}
-          >
-            <svg class="mirror-hero__whatsapp-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
-            </svg>
-            <span>{{ section.settings.secondary_label | escape }}</span>
-          </a>
-        {% endif %}
+    {% else %}
+      <div class="naview-video-hero__empty">
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'naview-video-hero__placeholder' }}
       </div>
-
-      {% if section.settings.trust_1 != blank
-        or section.settings.trust_2 != blank
-        or section.settings.trust_3 != blank
-      %}
-        <div class="mirror-hero__trust" aria-label="Why choose our digital rearview mirrors">
-          {% if section.settings.trust_1 != blank %}
-            <div class="mirror-hero__trust-item">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M12 3.4 19 6v5.27c0 4.42-2.97 7.63-7 9.33-4.03-1.7-7-4.91-7-9.33V6l7-2.6Z"/><path d="m8.55 11.9 2.15 2.15 4.76-4.78"/>
-              </svg>
-              <span>{{ section.settings.trust_1 | escape }}</span>
-            </div>
-          {% endif %}
-          {% if section.settings.trust_2 != blank %}
-            <div class="mirror-hero__trust-item">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <circle cx="12" cy="10" r="4.75"/><path d="m8.5 13.2-1.1 6.25 4.6-2.2 4.6 2.2-1.1-6.25M12 7.85v4.3M9.85 10h4.3"/>
-              </svg>
-              <span>{{ section.settings.trust_2 | escape }}</span>
-            </div>
-          {% endif %}
-          {% if section.settings.trust_3 != blank %}
-            <div class="mirror-hero__trust-item">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M4.6 12.2v-1.3a7.4 7.4 0 0 1 14.8 0v1.3M5.25 11.6H4.4a1.4 1.4 0 0 0-1.4 1.4v2.3a1.4 1.4 0 0 0 1.4 1.4h1.7v-5.1h-.85ZM18.75 11.6h.85A1.4 1.4 0 0 1 21 13v2.3a1.4 1.4 0 0 1-1.4 1.4h-1.7v-5.1h.85ZM17.9 16.7c0 1.45-1.24 2.62-2.77 2.62h-1.5"/><rect x="11.25" y="18.15" width="2.9" height="1.85" rx=".92"/>
-              </svg>
-              <span>{{ section.settings.trust_3 | escape }}</span>
-            </div>
-          {% endif %}
-        </div>
-      {% endif %}
-    </div>
+    {% endif %}
   </div>
 
-  {% if hero_image != blank %}
-    <div class="mirror-hero__reflection" aria-hidden="true">
-      <picture class="mirror-hero__reflection-media">
-        {% if mobile_image != blank %}
-          <source
-            media="(max-width: 749px)"
-            srcset="
-              {{ mobile_image | image_url: width: 600 }} 600w,
-              {{ mobile_image | image_url: width: 900 }} 900w,
-              {{ mobile_image | image_url: width: 1200 }} 1200w
-            "
-            sizes="100vw"
-          >
-        {% endif %}
+  <div class="naview-video-hero__overlay" aria-hidden="true"></div>
 
-        {{
-          hero_image
-          | image_url: width: 3000
-          | image_tag:
-            class: 'mirror-hero__reflection-image',
-            loading: 'lazy',
-            widths: '750, 1100, 1500, 2000, 2500, 3000',
-            sizes: '100vw',
-            alt: ''
-        }}
-      </picture>
+  <div class="naview-video-hero__content">
+    <div class="naview-video-hero__copy">
+      <p
+        class="naview-video-hero__line naview-video-hero__line--one"
+        aria-label="clearview"
+      >
+        <span
+          class="naview-video-hero__typed"
+          data-typewriter
+          data-text="clearview"
+          data-speed="72"
+          aria-hidden="true"
+        >clearview</span>
+      </p>
+
+      <h1
+        class="naview-video-hero__line naview-video-hero__line--two"
+        aria-label="DIGITAL REAR MIRROR"
+      >
+        <span
+          class="naview-video-hero__typed"
+          data-typewriter
+          data-text="DIGITAL REAR MIRROR"
+          data-speed="46"
+          aria-hidden="true"
+        >DIGITAL REAR MIRROR</span>
+      </h1>
+
+      <p
+        class="naview-video-hero__line naview-video-hero__line--three"
+        aria-label="HD View, Day or Night, Rain or Snow"
+      >
+        <span
+          class="naview-video-hero__typed"
+          data-typewriter
+          data-text="HD View  Day or Night  Rain or Snow"
+          data-speed="34"
+          aria-hidden="true"
+        >HD View  Day or Night  Rain or Snow</span>
+      </p>
+
+      <div class="naview-video-hero__actions">
+        <a class="naview-video-hero__button naview-video-hero__button--primary" href="{{ primary_url }}">
+          Find my vehicle
+        </a>
+
+        <a class="naview-video-hero__button naview-video-hero__button--secondary" href="{{ secondary_url }}">
+          Contact us
+        </a>
+      </div>
     </div>
-  {% endif %}
+  </div>
 </section>
 
-{% style %}
-  html {
-    scroll-behavior: smooth;
-  }
-
-  #MirrorHero-{{ section.id }} {
-    position: relative;
-    z-index: 2;
-    isolation: isolate;
-    min-height: var(--hero-height);
-    overflow: visible;
-    background: #edf3f8;
-    color: var(--text-color);
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
+<noscript>
+  <style>
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__typed,
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__actions {
+      visibility: visible !important;
+      opacity: 1 !important;
+      transform: none !important;
     }
-  }
+  </style>
+</noscript>
 
-  #MirrorHero-{{ section.id }} .mirror-hero__media,
-  #MirrorHero-{{ section.id }} .mirror-hero__image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__image {
-    display: block;
-    object-fit: cover;
-    object-position: {{ hero_image.presentation.focal_point | default: '50% 50%' }};
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__gradient {
-    position: absolute;
-    z-index: 1;
-    inset: 0;
-    background:
-      linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.98) 0%,
-        rgba(255, 255, 255, 0.94) 26%,
-        rgba(255, 255, 255, 0.67) 39%,
-        rgba(255, 255, 255, 0.16) 55%,
-        rgba(255, 255, 255, 0) 69%
-      );
-    pointer-events: none;
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__reflection {
-    position: absolute;
-    z-index: 3;
-    top: 100%;
-    right: 0;
-    left: 0;
-    height: var(--reflection-height);
-    overflow: hidden;
-    opacity: var(--reflection-opacity);
-    pointer-events: none;
-    filter: blur(1px) saturate(0.82);
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.78) 0%,
-      rgba(0, 0, 0, 0.38) 48%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.78) 0%,
-      rgba(0, 0, 0, 0.38) 48%,
-      transparent 100%
-    );
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__reflection::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.98) 0%,
-        rgba(255, 255, 255, 0.94) 26%,
-        rgba(255, 255, 255, 0.67) 39%,
-        rgba(255, 255, 255, 0.16) 55%,
-        rgba(255, 255, 255, 0) 69%
-      );
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__reflection-media {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    display: block;
-    height: var(--hero-height);
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__reflection-image {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: {{ hero_image.presentation.focal_point | default: '50% 50%' }};
-    transform: scaleY(-1);
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__inner {
+{% style %}
+  #NaviewVideoHero-{{ section.id }} {
     position: relative;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    min-height: var(--hero-height);
-    width: min(100%, 2200px);
-    margin: 0 auto;
-    padding: 64px clamp(32px, 4.8vw, 104px);
+    isolation: isolate;
+    width: 100%;
+    height: var(--nv-hero-height);
+    min-height: 520px;
+    overflow: hidden;
+    background: #05080d;
+    color: var(--nv-text-color);
+    font-family:
+      "Open Sans",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      Arial,
+      sans-serif;
+  }
+
+  #NaviewVideoHero-{{ section.id }} *,
+  #NaviewVideoHero-{{ section.id }} *::before,
+  #NaviewVideoHero-{{ section.id }} *::after {
     box-sizing: border-box;
   }
 
-  #MirrorHero-{{ section.id }} .mirror-hero__content {
-    width: min(100%, var(--content-width));
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__media,
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__overlay,
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__video,
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__poster,
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__empty {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
-  #MirrorHero-{{ section.id }} .mirror-hero__eyebrow {
-    margin: 0 0 26px;
-    color: var(--accent);
-    font-size: clamp(12px, 0.86vw, 16px);
-    font-weight: 750;
-    line-height: 1.2;
-    letter-spacing: 0.33em;
-    text-transform: uppercase;
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__media {
+    z-index: 0;
+    overflow: hidden;
+    background: #05080d;
   }
 
-  #MirrorHero-{{ section.id }} .mirror-hero__heading {
-    margin: 0;
-    color: var(--text-color);
-    font-size: clamp(42px, 3.55vw, 74px);
-    line-height: 1.06;
-    letter-spacing: -0.045em;
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__heading-strong,
-  #MirrorHero-{{ section.id }} .mirror-hero__heading-light {
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__video,
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__poster {
     display: block;
-    white-space: nowrap;
+    border: 0;
+    object-fit: cover;
+    object-position: {{ section.settings.video_position }};
+    pointer-events: none;
   }
 
-  #MirrorHero-{{ section.id }} .mirror-hero__heading-strong {
-    font-weight: 700;
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__video {
+    background: #05080d;
   }
 
-  #MirrorHero-{{ section.id }} .mirror-hero__heading-light {
-    margin-top: 9px;
-    color: var(--accent);
-    font-weight: 580;
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__empty {
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #07111f 0%, #17375e 48%, #07111f 100%);
   }
 
-  #MirrorHero-{{ section.id }} .mirror-hero__description {
-    max-width: 680px;
-    margin: 34px 0 0;
-    color: rgba(18, 24, 32, 0.76);
-    font-size: clamp(17px, 1.08vw, 21px);
-    font-weight: 400;
-    line-height: 1.48;
-    letter-spacing: -0.012em;
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__placeholder {
+    width: 100%;
+    height: 100%;
+    opacity: 0.22;
+    object-fit: cover;
   }
 
-  #MirrorHero-{{ section.id }} .mirror-hero__actions {
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__overlay {
+    z-index: 1;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(0, 0, 0, calc(var(--nv-overlay-opacity) + 0.20)) 0%,
+        rgba(0, 0, 0, var(--nv-overlay-opacity)) 38%,
+        rgba(0, 0, 0, calc(var(--nv-overlay-opacity) * 0.45)) 68%,
+        rgba(0, 0, 0, calc(var(--nv-overlay-opacity) * 0.18)) 100%
+      );
+    pointer-events: none;
+  }
+
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__content {
+    position: relative;
+    z-index: 2;
     display: flex;
     align-items: center;
-    gap: 38px;
-    margin-top: 38px;
+    width: 100%;
+    height: 100%;
+    padding: 0 32px;
   }
 
-  #MirrorHero-{{ section.id }} .mirror-hero__button,
-  #MirrorHero-{{ section.id }} .mirror-hero__text-link {
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__copy {
+    width: min(100%, 1120px);
+    color: var(--nv-text-color);
+    text-align: left;
+  }
+
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__line {
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    color: inherit;
+  }
+
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__typed {
+    position: relative;
+    display: inline;
+    visibility: hidden;
+    white-space: pre-wrap;
+  }
+
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__typed.is-typing::after {
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 0.82em;
+    margin-left: 0.08em;
+    background: currentColor;
+    vertical-align: -0.03em;
+    animation: naview-caret-blink 700ms steps(1, end) infinite;
+  }
+
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__line--one {
+    min-height: 24px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0;
+  }
+
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__line--two {
+    min-height: 72px;
+    margin-top: 16px;
+    font-size: 64px;
+    font-weight: 600;
+    line-height: 72px;
+    letter-spacing: -1.28px;
+  }
+
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__line--three {
+    min-height: 32px;
+    max-width: 900px;
+    margin-top: 24px;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 32px;
+    letter-spacing: -0.56px;
+  }
+
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 48px;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 600ms ease,
+      transform 600ms ease;
+  }
+
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__actions.is-visible {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__button {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 56px;
-    box-sizing: border-box;
-    font-size: 17px;
-    font-weight: 650;
-    line-height: 1;
+    min-height: 48px;
+    padding: 0 32px;
+    border: 0;
+    border-radius: 100px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.32px;
+    text-align: center;
     text-decoration: none;
-    transition:
-      transform 180ms ease,
-      background-color 180ms ease,
-      color 180ms ease,
-      box-shadow 180ms ease;
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__button {
-    min-width: 232px;
-    padding: 0 28px;
-    border-radius: 11px;
-    background: var(--accent);
-    color: #ffffff;
-    box-shadow: 0 10px 28px rgba(23, 105, 224, 0.19);
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__text-link {
-    gap: 13px;
-    min-width: 232px;
-    padding: 0 24px;
-    border: 1px solid rgba(17, 24, 32, 0.25);
-    border-radius: 11px;
-    color: var(--text-color);
-    background: rgba(255, 255, 255, 0.56);
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__button-icon,
-  #MirrorHero-{{ section.id }} .mirror-hero__button-arrow,
-  #MirrorHero-{{ section.id }} .mirror-hero__whatsapp-icon {
-    width: 22px;
-    height: 22px;
-    flex: 0 0 auto;
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 1.75;
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__button-arrow {
-    width: 19px;
-    height: 19px;
-    margin-left: 5px;
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__whatsapp-icon {
-    fill: #25d366;
-    stroke: none;
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__trust {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 20px 38px;
-    margin-top: 38px;
-  }
-
-  #MirrorHero-{{ section.id }} .mirror-hero__trust-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 11px;
-    color: rgba(17, 24, 32, 0.72);
-    font-size: 14px;
-    font-weight: 590;
-    line-height: 1.25;
     white-space: nowrap;
+    transition:
+      color 300ms ease,
+      background-color 300ms ease,
+      border-color 300ms ease,
+      transform 300ms ease;
   }
 
-  #MirrorHero-{{ section.id }} .mirror-hero__trust-item svg {
-    width: 24px;
-    height: 24px;
-    flex: 0 0 auto;
-    fill: none;
-    stroke: #5d6a7d;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 1.45;
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__button--primary {
+    color: #3b3e40;
+    background: #ffffff;
   }
 
-  #MirrorHero-{{ section.id }} .mirror-hero__button:hover,
-  #MirrorHero-{{ section.id }} .mirror-hero__text-link:hover {
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__button--secondary {
+    padding: 0 31px;
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.16);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__button:hover {
     transform: translateY(-2px);
-    border-color: var(--accent);
-    color: var(--accent);
-    background: rgba(255, 255, 255, 0.86);
   }
 
-  #MirrorHero-{{ section.id }} .mirror-hero__button:hover {
-    background: #0f5dcc;
-    box-shadow: 0 14px 34px rgba(23, 105, 224, 0.25);
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__button--primary:hover {
+    color: #111820;
+    background: #f0f1f2;
   }
 
-  #MirrorHero-{{ section.id }} .mirror-hero__button:focus-visible,
-  #MirrorHero-{{ section.id }} .mirror-hero__text-link:focus-visible {
-    outline: 3px solid rgba(23, 105, 224, 0.38);
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__button--secondary:hover {
+    border-color: #ffffff;
+    color: #3b3e40;
+    background: #ffffff;
+  }
+
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__button:focus-visible {
+    outline: 2px solid #ffffff;
     outline-offset: 4px;
   }
 
-  @media screen and (max-width: 989px) {
-    #MirrorHero-{{ section.id }} .mirror-hero__gradient {
-      background:
-        linear-gradient(
-          90deg,
-          rgba(255, 255, 255, 0.97) 0%,
-          rgba(255, 255, 255, 0.88) 45%,
-          rgba(255, 255, 255, 0.28) 72%,
-          rgba(255, 255, 255, 0) 100%
-        );
+  @keyframes naview-caret-blink {
+    0%,
+    48% {
+      opacity: 1;
     }
 
-    #MirrorHero-{{ section.id }} .mirror-hero__inner {
-      padding-inline: 36px;
+    49%,
+    100% {
+      opacity: 0;
     }
   }
 
-  @media screen and (max-width: 749px) {
-    #MirrorHero-{{ section.id }} {
-      min-height: 720px;
+  @media screen and (min-width: 1600px) {
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__content {
+      padding-right: 48px;
+      padding-left: 48px;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__line--two {
+      font-size: clamp(48px, 7vw, 60px);
+      line-height: 1.12;
+      letter-spacing: -0.025em;
     }
 
-    #MirrorHero-{{ section.id }} .mirror-hero__image {
-      object-position: {{ mobile_image.presentation.focal_point | default: hero_image.presentation.focal_point | default: '64% 50%' }};
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__line--three {
+      font-size: clamp(22px, 3vw, 26px);
+      line-height: 1.2;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    #NaviewVideoHero-{{ section.id }} {
+      height: var(--nv-mobile-height);
+      min-height: 600px;
     }
 
-    #MirrorHero-{{ section.id }} .mirror-hero__reflection {
-      height: min(var(--reflection-height), 52px);
-      opacity: min(var(--reflection-opacity), 0.12);
-      filter: blur(0.8px) saturate(0.86);
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__video,
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__poster {
+      object-position: {{ section.settings.mobile_video_position }};
     }
 
-    #MirrorHero-{{ section.id }} .mirror-hero__reflection-media {
-      height: 720px;
-    }
-
-    #MirrorHero-{{ section.id }} .mirror-hero__reflection-image {
-      object-position: {{ mobile_image.presentation.focal_point | default: hero_image.presentation.focal_point | default: '64% 50%' }};
-    }
-
-    #MirrorHero-{{ section.id }} .mirror-hero__gradient {
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__overlay {
       background:
         linear-gradient(
           180deg,
-          rgba(255, 255, 255, 0.02) 0%,
-          rgba(255, 255, 255, 0.12) 27%,
-          rgba(255, 255, 255, 0.94) 49%,
-          rgba(255, 255, 255, 1) 66%,
-          rgba(255, 255, 255, 1) 100%
+          rgba(0, 0, 0, calc(var(--nv-overlay-opacity) * 0.40)) 0%,
+          rgba(0, 0, 0, calc(var(--nv-overlay-opacity) * 0.72)) 36%,
+          rgba(0, 0, 0, calc(var(--nv-overlay-opacity) + 0.22)) 100%
         );
     }
 
-    #MirrorHero-{{ section.id }} .mirror-hero__inner {
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__content {
       align-items: flex-end;
-      min-height: 720px;
-      padding: 300px 22px 42px;
+     justify-content: center;
+      padding: 80px 20px 48px;
     }
 
-    #MirrorHero-{{ section.id }} .mirror-hero__content {
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__copy {
+      width: 100%;
+      text-align: center;
+    }
+
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__line {
       width: 100%;
     }
 
-    #MirrorHero-{{ section.id }} .mirror-hero__eyebrow {
-      margin-bottom: 16px;
-      font-size: 11px;
-      letter-spacing: 0.25em;
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__line--one {
+      min-height: 20px;
+      font-size: 14px;
+      line-height: 20px;
     }
 
-    #MirrorHero-{{ section.id }} .mirror-hero__heading {
-      font-size: clamp(36px, 10.5vw, 46px);
-      line-height: 1.04;
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__line--two {
+      min-height: 0;
+      margin-top: 12px;
+      font-size: clamp(34px, 10vw, 46px);
+      line-height: 1.06;
+      letter-spacing: -0.035em;
     }
 
-    #MirrorHero-{{ section.id }} .mirror-hero__heading-strong,
-    #MirrorHero-{{ section.id }} .mirror-hero__heading-light {
-      white-space: normal;
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__line--three {
+      min-height: 0;
+      margin-top: 18px;
+      font-size: clamp(17px, 4.7vw, 21px);
+      line-height: 1.35;
+      letter-spacing: -0.02em;
     }
 
-    #MirrorHero-{{ section.id }} .mirror-hero__heading-light {
-      margin-top: 7px;
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__actions {
+      justify-content: center;
+      gap: 10px;
+      margin-top: 32px;
     }
 
-    #MirrorHero-{{ section.id }} .mirror-hero__description {
-      margin-top: 23px;
-      font-size: 16px;
-      line-height: 1.5;
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__button {
+      min-height: 46px;
+      padding: 0 24px;
+      font-size: 15px;
     }
 
-    #MirrorHero-{{ section.id }} .mirror-hero__actions {
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__button--secondary {
+      padding: 0 23px;
+    }
+  }
+
+  @media screen and (max-width: 370px) {
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__actions {
       flex-direction: column;
       align-items: stretch;
-      gap: 14px;
-      margin-top: 28px;
     }
 
-    #MirrorHero-{{ section.id }} .mirror-hero__button {
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__button {
       width: 100%;
-      min-width: 0;
-    }
-
-    #MirrorHero-{{ section.id }} .mirror-hero__text-link {
-      min-height: 42px;
-      width: 100%;
-      min-width: 0;
-    }
-
-    #MirrorHero-{{ section.id }} .mirror-hero__trust {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 13px;
-      margin-top: 28px;
-    }
-
-    #MirrorHero-{{ section.id }} .mirror-hero__trust-item {
-      white-space: normal;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #MirrorHero-{{ section.id }} .mirror-hero__button,
-    #MirrorHero-{{ section.id }} .mirror-hero__text-link {
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__typed,
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__actions {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
       transition: none;
+    }
+
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__typed::after {
+      display: none;
     }
   }
 {% endstyle %}
+
+<script>
+  (() => {
+    const root = document.getElementById('NaviewVideoHero-{{ section.id }}');
+    if (!root || root.dataset.initialized === 'true') return;
+
+    root.dataset.initialized = 'true';
+
+    const video = root.querySelector('video');
+    if (video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.loop = true;
+      video.playsInline = true;
+      const playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {});
+      }
+    }
+
+    const typedElements = [...root.querySelectorAll('[data-typewriter]')];
+    const actions = root.querySelector('.naview-video-hero__actions');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduceMotion) {
+      typedElements.forEach((element) => {
+        element.textContent = element.dataset.text || '';
+        element.style.visibility = 'visible';
+      });
+      actions?.classList.add('is-visible');
+      return;
+    }
+
+    const wait = (duration) => new Promise((resolve) => window.setTimeout(resolve, duration));
+
+    const typeLine = async (element) => {
+      const text = element.dataset.text || '';
+      const speed = Number(element.dataset.speed) || 42;
+
+      element.textContent = '';
+      element.style.visibility = 'visible';
+      element.classList.add('is-typing');
+
+      for (const character of text) {
+        element.textContent += character;
+        await wait(character === ' ' ? Math.max(18, speed * 0.45) : speed);
+      }
+
+      element.classList.remove('is_typing');
+    };
+
+    const runTypewriter = async () => {
+      await wait(180);
+
+      for (let index = 0; index < typedElements.length; index += 1) {
+        await typeLine(typedElements[index]);
+        await wait(index === 0 ? 150 : 220);
+      }
+
+      actions?.classList.add('is-visible');
+    };
+
+    runTypewriter();
+  })();
+</script>
 
 {% schema %}
 {
@@ -587,144 +550,103 @@
   "class": "section-premium-mirror-hero",
   "settings": [
     {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Desktop background image"
+      "type": "video",
+      "id": "hero_video",
+      "label": "Background video"
     },
     {
       "type": "image_picker",
-      "id": "mobile_image",
-      "label": "Mobile background image"
+      "id": "poster_image",
+      "label": "Fallback image",
+      "info": "Displayed before the video loads or when no video is selected."
     },
     {
-      "type": "text",
-      "id": "image_alt",
-      "label": "Image alt text",
-      "default": "Digital rearview mirror showing a wide rear view"
+      "type": "select",
+      "id": "video_position",
+      "label": "Desktop video position",
+      "default": "50% 50%",
+      "options": [
+        {
+          "value": "25% 50%",
+          "label": "Left"
+        },
+        {
+          "value": "50% 50%",
+          "label": "Center"
+        },
+        {
+          "value": "75% 50%",
+          "label": "Right"
+        }
+      ]
     },
     {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Small label",
-      "default": "DIGITAL REARVIEW MIRROR"
-    },
-    {
-      "type": "text",
-      "id": "heading_line_1",
-      "label": "Heading — bold line",
-      "default": "A Clearer View Behind."
-    },
-    {
-      "type": "text",
-      "id": "heading_line_2",
-      "label": "Heading — blue emphasis line",
-      "default": "Made for Your Vehicle."
-    },
-    {
-      "type": "textarea",
-      "id": "description",
-      "label": "Description",
-      "default": "Select your vehicle to see the correct mirror, fitment details, installation info, and pricing."
-    },
-    {
-      "type": "text",
-      "id": "primary_label",
-      "label": "Primary button label",
-      "default": "FIND MY MIRROR"
+      "type": "select",
+      "id": "mobile_video_position",
+      "label": "Mobile video position",
+      "default": "50% 50%",
+      "options": [
+        {
+          "value": "25% 50%",
+          "label": "Left"
+        },
+        {
+          "value": "50% 50%",
+          "label": "Center"
+        },
+        {
+          "value": "75% 50%",
+          "label": "Right"
+        }
+      ]
     },
     {
       "type": "url",
       "id": "primary_link",
-      "label": "Primary button link"
-    },
-    {
-      "type": "text",
-      "id": "secondary_label",
-      "label": "Secondary link label",
-      "default": "Contact Us"
+      "label": "Find my vehicle link",
+      "info": "Defaults to #naview-models when left blank."
     },
     {
       "type": "url",
       "id": "secondary_link",
-      "label": "Secondary link"
-    },
-    {
-      "type": "header",
-      "content": "Trust points"
-    },
-    {
-      "type": "text",
-      "id": "trust_1",
-      "label": "Trust point 1",
-      "default": "Vehicle-Specific Fitment"
-    },
-    {
-      "type": "text",
-      "id": "trust_2",
-      "label": "Trust point 2",
-      "default": "Premium Build Quality"
-    },
-    {
-      "type": "text",
-      "id": "trust_3",
-      "label": "Trust point 3",
-      "default": "Expert Support"
+      "label": "Contact us link",
+      "info": "Defaults to your WhatsApp link when left blank."
     },
     {
       "type": "range",
-      "id": "desktop_height",
+      "id": "hero_desktop_height",
       "min": 520,
       "max": 760,
       "step": 20,
       "unit": "px",
       "label": "Desktop height",
+      "default": 640
+    },
+    {
+      "type": "range",
+      "id": "hero_mobile_height",
+      "min": 600,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Mobile height",
       "default": 680
     },
     {
       "type": "range",
-      "id": "content_width",
-      "min": 520,
-      "max": 820,
-      "step": 20,
-      "unit": "px",
-      "label": "Desktop content width",
-      "default": 760
-    },
-    {
-      "type": "header",
-      "content": "Reflection transition"
-    },
-    {
-      "type": "range",
-      "id": "reflection_height",
-      "min": 40,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Reflection height",
-      "default": 72
-    },
-    {
-      "type": "range",
-      "id": "reflection_opacity",
-      "min": 5,
-      "max": 25,
-      "step": 1,
+      "id": "video_overlay",
+      "min": 0,
+      "max": 60,
+      "step": 5,
       "unit": "%",
-      "label": "Reflection strength",
-      "default": 14
+      "label": "Video dark overlay",
+      "default": 20
     },
     {
       "type": "color",
-      "id": "accent_color",
-      "label": "Accent color",
-      "default": "#1769E0"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
+      "id": "hero_text_color",
       "label": "Text color",
-      "default": "#111820"
+      "default": "#FFFFFF"
     }
   ],
   "presets": [
