@@ -1,11 +1,12 @@
 {% comment %}
-  Naview — YouTube Video Showcase
+  Naview — DJI-style Video Product Feature
   Add this file to: Online Store > Themes > Edit code > Sections
 {% endcomment %}
 
 {% liquid
   assign section_dom_id = 'naview-video-' | append: section.id
   assign video_url = section.settings.video_url
+  assign buy_now_url = section.settings.buy_now_link | default: '#naview-models'
 %}
 
 <section
@@ -22,51 +23,55 @@
   "
 >
   <div class="naview-video__container">
-    {% if section.settings.heading != blank %}
-      <div class="naview-video__heading-row">
-        <span class="naview-video__line" aria-hidden="true"></span>
-        <h2 class="naview-video__heading">{{ section.settings.heading | escape }}</h2>
-        <span class="naview-video__line" aria-hidden="true"></span>
+    <div class="naview-video__feature">
+      <div class="naview-video__frame">
+        {% if video_url != blank %}
+          <iframe
+            class="naview-video__iframe"
+            src="https://www.youtube-nocookie.com/embed/{{ video_url.id }}?rel=0&playsinline=1&controls=1&autoplay=0&mute=0"
+            title="{{ section.settings.video_title | escape }}"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        {% else %}
+          <div class="naview-video__placeholder">
+            <span class="naview-video__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="m9 7 8 5-8 5V7Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <p>Paste a YouTube link in this section's settings.</p>
+          </div>
+        {% endif %}
       </div>
-    {% endif %}
 
-    {% if section.settings.description != blank %}
-      <p class="naview-video__description">{{ section.settings.description | escape }}</p>
-    {% endif %}
-
-    <div class="naview-video__frame">
-      {% if video_url != blank %}
-        <iframe
-          class="naview-video__iframe"
-          src="https://www.youtube-nocookie.com/embed/{{ video_url.id }}?rel=0&playsinline=1"
-          title="{{ section.settings.video_title | default: section.settings.heading | escape }}"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-        ></iframe>
-      {% else %}
-        <div class="naview-video__placeholder">
-          <span class="naview-video__play" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="m9 7 8 5-8 5V7Z" fill="currentColor"/>
-            </svg>
-          </span>
-          <p>Paste a YouTube link in this section's settings.</p>
-        </div>
-      {% endif %}
+      <div class="naview-video__product-copy">
+        <h2 class="naview-video__product-title">Tailored to Fit Your Vehicle</h2>
+        <p class="naview-video__price">from CAD 999</p>
+        <a class="naview-video__buy-button" href="{{ buy_now_url }}">Buy Now</a>
+      </div>
     </div>
   </div>
 </section>
 
 {% style %}
   #{{ section_dom_id }} {
-    padding: var(--video-padding-top) 20px var(--video-padding-bottom);
-    background: #FFFFFF !important;
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: var(--video-padding-top) 24px var(--video-padding-bottom);
+    background: #f5f5f5;
+    font-family:
+      "Open Sans",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Arial,
+      sans-serif;
   }
 
-  #{{ section_dom_id }} * {
+  #{{ section_dom_id }} *,
+  #{{ section_dom_id }} *::before,
+  #{{ section_dom_id }} *::after {
     box-sizing: border-box;
   }
 
@@ -75,66 +80,104 @@
     margin: 0 auto;
   }
 
-  #{{ section_dom_id }} .naview-video__heading-row {
-    display: grid;
-    grid-template-columns: minmax(40px, 190px) auto minmax(40px, 190px);
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
-    margin-bottom: 14px;
+  #{{ section_dom_id }} .naview-video__feature {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #050505;
   }
 
-  #{{ section_dom_id }} .naview-video__line {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      color-mix(in srgb, var(--video-accent) 45%, transparent)
-    );
-  }
-
-  #{{ section_dom_id }} .naview-video__line:last-child {
-    transform: scaleX(-1);
-  }
-
-  #{{ section_dom_id }} .naview-video__heading {
-    margin: 0;
-    color: var(--video-heading);
-    font-size: clamp(22px, 2.1vw, 34px);
-    font-weight: 760;
-    line-height: 1.15;
-    letter-spacing: 0.045em;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  #{{ section_dom_id }} .naview-video__description {
-    max-width: 760px;
-    margin: 0 auto 30px;
-    color: var(--video-text);
-    font-size: clamp(15px, 1.2vw, 18px);
-    line-height: 1.55;
-    text-align: center;
+  #{{ section_dom_id }} .naview-video__feature::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0 0 auto;
+    height: 44%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.58) 0%, rgba(0, 0, 0, 0) 100%);
+    pointer-events: none;
+    content: "";
   }
 
   #{{ section_dom_id }} .naview-video__frame {
     position: relative;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    border: 10px solid #FFFFFF;
-    border-radius: 24px;
-    background: #071B3E;
-    box-shadow:
-      0 24px 60px rgba(7, 31, 72, 0.14),
-      0 4px 14px rgba(7, 31, 72, 0.08);
+    background: #050505;
   }
 
   #{{ section_dom_id }} .naview-video__iframe {
+    position: absolute;
+    inset: 0;
     display: block;
     width: 100%;
     height: 100%;
     border: 0;
+  }
+
+  #{{ section_dom_id }} .naview-video__product-copy {
+    position: absolute;
+    z-index: 2;
+    inset: 46px 24px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+  }
+
+  #{{ section_dom_id }} .naview-video__product-title {
+    max-width: 900px;
+    margin: 0;
+    color: inherit;
+    font-size: clamp(30px, 3.1vw, 46px);
+    font-weight: 600;
+    line-height: 1.13;
+    letter-spacing: -0.035em;
+  }
+
+  #{{ section_dom_id }} .naview-video__price {
+    margin: 12px 0 0;
+    color: inherit;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+
+  #{{ section_dom_id }} .naview-video__buy-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 108px;
+    min-height: 42px;
+    margin-top: 18px;
+    padding: 0 24px;
+    border: 1px solid #ffffff;
+    border-radius: 100px;
+    color: #111111;
+    background: #ffffff;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+    text-decoration: none;
+    text-shadow: none;
+    pointer-events: auto;
+    transition:
+      color 200ms ease,
+      background-color 200ms ease,
+      transform 200ms ease;
+  }
+
+  #{{ section_dom_id }} .naview-video__buy-button:hover {
+    color: #ffffff;
+    background: #111111;
+    transform: translateY(-1px);
+  }
+
+  #{{ section_dom_id }} .naview-video__buy-button:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
   }
 
   #{{ section_dom_id }} .naview-video__placeholder {
@@ -142,39 +185,36 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: 14px;
     width: 100%;
     height: 100%;
     padding: 24px;
-    color: #FFFFFF;
-    background:
-      radial-gradient(circle at 50% 42%, rgba(36, 112, 225, 0.35), transparent 32%),
-      linear-gradient(135deg, #0A2149, #07152F);
+    color: #ffffff;
+    background: linear-gradient(135deg, #101010, #252525);
     text-align: center;
   }
 
   #{{ section_dom_id }} .naview-video__placeholder p {
     margin: 0;
     font-size: 15px;
-    opacity: 0.78;
+    opacity: 0.76;
   }
 
   #{{ section_dom_id }} .naview-video__play {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 72px;
-    height: 72px;
-    border: 1px solid rgba(255, 255, 255, 0.34);
+    width: 68px;
+    height: 68px;
+    border: 1px solid rgba(255, 255, 255, 0.72);
     border-radius: 50%;
-    color: #FFFFFF;
-    background: var(--video-accent);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+    color: #111111;
+    background: #ffffff;
   }
 
   #{{ section_dom_id }} .naview-video__play svg {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     margin-left: 3px;
   }
 
@@ -184,30 +224,66 @@
       padding-left: 16px;
     }
 
-    #{{ section_dom_id }} .naview-video__heading-row {
-      grid-template-columns: minmax(24px, 60px) auto minmax(24px, 60px);
-      gap: 12px;
+    #{{ section_dom_id }} .naview-video__feature {
+      border-radius: 3px;
     }
 
-    #{{ section_dom_id }} .naview-video__heading {
-      font-size: 21px;
+    #{{ section_dom_id }} .naview-video__product-copy {
+      inset: 22px 14px auto;
     }
 
-    #{{ section_dom_id }} .naview-video__description {
-      margin-bottom: 22px;
-      font-size: 15px;
+    #{{ section_dom_id }} .naview-video__product-title {
+      font-size: clamp(22px, 6.5vw, 30px);
+      line-height: 1.12;
     }
 
-    #{{ section_dom_id }} .naview-video__frame {
-      border-width: 6px;
-      border-radius: 16px;
+    #{{ section_dom_id }} .naview-video__price {
+      margin-top: 7px;
+      font-size: 13px;
+    }
+
+    #{{ section_dom_id }} .naview-video__buy-button {
+      min-width: 90px;
+      min-height: 36px;
+      margin-top: 11px;
+      padding: 0 18px;
+      font-size: 13px;
+    }
+  }
+
+  @media screen and (max-width: 430px) {
+    #{{ section_dom_id }} .naview-video__product-copy {
+      inset: 15px 10px auto;
+    }
+
+    #{{ section_dom_id }} .naview-video__product-title {
+      font-size: 19px;
+    }
+
+    #{{ section_dom_id }} .naview-video__price {
+      margin-top: 4px;
+      font-size: 11px;
+    }
+
+    #{{ section_dom_id }} .naview-video__buy-button {
+      min-width: 78px;
+      min-height: 32px;
+      margin-top: 8px;
+      padding: 0 14px;
+      font-size: 12px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #{{ section_dom_id }} .naview-video__buy-button {
+      transition: none;
     }
   }
 {% endstyle %}
 
 {% schema %}
 {
-  "name": "Naview YouTube video",
+  "name": "Naview video feature",
   "tag": "section",
   "class": "section-naview-video",
   "settings": [
@@ -224,16 +300,10 @@
       "default": "Naview digital rearview mirror demonstration"
     },
     {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "SEE IT IN ACTION"
-    },
-    {
-      "type": "textarea",
-      "id": "description",
-      "label": "Description",
-      "default": "See how Naview delivers a wider, clearer rear view in real driving conditions."
+      "type": "url",
+      "id": "buy_now_link",
+      "label": "Buy Now link",
+      "info": "Defaults to the vehicle model section when left blank."
     },
     {
       "type": "header",
@@ -300,7 +370,7 @@
   ],
   "presets": [
     {
-      "name": "Naview YouTube video"
+      "name": "Naview video feature"
     }
   ]
 }
