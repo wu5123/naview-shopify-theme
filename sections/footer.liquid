@@ -41,6 +41,28 @@
   assign facebook_url = section.settings.facebook_link | default: settings.social_facebook_link
   assign tiktok_url = section.settings.tiktok_link | default: settings.social_tiktok_link
 
+  assign payment_methods_url = section.settings.payment_methods_link | default: routes.cart_url
+  assign order_information_url = section.settings.order_information_link | default: vehicle_request_url
+  assign shipping_delivery_url = section.settings.shipping_delivery_link
+  if shipping_delivery_url == blank
+    if shop.shipping_policy != blank
+      assign shipping_delivery_url = shop.shipping_policy.url
+    else
+      assign shipping_delivery_url = routes.root_url
+    endif
+  endif
+  assign return_policy_url = section.settings.return_policy_link
+  if return_policy_url == blank
+    if shop.refund_policy != blank
+      assign return_policy_url = shop.refund_policy.url
+    else
+      assign return_policy_url = routes.root_url
+    endif
+  endif
+  assign technical_support_url = section.settings.technical_support_link | default: vehicle_request_url
+  assign repair_services_url = section.settings.repair_services_link | default: vehicle_request_url
+  assign after_sales_policies_url = section.settings.after_sales_policies_link | default: section.settings.warranty_link | default: vehicle_request_url
+
   assign support_email = section.settings.contact_email
   if support_email == blank
     assign support_email = shop.email
@@ -236,28 +258,13 @@
       <nav class="nv-footer__column" aria-label="Help & Support">
         <h2 class="nv-footer__heading">Help &amp; Support</h2>
         <ul class="nv-footer__links" role="list">
-          {% if section.settings.help_menu != blank %}
-            {% for link in section.settings.help_menu.links %}
-              <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
-            {% endfor %}
-          {% else %}
-            <li><a href="{{ vehicle_request_url }}">Vehicle Compatibility</a></li>
-            {% if section.settings.install_link != blank %}
-              <li><a href="{{ section.settings.install_link }}">Installation Guide</a></li>
-            {% endif %}
-            {% if shop.shipping_policy != blank %}
-              <li><a href="{{ shop.shipping_policy.url }}">Shipping &amp; Delivery</a></li>
-            {% endif %}
-            {% if shop.refund_policy != blank %}
-              <li><a href="{{ shop.refund_policy.url }}">Returns &amp; Refunds</a></li>
-            {% endif %}
-            {% if section.settings.warranty_link != blank %}
-              <li><a href="{{ section.settings.warranty_link }}">Warranty</a></li>
-            {% endif %}
-            {% if section.settings.faq_link != blank %}
-              <li><a href="{{ section.settings.faq_link }}">FAQ</a></li>
-            {% endif %}
-          {% endif %}
+          <li><a href="{{ payment_methods_url }}">Payment Methods</a></li>
+          <li><a href="{{ order_information_url }}">Order Information</a></li>
+          <li><a href="{{ shipping_delivery_url }}">Shipping &amp; Delivery</a></li>
+          <li><a href="{{ return_policy_url }}">Return Policy</a></li>
+          <li><a href="{{ technical_support_url }}">Technical Support</a></li>
+          <li><a href="{{ repair_services_url }}">Repair Services</a></li>
+          <li><a href="{{ after_sales_policies_url }}">After-Sales Service Policies</a></li>
         </ul>
       </nav>
 
@@ -1089,16 +1096,41 @@
       "content": "Help & Support"
     },
     {
-      "type": "text",
-      "id": "help_heading",
-      "label": "Heading",
-      "default": "Help & Support"
+      "type": "url",
+      "id": "payment_methods_link",
+      "label": "Payment Methods link"
     },
     {
-      "type": "link_list",
-      "id": "help_menu",
-      "label": "Help & Support menu"
+      "type": "url",
+      "id": "order_information_link",
+      "label": "Order Information link"
     },
+    {
+      "type": "url",
+      "id": "shipping_delivery_link",
+      "label": "Shipping & Delivery link"
+    },
+    {
+      "type": "url",
+      "id": "return_policy_link",
+      "label": "Return Policy link"
+    },
+    {
+      "type": "url",
+      "id": "technical_support_link",
+      "label": "Technical Support link"
+    },
+    {
+      "type": "url",
+      "id": "repair_services_link",
+      "label": "Repair Services link"
+    },
+    {
+      "type": "url",
+      "id": "after_sales_policies_link",
+      "label": "After-Sales Service Policies link"
+    },
+
     {
       "type": "url",
       "id": "install_link",
