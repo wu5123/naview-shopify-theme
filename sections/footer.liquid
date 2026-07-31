@@ -233,8 +233,8 @@
         </ul>
       </nav>
 
-      <nav class="nv-footer__column" aria-label="{{ section.settings.help_heading | escape }}">
-        <h2 class="nv-footer__heading">{{ section.settings.help_heading | escape }}</h2>
+      <nav class="nv-footer__column" aria-label="Help & Support">
+        <h2 class="nv-footer__heading">Help &amp; Support</h2>
         <ul class="nv-footer__links" role="list">
           {% if section.settings.help_menu != blank %}
             {% for link in section.settings.help_menu.links %}
@@ -308,10 +308,12 @@
 </footer>
 
 {% stylesheet %}
+
   .nv-footer {
     position: relative;
-    background: var(--nv-footer-bg);
-    color: var(--nv-footer-text);
+    background: #ffffff !important;
+    color: #1f1f1f;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
   }
 
   .nv-footer *,
@@ -322,54 +324,58 @@
 
   .nv-footer__inner {
     width: 100%;
+    max-width: 1480px;
+    margin: 0 auto;
   }
 
   .nv-footer__fitment {
     display: grid;
     grid-template-columns: auto minmax(260px, 1fr) auto;
     align-items: center;
-    gap: 22px 28px;
-    padding: clamp(24px, 3vw, 36px);
-    border: 1px solid #bfd4f4;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #f8fbff 0%, #eef5ff 100%);
-    box-shadow: 0 14px 36px rgba(28, 91, 177, 0.08);
+    gap: 18px 28px;
+    padding: 30px 0;
+    border: 0;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
   }
 
   .nv-footer__fitment-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 58px;
-    height: 58px;
-    border: 1px solid #9fc0ec;
-    border-radius: 50%;
-    color: var(--nv-footer-accent);
-    background: #ffffff;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 0;
+    color: #1f1f1f;
+    background: transparent;
   }
 
   .nv-footer__fitment-icon svg {
-    width: 28px;
-    height: 28px;
+    width: 27px;
+    height: 27px;
     stroke: currentColor;
-    stroke-width: 1.8;
+    stroke-width: 1.65;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
   .nv-footer__fitment-title {
     margin: 0;
-    color: var(--nv-footer-text);
-    font-size: clamp(21px, 2vw, 30px);
-    line-height: 1.2;
-    font-weight: 780;
-    letter-spacing: -0.025em;
+    color: #1f1f1f;
+    font-size: 16px;
+    line-height: 1.35;
+    font-weight: 600;
+    letter-spacing: 0;
   }
 
   .nv-footer__fitment-text {
-    margin: 8px 0 0;
-    color: var(--nv-footer-muted);
-    font-size: 15px;
+    margin: 5px 0 0;
+    color: #6b6b6b;
+    font-size: 13px;
     line-height: 1.55;
   }
 
@@ -377,62 +383,63 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 16px;
+    gap: 20px;
   }
 
   .nv-footer__fitment-request {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    min-height: 64px;
-    padding: 0 16px;
-    color: var(--nv-footer-accent);
-    font-size: clamp(16px, 1.1vw, 18px);
+    gap: 8px;
+    min-height: 44px;
+    padding: 0;
+    color: #1f1f1f;
+    font-size: 13px;
     line-height: 1.35;
-    font-weight: 760;
+    font-weight: 500;
     white-space: nowrap;
     text-decoration-line: underline;
-    text-decoration-thickness: 1.5px;
-    text-underline-offset: 6px;
-    transition: color 180ms ease, transform 180ms ease;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: color 180ms ease;
   }
 
   .nv-footer__fitment-request:hover {
-    color: #0f5dcc;
-    transform: translateX(2px);
+    color: #6b6b6b;
   }
 
   .nv-footer__fitment-whatsapp {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    min-width: 212px;
-    min-height: 64px;
-    padding: 0 28px;
-    border: 1px solid #9fc0ec;
-    border-radius: 14px;
-    color: var(--nv-footer-text);
-    background: #ffffff;
-    box-shadow: 0 6px 18px rgba(23, 105, 224, 0.06);
-    font-size: 16px;
-    font-weight: 760;
+    gap: 9px;
+    min-width: 132px;
+    min-height: 42px;
+    padding: 0 18px;
+    border: 1px solid #1f1f1f;
+    border-radius: 0;
+    color: #ffffff;
+    background: #1f1f1f;
+    box-shadow: none;
+    font-size: 13px;
+    font-weight: 500;
     text-decoration: none;
     white-space: nowrap;
-    transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+    transition: color 180ms ease, background-color 180ms ease;
   }
 
   .nv-footer__fitment-whatsapp:hover {
-    border-color: var(--nv-footer-accent);
-    box-shadow: 0 12px 28px rgba(23, 105, 224, 0.14);
-    transform: translateY(-2px);
+    border-color: #434343;
+    color: #ffffff;
+    background: #434343;
+    box-shadow: none;
+    transform: none;
   }
 
   .nv-footer__whatsapp-logo {
-    width: 28px;
-    height: 28px;
-    fill: #25d366;
+    width: 19px;
+    height: 19px;
+    fill: currentColor;
     stroke: none;
     flex: 0 0 auto;
   }
@@ -440,89 +447,91 @@
   .nv-footer__trust {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    margin-block-start: 28px;
-    border: 1px solid var(--nv-footer-border);
-    border-radius: 14px;
-    overflow: hidden;
-    background: #ffffff;
+    margin-block-start: 0;
+    border: 0;
+    border-bottom: 1px solid #e5e5e5;
+    border-radius: 0;
+    overflow: visible;
+    background: transparent;
   }
 
   .nv-footer__trust-item {
-    min-height: 76px;
+    min-height: 72px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 16px 22px;
-    color: var(--nv-footer-text);
-    font-size: 14px;
-    font-weight: 650;
-    letter-spacing: -0.01em;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 14px 22px;
+    color: #333333;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
     text-align: left;
   }
 
   .nv-footer__trust-item + .nv-footer__trust-item {
-    border-inline-start: 1px solid var(--nv-footer-border);
+    border-inline-start: 1px solid #e5e5e5;
   }
 
   .nv-footer__trust-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     flex: 0 0 auto;
-    color: var(--nv-footer-accent);
+    color: #1f1f1f;
   }
 
   .nv-footer__trust-icon svg {
     width: 100%;
     height: 100%;
     stroke: currentColor;
-    stroke-width: 1.7;
+    stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
   .nv-footer__main {
     display: grid;
-    grid-template-columns: minmax(250px, 1.25fr) repeat(2, minmax(150px, 0.72fr)) minmax(280px, 1.15fr);
-    gap: clamp(34px, 5vw, 72px);
-    padding-block: clamp(50px, 6vw, 78px);
+    grid-template-columns: minmax(220px, 1.35fr) repeat(2, minmax(145px, 0.8fr)) minmax(248px, 1.05fr);
+    gap: clamp(32px, 4.6vw, 72px);
+    padding-block: clamp(48px, 5vw, 72px);
   }
 
   .nv-footer__brand {
-    max-width: 360px;
+    max-width: 290px;
   }
 
   .nv-footer__brand-link {
     display: inline-flex;
-    color: var(--nv-footer-text);
+    color: #1f1f1f;
     text-decoration: none;
   }
 
   .nv-footer__logo {
     display: block;
     width: auto;
-    max-width: 190px;
-    max-height: 62px;
+    max-width: 145px;
+    max-height: 42px;
     object-fit: contain;
     object-position: left center;
   }
 
   .nv-footer__wordmark {
-    font-size: clamp(27px, 2.6vw, 38px);
+    color: #1f1f1f;
+    font-size: 26px;
     line-height: 1;
-    font-weight: 800;
-    letter-spacing: 0.12em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
   }
 
   .nv-footer__brand-copy {
-    max-width: 330px;
-    margin-block-start: 22px;
-    color: var(--nv-footer-muted);
-    font-size: 15px;
-    line-height: 1.75;
+    max-width: 280px;
+    margin-block-start: 17px;
+    color: #6b6b6b;
+    font-size: 13px;
+    line-height: 1.6;
   }
 
   .nv-footer__brand-copy > :first-child {
@@ -537,80 +546,80 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 11px;
-    margin-block-start: 25px;
+    gap: 17px;
+    margin-block-start: 22px;
   }
 
   .nv-footer__social-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 38px;
-    height: 38px;
-    border: 1px solid #bcd0ed;
-    border-radius: 50%;
-    color: var(--nv-footer-text);
-    background: #ffffff;
+    width: 21px;
+    height: 21px;
+    border: 0;
+    border-radius: 0;
+    color: #1f1f1f;
+    background: transparent;
     text-decoration: none;
-    transition: color 170ms ease, border-color 170ms ease, background-color 170ms ease, transform 170ms ease;
+    transition: color 170ms ease;
   }
 
   .nv-footer__social-link svg {
-    width: 19px;
-    height: 19px;
+    width: 20px;
+    height: 20px;
     fill: currentColor;
   }
 
   .nv-footer__social-link[href]:hover {
-    color: #ffffff;
-    border-color: var(--nv-footer-accent);
-    background: var(--nv-footer-accent);
-    transform: translateY(-2px);
+    color: #777777;
+    border-color: transparent;
+    background: transparent;
+    transform: none;
   }
 
   .nv-footer__social-link[aria-disabled='true'] {
     cursor: default;
+    opacity: 0.4;
   }
 
   .nv-footer__heading {
-    margin: 0 0 22px;
-    color: var(--nv-footer-text);
+    margin: 0 0 18px;
+    color: #1f1f1f;
     font-size: 14px;
-    line-height: 1.3;
-    font-weight: 760;
-    letter-spacing: 0.085em;
-    text-transform: uppercase;
+    line-height: 1.35;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
   }
 
   .nv-footer__links {
     display: grid;
-    gap: 13px;
+    gap: 11px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
   .nv-footer__links a {
-    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    color: var(--nv-footer-muted);
-    font-size: 14px;
-    line-height: 1.5;
+    gap: 6px;
+    color: #6b6b6b;
+    font-size: 13px;
+    line-height: 1.45;
     text-decoration: none;
-    transition: color 160ms ease, transform 160ms ease;
+    transition: color 160ms ease;
   }
 
   .nv-footer__links a:hover {
-    color: var(--nv-footer-accent);
-    transform: translateX(2px);
+    color: #1f1f1f;
+    transform: none;
   }
 
   .nv-footer__links .nv-footer__view-all {
-    margin-block-start: 5px;
-    color: var(--nv-footer-accent);
-    font-weight: 700;
+    margin-block-start: 4px;
+    color: #1f1f1f;
+    font-weight: 500;
   }
 
   .nv-footer__loop {
@@ -618,10 +627,11 @@
   }
 
   .nv-footer__loop-text {
-    margin: -2px 0 18px;
-    color: var(--nv-footer-muted);
-    font-size: 14px;
-    line-height: 1.65;
+    max-width: 290px;
+    margin: -2px 0 16px;
+    color: #6b6b6b;
+    font-size: 13px;
+    line-height: 1.6;
   }
 
   .nv-footer__signup-form {
@@ -631,58 +641,58 @@
   .nv-footer__signup-fields {
     display: flex;
     width: 100%;
-    min-height: 50px;
-    border: 1px solid #bcd0ed;
-    border-radius: 10px;
+    min-height: 43px;
+    border: 1px solid #a8a8a8;
+    border-radius: 0;
     overflow: hidden;
     background: #ffffff;
-    transition: border-color 170ms ease, box-shadow 170ms ease;
+    transition: border-color 170ms ease;
   }
 
   .nv-footer__signup-fields:focus-within {
-    border-color: var(--nv-footer-accent);
-    box-shadow: 0 0 0 3px rgba(23, 105, 224, 0.12);
+    border-color: #1f1f1f;
+    box-shadow: none;
   }
 
   .nv-footer__signup-input {
     min-width: 0;
     width: 100%;
-    min-height: 48px;
-    padding: 0 15px;
+    min-height: 41px;
+    padding: 0 13px;
     border: 0;
     outline: 0;
-    color: var(--nv-footer-text);
+    color: #1f1f1f;
     background: transparent;
     font: inherit;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .nv-footer__signup-input::placeholder {
-    color: #8491a5;
+    color: #8b8b8b;
   }
 
   .nv-footer__signup-button {
-    min-height: 48px;
-    padding: 0 18px;
+    min-height: 41px;
+    padding: 0 16px;
     border: 0;
     color: #ffffff;
-    background: var(--nv-footer-accent);
+    background: #1f1f1f;
     font: inherit;
     font-size: 12px;
-    font-weight: 760;
-    letter-spacing: 0.055em;
-    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
     cursor: pointer;
     transition: background-color 170ms ease;
   }
 
   .nv-footer__signup-button:hover {
-    background: #0f5dcc;
+    background: #434343;
   }
 
   .nv-footer__form-message {
-    margin: 10px 0 0;
-    color: var(--nv-footer-muted);
+    margin: 9px 0 0;
+    color: #6b6b6b;
     font-size: 12px;
     line-height: 1.5;
   }
@@ -699,28 +709,29 @@
   .nv-footer__loop-email {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    margin-block-start: 20px;
-    color: var(--nv-footer-muted);
+    gap: 8px;
+    margin-block-start: 17px;
+    color: #6b6b6b;
     font-size: 13px;
     line-height: 1.45;
     text-decoration: none;
     overflow-wrap: anywhere;
+    transition: color 160ms ease;
   }
 
   .nv-footer__loop-email svg {
-    width: 22px;
-    height: 22px;
+    width: 18px;
+    height: 18px;
     flex: 0 0 auto;
-    color: var(--nv-footer-accent);
+    color: #1f1f1f;
     stroke: currentColor;
-    stroke-width: 1.6;
+    stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
   .nv-footer__loop-email:hover {
-    color: var(--nv-footer-accent);
+    color: #1f1f1f;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -728,29 +739,15 @@
     .nv-footer__fitment-whatsapp,
     .nv-footer__social-link,
     .nv-footer__links a,
-    .nv-footer__signup-button {
+    .nv-footer__signup-button,
+    .nv-footer__loop-email {
       transition: none;
     }
   }
 
-  /* Keep the two actions visually grouped on wide screens. */
   @media screen and (min-width: 1200px) {
     .nv-footer__fitment {
-      grid-template-columns: auto minmax(300px, 1fr) minmax(520px, auto);
-      column-gap: 36px;
-    }
-
-    .nv-footer__fitment-actions {
-      width: 100%;
-      min-width: 520px;
-    }
-
-    .nv-footer__fitment-request {
-      flex: 1 1 280px;
-    }
-
-    .nv-footer__fitment-whatsapp {
-      flex: 0 0 220px;
+      grid-template-columns: auto minmax(300px, 1fr) auto;
     }
   }
 
@@ -770,11 +767,11 @@
 
     .nv-footer__trust-item:nth-child(3) {
       border-inline-start: 0;
-      border-block-start: 1px solid var(--nv-footer-border);
+      border-block-start: 1px solid #e5e5e5;
     }
 
     .nv-footer__trust-item:nth-child(4) {
-      border-block-start: 1px solid var(--nv-footer-border);
+      border-block-start: 1px solid #e5e5e5;
     }
 
     .nv-footer__main {
@@ -782,99 +779,124 @@
     }
 
     .nv-footer__brand {
-      max-width: 520px;
+      max-width: 420px;
     }
   }
 
   @media screen and (max-width: 749px) {
     .nv-footer__fitment {
       grid-template-columns: auto minmax(0, 1fr);
-      gap: 18px 16px;
-      padding: 22px 18px;
-      border-radius: 16px;
+      gap: 14px;
+      padding: 23px 0;
     }
 
     .nv-footer__fitment-icon {
-      width: 48px;
-      height: 48px;
+      width: 30px;
+      height: 30px;
+    }
+
+    .nv-footer__fitment-icon svg {
+      width: 24px;
+      height: 24px;
     }
 
     .nv-footer__fitment-title {
-      font-size: 20px;
+      font-size: 15px;
     }
 
     .nv-footer__fitment-text {
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .nv-footer__fitment-actions {
       grid-column: 1 / -1;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 18px;
+      justify-content: space-between;
+      gap: 15px;
     }
 
     .nv-footer__fitment-request {
-      justify-content: center;
+      min-height: 40px;
+      font-size: 12px;
+    }
+
+    .nv-footer__fitment-whatsapp {
+      min-width: 120px;
+      min-height: 40px;
+      padding-inline: 14px;
+      font-size: 12px;
+    }
+
+    .nv-footer__trust {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nv-footer__trust-item {
+      min-height: 64px;
+      gap: 8px;
+      padding: 12px 8px;
+      font-size: 11px;
+    }
+
+    .nv-footer__trust-item:nth-child(3) {
+      border-inline-start: 0;
+      border-block-start: 1px solid #e5e5e5;
+    }
+
+    .nv-footer__trust-item:nth-child(4) {
+      border-block-start: 1px solid #e5e5e5;
+    }
+
+    .nv-footer__trust-icon {
+      width: 21px;
+      height: 21px;
+    }
+
+    .nv-footer__main {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 34px 22px;
+      padding-block: 42px 46px;
+    }
+
+    .nv-footer__brand,
+    .nv-footer__loop {
+      grid-column: 1 / -1;
+      max-width: none;
+    }
+
+    .nv-footer__brand-copy,
+    .nv-footer__loop-text {
+      max-width: 420px;
+    }
+
+    .nv-footer__heading {
+      margin-block-end: 15px;
+      font-size: 13px;
+    }
+
+    .nv-footer__links {
+      gap: 10px;
+    }
+
+    .nv-footer__links a {
+      font-size: 12px;
+    }
+
+    .nv-footer__signup-fields {
+      max-width: 420px;
+    }
+  }
+
+  @media screen and (max-width: 389px) {
+    .nv-footer__fitment-actions {
+      align-items: flex-start;
+      flex-direction: column;
     }
 
     .nv-footer__fitment-whatsapp {
       width: 100%;
     }
-
-    .nv-footer__trust {
-      grid-template-columns: 1fr 1fr;
-      margin-block-start: 20px;
-    }
-
-    .nv-footer__trust-item {
-      min-height: 70px;
-      justify-content: flex-start;
-      padding: 14px;
-      font-size: 12px;
-    }
-
-    .nv-footer__trust-item:nth-child(3) {
-      border-inline-start: 0;
-      border-block-start: 1px solid var(--nv-footer-border);
-    }
-
-    .nv-footer__trust-item:nth-child(4) {
-      border-block-start: 1px solid var(--nv-footer-border);
-    }
-
-    .nv-footer__trust-icon {
-      width: 25px;
-      height: 25px;
-    }
-
-    .nv-footer__main {
-      grid-template-columns: 1fr;
-      gap: 38px;
-      padding-block: 46px;
-    }
-
-    .nv-footer__brand {
-      max-width: none;
-    }
-
-    .nv-footer__brand-copy {
-      max-width: 500px;
-    }
-
-    .nv-footer__heading {
-      margin-block-end: 17px;
-    }
-
-    .nv-footer__signup-fields {
-      min-height: 48px;
-    }
-
-    .nv-footer__signup-button {
-      padding-inline: 14px;
-      font-size: 11px;
-    }
   }
+
 {% endstylesheet %}
 
 {% schema %}
@@ -1064,18 +1086,18 @@
     },
     {
       "type": "header",
-      "content": "Customer care"
+      "content": "Help & Support"
     },
     {
       "type": "text",
       "id": "help_heading",
       "label": "Heading",
-      "default": "Customer care"
+      "default": "Help & Support"
     },
     {
       "type": "link_list",
       "id": "help_menu",
-      "label": "Customer care menu"
+      "label": "Help & Support menu"
     },
     {
       "type": "url",
