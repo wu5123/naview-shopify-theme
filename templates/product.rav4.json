@@ -1,0 +1,7 @@
+/* Auto-generated Shopify template. */
+{
+  "sections": {
+    "main": { "type": "naview-rav4-product", "settings": {} }
+  },
+  "order": ["main"]
+}
