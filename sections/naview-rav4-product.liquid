@@ -1,18 +1,21 @@
-{% assign product_media = product.featured_media | default: section.settings.fallback_image %}
+{% assign rav4_product = section.settings.rav4_product %}
+{% if rav4_product == blank and product != blank %}{% assign rav4_product = product %}{% endif %}
+{% if rav4_product == blank and collection.products.first != blank %}{% assign rav4_product = collection.products.first %}{% endif %}
+{% assign product_media = rav4_product.featured_media | default: section.settings.fallback_image %}
 <section class="naview-rav4" data-rav4-section="{{ section.id }}">
   <div class="naview-rav4__purchase page-width">
     <div class="naview-rav4__media">
       {% if product_media %}
-        {{ product_media | image_url: width: 1600 | image_tag: loading: 'eager', widths: '600, 900, 1200, 1600', alt: product.title }}
+        {{ product_media | image_url: width: 1600 | image_tag: loading: 'eager', widths: '600, 900, 1200, 1600', alt: 'Toyota RAV4' }}
       {% else %}
         <div class="naview-rav4__placeholder">Toyota RAV4<br>Custom-Fit Mirror</div>
       {% endif %}
     </div>
     <div class="naview-rav4__panel">
       <p class="naview-rav4__eyebrow">NAVIEW DIGITAL REAR MIRROR</p>
-      <h1>{{ product.title | default: 'Toyota RAV4' }}</h1>
+      <h1>Toyota RAV4</h1>
       <div class="naview-rav4__year"><label for="rav4-year-{{ section.id }}">Select model year</label><select id="rav4-year-{{ section.id }}" data-year-select>
-        <option value="{{ product.url }}?view=rav4">2022–2024</option>
+        <option value="/collections/all?view=rav4">2022–2024</option>
         {% if section.settings.year_2019_product != blank %}<option value="{{ section.settings.year_2019_product.url }}?view=rav4">2019–2021</option>{% endif %}
         {% if section.settings.year_2025_product != blank %}<option value="{{ section.settings.year_2025_product.url }}?view=rav4">2025+</option>{% endif %}
       </select></div>
@@ -21,8 +24,8 @@
       <ul class="naview-rav4__specs"><li>9.66" IPS Touchscreen · 1920 × 480 · 1,500-Nit Peak Brightness</li><li>Fully Laminated Display with Touchscreen and Physical Button Controls</li><li>Front 2MP MIS2031 Sensor · 140° Ultra-Wide Lens</li><li>Rear 2MP MIS2031 Sensor · 140° Ultra-Wide Lens</li><li>WDR · 1080P Recording at 25fps · IP68 Waterproof Protection</li></ul>
       <h2>Select Option</h2>
       <form method="post" action="/cart/add" data-rav4-form>
-        <label class="naview-rav4__option"><input type="radio" name="id" value="{{ product.selected_or_first_available_variant.id }}" checked data-option data-option-price="500"><span><b>Custom-Fit for Toyota RAV4</b><small>Vehicle-specific mirror system</small></span><strong>CAD $500</strong></label>
-        <label class="naview-rav4__option"><input type="radio" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-option data-option-price="700"><span><b>Custom-Fit for Toyota RAV4 + Installation Service</b><small>Professional installation included</small></span><strong>CAD $700</strong></label>
+        <label class="naview-rav4__option"><input type="radio" name="id" value="{{ rav4_product.selected_or_first_available_variant.id }}" checked data-option data-option-price="500"><span><b>Custom-Fit for Toyota RAV4</b><small>Vehicle-specific mirror system</small></span><strong>CAD $500</strong></label>
+        <label class="naview-rav4__option"><input type="radio" name="id" value="{{ rav4_product.selected_or_first_available_variant.id }}" data-option data-option-price="700"><span><b>Custom-Fit for Toyota RAV4 + Installation Service</b><small>Professional installation included</small></span><strong>CAD $700</strong></label>
         <button class="naview-rav4__cart" type="submit">Add to Cart</button>
       </form>
     </div>
@@ -44,4 +47,4 @@
 <script>
 (()=>{const root=document.querySelector('[data-rav4-section="{{ section.id }}"]');if(!root)return;root.querySelector('[data-year-select]')?.addEventListener('change',e=>location.href=e.target.value);root.querySelectorAll('[data-option]').forEach(input=>input.addEventListener('change',()=>root.querySelector('[data-price]').textContent='CAD $'+input.dataset.optionPrice));const video=root.querySelector('video'),sound=root.querySelector('[data-sound]');if(video){const start=()=>{video.muted=false;video.play().catch(()=>{video.muted=true;video.play();sound.hidden=false})};new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&start()),{threshold:.45}).observe(video);sound?.addEventListener('click',()=>{video.muted=false;video.play();sound.hidden=true})}})();
 </script>
-{% schema %}{"name":"Naview RAV4 product","settings":[{"type":"product","id":"year_2019_product","label":"2019–2021 product"},{"type":"product","id":"year_2025_product","label":"2025+ product"},{"type":"image_picker","id":"fallback_image","label":"Fallback product image"},{"type":"video","id":"installation_video","label":"Installation video"},{"type":"image_picker","id":"poster_1","label":"Poster 1"},{"type":"image_picker","id":"poster_2","label":"Poster 2"},{"type":"image_picker","id":"poster_3","label":"Poster 3"},{"type":"image_picker","id":"poster_4","label":"Poster 4"},{"type":"image_picker","id":"poster_5","label":"Poster 5"},{"type":"image_picker","id":"poster_6","label":"Poster 6"}]}{% endschema %}
+{% schema %}{"name":"Naview RAV4 product","settings":[{"type":"product","id":"rav4_product","label":"Toyota RAV4 product"},{"type":"product","id":"year_2019_product","label":"2019–2021 product"},{"type":"product","id":"year_2025_product","label":"2025+ product"},{"type":"image_picker","id":"fallback_image","label":"Fallback product image"},{"type":"video","id":"installation_video","label":"Installation video"},{"type":"image_picker","id":"poster_1","label":"Poster 1"},{"type":"image_picker","id":"poster_2","label":"Poster 2"},{"type":"image_picker","id":"poster_3","label":"Poster 3"},{"type":"image_picker","id":"poster_4","label":"Poster 4"},{"type":"image_picker","id":"poster_5","label":"Poster 5"},{"type":"image_picker","id":"poster_6","label":"Poster 6"}]}{% endschema %}
