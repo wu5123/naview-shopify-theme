@@ -1,0 +1,47 @@
+{% assign product_media = product.featured_media | default: section.settings.fallback_image %}
+<section class="naview-rav4" data-rav4-section="{{ section.id }}">
+  <div class="naview-rav4__purchase page-width">
+    <div class="naview-rav4__media">
+      {% if product_media %}
+        {{ product_media | image_url: width: 1600 | image_tag: loading: 'eager', widths: '600, 900, 1200, 1600', alt: product.title }}
+      {% else %}
+        <div class="naview-rav4__placeholder">Toyota RAV4<br>Custom-Fit Mirror</div>
+      {% endif %}
+    </div>
+    <div class="naview-rav4__panel">
+      <p class="naview-rav4__eyebrow">NAVIEW DIGITAL REAR MIRROR</p>
+      <h1>{{ product.title | default: 'Toyota RAV4' }}</h1>
+      <div class="naview-rav4__year"><label for="rav4-year-{{ section.id }}">Select model year</label><select id="rav4-year-{{ section.id }}" data-year-select>
+        <option value="{{ product.url }}?view=rav4">2022–2024</option>
+        {% if section.settings.year_2019_product != blank %}<option value="{{ section.settings.year_2019_product.url }}?view=rav4">2019–2021</option>{% endif %}
+        {% if section.settings.year_2025_product != blank %}<option value="{{ section.settings.year_2025_product.url }}?view=rav4">2025+</option>{% endif %}
+      </select></div>
+      <p class="naview-rav4__price" data-price>CAD $500</p>
+      <ul class="naview-rav4__shipping"><li>Free Shipping</li><li>Free Fast Delivery Upgrade</li><li>Up to 30-Day Returns</li><li>One-Year Limited Warranty</li></ul>
+      <ul class="naview-rav4__specs"><li>9.66" IPS Touchscreen · 1920 × 480 · 1,500-Nit Peak Brightness</li><li>Fully Laminated Display with Touchscreen and Physical Button Controls</li><li>Front 2MP MIS2031 Sensor · 140° Ultra-Wide Lens</li><li>Rear 2MP MIS2031 Sensor · 140° Ultra-Wide Lens</li><li>WDR · 1080P Recording at 25fps · IP68 Waterproof Protection</li></ul>
+      <h2>Select Option</h2>
+      <form method="post" action="/cart/add" data-rav4-form>
+        <label class="naview-rav4__option"><input type="radio" name="id" value="{{ product.selected_or_first_available_variant.id }}" checked data-option data-option-price="500"><span><b>Custom-Fit for Toyota RAV4</b><small>Vehicle-specific mirror system</small></span><strong>CAD $500</strong></label>
+        <label class="naview-rav4__option"><input type="radio" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-option data-option-price="700"><span><b>Custom-Fit for Toyota RAV4 + Installation Service</b><small>Professional installation included</small></span><strong>CAD $700</strong></label>
+        <button class="naview-rav4__cart" type="submit">Add to Cart</button>
+      </form>
+    </div>
+  </div>
+  <div class="naview-rav4__guide page-width">
+    <h2>Installation Guide</h2>
+    <div class="naview-rav4__video">
+      {% if section.settings.installation_video != blank %}{{ section.settings.installation_video | video_tag: controls: true, loop: true, playsinline: true, preload: 'metadata', class: 'naview-rav4__video-element' }}{% else %}<div class="naview-rav4__video-empty">Upload your installation video here</div>{% endif %}
+      <button type="button" class="naview-rav4__sound" hidden data-sound>Turn sound on</button>
+    </div>
+  </div>
+  <div class="naview-rav4__mosaic page-width" aria-label="Product poster gallery">
+    {% for i in (1..6) %}{% assign key = 'poster_' | append: i %}{% assign image = section.settings[key] %}<div class="naview-rav4__tile tile-{{ i }}">{% if image != blank %}{{ image | image_url: width: 1200 | image_tag: loading: 'lazy' }}{% else %}<span>Poster {{ i }}</span>{% endif %}</div>{% endfor %}
+  </div>
+</section>
+<style>
+.naview-rav4{background:#fff;color:#1d1d1f}.naview-rav4__purchase{display:grid;grid-template-columns:minmax(0,1.16fr) minmax(380px,.84fr);gap:56px;padding-top:56px;padding-bottom:86px}.naview-rav4__media{background:#f6f7f8;min-height:580px;display:grid;place-items:center}.naview-rav4__media img{width:100%;height:100%;object-fit:contain}.naview-rav4__placeholder,.naview-rav4__video-empty{color:#777;text-align:center;font-size:16px}.naview-rav4__panel{max-width:515px}.naview-rav4__eyebrow{font-size:12px;letter-spacing:.1em;margin:3px 0 16px}.naview-rav4 h1{font-size:36px;line-height:1.15;margin:0 0 22px}.naview-rav4 h2{font-size:18px;margin:32px 0 15px}.naview-rav4__year label{display:block;font-size:14px;margin-bottom:9px}.naview-rav4 select{width:100%;height:48px;border:1px solid #d7d7d7;background:#fff;padding:0 14px;font:inherit}.naview-rav4__price{font-size:26px;font-weight:600;margin:22px 0}.naview-rav4__shipping,.naview-rav4__specs{padding:15px 0;margin:0;border-top:1px solid #e6e6e6;display:flex;gap:12px;flex-wrap:wrap;list-style:none}.naview-rav4__shipping li{font-size:13px;padding-right:12px;border-right:1px solid #d8d8d8}.naview-rav4__specs{display:block;border-bottom:1px solid #e6e6e6}.naview-rav4__specs li{font-size:14px;line-height:1.45;padding:7px 0}.naview-rav4__option{display:grid;grid-template-columns:20px 1fr auto;gap:12px;padding:18px;border:1px solid #d9d9d9;margin:8px 0;cursor:pointer}.naview-rav4__option:has(input:checked){border:2px solid #111;padding:17px}.naview-rav4__option b,.naview-rav4__option strong{font-size:15px}.naview-rav4__option small{display:block;color:#666;margin-top:5px}.naview-rav4__cart{width:100%;border:0;background:#111;color:#fff;height:54px;font-weight:600;margin-top:18px}.naview-rav4__guide{padding-bottom:28px}.naview-rav4__guide h2{font-size:28px}.naview-rav4__video{aspect-ratio:16/7;background:#111;position:relative}.naview-rav4__video video{width:100%;height:100%;object-fit:cover}.naview-rav4__sound{position:absolute;right:16px;bottom:16px;background:#fff;border:0;padding:10px 14px}.naview-rav4__mosaic{display:grid;grid-template-columns:1.25fr .9fr 1.1fr;grid-template-rows:230px 230px;gap:10px;padding-bottom:80px}.naview-rav4__tile{background:#f3f4f5;overflow:hidden;display:grid;place-items:center;color:#999}.naview-rav4__tile img{width:100%;height:100%;object-fit:cover}.tile-1{grid-row:span 2}.tile-4{grid-column:span 2}@media(max-width:749px){.naview-rav4__purchase{grid-template-columns:1fr;gap:28px;padding-top:24px}.naview-rav4__media{min-height:360px}.naview-rav4 h1{font-size:30px}.naview-rav4__mosaic{grid-template-columns:1fr 1fr;grid-template-rows:170px 170px 170px}.tile-1{grid-row:span 2}.tile-4{grid-column:span 1}}
+</style>
+<script>
+(()=>{const root=document.querySelector('[data-rav4-section="{{ section.id }}"]');if(!root)return;root.querySelector('[data-year-select]')?.addEventListener('change',e=>location.href=e.target.value);root.querySelectorAll('[data-option]').forEach(input=>input.addEventListener('change',()=>root.querySelector('[data-price]').textContent='CAD $'+input.dataset.optionPrice));const video=root.querySelector('video'),sound=root.querySelector('[data-sound]');if(video){const start=()=>{video.muted=false;video.play().catch(()=>{video.muted=true;video.play();sound.hidden=false})};new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&start()),{threshold:.45}).observe(video);sound?.addEventListener('click',()=>{video.muted=false;video.play();sound.hidden=true})}})();
+</script>
+{% schema %}{"name":"Naview RAV4 product","settings":[{"type":"product","id":"year_2019_product","label":"2019–2021 product"},{"type":"product","id":"year_2025_product","label":"2025+ product"},{"type":"image_picker","id":"fallback_image","label":"Fallback product image"},{"type":"video","id":"installation_video","label":"Installation video"},{"type":"image_picker","id":"poster_1","label":"Poster 1"},{"type":"image_picker","id":"poster_2","label":"Poster 2"},{"type":"image_picker","id":"poster_3","label":"Poster 3"},{"type":"image_picker","id":"poster_4","label":"Poster 4"},{"type":"image_picker","id":"poster_5","label":"Poster 5"},{"type":"image_picker","id":"poster_6","label":"Poster 6"}]}{% endschema %}
