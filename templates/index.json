@@ -9,6 +9,22 @@
  */
 {
   "sections": {
+    "premium_mirror_hero_VAAe94": {
+      "type": "premium-mirror-hero",
+      "name": "Premium mirror hero",
+      "settings": {
+        "hero_video": "shopify://files/videos/微信视频2026-07-31_125901_453.mp4",
+        "poster_image": "shopify://shop_images/ChatGPT_Image_2026_7_29_23_20_35_1.png",
+        "video_position": "50% 50%",
+        "mobile_video_position": "50% 50%",
+        "primary_link": "",
+        "secondary_link": "https://wa.me/16137969403",
+        "hero_desktop_height": 640,
+        "hero_mobile_height": 680,
+        "video_overlay": 20,
+        "hero_text_color": "#ffffff"
+      }
+    },
     "naview_vehicle_cards_YKKEUX": {
       "type": "naview-vehicle-cards",
       "blocks": {
@@ -100,6 +116,7 @@
     }
   },
   "order": [
+    "premium_mirror_hero_VAAe94",
     "naview_vehicle_cards_YKKEUX",
     "naview_video_showcase_bKkRBN",
     "naview_long_poster_BrRz7Y"
