@@ -32,13 +32,17 @@
       {% for block in section.blocks %}
         {% liquid
           assign vehicle_title = block.settings.title
+          assign vehicle_link = block.settings.link
+          if vehicle_title == 'Toyota RAV4' and vehicle_link == blank
+            assign vehicle_link = '/products/toyota-rav4?view=rav4'
+          endif
         %}
 
         <article class="naview-model-card" role="listitem" {{ block.shopify_attributes }}>
-          {% if block.settings.link != blank %}
+          {% if vehicle_link != blank %}
             <a
               class="naview-model-card__link"
-              href="{{ block.settings.link }}"
+              href="{{ vehicle_link }}"
               aria-label="{{ 'View details for ' | append: vehicle_title | escape }}"
             >
           {% else %}
@@ -93,7 +97,7 @@
             </span>
           </div>
 
-          {% if block.settings.link != blank %}
+          {% if vehicle_link != blank %}
             </a>
           {% else %}
             </div>
