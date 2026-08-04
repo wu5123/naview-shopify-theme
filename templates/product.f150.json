@@ -4,7 +4,7 @@
     "main": {
       "type": "naview-vehicle-product",
       "settings": {
-        "fallback_image": "shopify://shop_images/toyota-rav4-2026.png"
+        "fallback_image": "shopify://shop_images/ford-f150-2026.png"
       }
     }
   },

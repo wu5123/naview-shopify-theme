@@ -43,7 +43,7 @@
             "logo": "shopify://shop_images/honda-logo.png",
             "title": "Honda CR-V",
             "image": "shopify://shop_images/honda-crv-2026.png",
-            "link": ""
+            "link": "shopify://products/honda-cr-v"
           }
         },
         "vehicle_UhG8fQ": {
@@ -52,7 +52,7 @@
             "logo": "shopify://shop_images/lexus-logo.png",
             "title": "Lexus NX",
             "image": "shopify://shop_images/lexus-nx-2026.png",
-            "link": ""
+            "link": "shopify://products/lexus-nx"
           }
         },
         "vehicle_BHYGLm": {
@@ -61,7 +61,7 @@
             "logo": "shopify://shop_images/ford-logo.png",
             "title": "Ford F-150",
             "image": "shopify://shop_images/ford-f150-2026.png",
-            "link": ""
+            "link": "shopify://products/ford-f-150"
           }
         }
       },
