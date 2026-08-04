@@ -34,7 +34,7 @@
             "logo": "shopify://shop_images/toyota-logo.png",
             "title": "Toyota RAV4",
             "image": "shopify://shop_images/toyota-rav4-2026.png",
-            "link": "/products/toyota-rav4"
+            "link": "shopify://products/toyota-rav4"
           }
         },
         "vehicle_Ax6a4K": {
