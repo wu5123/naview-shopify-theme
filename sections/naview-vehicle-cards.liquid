@@ -25,7 +25,7 @@
 
   <div class="naview-models__container">
     <div class="naview-models__heading-row">
-      <h2 class="naview-models__heading">Choose Model</h2>
+      <h2 class="naview-models__heading">{{ section.settings.heading | escape }}</h2>
     </div>
 
     <div class="naview-models__grid" role="list">
@@ -33,9 +33,6 @@
         {% liquid
           assign vehicle_title = block.settings.title
           assign vehicle_link = block.settings.link
-          if vehicle_title == 'Toyota RAV4' and vehicle_link == blank
-            assign vehicle_link = '/products/toyota-rav4?view=rav4'
-          endif
         %}
 
         <article class="naview-model-card" role="listitem" {{ block.shopify_attributes }}>
