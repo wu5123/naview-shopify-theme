@@ -1,31 +1,8 @@
-{% comment %}
-  Naview commercial footer for Shopify Horizon.
-  Replace the contents of sections/footer.liquid with this file.
-
-  This section intentionally keeps Horizon's dynamic footer blocks so the
-  existing email signup remains editable. Horizon's separate footer-utilities
-  section can continue to handle copyright, policies, social links and payment
-  icons without creating duplicates.
-{% endcomment %}
+{% comment %}Naview commercial footer.{% endcomment %}
 
 {% liquid
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
-  endif
-
-  assign total_blocks = section.blocks.size
-  assign grid_columns = total_blocks | at_most: 4
-  assign last_row_count = total_blocks | minus: 1 | modulo: 4 | plus: 1
-  assign tablet_last_row_count = total_blocks | minus: 1 | modulo: 2 | plus: 1
-  assign has_isolated_grid_item_desktop = false
-  assign has_isolated_grid_item_tablet = false
-
-  if total_blocks > 4 and last_row_count == 1
-    assign has_isolated_grid_item_desktop = true
-  endif
-
-  if total_blocks == 5
-    assign has_isolated_grid_item_tablet = true
   endif
 
   assign model_fallback_url = routes.all_products_collection_url
