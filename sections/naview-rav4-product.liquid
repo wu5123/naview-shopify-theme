@@ -2,6 +2,8 @@
   assign rav4_product = product
   assign standard_variant = rav4_product.variants[0]
   assign install_variant = rav4_product.variants[1] | default: standard_variant
+  assign standard_price = standard_variant.price | money_with_currency
+  assign install_price = install_variant.price | money_with_currency
   assign default_vehicle_image = images['toyota-rav4-2026.png']
   assign gallery_1 = section.settings.gallery_1 | default: default_vehicle_image
   assign option_1_image = section.settings.option_image_1 | default: gallery_1
@@ -48,7 +50,7 @@
 
     <aside class="rav4-buy">
       <div class="rav4-buy__inner">
-        <h1>Toyota RAV4</h1>
+        <h1>{{ rav4_product.title | escape }}</h1>
 
         <div class="rav4-year">
           <label for="rav4-year-{{ section.id }}">Select Year</label>
@@ -61,7 +63,7 @@
           </div>
         </div>
 
-        <p class="rav4-price" data-price>CAD $500</p>
+        <p class="rav4-price" data-price>{{ standard_price }}</p>
 
         <div class="rav4-info-card">
           <div class="rav4-info-row rav4-info-row--shipping">
@@ -89,14 +91,14 @@
         <div class="rav4-options">
           <h2>Select Option</h2>
           <label class="rav4-option is-selected">
-            <input type="radio" name="rav4-option-{{ section.id }}" value="{{ standard_variant.id }}" data-option data-price="500" checked>
+            <input type="radio" name="rav4-option-{{ section.id }}" value="{{ standard_variant.id }}" data-option data-price="{{ standard_price | escape }}" data-available="{{ standard_variant.available }}" checked>
             <span class="rav4-option__media">{% if option_1_image != blank %}{{ option_1_image | image_url: width: 320 | image_tag: loading: 'lazy', alt: '' }}{% else %}<span>Photo</span>{% endif %}</span>
-            <span class="rav4-option__copy"><strong>Custom-Fit for Toyota RAV4</strong><b>CAD $500</b><small class="rav4-option__stock">In Stock</small></span>
+            <span class="rav4-option__copy"><strong>Custom-Fit for Toyota RAV4</strong><b>{{ standard_price }}</b><small class="rav4-option__stock">{% if standard_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small></span>
           </label>
           <label class="rav4-option">
-            <input type="radio" name="rav4-option-{{ section.id }}" value="{{ install_variant.id }}" data-option data-price="700">
+            <input type="radio" name="rav4-option-{{ section.id }}" value="{{ install_variant.id }}" data-option data-price="{{ install_price | escape }}" data-available="{{ install_variant.available }}">
             <span class="rav4-option__media">{% if option_2_image != blank %}{{ option_2_image | image_url: width: 320 | image_tag: loading: 'lazy', alt: '' }}{% else %}<span>Photo</span>{% endif %}</span>
-            <span class="rav4-option__copy"><strong>Custom-Fit for Toyota RAV4 + Installation Service</strong><b>CAD $700</b><small class="rav4-option__stock">In Stock</small></span>
+            <span class="rav4-option__copy"><strong>Custom-Fit for Toyota RAV4 + Installation Service</strong><b>{{ install_price }}</b><small class="rav4-option__stock">{% if install_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small></span>
           </label>
         </div>
       </div>
@@ -132,12 +134,12 @@
     <div class="rav4-fixed-buy__inner">
       <div class="rav4-fixed-buy__stock">
         <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3.5 9.5h15v11h-15zM18.5 13h5.5l4.5 5v2.5h-10z" fill="none"/><circle cx="9" cy="23" r="2.5"/><circle cx="23.5" cy="23" r="2.5"/><path d="M5.5 23h1M11.5 23h9.5M26 23h2"/></svg>
-        <span><strong>In Stock</strong><small>Ready to ship</small></span>
+        <span><strong data-bar-stock>{% if standard_variant.available %}In Stock{% else %}Out of Stock{% endif %}</strong><small data-bar-stock-detail>{% if standard_variant.available %}Ready to ship{% else %}Currently unavailable{% endif %}</small></span>
       </div>
       <div class="rav4-fixed-buy__actions">
-        <strong data-bar-price>CAD $500</strong>
-        <form method="post" action="/cart/add"><input type="hidden" name="id" value="{{ standard_variant.id }}" data-variant><button class="rav4-fixed-buy__cart" type="submit" {% if standard_variant == blank %}disabled{% endif %}>Add to Cart</button></form>
-        <form method="post" action="/cart/add"><input type="hidden" name="id" value="{{ standard_variant.id }}" data-variant><input type="hidden" name="return_to" value="/checkout"><button class="rav4-fixed-buy__now" type="submit" {% if standard_variant == blank %}disabled{% endif %}>Buy Now</button></form>
+        <strong data-bar-price>{{ standard_price }}</strong>
+        <form method="post" action="{{ routes.cart_add_url }}"><input type="hidden" name="id" value="{{ standard_variant.id }}" data-variant><button class="rav4-fixed-buy__cart" type="submit" {% unless standard_variant.available %}disabled{% endunless %}>Add to Cart</button></form>
+        <form method="post" action="{{ routes.cart_add_url }}"><input type="hidden" name="id" value="{{ standard_variant.id }}" data-variant><input type="hidden" name="return_to" value="/checkout"><button class="rav4-fixed-buy__now" type="submit" {% unless standard_variant.available %}disabled{% endunless %}>Buy Now</button></form>
       </div>
     </div>
   </div>
@@ -197,9 +199,13 @@
     root.querySelectorAll('[data-option]').forEach((input) => input.addEventListener('change', () => {
       root.querySelectorAll('.rav4-option').forEach((card) => card.classList.remove('is-selected'));
       input.closest('.rav4-option').classList.add('is-selected');
-      root.querySelector('[data-price]').textContent = 'CAD $' + input.dataset.price;
-      root.querySelector('[data-bar-price]').textContent = 'CAD $' + input.dataset.price;
+      const available = input.dataset.available === 'true';
+      root.querySelector('[data-price]').textContent = input.dataset.price;
+      root.querySelector('[data-bar-price]').textContent = input.dataset.price;
+      root.querySelector('[data-bar-stock]').textContent = available ? 'In Stock' : 'Out of Stock';
+      root.querySelector('[data-bar-stock-detail]').textContent = available ? 'Ready to ship' : 'Currently unavailable';
       root.querySelectorAll('[data-variant]').forEach((field) => { field.value = input.value; });
+      root.querySelectorAll('.rav4-fixed-buy__actions button').forEach((button) => { button.disabled = !available; });
     }));
     const guideVideo = root.querySelector('.rav4-video__element');
     const sound = root.querySelector('[data-sound]');
@@ -219,7 +225,6 @@
 {
   "name": "RAV4 Store Product",
   "settings": [
-    {"type":"product","id":"rav4_product","label":"Toyota RAV4 product"},
     {"type":"product","id":"year_2019_product","label":"2019–2021 product"},
     {"type":"product","id":"year_2025_product","label":"2025+ product"},
     {"type":"image_picker","id":"gallery_1","label":"Product image 1"},
