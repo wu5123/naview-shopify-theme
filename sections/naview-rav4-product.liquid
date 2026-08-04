@@ -1,15 +1,12 @@
 {% liquid
-  assign rav4_product = section.settings.rav4_product
-  if rav4_product == blank and product != blank
-    assign rav4_product = product
-  endif
+  assign rav4_product = product
   assign standard_variant = rav4_product.variants[0]
   assign install_variant = rav4_product.variants[1] | default: standard_variant
   assign default_vehicle_image = images['toyota-rav4-2026.png']
   assign gallery_1 = section.settings.gallery_1 | default: default_vehicle_image
   assign option_1_image = section.settings.option_image_1 | default: gallery_1
   assign option_2_image = section.settings.option_image_2 | default: gallery_1
-  assign rav4_page_url = rav4_product.url | append: '?view=rav4'
+  assign rav4_page_url = rav4_product.url
 %}
 
 <section class="rav4-store" data-rav4="{{ section.id }}">
@@ -58,8 +55,8 @@
           <div class="rav4-select-wrap">
             <select id="rav4-year-{{ section.id }}" data-year>
               <option value="{{ rav4_page_url }}">2022–2024</option>
-              <option value="{% if section.settings.year_2019_product != blank %}{{ section.settings.year_2019_product.url }}?view=rav4{% else %}{{ rav4_page_url }}{% endif %}">2019–2021</option>
-              <option value="{% if section.settings.year_2025_product != blank %}{{ section.settings.year_2025_product.url }}?view=rav4{% else %}{{ rav4_page_url }}{% endif %}">2025+</option>
+              <option value="{% if section.settings.year_2019_product != blank %}{{ section.settings.year_2019_product.url }}{% else %}{{ rav4_page_url }}{% endif %}">2019–2021</option>
+              <option value="{% if section.settings.year_2025_product != blank %}{{ section.settings.year_2025_product.url }}{% else %}{{ rav4_page_url }}{% endif %}">2025+</option>
             </select>
           </div>
         </div>
@@ -200,55 +197,8 @@
     root.querySelectorAll('[data-option]').forEach((input) => input.addEventListener('change', () => {
       root.querySelectorAll('.rav4-option').forEach((card) => card.classList.remove('is-selected'));
       input.closest('.rav4-option').classList.add('is-selected');
-      root.querySelector('[data-price]').textContent = 'CAD 
-
-{% schema %}
-{
-  "name": "RAV4 Store Product",
-  "settings": [
-    {"type":"product","id":"rav4_product","label":"Toyota RAV4 product"},
-    {"type":"product","id":"year_2019_product","label":"2019–2021 product"},
-    {"type":"product","id":"year_2025_product","label":"2025+ product"},
-    {"type":"image_picker","id":"gallery_1","label":"Product image 1"},
-    {"type":"image_picker","id":"gallery_2","label":"Product image 2"},
-    {"type":"image_picker","id":"gallery_3","label":"Product image 3"},
-    {"type":"image_picker","id":"gallery_4","label":"Product image 4"},
-    {"type":"video","id":"gallery_video","label":"Product gallery video"},
-    {"type":"image_picker","id":"option_image_1","label":"Standard option image"},
-    {"type":"image_picker","id":"option_image_2","label":"Installation option image"},
-    {"type":"video","id":"installation_video","label":"Installation video"},
-    {"type":"image_picker","id":"poster_1","label":"Poster 1"},
-    {"type":"image_picker","id":"poster_2","label":"Poster 2"},
-    {"type":"image_picker","id":"poster_3","label":"Poster 3"},
-    {"type":"image_picker","id":"poster_4","label":"Poster 4"},
-    {"type":"image_picker","id":"poster_5","label":"Poster 5"},
-    {"type":"image_picker","id":"poster_6","label":"Poster 6"}
-  ]
-}
-{% endschema %} + input.dataset.price;
-      root.querySelector('[data-bar-price]').textContent = 'CAD 
-
-{% schema %}
-{
-  "name": "RAV4 Store Product",
-  "settings": [
-    {"type":"product","id":"rav4_product","label":"Toyota RAV4 product"},
-    {"type":"product","id":"year_2019_product","label":"2019–2021 product"},
-    {"type":"product","id":"year_2025_product","label":"2025+ product"},
-    {"type":"image_picker","id":"gallery_1","label":"Product image 1"},
-    {"type":"image_picker","id":"gallery_2","label":"Product image 2"},
-    {"type":"image_picker","id":"gallery_3","label":"Product image 3"},
-    {"type":"image_picker","id":"gallery_4","label":"Product image 4"},
-    {"type":"video","id":"installation_video","label":"Installation video"},
-    {"type":"image_picker","id":"poster_1","label":"Poster 1"},
-    {"type":"image_picker","id":"poster_2","label":"Poster 2"},
-    {"type":"image_picker","id":"poster_3","label":"Poster 3"},
-    {"type":"image_picker","id":"poster_4","label":"Poster 4"},
-    {"type":"image_picker","id":"poster_5","label":"Poster 5"},
-    {"type":"image_picker","id":"poster_6","label":"Poster 6"}
-  ]
-}
-{% endschema %} + input.dataset.price;
+      root.querySelector('[data-price]').textContent = 'CAD $' + input.dataset.price;
+      root.querySelector('[data-bar-price]').textContent = 'CAD $' + input.dataset.price;
       root.querySelectorAll('[data-variant]').forEach((field) => { field.value = input.value; });
     }));
     const guideVideo = root.querySelector('.rav4-video__element');
@@ -276,6 +226,9 @@
     {"type":"image_picker","id":"gallery_2","label":"Product image 2"},
     {"type":"image_picker","id":"gallery_3","label":"Product image 3"},
     {"type":"image_picker","id":"gallery_4","label":"Product image 4"},
+    {"type":"video","id":"gallery_video","label":"Product gallery video"},
+    {"type":"image_picker","id":"option_image_1","label":"Standard option image"},
+    {"type":"image_picker","id":"option_image_2","label":"Installation option image"},
     {"type":"video","id":"installation_video","label":"Installation video"},
     {"type":"image_picker","id":"poster_1","label":"Poster 1"},
     {"type":"image_picker","id":"poster_2","label":"Poster 2"},
