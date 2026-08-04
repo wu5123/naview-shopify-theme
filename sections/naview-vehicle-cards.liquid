@@ -1,8 +1,4 @@
-{% comment %}
-  Naview — Choose Model v5
-  Add this file to: Online Store > Themes > Edit code > Sections
-  v5: DJI-inspired fixed four-card grid and neutral product styling
-{% endcomment %}
+{% comment %}Naview vehicle model cards.{% endcomment %}
 
 {% liquid
   assign section_dom_id = 'naview-models-' | append: section.id
@@ -109,8 +105,8 @@
   #{{ section_dom_id }} {
     position: relative;
     padding: var(--naview-padding-top) 24px var(--naview-padding-bottom);
-    background: #f5f5f5;
-    color: #111111;
+    background: var(--naview-bg);
+    color: var(--naview-text);
   }
 
   #{{ section_dom_id }} .naview-models__anchor {
@@ -138,7 +134,7 @@
 
   #{{ section_dom_id }} .naview-models__heading {
     margin: 0;
-    color: #111111;
+    color: var(--naview-heading);
     font-family:
       "Open Sans",
       -apple-system,
@@ -255,7 +251,7 @@
   #{{ section_dom_id }} .naview-model-card__title {
     margin: 0;
     overflow: hidden;
-    color: #111111;
+    color: var(--naview-text);
     font-size: clamp(18px, 1.35vw, 22px);
     font-weight: 600;
     line-height: 1.15;
@@ -281,9 +277,9 @@
     justify-content: center;
     width: 38px;
     height: 38px;
-    border: 1px solid #111111;
+    border: 1px solid var(--naview-accent);
     border-radius: 50%;
-    color: #111111;
+    color: var(--naview-accent);
     background: #ffffff;
     transition:
       color 200ms ease,
@@ -298,7 +294,7 @@
 
   #{{ section_dom_id }} .naview-model-card:hover .naview-model-card__arrow {
     color: #ffffff;
-    background: #111111;
+    background: var(--naview-accent);
     transform: translateX(2px);
   }
 
@@ -520,7 +516,7 @@
         {
           "type": "image_picker",
           "id": "logo",
-          "label": "Brand logo（显示在车型名称前）"
+          "label": "Brand logo"
         },
         {
           "type": "text",
