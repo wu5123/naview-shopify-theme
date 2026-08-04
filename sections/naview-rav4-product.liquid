@@ -10,30 +10,44 @@
   assign install_variant = rav4_product.variants[1] | default: standard_variant
   assign default_vehicle_image = images['toyota-rav4-2026.png']
   assign gallery_1 = section.settings.gallery_1 | default: default_vehicle_image
+  assign option_1_image = section.settings.option_image_1 | default: gallery_1
+  assign option_2_image = section.settings.option_image_2 | default: gallery_1
 %}
 
 <section class="rav4-store" data-rav4="{{ section.id }}">
   <div class="rav4-store__product">
     <div class="rav4-gallery">
-      <div class="rav4-gallery__stage">
-        {% if gallery_1 != blank %}
-          {{ gallery_1 | image_url: width: 1800 | image_tag: class: 'rav4-gallery__hero', loading: 'eager', widths: '720, 1080, 1440, 1800', sizes: '(min-width: 990px) 58vw, 100vw', alt: 'Toyota RAV4 custom-fit digital rear mirror' }}
-        {% else %}
-          <div class="rav4-gallery__empty"><strong>Toyota RAV4</strong><span>Upload the primary product image</span></div>
-        {% endif %}
-        <span class="rav4-gallery__counter" data-counter>1 / {% if section.settings.gallery_4 != blank %}4{% elsif section.settings.gallery_3 != blank %}3{% elsif section.settings.gallery_2 != blank %}2{% else %}1{% endif %}</span>
-      </div>
-      <div class="rav4-gallery__thumbs" aria-label="Product gallery">
-        {% for i in (1..4) %}
-          {% assign key = 'gallery_' | append: i %}
-          {% assign gallery_image = section.settings[key] %}
-          {% if i == 1 and gallery_image == blank %}{% assign gallery_image = default_vehicle_image %}{% endif %}
-          {% if gallery_image != blank %}
-            <button class="rav4-gallery__thumb{% if i == 1 %} is-active{% endif %}" type="button" data-gallery-thumb data-index="{{ i }}" data-image="{{ gallery_image | image_url: width: 1800 }}">
-              {{ gallery_image | image_url: width: 180 | image_tag: loading: 'lazy', alt: '' }}
-            </button>
+      <div class="rav4-media-window">
+        <div class="rav4-media-panel is-active" data-media-panel="photos">
+          <div class="rav4-gallery__stage">
+            {% if gallery_1 != blank %}
+              {{ gallery_1 | image_url: width: 1800 | image_tag: class: 'rav4-gallery__hero', loading: 'eager', widths: '720, 1080, 1440, 1800', sizes: '(min-width: 990px) 58vw, 100vw', alt: 'Toyota RAV4 custom-fit digital rear mirror' }}
+            {% else %}
+              <div class="rav4-gallery__empty"><strong>Toyota RAV4</strong><span>Upload the primary product image</span></div>
+            {% endif %}
+            <button class="rav4-gallery__arrow rav4-gallery__arrow--prev" type="button" aria-label="Previous photo" data-gallery-prev>‹</button>
+            <button class="rav4-gallery__arrow rav4-gallery__arrow--next" type="button" aria-label="Next photo" data-gallery-next>›</button>
+            <div class="rav4-gallery__dots" aria-label="Choose product photo">
+              {% for i in (1..4) %}
+                {% assign key = 'gallery_' | append: i %}
+                {% assign gallery_image = section.settings[key] %}
+                {% if i == 1 and gallery_image == blank %}{% assign gallery_image = default_vehicle_image %}{% endif %}
+                {% if gallery_image != blank %}<button type="button" class="{% if i == 1 %}is-active{% endif %}" data-gallery-dot data-image="{{ gallery_image | image_url: width: 1800 }}" aria-label="Photo {{ i }}"></button>{% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="rav4-media-panel" data-media-panel="video" hidden>
+          {% if section.settings.gallery_video != blank %}
+            {{ section.settings.gallery_video | video_tag: controls: true, loop: true, playsinline: true, preload: 'metadata', class: 'rav4-gallery__video' }}
+          {% else %}
+            <div class="rav4-gallery__video-empty"><span>Product Video</span><small>Upload a product video in the theme editor</small></div>
           {% endif %}
-        {% endfor %}
+        </div>
+      </div>
+      <div class="rav4-media-tabs" role="tablist" aria-label="Product media">
+        <button class="is-active" type="button" role="tab" aria-selected="true" data-media-tab="photos"><span class="rav4-media-tabs__photo">▣</span> Photos</button>
+        <button type="button" role="tab" aria-selected="false" data-media-tab="video"><span class="rav4-media-tabs__play">▶</span> Video</button>
       </div>
     </div>
 
@@ -54,40 +68,42 @@
 
         <p class="rav4-price" data-price>CAD $500</p>
 
-        <div class="rav4-benefits" aria-label="Shopping benefits">
-          <div><span class="rav4-benefits__icon">✦</span><span>Free Shipping</span></div>
-          <div><span class="rav4-benefits__icon">↗</span><span>Free Fast-Delivery Upgrade</span></div>
-          <div><span class="rav4-benefits__icon">↩</span><span>Up to 30-Day Returns</span></div>
-        </div>
-
-        <div class="rav4-specs">
-          <div><span>01</span><p>9.66&quot; IPS Touchscreen With 1920 × 480 Resolution and 1,500-Nit Peak Brightness</p></div>
-          <div><span>02</span><p>Fully Laminated Display With Touchscreen and Physical Button Controls</p></div>
-          <div><span>03</span><p>Front 2MP Camera With Automotive-Grade MIS2031 Sensor and 140° Ultra-Wide Lens</p></div>
-          <div><span>04</span><p>Rear 2MP Camera With Automotive-Grade MIS2031 Sensor and 140° Ultra-Wide Lens</p></div>
-          <div><span>05</span><p>WDR, 1080P Recording at 25fps, and IP68 Waterproof Protection</p></div>
+        <div class="rav4-info-card">
+          <div class="rav4-info-row rav4-info-row--shipping">
+            <div class="rav4-info-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32"><path d="M3.5 9.5h15v11h-15zM18.5 13h5.5l4.5 5v2.5h-10z" fill="none"/><circle cx="9" cy="23" r="2.5"/><circle cx="23.5" cy="23" r="2.5"/><path d="M5.5 23h1M11.5 23h9.5M26 23h2"/></svg>
+            </div>
+            <div class="rav4-info-copy"><p>Free Shipping</p><p>Up to 30-Day Returns</p></div>
+            <span class="rav4-info-arrow" aria-hidden="true">›</span>
+          </div>
+          <div class="rav4-info-divider"></div>
+          <div class="rav4-info-row rav4-info-row--specs">
+            <div class="rav4-info-icon rav4-info-icon--chip" aria-hidden="true">
+              <svg viewBox="0 0 32 32"><rect x="8" y="8" width="16" height="16" rx="1"/><rect x="12" y="12" width="8" height="8" fill="none"/><path d="M11 3v5M16 3v5M21 3v5M11 24v5M16 24v5M21 24v5M3 11h5M3 16h5M3 21h5M24 11h5M24 16h5M24 21h5"/></svg>
+            </div>
+            <div class="rav4-info-copy rav4-info-copy--specs">
+              <p>9.66&quot; IPS Touchscreen With 1920 × 480 Resolution and 1,500-Nit Peak Brightness</p>
+              <p>Fully Laminated Display With Touchscreen and Physical Button Controls</p>
+              <p>Front 2MP Camera With Automotive-Grade MIS2031 Sensor and 140° Ultra-Wide Lens</p>
+              <p>Rear 2MP Camera With Automotive-Grade MIS2031 Sensor and 140° Ultra-Wide Lens</p>
+              <p>WDR, 1080P Recording at 25fps, and IP68 Waterproof Protection</p>
+            </div>
+          </div>
         </div>
 
         <div class="rav4-options">
           <h2>Select Option</h2>
           <label class="rav4-option is-selected">
             <input type="radio" name="rav4-option-{{ section.id }}" value="{{ standard_variant.id }}" data-option data-price="500" checked>
-            <span class="rav4-option__radio"></span>
-            <span class="rav4-option__copy"><strong>Custom-Fit for Toyota RAV4</strong><small>Vehicle-specific mirror system</small></span>
-            <b>CAD $500</b>
+            <span class="rav4-option__media">{% if option_1_image != blank %}{{ option_1_image | image_url: width: 320 | image_tag: loading: 'lazy', alt: '' }}{% else %}<span>Photo</span>{% endif %}</span>
+            <span class="rav4-option__copy"><strong>Custom-Fit for Toyota RAV4</strong><b>CAD $500</b><small class="rav4-option__stock">In Stock</small></span>
           </label>
           <label class="rav4-option">
             <input type="radio" name="rav4-option-{{ section.id }}" value="{{ install_variant.id }}" data-option data-price="700">
-            <span class="rav4-option__radio"></span>
-            <span class="rav4-option__copy"><strong>Custom-Fit for Toyota RAV4 + Installation Service</strong><small>Professional installation included</small></span>
-            <b>CAD $700</b>
+            <span class="rav4-option__media">{% if option_2_image != blank %}{{ option_2_image | image_url: width: 320 | image_tag: loading: 'lazy', alt: '' }}{% else %}<span>Photo</span>{% endif %}</span>
+            <span class="rav4-option__copy"><strong>Custom-Fit for Toyota RAV4 + Installation Service</strong><b>CAD $700</b><small class="rav4-option__stock">In Stock</small></span>
           </label>
         </div>
-
-        <form method="post" action="/cart/add" class="rav4-cart" data-cart-form>
-          <input type="hidden" name="id" value="{{ standard_variant.id }}" data-variant>
-          <button type="submit" {% if standard_variant == blank %}disabled{% endif %}>Add to Cart</button>
-        </form>
       </div>
     </aside>
   </div>
@@ -117,6 +133,19 @@
       {% endfor %}
     </div>
   </section>
+  <div class="rav4-fixed-buy" data-fixed-buy>
+    <div class="rav4-fixed-buy__inner">
+      <div class="rav4-fixed-buy__stock">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3.5 9.5h15v11h-15zM18.5 13h5.5l4.5 5v2.5h-10z" fill="none"/><circle cx="9" cy="23" r="2.5"/><circle cx="23.5" cy="23" r="2.5"/><path d="M5.5 23h1M11.5 23h9.5M26 23h2"/></svg>
+        <span><strong>In Stock</strong><small>Ready to ship</small></span>
+      </div>
+      <div class="rav4-fixed-buy__actions">
+        <strong data-bar-price>CAD $500</strong>
+        <form method="post" action="/cart/add"><input type="hidden" name="id" value="{{ standard_variant.id }}" data-variant><button class="rav4-fixed-buy__cart" type="submit" {% if standard_variant == blank %}disabled{% endif %}>Add to Cart</button></form>
+        <form method="post" action="/cart/add"><input type="hidden" name="id" value="{{ standard_variant.id }}" data-variant><input type="hidden" name="return_to" value="/checkout"><button class="rav4-fixed-buy__now" type="submit" {% if standard_variant == blank %}disabled{% endif %}>Buy Now</button></form>
+      </div>
+    </div>
+  </div>
 </section>
 
 <style>
@@ -150,6 +179,34 @@
   .rav4-posters{padding:0 0 90px;background:#fff}.rav4-poster-grid{height:720px;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:1fr 1fr;gap:12px}.rav4-poster{background:#f2f4f5;overflow:hidden;display:grid;place-items:center;color:#9a9da0;font-size:14px}.rav4-poster img{width:100%;height:100%;object-fit:cover}.rav4-poster--1{grid-column:span 5;grid-row:span 2}.rav4-poster--2{grid-column:span 4}.rav4-poster--3{grid-column:span 3}.rav4-poster--4{grid-column:span 3}.rav4-poster--5{grid-column:span 2}.rav4-poster--6{grid-column:span 2}
   @media(max-width:989px){.rav4-store__product{display:block}.rav4-gallery{position:relative;height:auto;min-height:520px;padding:24px 16px}.rav4-gallery__stage{height:420px;flex:none}.rav4-buy{padding:34px 24px 64px}.rav4-buy__inner{width:100%}.rav4-content{width:calc(100% - 32px)}.rav4-poster-grid{height:auto;grid-template-columns:1fr 1fr;grid-template-rows:240px 240px 240px}.rav4-poster--1{grid-row:1/3}.rav4-poster--4{grid-column:auto}.rav4-poster--6{display:grid}}
   @media(max-width:560px){.rav4-gallery{min-height:430px}.rav4-gallery__stage{height:330px}.rav4-buy{padding:28px 18px 52px}.rav4-buy h1{font-size:28px;line-height:34px}.rav4-benefits{height:auto;grid-template-columns:1fr}.rav4-option{grid-template-columns:20px 1fr}.rav4-option>b{grid-column:2}.rav4-guide{padding-top:56px}.rav4-guide h2{font-size:27px}.rav4-video{aspect-ratio:16/10}.rav4-poster-grid{grid-template-columns:1fr;grid-template-rows:repeat(6,260px)}.rav4-poster--1{grid-row:auto}.rav4-poster--6{display:grid}}
+
+  .rav4-store{padding-bottom:104px}
+  .rav4-gallery{padding:0 28px 20px;background:#fff;justify-content:flex-start}
+  .rav4-media-window{flex:1;min-height:0;background:#f4f5f6;display:grid}
+  .rav4-media-panel{min-height:0;height:100%}.rav4-media-panel[hidden]{display:none}.rav4-media-panel.is-active{display:block}
+  .rav4-gallery__stage{height:100%;min-height:620px;background:#f4f5f6}
+  .rav4-gallery__hero{max-height:none;padding:48px;object-fit:contain}
+  .rav4-gallery__arrow{position:absolute;top:50%;transform:translateY(-50%);width:54px;height:54px;border:0;border-radius:50%;background:rgba(67,71,82,.48);color:#fff;font-size:38px;line-height:48px;cursor:pointer;z-index:2}.rav4-gallery__arrow--prev{left:24px}.rav4-gallery__arrow--next{right:24px}
+  .rav4-gallery__dots{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;gap:10px}.rav4-gallery__dots button{width:10px;height:10px;border:0;border-radius:50%;padding:0;background:#c9ccd0}.rav4-gallery__dots button.is-active{background:#25272a}
+  .rav4-gallery__thumbs,.rav4-gallery__counter{display:none}
+  .rav4-gallery__video,.rav4-gallery__video-empty{width:100%;height:100%;min-height:620px;object-fit:contain;background:#0b0c0d}.rav4-gallery__video-empty{display:grid;place-content:center;text-align:center;color:#fff;gap:9px}.rav4-gallery__video-empty span{font-size:24px}.rav4-gallery__video-empty small{color:#a9adb0}
+  .rav4-media-tabs{height:74px;display:flex;align-items:center;justify-content:center;gap:18px;background:#fff}.rav4-media-tabs button{height:46px;border:0;border-radius:25px;background:transparent;color:#3a3d40;padding:0 22px;font-size:17px;display:flex;align-items:center;gap:9px;cursor:pointer}.rav4-media-tabs button.is-active{background:#242628;color:#fff}.rav4-media-tabs__play{font-size:14px}
+  .rav4-benefits,.rav4-specs{display:none}
+  .rav4-info-card{background:#f4f6f7;border-radius:12px;overflow:hidden;margin-top:8px}
+  .rav4-info-row{display:grid;grid-template-columns:34px 1fr 18px;gap:12px;padding:20px 26px}.rav4-info-row--specs{grid-template-columns:34px 1fr;padding-top:22px;padding-bottom:24px}
+  .rav4-info-icon{width:28px;height:28px;color:#626669}.rav4-info-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.9;fill:currentColor;stroke-linecap:round;stroke-linejoin:round}.rav4-info-icon--chip svg{stroke-width:1.7}
+  .rav4-info-copy p{font-size:15px;line-height:22px;margin:0 0 6px}.rav4-info-copy p:last-child{margin-bottom:0}.rav4-info-copy--specs p{margin-bottom:9px}.rav4-info-arrow{font-size:30px;color:#555;align-self:center}.rav4-info-divider{height:1px;background:#dfe2e4}
+  .rav4-options{margin-top:34px}.rav4-options h2{font-size:24px;line-height:30px;margin-bottom:22px}
+  .rav4-option,.rav4-option.is-selected{min-height:158px;border:1px solid #d4d7d9;border-radius:10px;padding:20px 22px;display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center;margin-bottom:12px;background:#fff}
+  .rav4-option.is-selected{border:2px solid #006eff;padding:19px 21px}.rav4-option input{position:absolute;opacity:0}.rav4-option__radio{display:none}
+  .rav4-option__media{width:112px;height:112px;display:grid;place-items:center;background:#f7f8f9;overflow:hidden;color:#999;font-size:12px}.rav4-option__media img{width:100%;height:100%;object-fit:contain}
+  .rav4-option__copy{align-self:stretch;display:flex;flex-direction:column;justify-content:center}.rav4-option__copy strong{font-size:18px;line-height:25px}.rav4-option__copy b{display:block;font-size:17px;line-height:23px;margin-top:8px;font-weight:500}.rav4-option__copy small.rav4-option__stock{display:block;margin-top:auto;padding-top:10px;font-size:14px;line-height:18px;color:#167b42;font-weight:600}
+  .rav4-cart{display:none!important}
+  .rav4-fixed-buy{position:fixed;left:0;right:0;bottom:0;height:104px;background:#fff;border-top:1px solid #e3e5e7;box-shadow:0 -6px 22px rgba(0,0,0,.07);z-index:1000}
+  .rav4-fixed-buy__inner{width:min(1348px,calc(100% - 48px));height:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between}.rav4-fixed-buy__stock{display:flex;align-items:center;gap:14px}.rav4-fixed-buy__stock svg{width:30px;height:30px;stroke:#626669;stroke-width:1.8;fill:#626669}.rav4-fixed-buy__stock span{display:flex;flex-direction:column;gap:5px}.rav4-fixed-buy__stock strong{font-size:16px}.rav4-fixed-buy__stock small{font-size:13px;color:#6c7073}
+  .rav4-fixed-buy__actions{display:flex;align-items:center;gap:12px}.rav4-fixed-buy__actions>strong{font-size:23px;margin-right:14px}.rav4-fixed-buy__actions form{margin:0}.rav4-fixed-buy__actions button{height:50px;min-width:172px;border:0;border-radius:26px;font-size:16px;cursor:pointer}.rav4-fixed-buy__cart{background:#e0ecff;color:#0060ef}.rav4-fixed-buy__now{background:#0060ef;color:#fff}.rav4-fixed-buy__actions button:disabled{opacity:.45}
+  @media(max-width:989px){.rav4-gallery{padding:0 16px}.rav4-media-window{min-height:460px}.rav4-gallery__stage,.rav4-gallery__video,.rav4-gallery__video-empty{min-height:460px}.rav4-gallery__hero{padding:28px}.rav4-fixed-buy__inner{width:calc(100% - 24px)}.rav4-fixed-buy__stock small{display:none}.rav4-fixed-buy__actions>strong{font-size:18px;margin-right:0}.rav4-fixed-buy__actions button{min-width:118px;padding:0 16px}.rav4-option,.rav4-option.is-selected{grid-template-columns:94px 1fr}.rav4-option__media{width:88px;height:88px}}
+  @media(max-width:620px){.rav4-store{padding-bottom:118px}.rav4-fixed-buy{height:118px}.rav4-fixed-buy__inner{align-items:flex-start;padding:12px 0;display:grid;grid-template-columns:1fr auto}.rav4-fixed-buy__stock{grid-row:1}.rav4-fixed-buy__stock svg{width:23px;height:23px}.rav4-fixed-buy__stock strong{font-size:13px}.rav4-fixed-buy__actions{grid-column:1/3;display:grid;grid-template-columns:1fr 1fr}.rav4-fixed-buy__actions>strong{position:absolute;right:12px;top:15px}.rav4-fixed-buy__actions button{width:100%;min-width:0;height:48px}.rav4-option,.rav4-option.is-selected{grid-template-columns:76px 1fr;min-height:132px;padding:15px}.rav4-option.is-selected{padding:14px}.rav4-option__media{width:70px;height:70px}.rav4-option__copy strong{font-size:15px;line-height:21px}.rav4-option__copy b{font-size:15px}.rav4-gallery__arrow{width:44px;height:44px;font-size:30px}.rav4-info-row{padding-left:18px;padding-right:18px}}
 </style>
 
 <script>
@@ -157,37 +214,90 @@
     const root = document.querySelector('[data-rav4="{{ section.id }}"]');
     if (!root) return;
     const hero = root.querySelector('.rav4-gallery__hero');
-    const counter = root.querySelector('[data-counter]');
-    root.querySelectorAll('[data-gallery-thumb]').forEach((button) => {
-      button.addEventListener('click', () => {
-        root.querySelectorAll('[data-gallery-thumb]').forEach((item) => item.classList.remove('is-active'));
-        button.classList.add('is-active');
-        if (hero) {
-          hero.style.opacity = '0';
-          setTimeout(() => { hero.src = button.dataset.image; hero.srcset = ''; hero.style.opacity = '1'; }, 140);
-        }
-        if (counter) counter.textContent = button.dataset.index + ' / ' + root.querySelectorAll('[data-gallery-thumb]').length;
-      });
-    });
+    const dots = [...root.querySelectorAll('[data-gallery-dot]')];
+    let photoIndex = 0;
+    const showPhoto = (index) => {
+      if (!dots.length || !hero) return;
+      photoIndex = (index + dots.length) % dots.length;
+      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === photoIndex));
+      hero.style.opacity = '0';
+      setTimeout(() => { hero.src = dots[photoIndex].dataset.image; hero.srcset = ''; hero.style.opacity = '1'; }, 130);
+    };
+    dots.forEach((dot, i) => dot.addEventListener('click', () => showPhoto(i)));
+    root.querySelector('[data-gallery-prev]')?.addEventListener('click', () => showPhoto(photoIndex - 1));
+    root.querySelector('[data-gallery-next]')?.addEventListener('click', () => showPhoto(photoIndex + 1));
+    root.querySelectorAll('[data-media-tab]').forEach((tab) => tab.addEventListener('click', () => {
+      const mode = tab.dataset.mediaTab;
+      root.querySelectorAll('[data-media-tab]').forEach((item) => { item.classList.toggle('is-active', item === tab); item.setAttribute('aria-selected', item === tab ? 'true' : 'false'); });
+      root.querySelectorAll('[data-media-panel]').forEach((panel) => { const active = panel.dataset.mediaPanel === mode; panel.hidden = !active; panel.classList.toggle('is-active', active); });
+      const galleryVideo = root.querySelector('.rav4-gallery__video');
+      if (galleryVideo) { if (mode === 'video') galleryVideo.play().catch(() => {}); else galleryVideo.pause(); }
+    }));
     root.querySelector('[data-year]')?.addEventListener('change', (event) => { window.location.href = event.target.value; });
-    root.querySelectorAll('[data-option]').forEach((input) => {
-      input.addEventListener('change', () => {
-        root.querySelectorAll('.rav4-option').forEach((card) => card.classList.remove('is-selected'));
-        input.closest('.rav4-option').classList.add('is-selected');
-        root.querySelector('[data-price]').textContent = 'CAD $' + input.dataset.price;
-        root.querySelector('[data-variant]').value = input.value;
-      });
-    });
-    const video = root.querySelector('video');
+    root.querySelectorAll('[data-option]').forEach((input) => input.addEventListener('change', () => {
+      root.querySelectorAll('.rav4-option').forEach((card) => card.classList.remove('is-selected'));
+      input.closest('.rav4-option').classList.add('is-selected');
+      root.querySelector('[data-price]').textContent = 'CAD 
+
+{% schema %}
+{
+  "name": "RAV4 Store Product",
+  "settings": [
+    {"type":"product","id":"rav4_product","label":"Toyota RAV4 product"},
+    {"type":"product","id":"year_2019_product","label":"2019–2021 product"},
+    {"type":"product","id":"year_2025_product","label":"2025+ product"},
+    {"type":"image_picker","id":"gallery_1","label":"Product image 1"},
+    {"type":"image_picker","id":"gallery_2","label":"Product image 2"},
+    {"type":"image_picker","id":"gallery_3","label":"Product image 3"},
+    {"type":"image_picker","id":"gallery_4","label":"Product image 4"},
+    {"type":"video","id":"gallery_video","label":"Product gallery video"},
+    {"type":"image_picker","id":"option_image_1","label":"Standard option image"},
+    {"type":"image_picker","id":"option_image_2","label":"Installation option image"},
+    {"type":"video","id":"installation_video","label":"Installation video"},
+    {"type":"image_picker","id":"poster_1","label":"Poster 1"},
+    {"type":"image_picker","id":"poster_2","label":"Poster 2"},
+    {"type":"image_picker","id":"poster_3","label":"Poster 3"},
+    {"type":"image_picker","id":"poster_4","label":"Poster 4"},
+    {"type":"image_picker","id":"poster_5","label":"Poster 5"},
+    {"type":"image_picker","id":"poster_6","label":"Poster 6"}
+  ]
+}
+{% endschema %} + input.dataset.price;
+      root.querySelector('[data-bar-price]').textContent = 'CAD 
+
+{% schema %}
+{
+  "name": "RAV4 Store Product",
+  "settings": [
+    {"type":"product","id":"rav4_product","label":"Toyota RAV4 product"},
+    {"type":"product","id":"year_2019_product","label":"2019–2021 product"},
+    {"type":"product","id":"year_2025_product","label":"2025+ product"},
+    {"type":"image_picker","id":"gallery_1","label":"Product image 1"},
+    {"type":"image_picker","id":"gallery_2","label":"Product image 2"},
+    {"type":"image_picker","id":"gallery_3","label":"Product image 3"},
+    {"type":"image_picker","id":"gallery_4","label":"Product image 4"},
+    {"type":"video","id":"installation_video","label":"Installation video"},
+    {"type":"image_picker","id":"poster_1","label":"Poster 1"},
+    {"type":"image_picker","id":"poster_2","label":"Poster 2"},
+    {"type":"image_picker","id":"poster_3","label":"Poster 3"},
+    {"type":"image_picker","id":"poster_4","label":"Poster 4"},
+    {"type":"image_picker","id":"poster_5","label":"Poster 5"},
+    {"type":"image_picker","id":"poster_6","label":"Poster 6"}
+  ]
+}
+{% endschema %} + input.dataset.price;
+      root.querySelectorAll('[data-variant]').forEach((field) => { field.value = input.value; });
+    }));
+    const guideVideo = root.querySelector('.rav4-video__element');
     const sound = root.querySelector('[data-sound]');
-    if (video) {
+    if (guideVideo) {
       const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
-        if (!entry.isIntersecting) { video.pause(); return; }
-        video.muted = false;
-        video.play().catch(() => { video.muted = true; video.play(); if (sound) sound.hidden = false; });
+        if (!entry.isIntersecting) { guideVideo.pause(); return; }
+        guideVideo.muted = false;
+        guideVideo.play().catch(() => { guideVideo.muted = true; guideVideo.play(); if (sound) sound.hidden = false; });
       }), { threshold: .45 });
-      observer.observe(video);
-      sound?.addEventListener('click', () => { video.muted = false; video.play(); sound.hidden = true; });
+      observer.observe(guideVideo);
+      sound?.addEventListener('click', () => { guideVideo.muted = false; guideVideo.play(); sound.hidden = true; });
     }
   })();
 </script>
