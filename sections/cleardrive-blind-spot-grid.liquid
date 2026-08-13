@@ -60,9 +60,14 @@
             alt: 'Cleardrive feature poster'
         }}
       {% else %}
-        <div class="cleardrive-blind-spot-grid__placeholder" aria-label="Add poster 3 in the theme editor">
-          {{ 'image' | placeholder_svg_tag }}
-        </div>
+        <img
+          class="cleardrive-blind-spot-grid__image"
+          src="{{ 'cleardrive-night-split-view-comparison.png' | asset_url }}"
+          alt="A conventional rear-view mirror overwhelmed by night glare compared with a clear Cleardrive split-screen display"
+          width="1254"
+          height="1254"
+          loading="lazy"
+        >
       {% endif %}
     </article>
   </div>
