@@ -1,12 +1,12 @@
 {% comment %}
-  Naview — full-width Shopify video product feature
+  Cleardrive — full-width Shopify video product feature
   Upload the video directly in the Shopify theme editor.
 {% endcomment %}
 
 {% liquid
   assign section_dom_id = 'naview-video-' | append: section.id
   assign showcase_video = section.settings.showcase_video
-  assign buy_now_url = section.settings.buy_now_link | default: '#naview-models'
+  assign buy_now_url = section.settings.buy_now_link | default: '#cleardrive-models'
 %}
 
 <section
@@ -403,7 +403,7 @@
 
 {% schema %}
 {
-  "name": "Naview video feature",
+  "name": "Cleardrive video feature",
   "tag": "section",
   "class": "section-naview-video",
   "settings": [
@@ -464,7 +464,7 @@
   ],
   "presets": [
     {
-      "name": "Naview video feature"
+      "name": "Cleardrive video feature"
     }
   ]
 }

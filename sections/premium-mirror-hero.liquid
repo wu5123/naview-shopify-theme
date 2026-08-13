@@ -2,7 +2,7 @@
   assign hero_video = section.settings.hero_video
   assign poster_image = section.settings.poster_image
   assign overlay_opacity = section.settings.video_overlay | times: 0.01
-  assign primary_url = section.settings.primary_link | default: '#naview-models'
+  assign primary_url = section.settings.primary_link | default: '#cleardrive-models'
   assign secondary_url = section.settings.secondary_link | default: 'https://wa.me/16137969403'
 %}
 
@@ -56,10 +56,10 @@
     <div class="naview-video-hero__copy">
       <p
         class="naview-video-hero__line naview-video-hero__line--one"
-        aria-label="ClearView"
+        aria-label="Cleardrive"
       >
         <span class="naview-video-hero__brand-wordmark" aria-hidden="true">
-          <span>Clear</span><span>View</span>
+          <span>Cleardrive</span>
         </span>
       </p>
 
@@ -519,7 +519,7 @@
       "type": "url",
       "id": "primary_link",
       "label": "Find my vehicle link",
-      "info": "Defaults to #naview-models when left blank."
+      "info": "Defaults to #cleardrive-models when left blank."
     },
     {
       "type": "url",

@@ -71,7 +71,7 @@
         "vehicle_UhG8fQ",
         "vehicle_BHYGLm"
       ],
-      "name": "Naview model cards",
+      "name": "Cleardrive model cards",
       "settings": {
         "heading": "Choose Model",
         "details_label": "VIEW DETAILS",
@@ -85,7 +85,7 @@
     },
     "naview_video_showcase_bKkRBN": {
       "type": "naview-video-showcase",
-      "name": "Naview video showcase",
+      "name": "Cleardrive video showcase",
       "settings": {
         "showcase_video": "shopify://files/videos/ade5be4b5ac5b385650bb0de4938d3b1_raw.mp4",
         "buy_now_link": "",
@@ -97,7 +97,7 @@
     },
     "naview_long_poster_BrRz7Y": {
       "type": "naview-long-poster",
-      "name": "Naview long poster",
+      "name": "Cleardrive long poster",
       "settings": {
         "background": "#ffffff",
         "tile_background": "#f3f3f3",

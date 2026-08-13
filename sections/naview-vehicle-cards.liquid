@@ -1,4 +1,4 @@
-{% comment %}Naview vehicle model cards.{% endcomment %}
+{% comment %}Cleardrive vehicle model cards.{% endcomment %}
 
 {% liquid
   assign section_dom_id = 'naview-models-' | append: section.id
@@ -17,7 +17,7 @@
     --naview-padding-bottom: {{ section.settings.padding_bottom }}px;
   "
 >
-  <span id="naview-models" class="naview-models__anchor" aria-hidden="true"></span>
+  <span id="cleardrive-models" class="naview-models__anchor" aria-hidden="true"></span>
 
   <div class="naview-models__container">
     <div class="naview-models__heading-row">
@@ -438,7 +438,7 @@
 
 {% schema %}
 {
-  "name": "Naview model cards",
+  "name": "Cleardrive model cards",
   "tag": "section",
   "class": "section-naview-model-cards",
   "max_blocks": 4,
@@ -539,7 +539,7 @@
   ],
   "presets": [
     {
-      "name": "Naview model cards",
+      "name": "Cleardrive model cards",
       "blocks": [
         {
           "type": "vehicle",

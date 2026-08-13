@@ -1,4 +1,4 @@
-{% comment %}Naview commercial footer.{% endcomment %}
+{% comment %}Cleardrive commercial footer.{% endcomment %}
 
 {% liquid
   if section.settings.background_color != blank
@@ -11,7 +11,7 @@
   endif
 
   assign vehicle_request_url = '/pages/vehicle-request'
-  assign model_cards_url = routes.root_url | append: '#naview-models'
+  assign model_cards_url = routes.root_url | append: '#cleardrive-models'
   assign whatsapp_url = 'https://wa.me/16137969403'
   assign instagram_url = section.settings.instagram_link | default: settings.social_instagram_link
   assign youtube_url = section.settings.youtube_link | default: settings.social_youtube_link
@@ -165,7 +165,7 @@
           {{ section.settings.brand_text }}
         </div>
 
-        <div class="nv-footer__socials" aria-label="Naview social media">
+        <div class="nv-footer__socials" aria-label="Cleardrive social media">
           <a
             class="nv-footer__social-link"
             {% if instagram_url != blank %}
@@ -885,7 +885,7 @@
 
 {% schema %}
 {
-  "name": "Naview footer",
+  "name": "Cleardrive footer",
   "class": "section-wrapper",
   "blocks": [
     {
@@ -950,7 +950,7 @@
       "type": "text",
       "id": "brand_name",
       "label": "Brand name",
-      "default": "NAVIEW"
+      "default": "Cleardrive"
     },
     {
       "type": "richtext",
@@ -1255,7 +1255,7 @@
   ],
   "presets": [
     {
-      "name": "Naview footer",
+      "name": "Cleardrive footer",
       "category": "Footer",
       "settings": {
         "gap": 20,
@@ -1277,7 +1277,7 @@
             "newsletter-heading": {
               "type": "text",
               "settings": {
-                "text": "<h3>Join the Naview list</h3>",
+                "text": "<h3>Join the Cleardrive list</h3>",
                 "width": "100%",
                 "alignment": "left",
                 "type_preset": "h3"

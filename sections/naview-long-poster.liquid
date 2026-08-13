@@ -1,5 +1,5 @@
 {% comment %}
-  Naview — Eight-tile Bento Poster
+  Cleardrive — Eight-tile Bento Poster
   Eight independently uploadable images combine into one rectangular poster.
 {% endcomment %}
 
@@ -21,11 +21,11 @@
   "
 >
   <div class="naview-bento__container">
-    <div class="naview-bento__grid" role="list" aria-label="Naview poster gallery">
+    <div class="naview-bento__grid" role="list" aria-label="Cleardrive poster gallery">
       {% for index in (1..8) %}
         {% assign image_key = 'tile_' | append: index | append: '_image' %}
         {% assign tile_image = section.settings[image_key] %}
-        {% assign tile_alt = 'Naview poster image ' | append: index %}
+        {% assign tile_alt = 'Cleardrive poster image ' | append: index %}
 
         <div class="naview-bento__tile naview-bento__tile--{{ index }}" role="listitem">
           {% if tile_image != blank %}
@@ -221,7 +221,7 @@
 
 {% schema %}
 {
-  "name": "Naview bento poster",
+  "name": "Cleardrive bento poster",
   "tag": "section",
   "class": "section-naview-bento-poster",
   "settings": [
@@ -342,7 +342,7 @@
   ],
   "presets": [
     {
-      "name": "Naview bento poster"
+      "name": "Cleardrive bento poster"
     }
   ]
 }
