@@ -1,0 +1,53 @@
+{% comment %}Cleardrive rear-view visibility comparison poster.{% endcomment %}
+
+<section class="cleardrive-visibility-poster" aria-label="Digital rear-view visibility comparison">
+  {{
+    'cleardrive-rearview-visibility-comparison.png'
+    | asset_url
+    | image_tag:
+      class: 'cleardrive-visibility-poster__image',
+      loading: 'lazy',
+      widths: '750, 1100, 1500, 1881',
+      sizes: '100vw',
+      alt: 'Digital rear-view mirror with a clear rear-camera view compared with obstructed conventional mirror views'
+  }}
+</section>
+
+{% stylesheet %}
+  .cleardrive-visibility-poster {
+    width: 100%;
+    height: 640px;
+    min-height: 520px;
+    overflow: hidden;
+    background: #050505;
+  }
+
+  .cleardrive-visibility-poster__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  @media screen and (max-width: 767px) {
+    .cleardrive-visibility-poster {
+      height: 560px;
+      min-height: 460px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Cleardrive visibility poster",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Cleardrive visibility poster"
+    }
+  ]
+}
+{% endschema %}

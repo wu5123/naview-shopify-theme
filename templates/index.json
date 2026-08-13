@@ -83,6 +83,11 @@
         "padding_bottom": 56
       }
     },
+    "cleardrive_visibility_poster_N5jR2P": {
+      "type": "cleardrive-visibility-poster",
+      "name": "Cleardrive visibility poster",
+      "settings": {}
+    },
     "naview_video_showcase_bKkRBN": {
       "type": "naview-video-showcase",
       "name": "Cleardrive video showcase",
@@ -112,6 +117,7 @@
   "order": [
     "premium_mirror_hero_VAAe94",
     "naview_vehicle_cards_YKKEUX",
+    "cleardrive_visibility_poster_N5jR2P",
     "naview_video_showcase_bKkRBN",
     "naview_long_poster_BrRz7Y"
   ]
