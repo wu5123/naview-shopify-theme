@@ -91,20 +91,6 @@
     "cleardrive_blind_spot_grid_7GxW3Q": {
       "type": "cleardrive-blind-spot-grid",
       "name": "Cleardrive blind spot",
-      "blocks": {
-        "poster_1Bzq5A": {
-          "type": "poster",
-          "settings": {}
-        },
-        "poster_2Kp8nC": {
-          "type": "poster",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "poster_1Bzq5A",
-        "poster_2Kp8nC"
-      ],
       "settings": {}
     },
     "naview_video_showcase_bKkRBN": {

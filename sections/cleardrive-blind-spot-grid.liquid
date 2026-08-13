@@ -1,13 +1,20 @@
-{% comment %}
-  Cleardrive blind-spot poster group.
-  The first card is the built-in camera-view comparison. Two optional cards keep
-  the desktop layout ready for later Shopify uploads without showing placeholders.
-{% endcomment %}
+{% comment %}Cleardrive desktop blind-spot poster triptych.{% endcomment %}
 
 {% assign section_dom_id = 'cleardrive-blind-spot-grid-' | append: section.id %}
 
 <section id="{{ section_dom_id }}" class="cleardrive-blind-spot-grid" aria-label="Cleardrive blind-spot comparison posters">
   <div class="cleardrive-blind-spot-grid__items">
+    <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--detail">
+      <img
+        class="cleardrive-blind-spot-grid__image"
+        src="{{ 'cleardrive-blind-spot-conventional.png' | asset_url }}"
+        alt="Conventional rear-view mirror view obstructed by two rear headrests"
+        width="1254"
+        height="1254"
+        loading="lazy"
+      >
+    </article>
+
     <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--comparison">
       <picture>
         <source
@@ -27,30 +34,23 @@
       </picture>
     </article>
 
-    {% for block in section.blocks %}
-      {% assign poster_image = block.settings.poster_image %}
-      {% if poster_image != blank %}
-        <article class="cleardrive-blind-spot-grid__card" {{ block.shopify_attributes }}>
-          {{
-            poster_image
-            | image_url: width: 1600
-            | image_tag:
-              widths: '480, 640, 800, 1000, 1200, 1600',
-              sizes: '(min-width: 768px) calc((100vw - 48px) / 3), calc(100vw - 24px)',
-              loading: 'lazy',
-              class: 'cleardrive-blind-spot-grid__image',
-              alt: block.settings.alt_text
-          }}
-        </article>
-      {% endif %}
-    {% endfor %}
+    <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--detail">
+      <img
+        class="cleardrive-blind-spot-grid__image"
+        src="{{ 'cleardrive-blind-spot-digital.png' | asset_url }}"
+        alt="Cleardrive digital rear-view mirror showing a left-rear vehicle"
+        width="1254"
+        height="1254"
+        loading="lazy"
+      >
+    </article>
   </div>
 </section>
 
 {% style %}
   #{{ section_dom_id }} {
     width: 100%;
-    padding: 0 12px 16px;
+    padding: 0 0 8px;
     background: #ffffff;
   }
 
@@ -63,7 +63,7 @@
   #{{ section_dom_id }} .cleardrive-blind-spot-grid__items {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
+    gap: 8px;
     width: 100%;
   }
 
@@ -71,7 +71,7 @@
     min-width: 0;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    border-radius: 4px;
+    border-radius: 0;
     background: #f3f3f3;
   }
 
@@ -101,6 +101,10 @@
     #{{ section_dom_id }} .cleardrive-blind-spot-grid__card {
       aspect-ratio: 4 / 5;
     }
+
+    #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--detail {
+      display: none;
+    }
   }
 {% endstyle %}
 
@@ -109,34 +113,8 @@
   "name": "Cleardrive blind spot",
   "tag": "section",
   "class": "section-wrapper",
-  "max_blocks": 2,
-  "blocks": [
-    {
-      "type": "poster",
-      "name": "Optional poster card",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "poster_image",
-          "label": "Poster image"
-        },
-        {
-          "type": "text",
-          "id": "alt_text",
-          "label": "Image description",
-          "default": "Cleardrive feature poster"
-        }
-      ]
-    }
-  ],
   "presets": [
-    {
-      "name": "Cleardrive blind spot",
-      "blocks": [
-        { "type": "poster" },
-        { "type": "poster" }
-      ]
-    }
+    { "name": "Cleardrive blind spot" }
   ]
 }
 {% endschema %}
