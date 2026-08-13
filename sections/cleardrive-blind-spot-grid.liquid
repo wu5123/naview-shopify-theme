@@ -36,9 +36,14 @@
             alt: 'Cleardrive feature poster'
         }}
       {% else %}
-        <div class="cleardrive-blind-spot-grid__placeholder" aria-label="Add poster 2 in the theme editor">
-          {{ 'image' | placeholder_svg_tag }}
-        </div>
+        <img
+          class="cleardrive-blind-spot-grid__image"
+          src="{{ 'cleardrive-rainy-visibility-comparison.png' | asset_url }}"
+          alt="Rain-covered conventional side mirror compared with a Cleardrive digital rear-view display in rainy conditions"
+          width="1254"
+          height="1254"
+          loading="lazy"
+        >
       {% endif %}
     </article>
 
