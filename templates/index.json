@@ -88,6 +88,11 @@
       "name": "Cleardrive view poster",
       "settings": {}
     },
+    "cleardrive_why_choose_us_poster_Qm8R4K": {
+      "type": "cleardrive-why-choose-us-poster",
+      "name": "Why choose us poster",
+      "settings": {}
+    },
     "cleardrive_blind_spot_grid_7GxW3Q": {
       "type": "cleardrive-blind-spot-grid",
       "name": "Cleardrive blind spot",
@@ -104,27 +109,14 @@
         "desktop_height": 640,
         "mobile_height": 560
       }
-    },
-    "naview_long_poster_BrRz7Y": {
-      "type": "naview-long-poster",
-      "name": "Cleardrive long poster",
-      "settings": {
-        "background": "#ffffff",
-        "tile_background": "#f3f3f3",
-        "gap": 10,
-        "corner_radius": 4,
-        "max_width": 1500,
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
     }
   },
   "order": [
     "premium_mirror_hero_VAAe94",
     "naview_vehicle_cards_YKKEUX",
     "cleardrive_visibility_poster_N5jR2P",
+    "cleardrive_why_choose_us_poster_Qm8R4K",
     "cleardrive_blind_spot_grid_7GxW3Q",
-    "naview_video_showcase_bKkRBN",
-    "naview_long_poster_BrRz7Y"
+    "naview_video_showcase_bKkRBN"
   ]
 }
