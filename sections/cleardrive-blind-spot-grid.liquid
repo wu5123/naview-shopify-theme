@@ -1,10 +1,10 @@
-{% comment %}Cleardrive blind-spot poster plus two editor-managed desktop poster slots.{% endcomment %}
+{% comment %}Cleardrive five-tile comparison and product poster grid.{% endcomment %}
 
 {% assign section_dom_id = 'cleardrive-blind-spot-grid-' | append: section.id %}
 
-<section id="{{ section_dom_id }}" class="cleardrive-blind-spot-grid" aria-label="Cleardrive blind-spot comparison posters">
+<section id="{{ section_dom_id }}" class="cleardrive-blind-spot-grid" aria-label="Cleardrive comparison and product posters">
   <div class="cleardrive-blind-spot-grid__items">
-    <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--comparison">
+    <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--tile-1">
       <picture>
         <source
           media="(max-width: 767px)"
@@ -23,52 +23,48 @@
       </picture>
     </article>
 
-    <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--optional">
-      {% if section.settings.poster_2_image != blank %}
-        {{
-          section.settings.poster_2_image
-          | image_url: width: 1600
-          | image_tag:
-            widths: '480, 640, 800, 1000, 1200, 1600',
-            sizes: '(min-width: 768px) calc((100vw - 8px) / 3), calc(100vw - 24px)',
-            loading: 'lazy',
-            class: 'cleardrive-blind-spot-grid__image',
-            alt: 'Cleardrive feature poster'
-        }}
-      {% else %}
-        <img
-          class="cleardrive-blind-spot-grid__image"
-          src="{{ 'cleardrive-rainy-visibility-comparison.png' | asset_url }}"
-          alt="Rain-covered conventional side mirror compared with a Cleardrive digital rear-view display in rainy conditions"
-          width="1254"
-          height="1254"
-          loading="lazy"
-        >
-      {% endif %}
+    <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--tile-2">
+      <img
+        class="cleardrive-blind-spot-grid__image"
+        src="{{ 'cleardrive-vehicle-coverage-blueprint.png' | asset_url }}"
+        alt="Blueprint-style vehicle coverage illustration for Cleardrive digital rear-view mirrors"
+        width="1786"
+        height="881"
+        loading="lazy"
+      >
     </article>
 
-    <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--optional">
-      {% if section.settings.poster_3_image != blank %}
-        {{
-          section.settings.poster_3_image
-          | image_url: width: 1600
-          | image_tag:
-            widths: '480, 640, 800, 1000, 1200, 1600',
-            sizes: '(min-width: 768px) calc((100vw - 8px) / 3), calc(100vw - 24px)',
-            loading: 'lazy',
-            class: 'cleardrive-blind-spot-grid__image',
-            alt: 'Cleardrive feature poster'
-        }}
-      {% else %}
-        <img
-          class="cleardrive-blind-spot-grid__image"
-          src="{{ 'cleardrive-night-split-view-comparison.png' | asset_url }}"
-          alt="A conventional rear-view mirror overwhelmed by night glare compared with a clear Cleardrive split-screen display"
-          width="1254"
-          height="1254"
-          loading="lazy"
-        >
-      {% endif %}
+    <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--tile-3">
+      <img
+        class="cleardrive-blind-spot-grid__image"
+        src="{{ 'cleardrive-night-split-view-comparison.png' | asset_url }}"
+        alt="A conventional rear-view mirror overwhelmed by night glare compared with a clear Cleardrive split-screen display"
+        width="1254"
+        height="1254"
+        loading="lazy"
+      >
+    </article>
+
+    <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--tile-4">
+      <img
+        class="cleardrive-blind-spot-grid__image"
+        src="{{ 'cleardrive-rainy-visibility-comparison.png' | asset_url }}"
+        alt="Rain-covered conventional side mirror compared with a Cleardrive digital rear-view display in rainy conditions"
+        width="1254"
+        height="1254"
+        loading="lazy"
+      >
+    </article>
+
+    <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--tile-5">
+      <img
+        class="cleardrive-blind-spot-grid__image"
+        src="{{ 'cleardrive-anti-glare-product.png' | asset_url }}"
+        alt="Cleardrive digital rear-view mirror anti-glare product detail"
+        width="1254"
+        height="1254"
+        loading="lazy"
+      >
     </article>
   </div>
 </section>
@@ -88,17 +84,44 @@
 
   #{{ section_dom_id }} .cleardrive-blind-spot-grid__items {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 4px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 10px;
     width: 100%;
+    aspect-ratio: 100 / 33;
   }
 
   #{{ section_dom_id }} .cleardrive-blind-spot-grid__card {
     min-width: 0;
-    aspect-ratio: 1 / 1;
+    min-height: 0;
     overflow: hidden;
-    border-radius: 0;
+    border-radius: 4px;
     background: #f3f3f3;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-1 {
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 2;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-2 {
+    grid-column: 3 / span 2;
+    grid-row: 1;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-3 {
+    grid-column: 5 / span 2;
+    grid-row: 1 / span 2;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-4 {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-5 {
+    grid-column: 4;
+    grid-row: 2;
   }
 
   #{{ section_dom_id }} picture {
@@ -114,35 +137,21 @@
     object-fit: cover;
   }
 
-  #{{ section_dom_id }} .cleardrive-blind-spot-grid__placeholder {
-    display: grid;
-    width: 100%;
-    height: 100%;
-    place-items: center;
-    color: #949494;
-    background: #f3f3f3;
-  }
-
-  #{{ section_dom_id }} .cleardrive-blind-spot-grid__placeholder svg {
-    width: 56px;
-    height: 56px;
-  }
-
   @media screen and (max-width: 767px) {
     #{{ section_dom_id }} {
       padding: 0 12px 12px;
     }
 
     #{{ section_dom_id }} .cleardrive-blind-spot-grid__items {
-      grid-template-columns: 1fr;
-      gap: 12px;
+      display: block;
+      aspect-ratio: auto;
     }
 
-    #{{ section_dom_id }} .cleardrive-blind-spot-grid__card {
+    #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-1 {
       aspect-ratio: 4 / 5;
     }
 
-    #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--optional {
+    #{{ section_dom_id }} .cleardrive-blind-spot-grid__card:not(.cleardrive-blind-spot-grid__card--tile-1) {
       display: none;
     }
   }
@@ -153,18 +162,7 @@
   "name": "Cleardrive blind spot",
   "tag": "section",
   "class": "section-wrapper",
-  "settings": [
-    {
-      "type": "image_picker",
-      "id": "poster_2_image",
-      "label": "Poster 2 image"
-    },
-    {
-      "type": "image_picker",
-      "id": "poster_3_image",
-      "label": "Poster 3 image"
-    }
-  ],
+  "settings": [],
   "presets": [
     { "name": "Cleardrive blind spot" }
   ]
