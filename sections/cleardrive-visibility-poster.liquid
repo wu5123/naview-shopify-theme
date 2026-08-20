@@ -28,7 +28,7 @@
 {% stylesheet %}
   .cleardrive-visibility-poster {
     width: 100%;
-    margin-bottom: 4px;
+    margin: 0;
     overflow: hidden;
     background: #f7faff;
     font-family:
@@ -45,7 +45,7 @@
   }
 
   .cleardrive-visibility-poster__container {
-    width: min(1480px, 100%);
+    width: min(1200px, calc(100% - 48px));
     margin: 0 auto;
   }
 
@@ -61,7 +61,8 @@
 
   .cleardrive-visibility-poster picture {
     display: block;
-    width: 100%;
+    width: min(1200px, calc(100% - 48px));
+    margin: 0 auto 16px;
     aspect-ratio: 3 / 1;
     overflow: hidden;
     background: #050505;
@@ -76,10 +77,6 @@
   }
 
   @media screen and (max-width: 767px) {
-    .cleardrive-visibility-poster {
-      margin-bottom: 12px;
-    }
-
     .cleardrive-visibility-poster__header {
       padding: 40px 20px 24px;
     }

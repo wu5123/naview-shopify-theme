@@ -18,9 +18,9 @@
 {% style %}
   #{{ section_dom_id }} {
     width: 100%;
-    margin: 0 0 4px;
+    margin: 0 0 16px;
     overflow: hidden;
-    background: #050505;
+    background: #ffffff;
   }
 
   #{{ section_dom_id }} *,
@@ -30,7 +30,8 @@
   }
 
   #{{ section_dom_id }} .cleardrive-why-choose-us-poster__media {
-    width: 100%;
+    width: min(1200px, calc(100% - 48px));
+    margin: 0 auto;
     aspect-ratio: 3 / 1;
     overflow: hidden;
     background: #050505;
@@ -45,10 +46,6 @@
   }
 
   @media screen and (max-width: 767px) {
-    #{{ section_dom_id }} {
-      margin-bottom: 12px;
-    }
-
     #{{ section_dom_id }} .cleardrive-why-choose-us-poster__media {
       aspect-ratio: 4 / 5;
     }
