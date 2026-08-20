@@ -360,8 +360,23 @@
       aspect-ratio: auto;
     }
 
+    #{{ section_dom_id }} .cleardrive-blind-spot-grid__card {
+      position: relative;
+      display: block;
+      aspect-ratio: 1 / 1;
+      margin-bottom: 16px;
+    }
+
+    #{{ section_dom_id }} .cleardrive-blind-spot-grid__card:last-child {
+      margin-bottom: 0;
+    }
+
     #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-1 {
       aspect-ratio: 4 / 5;
+    }
+
+    #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-2 {
+      aspect-ratio: 1786 / 881;
     }
 
     #{{ section_dom_id }} .cleardrive-blind-spot-grid__blind-copy {
@@ -380,9 +395,6 @@
       line-height: 1.4;
     }
 
-    #{{ section_dom_id }} .cleardrive-blind-spot-grid__card:not(.cleardrive-blind-spot-grid__card--tile-1) {
-      display: none;
-    }
   }
 {% endstyle %}
 
