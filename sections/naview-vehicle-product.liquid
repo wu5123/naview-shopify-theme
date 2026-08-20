@@ -75,20 +75,32 @@
             <div class="vehicle-info-copy"><p>Free Shipping</p><p>Up to 30-Day Returns</p></div>
             <span class="vehicle-info-arrow" aria-hidden="true">›</span>
           </div>
-          <div class="vehicle-info-divider"></div>
-          <div class="vehicle-info-row vehicle-info-row--specs">
-            <div class="vehicle-info-icon vehicle-info-icon--chip" aria-hidden="true">
-              <svg viewBox="0 0 32 32"><rect x="8" y="8" width="16" height="16" rx="1"/><rect x="12" y="12" width="8" height="8" fill="none"/><path d="M11 3v5M16 3v5M21 3v5M11 24v5M16 24v5M21 24v5M3 11h5M3 16h5M3 21h5M24 11h5M24 16h5M24 21h5"/></svg>
-            </div>
-            <div class="vehicle-info-copy vehicle-info-copy--specs">
-              <p>9.66&quot; IPS Touchscreen With 1920 × 480 Resolution and 1,500-Nit Peak Brightness</p>
-              <p>Fully Laminated Display With Touchscreen and Physical Button Controls</p>
-              <p>Front 2MP Camera With Automotive-Grade MIS2031 Sensor and 140° Ultra-Wide Lens</p>
-              <p>Rear 2MP Camera With Automotive-Grade MIS2031 Sensor and 140° Ultra-Wide Lens</p>
-              <p>WDR, 1080P Recording at 25fps, and IP68 Waterproof Protection</p>
-            </div>
-          </div>
         </div>
+
+        {% if section.blocks.size > 0 %}
+          <section class="vehicle-features-card" aria-labelledby="vehicle-features-heading-{{ section.id }}">
+            <h2 id="vehicle-features-heading-{{ section.id }}" class="vehicle-features-card__heading">{{ section.settings.features_heading | default: 'Key Features' | escape }}</h2>
+            <div class="vehicle-features-card__list">
+              {% for block in section.blocks %}
+                <div class="vehicle-feature" {{ block.shopify_attributes }}>
+                  <div class="vehicle-feature__icon" aria-hidden="true">
+                    {% case block.settings.icon %}
+                      {% when 'display' %}
+                        <svg viewBox="0 0 32 32"><rect x="5" y="6" width="22" height="16" rx="1"/><path d="M16 22v4M10 27h12"/></svg>
+                      {% when 'touch' %}
+                        <svg viewBox="0 0 32 32"><path d="M14 28V15.5a2 2 0 0 1 4 0v5.2l1.1-1.1a2 2 0 0 1 2.8 0l.4.4.7-.7a2 2 0 0 1 2.8 0l.8.8.4-.4a2 2 0 0 1 2.8 0l.2.2c.8.8 1.2 1.9 1.1 3L29.7 28"/><path d="M14 18.5l-2.2-2.2a2 2 0 0 0-2.8 0l-.2.2a2 2 0 0 0 0 2.8l5.2 5.2"/><path d="M7 6h8M7 10h5"/></svg>
+                      {% when 'shield' %}
+                        <svg viewBox="0 0 32 32"><path d="M16 3.8 26 7.6v7.2c0 6.1-4.2 10.9-10 13.4-5.8-2.5-10-7.3-10-13.4V7.6L16 3.8Z"/><path d="m11.5 15.8 3 3 6-6"/></svg>
+                      {% else %}
+                        <svg viewBox="0 0 32 32"><path d="M5 10h6l1.6-2.5h6.8L21 10h6v16H5Z"/><circle cx="16" cy="18" r="4.2"/></svg>
+                    {% endcase %}
+                  </div>
+                  <p>{{ block.settings.text | escape | newline_to_br }}</p>
+                </div>
+              {% endfor %}
+            </div>
+          </section>
+        {% endif %}
 
         <div class="vehicle-options">
           <h2>Select Option</h2>
@@ -164,13 +176,14 @@
   .vehicle-buy{min-width:0;padding:54px 74px 80px}.vehicle-buy__inner{width:500px;max-width:100%}.vehicle-buy h1{font-size:32px;font-weight:600;line-height:36px;letter-spacing:-.5px;margin:0 0 28px;color:#333}
   .vehicle-year label{display:block;margin:0 0 9px;font-size:14px;font-weight:600}.vehicle-select-wrap{position:relative}.vehicle-select-wrap:after{content:"⌄";position:absolute;right:16px;top:50%;transform:translateY(-57%);pointer-events:none}.vehicle-year select{appearance:none;width:100%;height:50px;border:1px solid #cfd3d5;border-radius:2px;background:#fff;padding:0 44px 0 16px;color:#333;font-size:15px}
   .vehicle-price{font-size:26px;line-height:32px;font-weight:600;margin:26px 0 20px}
-  .vehicle-info-card{background:var(--soft);border-radius:12px;overflow:hidden;margin-top:8px}.vehicle-info-row{display:grid;grid-template-columns:34px 1fr 18px;gap:12px;padding:20px 26px}.vehicle-info-row--specs{grid-template-columns:34px 1fr;padding-top:22px;padding-bottom:24px}.vehicle-info-icon{width:28px;height:28px;color:#626669}.vehicle-info-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.9;fill:currentColor;stroke-linecap:round;stroke-linejoin:round}.vehicle-info-icon--chip svg{stroke-width:1.7}.vehicle-info-copy p{font-size:15px;line-height:22px;margin:0 0 6px}.vehicle-info-copy p:last-child{margin-bottom:0}.vehicle-info-copy--specs p{margin-bottom:9px}.vehicle-info-arrow{font-size:30px;color:#555;align-self:center}.vehicle-info-divider{height:1px;background:var(--line)}
+  .vehicle-info-card{background:var(--soft);border-radius:12px;overflow:hidden;margin-top:8px}.vehicle-info-row{display:grid;grid-template-columns:34px 1fr 18px;gap:12px;padding:20px 26px}.vehicle-info-icon{width:28px;height:28px;color:#626669}.vehicle-info-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.9;fill:currentColor;stroke-linecap:round;stroke-linejoin:round}.vehicle-info-copy p{font-size:15px;line-height:22px;margin:0 0 6px}.vehicle-info-copy p:last-child{margin-bottom:0}.vehicle-info-arrow{font-size:30px;color:#555;align-self:center}
+  .vehicle-features-card{margin-top:12px;border:1px solid #dfe2e4;border-radius:12px;background:#fff;box-shadow:0 4px 14px rgba(25,35,45,.05);overflow:hidden}.vehicle-features-card__heading{margin:0;padding:18px 22px 11px;color:#303233;font-size:18px;line-height:24px;font-weight:600}.vehicle-feature{display:grid;grid-template-columns:28px minmax(0,1fr);gap:14px;align-items:center;padding:11px 22px;border-top:1px solid #e2e5e7}.vehicle-feature__icon{width:27px;height:27px;color:#1c2734}.vehicle-feature__icon svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.vehicle-feature p{margin:0;color:#39424e;font-size:14px;line-height:20px}
   .vehicle-options{margin-top:34px}.vehicle-options h2{font-size:24px;line-height:30px;font-weight:600;margin:0 0 22px}.vehicle-option{position:relative;min-height:158px;border:1px solid #d4d7d9;border-radius:10px;padding:20px 22px;display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center;margin:0 0 12px;background:#fff;cursor:pointer}.vehicle-option.is-selected{border:2px solid var(--blue);padding:19px 21px}.vehicle-option input{position:absolute;opacity:0;pointer-events:none}.vehicle-option__media{width:112px;height:112px;display:grid;place-items:center;background:#f7f8f9;overflow:hidden;color:#999;font-size:12px}.vehicle-option__media img{width:100%;height:100%;object-fit:contain}.vehicle-option__copy{align-self:stretch;display:flex;flex-direction:column;justify-content:center}.vehicle-option__copy strong{display:block;font-size:18px;line-height:25px}.vehicle-option__copy b{display:block;font-size:17px;line-height:23px;margin-top:8px;font-weight:500}.vehicle-option__copy small.vehicle-option__stock{display:block;margin-top:auto;padding-top:10px;font-size:14px;line-height:18px;color:#167b42;font-weight:600}
   .vehicle-content{width:min(1348px,calc(100% - 48px));margin:0 auto}.vehicle-guide{padding:86px 0 28px;background:#fff}.vehicle-guide h2{font-size:32px;line-height:40px;text-align:center;margin:0 0 32px;font-weight:600}.vehicle-video{position:relative;aspect-ratio:16/7;background:#0a0a0a;overflow:hidden}.vehicle-video__element{width:100%;height:100%;object-fit:cover}.vehicle-video__empty{height:100%;display:grid;place-content:center;text-align:center;color:#fff}.vehicle-video__empty span{font-size:28px;font-weight:600}.vehicle-video__empty p{color:#aaa;margin:12px 0 0}.vehicle-video__sound{position:absolute;right:20px;bottom:20px;border:0;background:#fff;color:#111;padding:11px 16px;font-weight:600}
   .vehicle-posters{padding:0 0 90px;background:#fff}.vehicle-poster-grid{height:720px;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:1fr 1fr;gap:12px}.vehicle-poster{background:#f2f4f5;overflow:hidden;display:grid;place-items:center;color:#9a9da0;font-size:14px}.vehicle-poster img{width:100%;height:100%;object-fit:cover}.vehicle-poster--1{grid-column:span 5;grid-row:span 2}.vehicle-poster--2{grid-column:span 4}.vehicle-poster--3{grid-column:span 3}.vehicle-poster--4{grid-column:span 3}.vehicle-poster--5{grid-column:span 2}.vehicle-poster--6{grid-column:span 2}
   .vehicle-fixed-buy{position:fixed;left:0;right:0;bottom:0;height:104px;background:#fff;border-top:1px solid #e3e5e7;box-shadow:0 -6px 22px rgba(0,0,0,.07);z-index:1000}.vehicle-fixed-buy__inner{width:min(1348px,calc(100% - 48px));height:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between}.vehicle-fixed-buy__stock{display:flex;align-items:center;gap:14px}.vehicle-fixed-buy__stock svg{width:30px;height:30px;stroke:#626669;stroke-width:1.8;fill:#626669}.vehicle-fixed-buy__stock span{display:flex;flex-direction:column;gap:5px}.vehicle-fixed-buy__stock strong{font-size:16px}.vehicle-fixed-buy__stock small{font-size:13px;color:#6c7073}.vehicle-fixed-buy__actions{display:flex;align-items:center;gap:12px}.vehicle-fixed-buy__actions>strong{font-size:23px;margin-right:14px}.vehicle-fixed-buy__actions form{margin:0}.vehicle-fixed-buy__actions button{height:50px;min-width:172px;border:0;border-radius:26px;font-size:16px;cursor:pointer}.vehicle-fixed-buy__cart{background:#e0ecff;color:var(--blue)}.vehicle-fixed-buy__now{background:var(--blue);color:#fff}.vehicle-fixed-buy__actions button:disabled{opacity:.45}
   @media(max-width:989px){.vehicle-store__product{display:block}.vehicle-gallery{position:relative;height:auto;min-height:534px;padding:0 16px}.vehicle-media-window{min-height:460px}.vehicle-gallery__stage,.vehicle-gallery__video,.vehicle-gallery__video-empty{min-height:460px}.vehicle-gallery__hero{padding:28px}.vehicle-buy{padding:34px 24px 64px}.vehicle-buy__inner{width:100%}.vehicle-content{width:calc(100% - 32px)}.vehicle-poster-grid{height:auto;grid-template-columns:1fr 1fr;grid-template-rows:240px 240px 240px}.vehicle-poster--1{grid-column:auto;grid-row:span 2}.vehicle-poster--2,.vehicle-poster--3,.vehicle-poster--4,.vehicle-poster--5,.vehicle-poster--6{grid-column:auto}.vehicle-fixed-buy__inner{width:calc(100% - 24px)}.vehicle-fixed-buy__stock small{display:none}.vehicle-fixed-buy__actions>strong{font-size:18px;margin-right:0}.vehicle-fixed-buy__actions button{min-width:118px;padding:0 16px}.vehicle-option{grid-template-columns:94px 1fr}.vehicle-option__media{width:88px;height:88px}}
-  @media(max-width:620px){.vehicle-store{padding-bottom:118px}.vehicle-fixed-buy{height:118px}.vehicle-fixed-buy__inner{align-items:flex-start;padding:12px 0;display:grid;grid-template-columns:1fr auto}.vehicle-fixed-buy__stock{grid-row:1}.vehicle-fixed-buy__stock svg{width:23px;height:23px}.vehicle-fixed-buy__stock strong{font-size:13px}.vehicle-fixed-buy__actions{grid-column:1/3;display:grid;grid-template-columns:1fr 1fr}.vehicle-fixed-buy__actions>strong{position:absolute;right:12px;top:15px}.vehicle-fixed-buy__actions button{width:100%;min-width:0;height:48px}.vehicle-option{grid-template-columns:76px 1fr;min-height:132px;padding:15px}.vehicle-option.is-selected{padding:14px}.vehicle-option__media{width:70px;height:70px}.vehicle-option__copy strong{font-size:15px;line-height:21px}.vehicle-option__copy b{font-size:15px}.vehicle-gallery__arrow{width:44px;height:44px;font-size:30px}.vehicle-info-row{padding-left:18px;padding-right:18px}.vehicle-guide{padding-top:56px}.vehicle-guide h2{font-size:27px}.vehicle-video{aspect-ratio:16/10}.vehicle-poster-grid{grid-template-columns:1fr;grid-template-rows:repeat(6,260px)}.vehicle-poster--1{grid-row:auto}}
+  @media(max-width:620px){.vehicle-store{padding-bottom:118px}.vehicle-fixed-buy{height:118px}.vehicle-fixed-buy__inner{align-items:flex-start;padding:12px 0;display:grid;grid-template-columns:1fr auto}.vehicle-fixed-buy__stock{grid-row:1}.vehicle-fixed-buy__stock svg{width:23px;height:23px}.vehicle-fixed-buy__stock strong{font-size:13px}.vehicle-fixed-buy__actions{grid-column:1/3;display:grid;grid-template-columns:1fr 1fr}.vehicle-fixed-buy__actions>strong{position:absolute;right:12px;top:15px}.vehicle-fixed-buy__actions button{width:100%;min-width:0;height:48px}.vehicle-option{grid-template-columns:76px 1fr;min-height:132px;padding:15px}.vehicle-option.is-selected{padding:14px}.vehicle-option__media{width:70px;height:70px}.vehicle-option__copy strong{font-size:15px;line-height:21px}.vehicle-option__copy b{font-size:15px}.vehicle-gallery__arrow{width:44px;height:44px;font-size:30px}.vehicle-info-row{padding-left:18px;padding-right:18px}.vehicle-features-card__heading{padding:16px 18px 10px;font-size:17px}.vehicle-feature{grid-template-columns:26px minmax(0,1fr);gap:12px;padding:11px 18px}.vehicle-feature__icon{width:25px;height:25px}.vehicle-feature p{font-size:13px;line-height:19px}.vehicle-guide{padding-top:56px}.vehicle-guide h2{font-size:27px}.vehicle-video{aspect-ratio:16/10}.vehicle-poster-grid{grid-template-columns:1fr;grid-template-rows:repeat(6,260px)}.vehicle-poster--1{grid-row:auto}}
 </style>
 
 <script>
@@ -228,6 +241,7 @@
   "name": "Vehicle Store Product",
   "settings": [
     {"type":"image_picker","id":"fallback_image","label":"Fallback product image"},
+    {"type":"text","id":"features_heading","label":"Key features heading","default":"Key Features"},
     {"type":"product","id":"year_2019_product","label":"2019–2021 product"},
     {"type":"product","id":"year_2025_product","label":"2025+ product"},
     {"type":"image_picker","id":"gallery_1","label":"Product image 1"},
@@ -244,6 +258,17 @@
     {"type":"image_picker","id":"poster_4","label":"Poster 4"},
     {"type":"image_picker","id":"poster_5","label":"Poster 5"},
     {"type":"image_picker","id":"poster_6","label":"Poster 6"}
-  ]
+  ],
+  "blocks":[
+    {
+      "type":"feature",
+      "name":"Key feature",
+      "settings":[
+        {"type":"select","id":"icon","label":"Icon","default":"camera","options":[{"value":"display","label":"Display"},{"value":"touch","label":"Touch controls"},{"value":"camera","label":"Camera"},{"value":"shield","label":"Protection"}]},
+        {"type":"textarea","id":"text","label":"Feature text","default":"Feature description"}
+      ]
+    }
+  ],
+  "max_blocks":8
 }
 {% endschema %}

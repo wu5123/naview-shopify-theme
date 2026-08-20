@@ -4,8 +4,17 @@
     "main": {
       "type": "naview-vehicle-product",
       "settings": {
-        "fallback_image": "shopify://shop_images/ford-f150-2026.png"
-      }
+        "fallback_image": "shopify://shop_images/ford-f150-2026.png",
+        "features_heading": "Key Features"
+      },
+      "blocks": {
+        "feature_display": {"type":"feature","settings":{"icon":"display","text":"9.66\" IPS touchscreen, 1920 × 480 resolution, and 1,500-nit peak brightness"}},
+        "feature_controls": {"type":"feature","settings":{"icon":"touch","text":"Fully laminated display with touchscreen and physical button controls"}},
+        "feature_front_camera": {"type":"feature","settings":{"icon":"camera","text":"Front 2MP camera with automotive-grade MIS2031 sensor and 140° ultra-wide lens"}},
+        "feature_rear_camera": {"type":"feature","settings":{"icon":"camera","text":"Rear 2MP camera with automotive-grade MIS2031 sensor and 140° ultra-wide lens"}},
+        "feature_protection": {"type":"feature","settings":{"icon":"shield","text":"WDR, 1080P recording at 25fps, and IP68 waterproof protection"}}
+      },
+      "block_order": ["feature_display", "feature_controls", "feature_front_camera", "feature_rear_camera", "feature_protection"]
     }
   },
   "order": ["main"]
