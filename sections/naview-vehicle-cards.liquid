@@ -427,7 +427,7 @@
     #{{ section_dom_id }} .naview-model-card__content {
       min-height: 104px;
       gap: 5px;
-      padding: 12px 8px 14px;
+      padding: 12px 4px 14px;
     }
 
     #{{ section_dom_id }} .naview-model-card__identity {
@@ -457,6 +457,12 @@
       flex-basis: 22px;
       width: 22px;
       height: 22px;
+    }
+  }
+
+  @media screen and (max-width: 359px) {
+    #{{ section_dom_id }} .naview-models__grid {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 
