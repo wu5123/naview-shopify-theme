@@ -80,6 +80,11 @@
         height="1254"
         loading="lazy"
       >
+
+      <div class="cleardrive-blind-spot-grid__anti-glare-copy">
+        <h2 class="cleardrive-blind-spot-grid__anti-glare-title">{{ section.settings.anti_glare_poster_title | escape }}</h2>
+        <p class="cleardrive-blind-spot-grid__anti-glare-text">{{ section.settings.anti_glare_poster_text | escape | newline_to_br }}</p>
+      </div>
     </article>
   </div>
 </section>
@@ -238,8 +243,36 @@
   }
 
   #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-5 {
+    position: relative;
     grid-column: 4;
     grid-row: 2;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__anti-glare-copy {
+    position: absolute;
+    z-index: 1;
+    top: 12px;
+    right: 12px;
+    left: 12px;
+    color: #ffffff;
+    text-align: left;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.82);
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__anti-glare-title {
+    margin: 0;
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__anti-glare-text {
+    margin: 7px 0 0;
+    font-size: clamp(10px, 0.75vw, 11px);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
   }
 
   #{{ section_dom_id }} picture {
@@ -333,6 +366,18 @@
       "id": "blind_poster_text",
       "label": "Blind spot poster description",
       "default": "An ultra-wide rear view helps you spot vehicles beyond the reach of a traditional mirror."
+    },
+    {
+      "type": "text",
+      "id": "anti_glare_poster_title",
+      "label": "Anti-glare poster title",
+      "default": "REAL-TIME VIEW."
+    },
+    {
+      "type": "textarea",
+      "id": "anti_glare_poster_text",
+      "label": "Anti-glare poster description",
+      "default": "Under 0.05s latency with automatic brightness that adapts to your surroundings."
     }
   ],
   "presets": [
