@@ -32,6 +32,11 @@
         height="881"
         loading="lazy"
       >
+
+      <div class="cleardrive-blind-spot-grid__blueprint-copy">
+        <h2 class="cleardrive-blind-spot-grid__blueprint-title">{{ section.settings.blueprint_poster_title | escape }}</h2>
+        <p class="cleardrive-blind-spot-grid__blueprint-text">{{ section.settings.blueprint_poster_text | escape | newline_to_br }}</p>
+      </div>
     </article>
 
     <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--tile-3">
@@ -111,8 +116,36 @@
   }
 
   #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-2 {
+    position: relative;
     grid-column: 3 / span 2;
     grid-row: 1;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__blueprint-copy {
+    position: absolute;
+    z-index: 1;
+    right: clamp(16px, 1.8vw, 26px);
+    bottom: clamp(14px, 1.5vw, 22px);
+    left: clamp(16px, 1.8vw, 26px);
+    color: #ffffff;
+    text-align: left;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.78);
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__blueprint-title {
+    margin: 0;
+    font-size: clamp(16px, 1.6vw, 22px);
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__blueprint-text {
+    margin: 8px 0 0;
+    font-size: clamp(11px, 0.85vw, 13px);
+    font-weight: 400;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
   }
 
   #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-3 {
@@ -209,6 +242,18 @@
       "id": "rain_poster_text",
       "label": "Rain poster description",
       "default": "Rain or snow, keep a clear view of the road behind you."
+    },
+    {
+      "type": "text",
+      "id": "blueprint_poster_title",
+      "label": "Blueprint poster title",
+      "default": "CLEAN INSTALL. ZERO COMPROMISE."
+    },
+    {
+      "type": "textarea",
+      "id": "blueprint_poster_text",
+      "label": "Blueprint poster description",
+      "default": "Hidden wiring. No drilling. No cutting factory wiring. No damage to your vehicle."
     }
   ],
   "presets": [
