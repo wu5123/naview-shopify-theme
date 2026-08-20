@@ -5,14 +5,22 @@
 <section id="{{ section_dom_id }}" class="cleardrive-blind-spot-grid" aria-label="Cleardrive comparison and product posters">
   <div class="cleardrive-blind-spot-grid__items">
     <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--tile-1">
-      <img
-        class="cleardrive-blind-spot-grid__image"
-        src="{{ 'cleardrive-blind-spot-comparison.png' | asset_url }}"
-        alt="A conventional rear-view mirror obstructed by headrests compared with a Cleardrive digital mirror showing a left-rear vehicle"
-        width="1254"
-        height="1254"
-        loading="lazy"
-      >
+      <picture>
+        <source
+          media="(max-width: 767px)"
+          srcset="{{ 'cleardrive-blind-spot-comparison-mobile-v2.png' | asset_url }}"
+          width="1003"
+          height="1568"
+        >
+        <img
+          class="cleardrive-blind-spot-grid__image"
+          src="{{ 'cleardrive-blind-spot-comparison.png' | asset_url }}"
+          alt="A conventional rear-view mirror obstructed by headrests compared with a Cleardrive digital mirror showing a left-rear vehicle"
+          width="1254"
+          height="1254"
+          loading="lazy"
+        >
+      </picture>
 
       <div class="cleardrive-blind-spot-grid__blind-copy">
         <h2 class="cleardrive-blind-spot-grid__blind-title">{{ section.settings.blind_poster_title | escape }}</h2>
@@ -364,7 +372,7 @@
     }
 
     #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-1 {
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 1003 / 1568;
     }
 
     #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-2 {
@@ -378,13 +386,14 @@
     }
 
     #{{ section_dom_id }} .cleardrive-blind-spot-grid__blind-title {
-      font-size: clamp(24px, 7vw, 32px);
+      font-size: clamp(18px, 5.5vw, 22px);
+      line-height: 1;
     }
 
     #{{ section_dom_id }} .cleardrive-blind-spot-grid__blind-text {
-      margin-top: 12px;
-      font-size: 14px;
-      line-height: 1.4;
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 1.3;
     }
 
     #{{ section_dom_id }} .cleardrive-blind-spot-grid__anti-glare-copy {
