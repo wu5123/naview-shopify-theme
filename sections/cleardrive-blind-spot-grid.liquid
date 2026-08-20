@@ -53,6 +53,18 @@
         height="1254"
         loading="lazy"
       >
+
+      <h2 class="cleardrive-blind-spot-grid__night-title">{{ section.settings.night_poster_title | escape }}</h2>
+      <div class="cleardrive-blind-spot-grid__night-tags">
+        <div>
+          <strong>{{ section.settings.night_tag_1_title | escape }}</strong>
+          <span>{{ section.settings.night_tag_1_text | escape }}</span>
+        </div>
+        <div>
+          <strong>{{ section.settings.night_tag_2_title | escape }}</strong>
+          <span>{{ section.settings.night_tag_2_text | escape }}</span>
+        </div>
+      </div>
     </article>
 
     <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--tile-4">
@@ -205,8 +217,57 @@
   }
 
   #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-3 {
+    position: relative;
     grid-column: 5 / span 2;
     grid-row: 1 / span 2;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__night-title {
+    position: absolute;
+    z-index: 1;
+    top: clamp(16px, 1.8vw, 26px);
+    right: clamp(18px, 2vw, 30px);
+    left: clamp(18px, 2vw, 30px);
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(18px, 1.6vw, 24px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.055em;
+    text-align: left;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.82);
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__night-tags {
+    position: absolute;
+    z-index: 1;
+    right: clamp(14px, 1.6vw, 22px);
+    bottom: clamp(12px, 1.4vw, 18px);
+    left: clamp(14px, 1.6vw, 22px);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.82);
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__night-tags strong,
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__night-tags span {
+    display: block;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__night-tags strong {
+    font-size: clamp(9px, 0.8vw, 11px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__night-tags span {
+    margin-top: 3px;
+    font-size: clamp(8px, 0.7vw, 10px);
+    font-weight: 400;
+    line-height: 1.15;
   }
 
   #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-4 {
@@ -378,6 +439,36 @@
       "id": "anti_glare_poster_text",
       "label": "Anti-glare poster description",
       "default": "Under 0.05s latency with automatic brightness that adapts to your surroundings."
+    },
+    {
+      "type": "text",
+      "id": "night_poster_title",
+      "label": "Night poster title",
+      "default": "LESS GLARE. MORE AWARENESS."
+    },
+    {
+      "type": "text",
+      "id": "night_tag_1_title",
+      "label": "Night tag 1 title",
+      "default": "ANTI-GLARE NIGHT VIEW"
+    },
+    {
+      "type": "text",
+      "id": "night_tag_1_text",
+      "label": "Night tag 1 description",
+      "default": "Clearer visibility behind."
+    },
+    {
+      "type": "text",
+      "id": "night_tag_2_title",
+      "label": "Night tag 2 title",
+      "default": "FRONT + REAR CAMERA"
+    },
+    {
+      "type": "text",
+      "id": "night_tag_2_text",
+      "label": "Night tag 2 description",
+      "default": "Both directions in view."
     }
   ],
   "presets": [
