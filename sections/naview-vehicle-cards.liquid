@@ -75,7 +75,7 @@
                   }}
                 </span>
               {% endif %}
-              <div>
+              <div class="naview-model-card__copy">
                 <h3 class="naview-model-card__title">{{ vehicle_title | escape }}</h3>
                 <span class="naview-model-card__details">
                   {{ section.settings.details_label | escape }}
@@ -224,8 +224,15 @@
 
   #{{ section_dom_id }} .naview-model-card__identity {
     display: flex;
+    flex: 1 1 0;
     align-items: center;
     gap: 12px;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  #{{ section_dom_id }} .naview-model-card__copy {
+    flex: 1 1 auto;
     min-width: 0;
   }
 
