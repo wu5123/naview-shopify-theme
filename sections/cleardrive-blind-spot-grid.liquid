@@ -21,6 +21,11 @@
           loading="lazy"
         >
       </picture>
+
+      <div class="cleardrive-blind-spot-grid__blind-copy">
+        <h2 class="cleardrive-blind-spot-grid__blind-title">{{ section.settings.blind_poster_title | escape }}</h2>
+        <p class="cleardrive-blind-spot-grid__blind-text">{{ section.settings.blind_poster_text | escape | newline_to_br }}</p>
+      </div>
     </article>
 
     <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--tile-2">
@@ -111,8 +116,48 @@
   }
 
   #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-1 {
+    position: relative;
     grid-column: 3;
     grid-row: 2;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-1::after {
+    position: absolute;
+    z-index: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 72%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.72));
+    content: "";
+    pointer-events: none;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__blind-copy {
+    position: absolute;
+    z-index: 1;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    color: #ffffff;
+    text-align: left;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.82);
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__blind-title {
+    margin: 0;
+    font-size: clamp(11px, 1vw, 14px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  #{{ section_dom_id }} .cleardrive-blind-spot-grid__blind-text {
+    margin: 7px 0 0;
+    font-size: clamp(10px, 0.75vw, 11px);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
   }
 
   #{{ section_dom_id }} .cleardrive-blind-spot-grid__card--tile-2 {
@@ -219,6 +264,22 @@
       aspect-ratio: 4 / 5;
     }
 
+    #{{ section_dom_id }} .cleardrive-blind-spot-grid__blind-copy {
+      right: 20px;
+      bottom: 24px;
+      left: 20px;
+    }
+
+    #{{ section_dom_id }} .cleardrive-blind-spot-grid__blind-title {
+      font-size: clamp(24px, 7vw, 32px);
+    }
+
+    #{{ section_dom_id }} .cleardrive-blind-spot-grid__blind-text {
+      margin-top: 12px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
     #{{ section_dom_id }} .cleardrive-blind-spot-grid__card:not(.cleardrive-blind-spot-grid__card--tile-1) {
       display: none;
     }
@@ -254,6 +315,18 @@
       "id": "blueprint_poster_text",
       "label": "Blueprint poster description",
       "default": "Hidden wiring. No drilling. No cutting factory wiring. No damage to your vehicle."
+    },
+    {
+      "type": "text",
+      "id": "blind_poster_title",
+      "label": "Blind spot poster title",
+      "default": "SEE MORE. CHANGE LANES WITH CONFIDENCE."
+    },
+    {
+      "type": "textarea",
+      "id": "blind_poster_text",
+      "label": "Blind spot poster description",
+      "default": "An ultra-wide rear view helps you spot vehicles beyond the reach of a traditional mirror."
     }
   ],
   "presets": [
