@@ -14,6 +14,7 @@
       "type": "naview-vehicle-product",
       "settings": {
         "fallback_image": "shopify://shop_images/ford-f150-2026.png",
+        "brand_logo": "shopify://shop_images/ford-logo.png",
         "features_heading": "Key Features"
       },
       "blocks": {
