@@ -5,22 +5,14 @@
 <section id="{{ section_dom_id }}" class="cleardrive-blind-spot-grid" aria-label="Cleardrive comparison and product posters">
   <div class="cleardrive-blind-spot-grid__items">
     <article class="cleardrive-blind-spot-grid__card cleardrive-blind-spot-grid__card--tile-1">
-      <picture>
-        <source
-          media="(max-width: 767px)"
-          srcset="{{ 'cleardrive-blind-spot-comparison-mobile.png' | asset_url }}"
-          width="1122"
-          height="1402"
-        >
-        <img
-          class="cleardrive-blind-spot-grid__image"
-          src="{{ 'cleardrive-blind-spot-comparison.png' | asset_url }}"
-          alt="A conventional rear-view mirror obstructed by headrests compared with a Cleardrive digital mirror showing a left-rear vehicle"
-          width="1254"
-          height="1254"
-          loading="lazy"
-        >
-      </picture>
+      <img
+        class="cleardrive-blind-spot-grid__image"
+        src="{{ 'cleardrive-blind-spot-comparison.png' | asset_url }}"
+        alt="A conventional rear-view mirror obstructed by headrests compared with a Cleardrive digital mirror showing a left-rear vehicle"
+        width="1254"
+        height="1254"
+        loading="lazy"
+      >
 
       <div class="cleardrive-blind-spot-grid__blind-copy">
         <h2 class="cleardrive-blind-spot-grid__blind-title">{{ section.settings.blind_poster_title | escape }}</h2>
