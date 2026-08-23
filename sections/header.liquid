@@ -364,6 +364,44 @@
   <div class="header__row header__row--top cleardrive-header__row">
     <div class="cleardrive-header__inner">
       <div class="cleardrive-header__left">
+        <details class="cleardrive-mobile-menu">
+          <summary aria-label="Open navigation menu">
+            <span class="svg-wrapper" aria-hidden="true">
+              {{ 'icon-menu.svg' | inline_asset_content }}
+            </span>
+          </summary>
+          <button
+            class="cleardrive-mobile-menu__backdrop"
+            type="button"
+            aria-label="Close navigation menu"
+            onclick="this.closest('details').removeAttribute('open')"
+          ></button>
+          <aside
+            id="cleardrive-mobile-menu-panel"
+            class="cleardrive-mobile-menu__panel"
+            aria-label="Mobile navigation"
+          >
+            <div class="cleardrive-mobile-menu__panel-header">
+              <span>Cleardrive</span>
+              <button
+                class="button-unstyled cleardrive-mobile-menu__close"
+                type="button"
+                aria-label="Close navigation menu"
+                onclick="this.closest('details').removeAttribute('open')"
+              >
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-close.svg' | inline_asset_content }}
+                </span>
+              </button>
+            </div>
+            <nav class="cleardrive-mobile-menu__links" aria-label="Mobile navigation links">
+              <a href="{{ routes.root_url }}#installation">Installation</a>
+              <a href="{{ routes.root_url }}#guides">Guides</a>
+              <a href="{{ routes.root_url }}pages/contact">Contact</a>
+              <a href="{{ routes.root_url }}#track-order">Track Order</a>
+            </nav>
+          </aside>
+        </details>
         {{ logo }}
         <span class="cleardrive-header__divider" aria-hidden="true"></span>
         <nav class="cleardrive-header__nav" aria-label="Primary navigation">
@@ -376,6 +414,7 @@
 
       <div class="cleardrive-header__right">
         <a class="cleardrive-header__track-order" href="{{ routes.root_url }}#track-order">Track Order</a>
+        <a class="cleardrive-header__mobile-find" href="{{ routes.root_url }}#cleardrive-models">Find Vehicle</a>
         {{ search }}
         {% if settings.cart_type == 'drawer' and template.name != 'cart' %}
           <button
@@ -1164,6 +1203,11 @@
     background: rgb(var(--color-foreground-rgb) / var(--opacity-30-60));
   }
 
+  .cleardrive-mobile-menu,
+  .cleardrive-header__mobile-find {
+    display: none;
+  }
+
   .cleardrive-header__right .search-action,
   .cleardrive-header__cart {
     display: flex;
@@ -1177,19 +1221,165 @@
 
   @media screen and (max-width: 749px) {
     .cleardrive-header__inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
       min-height: 60px;
       padding-inline: 16px;
     }
 
     .cleardrive-header__left,
     .cleardrive-header__right {
-      gap: 14px;
+      gap: 8px;
+    }
+
+    .cleardrive-header__left {
+      min-width: 0;
+    }
+
+    .cleardrive-header__left .header-logo {
+      flex: 0 1 auto;
+      min-width: 0;
+      white-space: nowrap;
+    }
+
+    .cleardrive-header__right {
+      justify-content: flex-end;
+    }
+
+    .cleardrive-mobile-menu {
+      position: relative;
+      display: block;
+      flex: 0 0 auto;
+    }
+
+    .cleardrive-mobile-menu summary {
+      display: flex;
+      width: 36px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .cleardrive-mobile-menu summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .cleardrive-mobile-menu summary .svg-wrapper,
+    .cleardrive-mobile-menu__close .svg-wrapper {
+      display: flex;
+      width: 22px;
+      height: 22px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cleardrive-mobile-menu__backdrop,
+    .cleardrive-mobile-menu__panel {
+      display: none;
+    }
+
+    .cleardrive-mobile-menu[open] .cleardrive-mobile-menu__backdrop {
+      position: absolute;
+      z-index: var(--layer-menu-drawer);
+      top: 52px;
+      left: -16px;
+      display: block;
+      width: 100vw;
+      height: calc(100dvh - 60px);
+      border: 0;
+      background: rgb(0 0 0 / 45%);
+      cursor: default;
+    }
+
+    .cleardrive-mobile-menu[open] .cleardrive-mobile-menu__panel {
+      position: absolute;
+      z-index: calc(var(--layer-menu-drawer) + 1);
+      top: 52px;
+      left: -16px;
+      display: flex;
+      width: min(82vw, 360px);
+      min-height: calc(100dvh - 60px);
+      flex-direction: column;
+      padding: 24px;
+      background: rgb(var(--color-background-rgb));
+      box-shadow: 12px 0 32px rgb(0 0 0 / 18%);
+      animation: cleardrive-mobile-menu-in 180ms ease-out both;
+    }
+
+    .cleardrive-mobile-menu__panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 12%);
+      color: var(--color-foreground);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .cleardrive-mobile-menu__close {
+      display: flex;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-foreground);
+      cursor: pointer;
+    }
+
+    .cleardrive-mobile-menu__links {
+      display: grid;
+      gap: 4px;
+      padding-top: 16px;
+    }
+
+    .cleardrive-mobile-menu__links a {
+      padding: 14px 0;
+      color: var(--color-foreground);
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .cleardrive-header__mobile-find {
+      display: flex;
+      min-height: 44px;
+      align-items: center;
+      color: var(--color-foreground);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .cleardrive-header__right .search-action {
+      display: none;
+    }
+
+    .cleardrive-header__cart {
+      width: 40px;
+      height: 44px;
     }
 
     .cleardrive-header__nav,
     .cleardrive-header__divider,
     .cleardrive-header__track-order {
       display: none;
+    }
+  }
+
+  @keyframes cleardrive-mobile-menu-in {
+    from {
+      opacity: 0;
+      transform: translateX(-24px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
     }
   }
 {% endstylesheet %}
