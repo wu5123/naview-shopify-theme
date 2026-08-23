@@ -369,99 +369,26 @@
   {%- if request.page_type == 'index' -%}
     <h1 class="visually-hidden">{{ shop.name }}</h1>
   {%- endif -%}
-  {% for row in rows %}
-    {% liquid
-      assign background = 'background_color_' | append: row
-      assign row_setting = 'background_color_' | append: row
-      assign text_setting = 'text_color_' | append: row
-      assign row_class_id = row | append: '-' | append: section.id
-      assign row_class = ' color-custom-' | append: row_class_id
-      assign class = 'header__row header__row--[row] color-[row_background] section section--full-width-margin section--[section-width]' | replace: '[row]', row | replace: '[row_background]', section.settings[background] | replace: '[section-width]', section.settings.section_width
-
-      case row
-        when 'top'
-          assign first = drawer_menu
-
-          if bottom_row_blocks.size > 0 and section.settings.divider_size == 'page-width'
-            assign class = class | append: ' divider--page-width'
-          endif
-
-          if bottom_row_blocks.size > 0
-            assign border_bottom_setting_id = 'divider_width'
-            assign border_bottom_color_setting_id = 'divider_color'
-          else
-            assign border_bottom_setting_id = 'border_width'
-            assign border_bottom_color_setting_id = 'bottom_border_color'
-          endif
-        when 'bottom'
-          assign first = ''
-          assign class = class | append: ' mobile:hidden'
-
-          assign border_bottom_setting_id = 'border_width'
-          assign border_bottom_color_setting_id = 'bottom_border_color'
-      endcase
-
-      assign style = '--border-bottom-width: [width]px; ' | replace: '[width]', section.settings[border_bottom_setting_id]
-
-      assign border_bottom_color_value = section.settings[border_bottom_color_setting_id]
-      if border_bottom_color_value != blank
-        assign style = style | append: '--border-bottom-color: [color]; ' | replace: '[color]', border_bottom_color_value
-      endif
-
-      if row == 'top'
-        assign custom_color_styles = true
-        assign class = class | append: row_class
-        assign style = style | append: '--border-bottom-width-mobile: [width]px; ' | replace: '[width]', section.settings.border_width
-
-        assign mobile_border_color = section.settings.bottom_border_color | default: 'var(--color-border)'
-        assign style = style | append: '--border-bottom-color-mobile: [color]; ' | replace: '[color]', mobile_border_color
-      elsif bottom_row_blocks.size > 0
-        assign custom_color_styles = true
-        assign class = class | append: row_class
-      else
-        assign custom_color_styles = false
-      endif
-    %}
-
-    {% capture content %}
-      {% if custom_color_styles %}
-        {% render 'contrast-override', background_color: section.settings[row_setting], text_color: section.settings[text_setting], section_id: row_class_id %}
-      {% endif %}
-      {% render 'header-row',
-        row: row,
-        order: order,
-        settings: section.settings,
-        first: first,
-        logo: logo,
-        menu: menu,
-        actions: actions,
-        localization: localization_markup,
-        search: search,
-        drawer_search: drawer_search
-      %}
-    {% endcapture %}
-
-    {% assign content = content | strip %}
-    {% if content != blank %}
-      <div
-        class="{{ class | strip }}"
-        ref="headerRowTop"
-        {%- if style != blank -%}
-          style="{{ style | strip }}"
-        {%- endif -%}
-      >
-        <div class="header__columns spacing-style">
-          {{ content }}
-        </div>
+  <div class="header__row header__row--top cleardrive-header__row">
+    <div class="cleardrive-header__inner">
+      <div class="cleardrive-header__left">
+        {{ logo }}
+        <span class="cleardrive-header__divider" aria-hidden="true"></span>
+        <nav class="cleardrive-header__nav" aria-label="Primary navigation">
+          <a href="{{ routes.root_url }}#cleardrive-models">Find Your Vehicle</a>
+          <a href="{{ routes.root_url }}#installation">Installation</a>
+          <a href="{{ routes.root_url }}#guides">Guides</a>
+          <a href="{{ routes.root_url }}pages/contact">Contact</a>
+        </nav>
       </div>
-    {% endif %}
-  {% endfor %}
 
-  {% if navigation_bar != blank %}
-    <div class="header__row header__navigation-bar-row">
-      {{ navigation_bar }}
+      <div class="cleardrive-header__right">
+        <a class="cleardrive-header__track-order" href="{{ routes.root_url }}#track-order">Track Order</a>
+        {{ search }}
+        {{ actions }}
+      </div>
     </div>
-  {% endif %}
+  </div>
 </header-component>
 
 <script
@@ -1166,6 +1093,92 @@
   .dropdown-localization:not(dropdown-localization-component) .language-selector {
     font-family: var(--menu-localization-font);
     font-size: var(--menu-localization-font-size);
+  }
+
+  .cleardrive-header__row {
+    border-bottom: 1px solid rgb(var(--color-border-rgb) / var(--opacity-10-25));
+  }
+
+  .cleardrive-header__inner,
+  .cleardrive-header__left,
+  .cleardrive-header__right,
+  .cleardrive-header__nav {
+    display: flex;
+    align-items: center;
+  }
+
+  .cleardrive-header__inner {
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+    min-height: 64px;
+    padding: 0 var(--page-margin, 24px);
+  }
+
+  .cleardrive-header__left,
+  .cleardrive-header__right {
+    min-width: 0;
+    gap: 22px;
+  }
+
+  .cleardrive-header__nav {
+    gap: 24px;
+    white-space: nowrap;
+  }
+
+  .cleardrive-header__nav a,
+  .cleardrive-header__track-order {
+    color: var(--color-foreground);
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .cleardrive-header__nav a:hover,
+  .cleardrive-header__track-order:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .cleardrive-header__divider {
+    width: 1px;
+    height: 24px;
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-30-60));
+  }
+
+  .cleardrive-header__right .search-action,
+  .cleardrive-header__right header-actions {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+
+  .cleardrive-header__right header-actions {
+    gap: 0;
+  }
+
+  .cleardrive-header__right .account-button {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .cleardrive-header__inner {
+      min-height: 60px;
+      padding-inline: 16px;
+    }
+
+    .cleardrive-header__left,
+    .cleardrive-header__right {
+      gap: 14px;
+    }
+
+    .cleardrive-header__nav,
+    .cleardrive-header__divider,
+    .cleardrive-header__track-order {
+      display: none;
+    }
   }
 {% endstylesheet %}
 
