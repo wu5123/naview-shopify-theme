@@ -415,13 +415,13 @@
         <span class="cleardrive-header__divider" aria-hidden="true"></span>
         <nav class="cleardrive-header__nav" aria-label="Primary navigation">
           <a href="{{ routes.root_url }}#cleardrive-models">Find Your Vehicle</a>
-          <details class="cleardrive-header__installation-menu">
-            <summary>Installation</summary>
+          <div class="cleardrive-header__installation-menu" tabindex="0">
+            <span class="cleardrive-header__installation-label">Installation</span>
             <div class="cleardrive-header__installation-dropdown">
               <a href="/pages/installation-service">Installation Service</a>
               <a href="/pages/self-installation">Self Installation</a>
             </div>
-          </details>
+          </div>
           <a href="{{ routes.root_url }}#guides">Guides</a>
           <a href="{{ routes.root_url }}pages/contact">Contact</a>
         </nav>
@@ -1216,7 +1216,7 @@
     position: relative;
   }
 
-  .cleardrive-header__installation-menu summary {
+  .cleardrive-header__installation-label {
     display: flex;
     align-items: center;
     height: 44px;
@@ -1227,10 +1227,6 @@
     font-weight: 500;
     list-style: none;
     white-space: nowrap;
-  }
-
-  .cleardrive-header__installation-menu summary::-webkit-details-marker {
-    display: none;
   }
 
   .cleardrive-header__installation-dropdown {
@@ -1247,8 +1243,7 @@
   }
 
   .cleardrive-header__installation-menu:hover .cleardrive-header__installation-dropdown,
-  .cleardrive-header__installation-menu:focus-within .cleardrive-header__installation-dropdown,
-  .cleardrive-header__installation-menu[open] .cleardrive-header__installation-dropdown {
+  .cleardrive-header__installation-menu:focus-within .cleardrive-header__installation-dropdown {
     display: grid;
     gap: 2px;
   }
