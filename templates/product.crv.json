@@ -7,24 +7,64 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-/* Auto-generated Shopify template. */
 {
   "sections": {
     "main": {
       "type": "naview-vehicle-product",
+      "blocks": {
+        "feature_display": {
+          "type": "feature",
+          "settings": {
+            "icon": "display",
+            "text": "9.66\" IPS touchscreen, 1920 × 480 resolution, and 1,500-nit peak brightness"
+          }
+        },
+        "feature_controls": {
+          "type": "feature",
+          "settings": {
+            "icon": "touch",
+            "text": "Fully laminated display with touchscreen and physical button controls"
+          }
+        },
+        "feature_front_camera": {
+          "type": "feature",
+          "settings": {
+            "icon": "camera",
+            "text": "Front 2MP camera with automotive-grade MIS2031 sensor and 140° ultra-wide lens"
+          }
+        },
+        "feature_rear_camera": {
+          "type": "feature",
+          "settings": {
+            "icon": "camera",
+            "text": "Rear 2MP camera with automotive-grade MIS2031 sensor and 140° ultra-wide lens"
+          }
+        },
+        "feature_protection": {
+          "type": "feature",
+          "settings": {
+            "icon": "shield",
+            "text": "WDR, 1080P recording at 25fps, and IP68 waterproof protection"
+          }
+        }
+      },
+      "block_order": [
+        "feature_display",
+        "feature_controls",
+        "feature_front_camera",
+        "feature_rear_camera",
+        "feature_protection"
+      ],
       "settings": {
         "fallback_image": "shopify://shop_images/honda-crv-2026.png",
-        "brand_logo": "shopify://shop_images/honda-logo.png"
-      },
-      "blocks": {
-        "feature_display": {"type":"feature","settings":{"icon":"display","text":"9.66\" IPS touchscreen, 1920 × 480 resolution, and 1,500-nit peak brightness"}},
-        "feature_controls": {"type":"feature","settings":{"icon":"touch","text":"Fully laminated display with touchscreen and physical button controls"}},
-        "feature_front_camera": {"type":"feature","settings":{"icon":"camera","text":"Front 2MP camera with automotive-grade MIS2031 sensor and 140° ultra-wide lens"}},
-        "feature_rear_camera": {"type":"feature","settings":{"icon":"camera","text":"Rear 2MP camera with automotive-grade MIS2031 sensor and 140° ultra-wide lens"}},
-        "feature_protection": {"type":"feature","settings":{"icon":"shield","text":"WDR, 1080P recording at 25fps, and IP68 waterproof protection"}}
-      },
-      "block_order": ["feature_display", "feature_controls", "feature_front_camera", "feature_rear_camera", "feature_protection"]
+        "brand_logo": "shopify://shop_images/honda-logo.png",
+        "year_2019_product": "",
+        "year_2025_product": "",
+        "gallery_1": "shopify://shop_images/ChatGPT_Image_2026_8_18_16_37_33.png"
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
