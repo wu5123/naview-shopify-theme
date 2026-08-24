@@ -14,8 +14,7 @@
       "type": "naview-vehicle-product",
       "settings": {
         "fallback_image": "shopify://shop_images/ford-f150-2026.png",
-        "brand_logo": "shopify://shop_images/ford-logo.png",
-        "features_heading": "Key Features"
+        "brand_logo": "shopify://shop_images/ford-logo.png"
       },
       "blocks": {
         "feature_display": {"type":"feature","settings":{"icon":"display","text":"9.66\" IPS touchscreen, 1920 × 480 resolution, and 1,500-nit peak brightness"}},
