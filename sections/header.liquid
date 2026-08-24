@@ -395,7 +395,16 @@
               </button>
             </div>
             <nav class="cleardrive-mobile-menu__links" aria-label="Mobile navigation links">
-              <a href="{{ routes.root_url }}#installation">Installation</a>
+              <details class="cleardrive-mobile-menu__installation">
+                <summary>
+                  <span>Installation</span>
+                  <span class="cleardrive-mobile-menu__caret" aria-hidden="true"></span>
+                </summary>
+                <div class="cleardrive-mobile-menu__installation-links">
+                  <a href="/pages/installation-service">Installation Service</a>
+                  <a href="/pages/self-installation">Self Installation</a>
+                </div>
+              </details>
               <a href="{{ routes.root_url }}#guides">Guides</a>
               <a href="{{ routes.root_url }}pages/contact">Contact</a>
               <a href="{{ routes.root_url }}#track-order">Track Order</a>
@@ -406,7 +415,13 @@
         <span class="cleardrive-header__divider" aria-hidden="true"></span>
         <nav class="cleardrive-header__nav" aria-label="Primary navigation">
           <a href="{{ routes.root_url }}#cleardrive-models">Find Your Vehicle</a>
-          <a href="{{ routes.root_url }}#installation">Installation</a>
+          <details class="cleardrive-header__installation-menu">
+            <summary>Installation</summary>
+            <div class="cleardrive-header__installation-dropdown">
+              <a href="/pages/installation-service">Installation Service</a>
+              <a href="/pages/self-installation">Self Installation</a>
+            </div>
+          </details>
           <a href="{{ routes.root_url }}#guides">Guides</a>
           <a href="{{ routes.root_url }}pages/contact">Contact</a>
         </nav>
@@ -1197,6 +1212,62 @@
     text-underline-offset: 4px;
   }
 
+  .cleardrive-header__installation-menu {
+    position: relative;
+  }
+
+  .cleardrive-header__installation-menu summary {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    color: var(--color-foreground);
+    cursor: pointer;
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 500;
+    list-style: none;
+    white-space: nowrap;
+  }
+
+  .cleardrive-header__installation-menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .cleardrive-header__installation-dropdown {
+    position: absolute;
+    z-index: calc(var(--layer-header-menu) + 1);
+    top: calc(100% - 2px);
+    left: -16px;
+    display: none;
+    min-width: 212px;
+    padding: 8px;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 12%);
+    background: var(--color-background);
+    box-shadow: 0 10px 24px rgb(0 0 0 / 12%);
+  }
+
+  .cleardrive-header__installation-menu:hover .cleardrive-header__installation-dropdown,
+  .cleardrive-header__installation-menu:focus-within .cleardrive-header__installation-dropdown,
+  .cleardrive-header__installation-menu[open] .cleardrive-header__installation-dropdown {
+    display: grid;
+    gap: 2px;
+  }
+
+  .cleardrive-header__installation-dropdown a {
+    padding: 11px 12px;
+    color: var(--color-foreground);
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .cleardrive-header__installation-dropdown a:hover,
+  .cleardrive-header__installation-dropdown a:focus-visible {
+    background: rgb(var(--color-foreground-rgb) / 6%);
+  }
+
   .cleardrive-header__divider {
     width: 1px;
     height: 24px;
@@ -1253,7 +1324,7 @@
       flex: 0 0 auto;
     }
 
-    .cleardrive-mobile-menu summary {
+    .cleardrive-mobile-menu > summary {
       display: flex;
       width: 36px;
       height: 44px;
@@ -1263,11 +1334,11 @@
       list-style: none;
     }
 
-    .cleardrive-mobile-menu summary::-webkit-details-marker {
+    .cleardrive-mobile-menu > summary::-webkit-details-marker {
       display: none;
     }
 
-    .cleardrive-mobile-menu summary .svg-wrapper,
+    .cleardrive-mobile-menu > summary .svg-wrapper,
     .cleardrive-mobile-menu__close .svg-wrapper {
       display: flex;
       width: 22px;
@@ -1342,6 +1413,52 @@
       font-size: 18px;
       font-weight: 600;
       text-decoration: none;
+    }
+
+    .cleardrive-mobile-menu__installation {
+      border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 12%);
+    }
+
+    .cleardrive-mobile-menu__installation summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      color: var(--color-foreground);
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 600;
+      list-style: none;
+    }
+
+    .cleardrive-mobile-menu__installation summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .cleardrive-mobile-menu__caret {
+      width: 9px;
+      height: 9px;
+      margin-right: 5px;
+      border-top: 1.5px solid currentColor;
+      border-right: 1.5px solid currentColor;
+      transform: rotate(45deg);
+      transition: transform 160ms ease;
+    }
+
+    .cleardrive-mobile-menu__installation[open] .cleardrive-mobile-menu__caret {
+      transform: rotate(135deg);
+    }
+
+    .cleardrive-mobile-menu__installation-links {
+      display: grid;
+      gap: 2px;
+      padding: 0 0 10px 16px;
+    }
+
+    .cleardrive-mobile-menu__installation-links a {
+      padding: 10px 0;
+      font-size: 16px;
+      font-weight: 500;
     }
 
     .cleardrive-header__mobile-find {
