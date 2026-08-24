@@ -11,8 +11,8 @@
   assign ultra_price = ultra_variant.price | money_with_currency
   assign default_vehicle_image = product.featured_image | default: section.settings.fallback_image
   assign gallery_1 = section.settings.gallery_1 | default: default_vehicle_image
-  assign option_1_image = section.settings.option_image_1 | default: gallery_1
-  assign option_2_image = section.settings.option_image_2 | default: gallery_1
+  assign option_1_image = section.settings.option_image_1
+  assign option_2_image = section.settings.option_image_2
   assign option_3_image = section.settings.option_image_3
   assign option_4_image = section.settings.option_image_4
   assign vehicle_page_url = vehicle_product.url
@@ -24,11 +24,11 @@
   <div class="vehicle-store__product">
     <div class="vehicle-gallery">
       <div class="vehicle-media-window">
-        <div class="vehicle-gallery__stage">
-          {% if gallery_1 != blank %}
-            {{ gallery_1 | image_url: width: 1800 | image_tag: class: 'vehicle-gallery__hero', loading: 'eager', widths: '720, 1080, 1440, 1800', sizes: '(min-width: 990px) 58vw, 100vw', alt: product_image_alt }}
+        <div class="vehicle-gallery__stage is-option-main">
+          {% if section.settings.option_main_image_1 != blank %}
+            {{ section.settings.option_main_image_1 | image_url: width: 1800 | image_tag: class: 'vehicle-gallery__hero', loading: 'eager', widths: '720, 1080, 1440, 1800', sizes: '(min-width: 990px) 58vw, 100vw', alt: product_image_alt }}
           {% else %}
-            <div class="vehicle-gallery__empty" data-gallery-empty><strong>{{ vehicle_product.title | escape }}</strong><span>Upload the primary product image</span></div>
+            <img class="vehicle-gallery__hero" src="{{ 'cleardrive-option-17-pro-e-main.png' | asset_url }}" width="1254" height="1254" loading="eager" alt="Cleardrive 17 Pro E digital rear mirror">
           {% endif %}
           {% if section.settings.gallery_video != blank %}
             <div class="vehicle-gallery__video-wrap" data-gallery-video hidden>
@@ -135,26 +135,26 @@
         <div class="vehicle-options">
           <h2>Select Option</h2>
           <label class="vehicle-option is-selected">
-            <input type="radio" name="vehicle-option-{{ section.id }}" value="{{ core_variant.id }}" data-option data-price="{{ standard_price | escape }}" data-available="{{ core_variant.available }}" checked>
-            <span class="vehicle-option__media">{% if option_1_image != blank %}{{ option_1_image | image_url: width: 320 | image_tag: loading: 'lazy', alt: '' }}{% else %}<span>Photo</span>{% endif %}</span>
+            <input type="radio" name="vehicle-option-{{ section.id }}" value="{{ core_variant.id }}" data-option data-price="{{ standard_price | escape }}" data-available="{{ core_variant.available }}" data-option-main="{% if section.settings.option_main_image_1 != blank %}{{ section.settings.option_main_image_1 | image_url: width: 1800 }}{% else %}{{ 'cleardrive-option-17-pro-e-main.png' | asset_url }}{% endif %}" checked>
+            <span class="vehicle-option__media">{% if option_1_image != blank %}{{ option_1_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-17-pro-e-preview.png' | asset_url }}" width="2048" height="768" loading="lazy" alt="17 Pro E display preview">{% endif %}</span>
             <span class="vehicle-option__copy"><strong>Core for {{ vehicle_product.title | escape }}</strong><b>{{ standard_price }}</b></span>
             <small class="vehicle-option__stock">{% if core_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if pro_variant == blank %} is-unavailable{% endif %}">
-            {% if pro_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ pro_variant.id }}" data-option data-price="{{ pro_price | escape }}" data-available="{{ pro_variant.available }}">{% endif %}
-            <span class="vehicle-option__media">{% if option_2_image != blank %}{{ option_2_image | image_url: width: 320 | image_tag: loading: 'lazy', alt: '' }}{% else %}<span>Photo</span>{% endif %}</span>
+            {% if pro_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ pro_variant.id }}" data-option data-price="{{ pro_price | escape }}" data-available="{{ pro_variant.available }}" data-option-main="{% if section.settings.option_main_image_2 != blank %}{{ section.settings.option_main_image_2 | image_url: width: 1800 }}{% else %}{{ 'cleardrive-option-18-pro-main.png' | asset_url }}{% endif %}">{% endif %}
+            <span class="vehicle-option__media">{% if option_2_image != blank %}{{ option_2_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-18-pro-preview.png' | asset_url }}" width="2149" height="732" loading="lazy" alt="18 Pro display preview">{% endif %}</span>
             <span class="vehicle-option__copy"><strong>Pro for {{ vehicle_product.title | escape }}</strong>{% if pro_variant != blank %}<b>{{ pro_price }}</b>{% else %}<b>—</b>{% endif %}</span>
             <small class="vehicle-option__stock">{% if pro_variant != blank and pro_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if max_variant == blank %} is-unavailable{% endif %}">
-            {% if max_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ max_variant.id }}" data-option data-price="{{ max_price | escape }}" data-available="{{ max_variant.available }}">{% endif %}
-            <span class="vehicle-option__media{% if option_3_image == blank %} vehicle-option__media--placeholder{% endif %}">{% if option_3_image != blank %}{{ option_3_image | image_url: width: 320 | image_tag: loading: 'lazy', alt: '' }}{% endif %}</span>
+            {% if max_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ max_variant.id }}" data-option data-price="{{ max_price | escape }}" data-available="{{ max_variant.available }}" data-option-main="{% if section.settings.option_main_image_3 != blank %}{{ section.settings.option_main_image_3 | image_url: width: 1800 }}{% else %}{{ 'cleardrive-option-19-ultra-max-main.png' | asset_url }}{% endif %}">{% endif %}
+            <span class="vehicle-option__media">{% if option_3_image != blank %}{{ option_3_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="19 Ultra and Max display preview">{% endif %}</span>
             <span class="vehicle-option__copy"><strong>Max for {{ vehicle_product.title | escape }}</strong>{% if max_variant != blank %}<b>{{ max_price }}</b>{% else %}<b>—</b>{% endif %}</span>
             <small class="vehicle-option__stock">{% if max_variant != blank and max_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if ultra_variant == blank %} is-unavailable{% endif %}">
-            {% if ultra_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ ultra_variant.id }}" data-option data-price="{{ ultra_price | escape }}" data-available="{{ ultra_variant.available }}">{% endif %}
-            <span class="vehicle-option__media{% if option_4_image == blank %} vehicle-option__media--placeholder{% endif %}">{% if option_4_image != blank %}{{ option_4_image | image_url: width: 320 | image_tag: loading: 'lazy', alt: '' }}{% endif %}</span>
+            {% if ultra_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ ultra_variant.id }}" data-option data-price="{{ ultra_price | escape }}" data-available="{{ ultra_variant.available }}" data-option-main="{% if section.settings.option_main_image_4 != blank %}{{ section.settings.option_main_image_4 | image_url: width: 1800 }}{% else %}{{ 'cleardrive-option-19-ultra-max-main.png' | asset_url }}{% endif %}">{% endif %}
+            <span class="vehicle-option__media">{% if option_4_image != blank %}{{ option_4_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="19 Ultra and Max display preview">{% endif %}</span>
             <span class="vehicle-option__copy"><strong>Ultra for {{ vehicle_product.title | escape }}</strong>{% if ultra_variant != blank %}<b>{{ ultra_price }}</b>{% else %}<b>—</b>{% endif %}</span>
             <small class="vehicle-option__stock">{% if ultra_variant != blank and ultra_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
@@ -212,7 +212,7 @@
   .vehicle-store__product{width:min(1536px,100%);margin:0 auto;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(500px,1fr);align-items:start}
   .vehicle-gallery{position:sticky;top:0;height:clamp(600px,72vh,714px);min-height:0;padding:0 16px 16px;background:#fff;display:grid;grid-template-rows:minmax(0,1fr) 94px;gap:12px}
   .vehicle-media-window{min-height:0;background:#fff;display:grid}
-  .vehicle-gallery__stage{position:relative;width:100%;height:100%;min-height:0;display:grid;place-items:center;overflow:hidden;background:#fff}
+  .vehicle-gallery__stage{position:relative;width:100%;height:100%;min-height:0;display:grid;place-items:center;overflow:hidden;background:#fff}.vehicle-gallery__stage.is-option-main{background:#060709}.vehicle-gallery__stage.is-option-main .vehicle-gallery__hero{padding:0;object-fit:contain}
   .vehicle-gallery__hero{width:100%;height:100%;padding:24px;object-fit:contain;transition:opacity .2s ease}
   .vehicle-gallery__empty{display:flex;flex-direction:column;gap:8px;text-align:center;color:#777}.vehicle-gallery__empty strong{font-size:24px;line-height:28px;font-weight:600;letter-spacing:-.03em;color:#333}
   .vehicle-gallery__stage-arrow{position:absolute;top:50%;z-index:2;display:grid;place-items:center;width:46px;height:46px;transform:translateY(-50%);padding:0;border:0;border-radius:50%;background:rgba(35,38,42,.78);color:#fff;font-size:32px;line-height:1;cursor:pointer;transition:opacity .2s ease}.vehicle-gallery__stage-arrow--previous{left:14px}.vehicle-gallery__stage-arrow--next{right:14px}.vehicle-gallery__stage-arrow:disabled{opacity:.28;cursor:default}
@@ -225,12 +225,12 @@
   .vehicle-price{font-size:18px;line-height:24px;font-weight:600;letter-spacing:-.02em;margin:26px 0 20px}
   .vehicle-info-card{background:var(--soft);border-radius:12px;overflow:hidden;margin-top:8px}.vehicle-info-row{display:grid;grid-template-columns:34px 1fr 18px;gap:12px;padding:20px 26px}.vehicle-info-icon{width:28px;height:28px;color:#626669}.vehicle-info-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.9;fill:currentColor;stroke-linecap:round;stroke-linejoin:round}.vehicle-info-copy p{font-size:14px;line-height:20px;font-weight:400;margin:0 0 6px}.vehicle-info-copy p:last-child{margin-bottom:0}.vehicle-info-arrow{font-size:30px;color:#555;align-self:center}
   .vehicle-features-card{margin-top:18px}.vehicle-features-card__list{display:grid;gap:4px}.vehicle-feature{display:flex;gap:14px;align-items:center;padding:10px 0}.vehicle-feature__icon{flex:0 0 27px;width:27px;height:27px;color:#1c2734}.vehicle-feature__icon svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.vehicle-feature p{margin:0;color:#39424e;font-size:14px;line-height:20px}
-  .vehicle-options{margin-top:34px}.vehicle-options h2{font-size:20px;line-height:24px;font-weight:600;letter-spacing:-.03em;margin:0 0 22px}.vehicle-option{position:relative;min-height:158px;border:1px solid #d4d7d9;border-radius:10px;padding:20px 22px 42px;display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center;margin:0 0 12px;background:#fff;cursor:pointer}.vehicle-option.is-selected{border:2px solid var(--blue);padding:19px 21px 41px}.vehicle-option.is-unavailable{cursor:not-allowed}.vehicle-option input{position:absolute;opacity:0;pointer-events:none}.vehicle-option__media{width:112px;height:112px;display:grid;place-items:center;background:#f7f8f9;overflow:hidden;color:#999;font-size:12px;line-height:16px;letter-spacing:-.02em}.vehicle-option__media--placeholder{border:1px dashed #cfd3d5;background:#fafbfb}.vehicle-option__media img{width:100%;height:100%;object-fit:contain}.vehicle-option__copy{display:flex;flex-direction:column;justify-content:center}.vehicle-option__copy strong{display:block;font-size:16px;line-height:24px;font-weight:400;letter-spacing:-.02em}.vehicle-option__copy b{display:block;font-size:14px;line-height:20px;margin-top:8px;font-weight:400;letter-spacing:-.02em}.vehicle-option__stock{position:absolute;right:22px;bottom:18px;font-size:12px;line-height:16px;color:#167b42;font-weight:400;letter-spacing:-.02em}.vehicle-option.is-unavailable .vehicle-option__stock{color:#777}
+  .vehicle-options{margin-top:34px}.vehicle-options h2{font-size:20px;line-height:24px;font-weight:600;letter-spacing:-.03em;margin:0 0 22px}.vehicle-option{position:relative;min-height:158px;border:1px solid #d4d7d9;border-radius:10px;padding:20px 22px 42px;display:grid;grid-template-columns:148px 1fr;gap:16px;align-items:center;margin:0 0 12px;background:#fff;cursor:pointer}.vehicle-option.is-selected{border:2px solid var(--blue);padding:19px 21px 41px}.vehicle-option.is-unavailable{cursor:not-allowed}.vehicle-option input{position:absolute;opacity:0;pointer-events:none}.vehicle-option__media{width:148px;height:84px;display:grid;place-items:center;background:#080a0d;overflow:hidden;color:#999;font-size:12px;line-height:16px;letter-spacing:-.02em}.vehicle-option__media--placeholder{border:1px dashed #cfd3d5;background:#fafbfb}.vehicle-option__media img{display:block;width:100%;height:100%;object-fit:contain}.vehicle-option__copy{display:flex;flex-direction:column;justify-content:center}.vehicle-option__copy strong{display:block;font-size:16px;line-height:24px;font-weight:400;letter-spacing:-.02em}.vehicle-option__copy b{display:block;font-size:14px;line-height:20px;margin-top:8px;font-weight:400;letter-spacing:-.02em}.vehicle-option__stock{position:absolute;right:22px;bottom:18px;font-size:12px;line-height:16px;color:#167b42;font-weight:400;letter-spacing:-.02em}.vehicle-option.is-unavailable .vehicle-option__stock{color:#777}
   .vehicle-content{width:min(1348px,calc(100% - 48px));margin:0 auto}.vehicle-guide{padding:86px 0 28px;background:#fff}.vehicle-guide h2{font-size:24px;line-height:28px;text-align:center;margin:0 0 32px;font-weight:600;letter-spacing:-.03em}.vehicle-video{position:relative;aspect-ratio:16/7;background:#0a0a0a;overflow:hidden}.vehicle-video__element{width:100%;height:100%;object-fit:cover}.vehicle-video__empty{height:100%;display:grid;place-content:center;text-align:center;color:#fff}.vehicle-video__empty span{font-size:24px;line-height:28px;font-weight:600;letter-spacing:-.03em}.vehicle-video__empty p{font-size:14px;line-height:20px;color:#aaa;margin:12px 0 0}.vehicle-video__sound{position:absolute;right:20px;bottom:20px;border:0;background:#fff;color:#111;padding:11px 16px;font-size:14px;line-height:20px;font-weight:600}
   .vehicle-posters{padding:0 0 90px;background:#fff}.vehicle-poster-grid{height:720px;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:1fr 1fr;gap:12px}.vehicle-poster{background:#f2f4f5;overflow:hidden;display:grid;place-items:center;color:#9a9da0;font-size:14px;line-height:20px}.vehicle-poster img{width:100%;height:100%;object-fit:cover}.vehicle-poster--1{grid-column:span 5;grid-row:span 2}.vehicle-poster--2{grid-column:span 4}.vehicle-poster--3{grid-column:span 3}.vehicle-poster--4{grid-column:span 3}.vehicle-poster--5{grid-column:span 2}.vehicle-poster--6{grid-column:span 2}
   .vehicle-fixed-buy{position:fixed;left:0;right:0;bottom:0;height:68px;background:#fff;border-top:1px solid #e3e5e7;box-shadow:0 -6px 22px rgba(0,0,0,.07);z-index:1000}.vehicle-fixed-buy__inner{width:min(1348px,calc(100% - 48px));height:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between}.vehicle-fixed-buy__stock{display:flex;align-items:center;gap:14px}.vehicle-fixed-buy__stock svg{width:30px;height:30px;stroke:#626669;stroke-width:1.8;fill:#626669}.vehicle-fixed-buy__stock span{display:flex;flex-direction:column;gap:3px}.vehicle-fixed-buy__stock strong{font-size:14px;line-height:20px;font-weight:600;letter-spacing:-.02em}.vehicle-fixed-buy__stock small{font-size:12px;line-height:16px;color:#6c7073;letter-spacing:-.02em}.vehicle-fixed-buy__actions{display:flex;align-items:center;gap:12px}.vehicle-fixed-buy__actions>strong{font-size:18px;line-height:24px;font-weight:600;letter-spacing:-.02em;margin-right:14px}.vehicle-fixed-buy__actions form{margin:0}.vehicle-fixed-buy__actions button{height:38px;min-width:172px;border:0;border-radius:20px;font-size:14px;line-height:17.5px;font-weight:400;letter-spacing:-.02em;cursor:pointer}.vehicle-fixed-buy__cart{background:#e0ecff;color:var(--blue)}.vehicle-fixed-buy__now{background:var(--blue);color:#fff}.vehicle-fixed-buy__actions button:disabled{opacity:.45}
-  @media(max-width:989px){.vehicle-store__product{display:block}.vehicle-gallery{position:relative;height:432px;min-height:0;padding:0 16px 20px;grid-template-rows:minmax(0,1fr) 108px;gap:12px}.vehicle-gallery__hero{padding:28px}.vehicle-buy{padding:34px 24px 64px}.vehicle-buy__inner{width:100%}.vehicle-content{width:calc(100% - 32px)}.vehicle-poster-grid{height:auto;grid-template-columns:1fr 1fr;grid-template-rows:240px 240px 240px}.vehicle-poster--1{grid-column:auto;grid-row:span 2}.vehicle-poster--2,.vehicle-poster--3,.vehicle-poster--4,.vehicle-poster--5,.vehicle-poster--6{grid-column:auto}.vehicle-fixed-buy__inner{width:calc(100% - 24px)}.vehicle-fixed-buy__stock small{display:none}.vehicle-fixed-buy__actions>strong{font-size:18px;line-height:24px;margin-right:0}.vehicle-fixed-buy__actions button{min-width:118px;padding:0 16px}.vehicle-option{grid-template-columns:94px 1fr}.vehicle-option__media{width:88px;height:88px}}
-  @media(max-width:620px){.vehicle-store{padding-bottom:77px}.vehicle-fixed-buy{height:77px}.vehicle-fixed-buy__inner{align-items:flex-start;padding:6px 0;display:grid;grid-template-columns:1fr auto}.vehicle-fixed-buy__stock{grid-row:1}.vehicle-fixed-buy__stock svg{width:23px;height:23px}.vehicle-fixed-buy__stock strong{font-size:14px;line-height:20px}.vehicle-fixed-buy__actions{grid-column:1/3;display:grid;grid-template-columns:1fr 1fr}.vehicle-fixed-buy__actions>strong{position:absolute;right:12px;top:8px}.vehicle-fixed-buy__actions button{width:100%;min-width:0;height:38px;font-size:14px;line-height:17.5px}.vehicle-option{grid-template-columns:76px 1fr;min-height:132px;padding:15px 15px 37px}.vehicle-option.is-selected{padding:14px 14px 36px}.vehicle-option__media{width:70px;height:70px}.vehicle-option__copy strong{font-size:16px;line-height:24px}.vehicle-option__copy b{font-size:14px;line-height:20px}.vehicle-option__stock{right:15px;bottom:14px;font-size:12px;line-height:16px}.vehicle-gallery{height:392px;padding-left:12px;padding-right:12px;grid-template-rows:minmax(0,1fr) 86px}.vehicle-gallery__hero{padding:20px}.vehicle-gallery__stage-arrow{width:40px;height:40px;font-size:29px}.vehicle-gallery__stage-arrow--previous{left:12px}.vehicle-gallery__stage-arrow--next{right:12px}.vehicle-gallery__thumbnail-rail:before,.vehicle-gallery__thumbnail-rail:after{width:46px}.vehicle-gallery__thumbnails{gap:9px;padding-left:46px;padding-right:46px}.vehicle-gallery__thumbnail{flex-basis:112px;height:82px;border-radius:8px}.vehicle-gallery__thumbnail-previous,.vehicle-gallery__thumbnail-next{width:36px;height:44px;font-size:30px}.vehicle-gallery__play{width:32px;height:32px;font-size:12px;line-height:16px}.vehicle-info-row{padding-left:18px;padding-right:18px}.vehicle-feature{gap:12px;padding:10px 0}.vehicle-feature__icon{flex-basis:25px;width:25px;height:25px}.vehicle-feature p{font-size:14px;line-height:20px}.vehicle-guide{padding-top:56px}.vehicle-guide h2{font-size:24px;line-height:28px}.vehicle-video{aspect-ratio:16/10}.vehicle-poster-grid{grid-template-columns:1fr;grid-template-rows:repeat(6,260px)}.vehicle-poster--1{grid-row:auto}}
+  @media(max-width:989px){.vehicle-store__product{display:block}.vehicle-gallery{position:relative;height:432px;min-height:0;padding:0 16px 20px;grid-template-rows:minmax(0,1fr) 108px;gap:12px}.vehicle-gallery__hero{padding:28px}.vehicle-buy{padding:34px 24px 64px}.vehicle-buy__inner{width:100%}.vehicle-content{width:calc(100% - 32px)}.vehicle-poster-grid{height:auto;grid-template-columns:1fr 1fr;grid-template-rows:240px 240px 240px}.vehicle-poster--1{grid-column:auto;grid-row:span 2}.vehicle-poster--2,.vehicle-poster--3,.vehicle-poster--4,.vehicle-poster--5,.vehicle-poster--6{grid-column:auto}.vehicle-fixed-buy__inner{width:calc(100% - 24px)}.vehicle-fixed-buy__stock small{display:none}.vehicle-fixed-buy__actions>strong{font-size:18px;line-height:24px;margin-right:0}.vehicle-fixed-buy__actions button{min-width:118px;padding:0 16px}.vehicle-option{grid-template-columns:128px 1fr}.vehicle-option__media{width:120px;height:68px}}
+  @media(max-width:620px){.vehicle-store{padding-bottom:77px}.vehicle-fixed-buy{height:77px}.vehicle-fixed-buy__inner{align-items:flex-start;padding:6px 0;display:grid;grid-template-columns:1fr auto}.vehicle-fixed-buy__stock{grid-row:1}.vehicle-fixed-buy__stock svg{width:23px;height:23px}.vehicle-fixed-buy__stock strong{font-size:14px;line-height:20px}.vehicle-fixed-buy__actions{grid-column:1/3;display:grid;grid-template-columns:1fr 1fr}.vehicle-fixed-buy__actions>strong{position:absolute;right:12px;top:8px}.vehicle-fixed-buy__actions button{width:100%;min-width:0;height:38px;font-size:14px;line-height:17.5px}.vehicle-option{grid-template-columns:112px 1fr;min-height:132px;padding:15px 15px 37px}.vehicle-option.is-selected{padding:14px 14px 36px}.vehicle-option__media{width:102px;height:58px}.vehicle-option__copy strong{font-size:16px;line-height:24px}.vehicle-option__copy b{font-size:14px;line-height:20px}.vehicle-option__stock{right:15px;bottom:14px;font-size:12px;line-height:16px}.vehicle-gallery{height:392px;padding-left:12px;padding-right:12px;grid-template-rows:minmax(0,1fr) 86px}.vehicle-gallery__hero{padding:20px}.vehicle-gallery__stage-arrow{width:40px;height:40px;font-size:29px}.vehicle-gallery__stage-arrow--previous{left:12px}.vehicle-gallery__stage-arrow--next{right:12px}.vehicle-gallery__thumbnail-rail:before,.vehicle-gallery__thumbnail-rail:after{width:46px}.vehicle-gallery__thumbnails{gap:9px;padding-left:46px;padding-right:46px}.vehicle-gallery__thumbnail{flex-basis:112px;height:82px;border-radius:8px}.vehicle-gallery__thumbnail-previous,.vehicle-gallery__thumbnail-next{width:36px;height:44px;font-size:30px}.vehicle-gallery__play{width:32px;height:32px;font-size:12px;line-height:16px}.vehicle-info-row{padding-left:18px;padding-right:18px}.vehicle-feature{gap:12px;padding:10px 0}.vehicle-feature__icon{flex-basis:25px;width:25px;height:25px}.vehicle-feature p{font-size:14px;line-height:20px}.vehicle-guide{padding-top:56px}.vehicle-guide h2{font-size:24px;line-height:28px}.vehicle-video{aspect-ratio:16/10}.vehicle-poster-grid{grid-template-columns:1fr;grid-template-rows:repeat(6,260px)}.vehicle-poster--1{grid-row:auto}}
 
   .vehicle-gallery__thumbnails {
     overscroll-behavior-x: contain;
@@ -292,6 +292,7 @@
     const root = document.querySelector('[data-vehicle="{{ section.id }}"]');
     if (!root) return;
     const hero = root.querySelector('.vehicle-gallery__hero');
+    const galleryStage = root.querySelector('.vehicle-gallery__stage');
     const galleryEmpty = root.querySelector('[data-gallery-empty]');
     const galleryVideoWrap = root.querySelector('[data-gallery-video]');
     const galleryVideo = root.querySelector('.vehicle-gallery__video');
@@ -306,6 +307,7 @@
     const showMedia = (item) => {
       activeMediaIndex = mediaItems.indexOf(item);
       const isVideo = item.dataset.mediaType === 'video';
+      galleryStage?.classList.remove('is-option-main');
       mediaItems.forEach((mediaItem) => {
         const isActive = mediaItem === item;
         mediaItem.classList.toggle('is-active', isActive);
@@ -330,6 +332,26 @@
         }, 130);
       }
       galleryEmpty?.removeAttribute('hidden');
+      if (galleryVideoWrap) {
+        galleryVideo.pause();
+        galleryVideoWrap.setAttribute('hidden', '');
+      }
+    };
+    const showOptionMainImage = (imageUrl) => {
+      if (!hero || !imageUrl) return;
+      galleryStage?.classList.add('is-option-main');
+      mediaItems.forEach((mediaItem) => {
+        mediaItem.classList.remove('is-active');
+        mediaItem.setAttribute('aria-selected', 'false');
+      });
+      hero.style.opacity = '0';
+      setTimeout(() => {
+        hero.src = imageUrl;
+        hero.srcset = '';
+        hero.removeAttribute('hidden');
+        hero.style.opacity = '1';
+      }, 130);
+      galleryEmpty?.setAttribute('hidden', '');
       if (galleryVideoWrap) {
         galleryVideo.pause();
         galleryVideoWrap.setAttribute('hidden', '');
@@ -378,6 +400,7 @@
       root.querySelector('[data-bar-stock-detail]').textContent = available ? 'Ready to ship' : 'Currently unavailable';
       root.querySelectorAll('[data-variant]').forEach((field) => { field.value = input.value; });
       root.querySelectorAll('.vehicle-fixed-buy__actions button').forEach((button) => { button.disabled = !available; });
+      showOptionMainImage(input.dataset.optionMain);
     }));
     const guideVideo = root.querySelector('.vehicle-video__element');
     const sound = root.querySelector('[data-sound]');
@@ -410,6 +433,10 @@
     {"type":"image_picker","id":"option_image_2","label":"Pro option image"},
     {"type":"image_picker","id":"option_image_3","label":"Max option image"},
     {"type":"image_picker","id":"option_image_4","label":"Ultra option image"},
+    {"type":"image_picker","id":"option_main_image_1","label":"Core option main image"},
+    {"type":"image_picker","id":"option_main_image_2","label":"Pro option main image"},
+    {"type":"image_picker","id":"option_main_image_3","label":"Max option main image"},
+    {"type":"image_picker","id":"option_main_image_4","label":"Ultra option main image"},
     {"type":"video","id":"installation_video","label":"Installation video"},
     {"type":"image_picker","id":"poster_1","label":"Poster 1"},
     {"type":"image_picker","id":"poster_2","label":"Poster 2"},
