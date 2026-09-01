@@ -240,8 +240,8 @@
       </div>
       <div class="vehicle-fixed-buy__actions">
         <strong data-bar-price>{{ standard_price }}</strong>
-        <form method="post" action="{{ routes.cart_add_url }}"><input type="hidden" name="id" value="{{ standard_variant.id }}" data-variant><button class="vehicle-fixed-buy__cart" type="submit" {% unless standard_variant.available %}disabled{% endunless %}>Add to Cart</button></form>
-        <form method="post" action="{{ routes.cart_add_url }}"><input type="hidden" name="id" value="{{ standard_variant.id }}" data-variant><input type="hidden" name="return_to" value="/checkout"><button class="vehicle-fixed-buy__now" type="submit" {% unless standard_variant.available %}disabled{% endunless %}>Buy Now</button></form>
+        <form method="post" action="{{ routes.cart_add_url }}"><input type="hidden" name="id" value="{{ core_variant.id }}" data-variant><button class="vehicle-fixed-buy__cart" type="submit" {% unless standard_variant.available %}disabled{% endunless %}>Add to Cart</button></form>
+        <form method="post" action="{{ routes.cart_add_url }}"><input type="hidden" name="id" value="{{ core_variant.id }}" data-variant><input type="hidden" name="return_to" value="/checkout"><button class="vehicle-fixed-buy__now" type="submit" {% unless standard_variant.available %}disabled{% endunless %}>Buy Now</button></form>
       </div>
     </div>
   </div>
@@ -451,9 +451,19 @@
       root.querySelector('[data-bar-price]').textContent = input.dataset.price;
       root.querySelector('[data-bar-stock]').textContent = available ? 'In Stock' : 'Out of Stock';
       root.querySelector('[data-bar-stock-detail]').textContent = available ? 'Ready to ship' : 'Currently unavailable';
-      root.querySelectorAll('[data-variant]').forEach((field) => { field.value = input.value; });
+      root.querySelectorAll('[data-variant]').forEach((field) => {
+        field.value = input.value;
+        field.setAttribute('value', input.value);
+      });
       root.querySelectorAll('.vehicle-fixed-buy__actions button').forEach((button) => { button.disabled = !available; });
       if (input.dataset.galleryGroup) showGalleryGroup(input.dataset.galleryGroup);
+    }));
+    root.querySelectorAll('.vehicle-fixed-buy__actions form').forEach((form) => form.addEventListener('submit', () => {
+      const selectedOption = root.querySelector('[data-option]:checked');
+      const variantField = form.querySelector('[data-variant]');
+      if (!selectedOption || !variantField) return;
+      variantField.value = selectedOption.value;
+      variantField.setAttribute('value', selectedOption.value);
     }));
     const guideVideo = root.querySelector('.vehicle-video__element');
     const sound = root.querySelector('[data-sound]');
