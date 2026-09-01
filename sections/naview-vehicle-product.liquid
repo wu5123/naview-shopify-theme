@@ -453,6 +453,7 @@
     root.querySelector('[data-year]')?.addEventListener('change', (event) => { window.location.href = event.target.value; });
     const installationService = root.querySelector('[data-installation-service]');
     const purchaseButtons = [...root.querySelectorAll('[data-purchase-action]')];
+    const cartRootUrl = {{ routes.root_url | append: 'cart' | json }};
     const currencyCode = root.dataset.currencyCode || 'CAD';
     const currencyFormatter = new Intl.NumberFormat('en-CA', {
       style: 'currency',
@@ -497,7 +498,7 @@
       if (button.dataset.purchaseAction === 'checkout') {
         const checkoutItems = [`${selectedVariantId}:${quantity}`];
         if (installationVariantId) checkoutItems.push(`${installationVariantId}:${quantity}`);
-        window.location.assign(`${window.Shopify.routes.root}cart/${checkoutItems.join(',')}`);
+        window.location.assign(`${cartRootUrl}/${checkoutItems.join(',')}`);
         return;
       }
 
@@ -520,7 +521,7 @@
       button.setAttribute('aria-busy', 'true');
 
       try {
-        const response = await fetch(`${window.Shopify.routes.root}cart/add.js`, {
+        const response = await fetch(`${cartRootUrl}/add.js`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           credentials: 'same-origin',
@@ -528,7 +529,7 @@
         });
         const responseData = await response.json();
         if (!response.ok) throw new Error(responseData.description || 'Unable to add the selected items.');
-        window.location.assign(`${window.Shopify.routes.root}cart`);
+        window.location.assign(cartRootUrl);
       } catch (error) {
         console.error('Cleardrive cart error:', error);
         window.alert(error.message || 'Unable to add the selected items. Please try again.');
