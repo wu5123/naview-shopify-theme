@@ -65,12 +65,21 @@
         "f150_2021_product": "ford-f-150",
         "nx_2022_product": "lexus-nx",
         "gallery_1": "shopify://shop_images/ChatGPT_Image_2026_9_1_12_05_17_2.png",
+        "gallery_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_16_39_50.png",
+        "gallery_3": "shopify://shop_images/dual-front-rear-camera-digital-mirror-poster.png",
+        "gallery_4": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_18_20.png",
         "option_main_image_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_12_05_17_3.png",
         "pro_gallery_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_11_42_12_3.png",
+        "pro_gallery_3": "shopify://shop_images/dual-front-rear-camera-digital-mirror-poster.png",
+        "pro_gallery_4": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_18_20_e0d45fe4-17b2-4c33-9ed9-c376254ca94b.png",
         "option_main_image_3": "shopify://shop_images/ChatGPT_Image_2026_9_1_12_05_17_2.png",
         "max_gallery_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_11_42_13_6.png",
+        "max_gallery_3": "shopify://shop_images/dual-front-rear-camera-digital-mirror-poster.png",
+        "max_gallery_4": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_18_20_e0d45fe4-17b2-4c33-9ed9-c376254ca94b.png",
         "option_main_image_4": "shopify://shop_images/ChatGPT_Image_2026_9_1_12_05_17_2.png",
         "ultra_gallery_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_11_42_13_6.png",
+        "ultra_gallery_3": "shopify://shop_images/dual-front-rear-camera-digital-mirror-poster.png",
+        "ultra_gallery_4": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_18_20_e0d45fe4-17b2-4c33-9ed9-c376254ca94b.png",
         "option_image_1": "shopify://shop_images/ChatGPT_Image_2026_8_24_16_11_51_2.png",
         "option_image_2": "shopify://shop_images/ChatGPT_Image_2026_8_24_16_11_52_3.png",
         "option_image_3": "shopify://shop_images/ChatGPT_Image_2026_8_24_16_11_51_1.png",
@@ -80,7 +89,8 @@
         "poster_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_16_02_52_1.png",
         "poster_3": "shopify://shop_images/ip68-waterproof-camera-poster-328x354-4x.png",
         "poster_4": "shopify://shop_images/loop-recording-poster-328x354-4x_4a08a2ea-9c69-44bf-be91-ee4684572316.png",
-        "poster_5": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_03_00_1.png"
+        "poster_5": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_03_00_1.png",
+        "poster_6": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_26_59.png"
       }
     }
   },
