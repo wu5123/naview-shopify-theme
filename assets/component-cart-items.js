@@ -135,12 +135,27 @@ export class CartItemsComponent extends createViewEventElement(Component) {
       return this.onLineItemRemove(line);
     }
 
+    const lineItemRow = this.refs.cartItemRows[line - 1];
+    const bundleId = lineItemRow?.dataset.cleardriveBundle;
+    const bundledRows = bundleId
+      ? this.refs.cartItemRows.filter((row) => row.dataset.cleardriveBundle === bundleId)
+      : [];
+
+    if (bundledRows.length > 1) {
+      this.updateBundleQuantity({
+        rows: bundledRows,
+        quantity,
+        action: 'change',
+      });
+      bundledRows.forEach((row) => row.querySelector('text-component')?.shimmer?.());
+      return;
+    }
+
     this.updateQuantity({
       line,
       quantity,
       action: 'change',
     });
-    const lineItemRow = this.refs.cartItemRows[line - 1];
 
     if (!lineItemRow) return;
 
@@ -153,20 +168,32 @@ export class CartItemsComponent extends createViewEventElement(Component) {
    * @param {number} line - The line item index.
    */
   onLineItemRemove(line) {
-    this.updateQuantity({
-      line,
-      quantity: 0,
-      action: 'clear',
-    });
-
     const cartItemRowToRemove = this.refs.cartItemRows[line - 1];
 
     if (!cartItemRowToRemove) return;
 
+    const bundleId = cartItemRowToRemove.dataset.cleardriveBundle;
+    const bundledRows = bundleId
+      ? this.refs.cartItemRows.filter((row) => row.dataset.cleardriveBundle === bundleId)
+      : [];
+
+    if (bundledRows.length > 1) {
+      this.updateBundleQuantity({ rows: bundledRows, quantity: 0, action: 'clear' });
+    } else {
+      this.updateQuantity({
+        line,
+        quantity: 0,
+        action: 'clear',
+      });
+    }
+
+    const primaryRowsToRemove = bundledRows.length > 1 ? bundledRows : [cartItemRowToRemove];
     const rowsToRemove = [
-      cartItemRowToRemove,
+      ...primaryRowsToRemove,
       // Get all nested lines of the row to remove
-      ...this.refs.cartItemRows.filter((row) => row.dataset.parentKey === cartItemRowToRemove.dataset.key),
+      ...this.refs.cartItemRows.filter((row) =>
+        primaryRowsToRemove.some((primaryRow) => row.dataset.parentKey === primaryRow.dataset.key)
+      ),
     ];
 
     // If the cart item row is the last row, optimistically trigger the cart empty state
@@ -274,6 +301,101 @@ export class CartItemsComponent extends createViewEventElement(Component) {
             sections: parsedResponseText.sections,
             items: parsedResponseText.items,
             itemCount: newCartItemCount,
+            source: 'cart-items-component',
+            didError: false,
+          },
+        });
+
+        morphSection(this.sectionId, parsedResponseText.sections[this.sectionId], {
+          mode: this.isDrawer ? 'hydration' : 'full',
+        });
+
+        this.#updateCartQuantitySelectorButtonStates();
+      })
+      .catch((error) => {
+        console.error(error);
+        deferredUpdatePromise.reject(error);
+
+        this.dispatchEvent(
+          new CartErrorEvent({
+            error: error?.message || 'Failed to update cart',
+            code: 'SERVICE_UNAVAILABLE',
+          })
+        );
+      })
+      .finally(() => {
+        this.#enableCartItems();
+        cartPerformance.measureFromMarker(cartPerformaceUpdateMarker);
+      });
+  }
+
+  /**
+   * Keeps a Cleardrive product and its installation-service line synchronized.
+   * Both line-item keys are updated in one Shopify request so checkout never sees
+   * a mismatched product/service quantity.
+   * @param {Object} config
+   * @param {HTMLTableRowElement[]} config.rows
+   * @param {number} config.quantity
+   * @param {string} config.action
+   */
+  updateBundleQuantity(config) {
+    const cartPerformaceUpdateMarker = cartPerformance.createStartingMarker(`${config.action}:bundle-user-action`);
+
+    this.#disableCartItems();
+
+    const { rows, quantity } = config;
+    const { cartTotal } = this.refs;
+    const cartItemsComponents = document.querySelectorAll('cart-items-component');
+    const sectionsToUpdate = new Set([this.sectionId]);
+    cartItemsComponents.forEach((item) => {
+      if (item instanceof HTMLElement && item.dataset.sectionId) sectionsToUpdate.add(item.dataset.sectionId);
+    });
+
+    /** @type {Record<string, number>} */
+    const updates = {};
+    rows.forEach((row) => {
+      if (row.dataset.key) updates[row.dataset.key] = quantity;
+    });
+
+    const body = JSON.stringify({
+      updates,
+      sections: Array.from(sectionsToUpdate).join(','),
+      sections_url: window.location.pathname,
+    });
+
+    cartTotal?.shimmer();
+
+    const deferredUpdatePromise = CartLinesUpdateEvent.createPromise();
+    this.dispatchEvent(
+      new CartLinesUpdateEvent({
+        action: quantity > 0 ? 'update' : 'remove',
+        context: 'cart',
+        lines: rows.map((row) => ({ id: row.dataset.key ?? '', quantity })),
+        promise: deferredUpdatePromise.promise,
+      })
+    );
+
+    fetch(Theme.routes.cart_update_url, fetchConfig('json', { body }))
+      .then((response) => response.text())
+      .then((responseText) => {
+        const parsedResponseText = JSON.parse(responseText);
+
+        resetShimmer(this);
+
+        if (parsedResponseText.errors) {
+          const firstLine = this.refs.cartItemRows.indexOf(rows[0]) + 1;
+          this.#handleCartError(firstLine, parsedResponseText);
+          deferredUpdatePromise.reject(new Error(parsedResponseText.errors));
+          return;
+        }
+
+        this.#updateQuantitySelectors(parsedResponseText);
+
+        deferredUpdatePromise.resolve({
+          cart: CartLinesUpdateEvent.createCartFromAjaxResponse(parsedResponseText),
+          detail: {
+            sections: parsedResponseText.sections,
+            items: parsedResponseText.items,
             source: 'cart-items-component',
             didError: false,
           },

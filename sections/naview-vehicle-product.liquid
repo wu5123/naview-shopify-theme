@@ -248,8 +248,8 @@
       </div>
       <div class="vehicle-fixed-buy__actions">
         <strong data-bar-price>{{ standard_price }}</strong>
-        <form method="post" action="{{ routes.cart_add_url }}" data-purchase-mode="cart" data-quantity="1"><button class="vehicle-fixed-buy__cart" type="submit" name="id" value="{{ core_variant.id }}" data-variant {% unless standard_variant.available %}disabled{% endunless %}>Add to Cart</button></form>
-        <form method="post" action="{{ routes.cart_add_url }}" data-purchase-mode="checkout" data-quantity="1"><input type="hidden" name="return_to" value="/checkout"><button class="vehicle-fixed-buy__now" type="submit" name="id" value="{{ core_variant.id }}" data-variant {% unless standard_variant.available %}disabled{% endunless %}>Buy Now</button></form>
+        <button class="vehicle-fixed-buy__cart" type="button" value="{{ core_variant.id }}" data-variant data-purchase-action="cart" data-quantity="1" {% unless standard_variant.available %}disabled{% endunless %}>Add to Cart</button>
+        <button class="vehicle-fixed-buy__now" type="button" value="{{ core_variant.id }}" data-variant data-purchase-action="checkout" data-quantity="1" {% unless standard_variant.available %}disabled{% endunless %}>Buy Now</button>
       </div>
     </div>
   </div>
@@ -452,7 +452,7 @@
     showGalleryGroup(root.querySelector('[data-option]:checked')?.dataset.galleryGroup || 'core', true);
     root.querySelector('[data-year]')?.addEventListener('change', (event) => { window.location.href = event.target.value; });
     const installationService = root.querySelector('[data-installation-service]');
-    const purchaseForms = [...root.querySelectorAll('.vehicle-fixed-buy__actions form')];
+    const purchaseButtons = [...root.querySelectorAll('[data-purchase-action]')];
     const currencyCode = root.dataset.currencyCode || 'CAD';
     const currencyFormatter = new Intl.NumberFormat('en-CA', {
       style: 'currency',
@@ -486,24 +486,38 @@
       updateLivePrice();
       if (input.dataset.galleryGroup) showGalleryGroup(input.dataset.galleryGroup);
     }));
-    purchaseForms.forEach((form) => form.addEventListener('submit', async (event) => {
+    purchaseButtons.forEach((button) => button.addEventListener('click', async () => {
       const selectedOption = root.querySelector('[data-option]:checked');
-      const variantField = form.querySelector('[data-variant]');
-      if (!selectedOption || !variantField) return;
-      variantField.value = selectedOption.value;
-      variantField.setAttribute('value', selectedOption.value);
+      if (!selectedOption || selectedOption.dataset.available !== 'true') return;
       const includeService = Boolean(installationService?.checked && installationService.dataset.available === 'true');
-      if (!includeService) return;
+      const quantity = Math.max(1, Number.parseInt(button.dataset.quantity || '1', 10) || 1);
+      const selectedVariantId = selectedOption.value;
+      const installationVariantId = includeService ? installationService.dataset.variantId : '';
 
-      event.preventDefault();
-      const quantity = Math.max(1, Number.parseInt(form.dataset.quantity || '1', 10) || 1);
-      const items = [
-        { id: Number(selectedOption.value), quantity },
-        { id: Number(installationService.dataset.variantId), quantity }
-      ];
-      const submitButton = event.submitter || variantField;
-      submitButton.disabled = true;
-      submitButton.setAttribute('aria-busy', 'true');
+      if (button.dataset.purchaseAction === 'checkout') {
+        const checkoutItems = [`${selectedVariantId}:${quantity}`];
+        if (installationVariantId) checkoutItems.push(`${installationVariantId}:${quantity}`);
+        window.location.assign(`${window.Shopify.routes.root}cart/${checkoutItems.join(',')}`);
+        return;
+      }
+
+      const bundleId = includeService
+        ? `cleardrive-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+        : '';
+      const items = [{
+        id: Number(selectedVariantId),
+        quantity,
+        ...(bundleId ? { properties: { _cleardrive_bundle: bundleId, _cleardrive_role: 'product' } } : {})
+      }];
+      if (installationVariantId) {
+        items.push({
+          id: Number(installationVariantId),
+          quantity,
+          properties: { _cleardrive_bundle: bundleId, _cleardrive_role: 'service' }
+        });
+      }
+      button.disabled = true;
+      button.setAttribute('aria-busy', 'true');
 
       try {
         const response = await fetch(`${window.Shopify.routes.root}cart/add.js`, {
@@ -514,12 +528,12 @@
         });
         const responseData = await response.json();
         if (!response.ok) throw new Error(responseData.description || 'Unable to add the selected items.');
-        window.location.assign(form.dataset.purchaseMode === 'checkout' ? '/checkout' : `${window.Shopify.routes.root}cart`);
+        window.location.assign(`${window.Shopify.routes.root}cart`);
       } catch (error) {
         console.error('Cleardrive cart error:', error);
         window.alert(error.message || 'Unable to add the selected items. Please try again.');
-        submitButton.disabled = false;
-        submitButton.removeAttribute('aria-busy');
+        button.disabled = false;
+        button.removeAttribute('aria-busy');
       }
     }));
     const guideVideo = root.querySelector('.vehicle-video__element');

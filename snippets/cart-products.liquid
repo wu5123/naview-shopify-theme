@@ -149,6 +149,8 @@
                 ref="cartItemRows[]"
                 data-parent-key="{{ item.parent_relationship.parent.key }}"
                 data-key="{{ item.key }}"
+                data-cleardrive-bundle="{{ item.properties._cleardrive_bundle | escape }}"
+                data-cleardrive-role="{{ item.properties._cleardrive_role | escape }}"
               >
                 <td
                   class="cart-items__media"
