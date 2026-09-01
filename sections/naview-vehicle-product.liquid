@@ -22,7 +22,7 @@
   assign feature_image_alt = vehicle_product.title | append: ' product feature'
 %}
 
-<section class="vehicle-store" data-vehicle="{{ section.id }}">
+<section class="vehicle-store" data-vehicle="{{ section.id }}" data-currency-code="{{ cart.currency.iso_code | default: shop.currency }}">
   <div class="vehicle-store__product">
     <div class="vehicle-gallery">
       <div class="vehicle-media-window">
@@ -174,31 +174,31 @@
         <div class="vehicle-options">
           <h2>Select Option</h2>
           <label class="vehicle-option is-selected">
-            <input type="radio" name="vehicle-option-{{ section.id }}" value="{{ core_variant.id }}" data-option data-price="{{ standard_price | escape }}" data-available="{{ core_variant.available }}" data-gallery-group="core" checked>
+            <input type="radio" name="vehicle-option-{{ section.id }}" value="{{ core_variant.id }}" data-option data-price="{{ standard_price | escape }}" data-price-cents="{{ core_variant.price }}" data-available="{{ core_variant.available }}" data-gallery-group="core" checked>
             <span class="vehicle-option__media">{% if option_1_image != blank %}{{ option_1_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-17-pro-e-preview.png' | asset_url }}" width="2048" height="768" loading="lazy" alt="17 Pro E display preview">{% endif %}</span>
             <span class="vehicle-option__copy"><strong>Core for {{ vehicle_product.title | escape }}</strong><b>{{ standard_price }}</b></span>
             <small class="vehicle-option__stock">{% if core_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if pro_variant == blank %} is-unavailable{% endif %}">
-            {% if pro_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ pro_variant.id }}" data-option data-price="{{ pro_price | escape }}" data-available="{{ pro_variant.available }}" data-gallery-group="pro">{% endif %}
+            {% if pro_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ pro_variant.id }}" data-option data-price="{{ pro_price | escape }}" data-price-cents="{{ pro_variant.price }}" data-available="{{ pro_variant.available }}" data-gallery-group="pro">{% endif %}
             <span class="vehicle-option__media">{% if option_2_image != blank %}{{ option_2_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-18-pro-preview.png' | asset_url }}" width="2149" height="732" loading="lazy" alt="18 Pro display preview">{% endif %}</span>
             <span class="vehicle-option__copy"><strong>Pro for {{ vehicle_product.title | escape }}</strong>{% if pro_variant != blank %}<b>{{ pro_price }}</b>{% else %}<b>—</b>{% endif %}</span>
             <small class="vehicle-option__stock">{% if pro_variant != blank and pro_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if max_variant == blank %} is-unavailable{% endif %}">
-            {% if max_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ max_variant.id }}" data-option data-price="{{ max_price | escape }}" data-available="{{ max_variant.available }}" data-gallery-group="max">{% endif %}
+            {% if max_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ max_variant.id }}" data-option data-price="{{ max_price | escape }}" data-price-cents="{{ max_variant.price }}" data-available="{{ max_variant.available }}" data-gallery-group="max">{% endif %}
             <span class="vehicle-option__media">{% if option_3_image != blank %}{{ option_3_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="19 Ultra and Max display preview">{% endif %}</span>
             <span class="vehicle-option__copy"><strong>Max for {{ vehicle_product.title | escape }}</strong>{% if max_variant != blank %}<b>{{ max_price }}</b>{% else %}<b>—</b>{% endif %}</span>
             <small class="vehicle-option__stock">{% if max_variant != blank and max_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if ultra_variant == blank %} is-unavailable{% endif %}">
-            {% if ultra_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ ultra_variant.id }}" data-option data-price="{{ ultra_price | escape }}" data-available="{{ ultra_variant.available }}" data-gallery-group="ultra">{% endif %}
+            {% if ultra_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ ultra_variant.id }}" data-option data-price="{{ ultra_price | escape }}" data-price-cents="{{ ultra_variant.price }}" data-available="{{ ultra_variant.available }}" data-gallery-group="ultra">{% endif %}
             <span class="vehicle-option__media">{% if option_4_image != blank %}{{ option_4_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="19 Ultra and Max display preview">{% endif %}</span>
             <span class="vehicle-option__copy"><strong>Ultra for {{ vehicle_product.title | escape }}</strong>{% if ultra_variant != blank %}<b>{{ ultra_price }}</b>{% else %}<b>—</b>{% endif %}</span>
             <small class="vehicle-option__stock">{% if ultra_variant != blank and ultra_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-installation-option{% if installation_variant == blank or installation_variant.available == false %} is-unavailable{% endif %}">
-            {% if installation_variant != blank %}<input type="checkbox" data-installation-service data-variant-id="{{ installation_variant.id }}" data-available="{{ installation_variant.available }}"{% unless installation_variant.available %} disabled{% endunless %}>{% endif %}
+            {% if installation_variant != blank %}<input type="checkbox" data-installation-service data-variant-id="{{ installation_variant.id }}" data-price-cents="{{ installation_variant.price }}" data-available="{{ installation_variant.available }}"{% unless installation_variant.available %} disabled{% endunless %}>{% endif %}
             <span class="vehicle-installation-option__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6.5"/></svg></span>
             <span class="vehicle-installation-option__text">Installation Service <small>(Toronto Only)</small></span>
             <span class="vehicle-installation-option__price">
@@ -248,8 +248,8 @@
       </div>
       <div class="vehicle-fixed-buy__actions">
         <strong data-bar-price>{{ standard_price }}</strong>
-        <form method="post" action="{{ routes.cart_add_url }}"><input type="hidden" name="quantity" value="1" data-product-quantity><input type="hidden" name="items[0][quantity]" value="1" data-bundle-product-quantity disabled><input type="hidden" name="items[1][id]" value="{{ installation_variant.id }}" data-installation-item disabled><input type="hidden" name="items[1][quantity]" value="1" data-installation-quantity disabled><button class="vehicle-fixed-buy__cart" type="submit" name="id" value="{{ core_variant.id }}" data-variant {% unless standard_variant.available %}disabled{% endunless %}>Add to Cart</button></form>
-        <form method="post" action="{{ routes.cart_add_url }}"><input type="hidden" name="quantity" value="1" data-product-quantity><input type="hidden" name="items[0][quantity]" value="1" data-bundle-product-quantity disabled><input type="hidden" name="items[1][id]" value="{{ installation_variant.id }}" data-installation-item disabled><input type="hidden" name="items[1][quantity]" value="1" data-installation-quantity disabled><input type="hidden" name="return_to" value="/checkout"><button class="vehicle-fixed-buy__now" type="submit" name="id" value="{{ core_variant.id }}" data-variant {% unless standard_variant.available %}disabled{% endunless %}>Buy Now</button></form>
+        <form method="post" action="{{ routes.cart_add_url }}" data-purchase-mode="cart" data-quantity="1"><button class="vehicle-fixed-buy__cart" type="submit" name="id" value="{{ core_variant.id }}" data-variant {% unless standard_variant.available %}disabled{% endunless %}>Add to Cart</button></form>
+        <form method="post" action="{{ routes.cart_add_url }}" data-purchase-mode="checkout" data-quantity="1"><input type="hidden" name="return_to" value="/checkout"><button class="vehicle-fixed-buy__now" type="submit" name="id" value="{{ core_variant.id }}" data-variant {% unless standard_variant.available %}disabled{% endunless %}>Buy Now</button></form>
       </div>
     </div>
   </div>
@@ -453,36 +453,29 @@
     root.querySelector('[data-year]')?.addEventListener('change', (event) => { window.location.href = event.target.value; });
     const installationService = root.querySelector('[data-installation-service]');
     const purchaseForms = [...root.querySelectorAll('.vehicle-fixed-buy__actions form')];
-    const syncInstallationForms = () => {
-      const includeService = Boolean(installationService?.checked && installationService.dataset.available === 'true');
-      purchaseForms.forEach((form) => {
-        const variantButton = form.querySelector('[data-variant]');
-        const productQuantity = form.querySelector('[data-product-quantity]');
-        const bundleProductQuantity = form.querySelector('[data-bundle-product-quantity]');
-        const installationItem = form.querySelector('[data-installation-item]');
-        const installationQuantity = form.querySelector('[data-installation-quantity]');
-        const quantity = Math.max(1, Number.parseInt(productQuantity?.value || '1', 10) || 1);
-        if (variantButton) variantButton.name = includeService ? 'items[0][id]' : 'id';
-        if (productQuantity) productQuantity.disabled = includeService;
-        if (bundleProductQuantity) {
-          bundleProductQuantity.disabled = !includeService;
-          bundleProductQuantity.value = String(quantity);
-        }
-        if (installationItem) installationItem.disabled = !includeService;
-        if (installationQuantity) {
-          installationQuantity.disabled = !includeService;
-          installationQuantity.value = String(quantity);
-        }
-      });
+    const currencyCode = root.dataset.currencyCode || 'CAD';
+    const currencyFormatter = new Intl.NumberFormat('en-CA', {
+      style: 'currency',
+      currency: currencyCode,
+      currencyDisplay: 'narrowSymbol'
+    });
+    const formatPrice = (cents) => `${currencyFormatter.format(cents / 100)} ${currencyCode}`;
+    const updateLivePrice = () => {
+      const selectedOption = root.querySelector('[data-option]:checked');
+      if (!selectedOption) return;
+      const productPrice = Number.parseInt(selectedOption.dataset.priceCents || '0', 10) || 0;
+      const installationPrice = installationService?.checked
+        ? Number.parseInt(installationService.dataset.priceCents || '0', 10) || 0
+        : 0;
+      root.querySelector('[data-bar-price]').textContent = formatPrice(productPrice + installationPrice);
     };
-    installationService?.addEventListener('change', syncInstallationForms);
-    syncInstallationForms();
+    installationService?.addEventListener('change', updateLivePrice);
+    updateLivePrice();
     root.querySelectorAll('[data-option]').forEach((input) => input.addEventListener('change', () => {
       root.querySelectorAll('.vehicle-option').forEach((card) => card.classList.remove('is-selected'));
       input.closest('.vehicle-option').classList.add('is-selected');
       const available = input.dataset.available === 'true';
       root.querySelector('[data-price]').textContent = input.dataset.price;
-      root.querySelector('[data-bar-price]').textContent = input.dataset.price;
       root.querySelector('[data-bar-stock]').textContent = available ? 'In Stock' : 'Out of Stock';
       root.querySelector('[data-bar-stock-detail]').textContent = available ? 'Ready to ship' : 'Currently unavailable';
       root.querySelectorAll('[data-variant]').forEach((field) => {
@@ -490,15 +483,44 @@
         field.setAttribute('value', input.value);
       });
       root.querySelectorAll('.vehicle-fixed-buy__actions button').forEach((button) => { button.disabled = !available; });
+      updateLivePrice();
       if (input.dataset.galleryGroup) showGalleryGroup(input.dataset.galleryGroup);
     }));
-    purchaseForms.forEach((form) => form.addEventListener('submit', () => {
-      syncInstallationForms();
+    purchaseForms.forEach((form) => form.addEventListener('submit', async (event) => {
       const selectedOption = root.querySelector('[data-option]:checked');
       const variantField = form.querySelector('[data-variant]');
       if (!selectedOption || !variantField) return;
       variantField.value = selectedOption.value;
       variantField.setAttribute('value', selectedOption.value);
+      const includeService = Boolean(installationService?.checked && installationService.dataset.available === 'true');
+      if (!includeService) return;
+
+      event.preventDefault();
+      const quantity = Math.max(1, Number.parseInt(form.dataset.quantity || '1', 10) || 1);
+      const items = [
+        { id: Number(selectedOption.value), quantity },
+        { id: Number(installationService.dataset.variantId), quantity }
+      ];
+      const submitButton = event.submitter || variantField;
+      submitButton.disabled = true;
+      submitButton.setAttribute('aria-busy', 'true');
+
+      try {
+        const response = await fetch(`${window.Shopify.routes.root}cart/add.js`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ items })
+        });
+        const responseData = await response.json();
+        if (!response.ok) throw new Error(responseData.description || 'Unable to add the selected items.');
+        window.location.assign(form.dataset.purchaseMode === 'checkout' ? '/checkout' : `${window.Shopify.routes.root}cart`);
+      } catch (error) {
+        console.error('Cleardrive cart error:', error);
+        window.alert(error.message || 'Unable to add the selected items. Please try again.');
+        submitButton.disabled = false;
+        submitButton.removeAttribute('aria-busy');
+      }
     }));
     const guideVideo = root.querySelector('.vehicle-video__element');
     const sound = root.querySelector('[data-sound]');
