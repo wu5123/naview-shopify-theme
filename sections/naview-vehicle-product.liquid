@@ -10,7 +10,6 @@
   assign max_price = max_variant.price | money_with_currency
   assign ultra_price = ultra_variant.price | money_with_currency
   assign default_vehicle_image = product.featured_image | default: section.settings.fallback_image
-  assign gallery_1 = section.settings.gallery_1 | default: default_vehicle_image
   assign option_1_image = section.settings.option_image_1
   assign option_2_image = section.settings.option_image_2
   assign option_3_image = section.settings.option_image_3
@@ -25,10 +24,11 @@
     <div class="vehicle-gallery">
       <div class="vehicle-media-window">
         <div class="vehicle-gallery__stage">
-          {% if gallery_1 != blank %}
-            {{ gallery_1 | image_url: width: 1800 | image_tag: class: 'vehicle-gallery__hero', loading: 'eager', widths: '720, 1080, 1440, 1800', sizes: '(min-width: 990px) 58vw, 100vw', alt: product_image_alt }}
+          {% assign initial_gallery_image = section.settings.gallery_1 | default: section.settings.option_main_image_1 | default: default_vehicle_image %}
+          {% if initial_gallery_image != blank %}
+            {{ initial_gallery_image | image_url: width: 1800 | image_tag: class: 'vehicle-gallery__hero', loading: 'eager', widths: '720, 1080, 1440, 1800', sizes: '(min-width: 990px) 50vw, 100vw', alt: product_image_alt }}
           {% else %}
-            <div class="vehicle-gallery__empty" data-gallery-empty><strong>{{ vehicle_product.title | escape }}</strong><span>Upload the primary product image</span></div>
+            <img class="vehicle-gallery__hero" src="{{ 'cleardrive-option-17-pro-e-main.png' | asset_url }}" width="1254" height="1254" loading="eager" alt="{{ product_image_alt | escape }}">
           {% endif %}
           {% if section.settings.gallery_video != blank %}
             <div class="vehicle-gallery__video-wrap" data-gallery-video hidden>
@@ -42,18 +42,54 @@
       <div class="vehicle-gallery__thumbnail-rail">
         <button class="vehicle-gallery__thumbnail-previous" type="button" aria-label="Show previous product media" data-gallery-scroll-previous>‹</button>
         <div class="vehicle-gallery__thumbnails" role="tablist" aria-label="Choose product media">
-          {% for i in (1..4) %}
-            {% assign key = 'gallery_' | append: i %}
-            {% assign gallery_image = section.settings[key] %}
-            {% if i == 1 and gallery_image == blank %}{% assign gallery_image = default_vehicle_image %}{% endif %}
-            {% if gallery_image != blank %}
-              <button type="button" class="vehicle-gallery__thumbnail{% if i == 1 %} is-active{% endif %}" role="tab" aria-selected="{% if i == 1 %}true{% else %}false{% endif %}" data-gallery-item data-media-type="image" data-image="{{ gallery_image | image_url: width: 1800 }}" aria-label="View photo {{ i }}">
-                {{ gallery_image | image_url: width: 360 | image_tag: loading: 'lazy', widths: '160, 240, 360', sizes: '140px', alt: product_image_alt }}
-              </button>
-            {% endif %}
+          {% for option_index in (1..4) %}
+            {% liquid
+              case option_index
+                when 1
+                  assign gallery_group = 'core'
+                  assign gallery_group_label = 'Core'
+                  assign gallery_main_image = section.settings.gallery_1 | default: section.settings.option_main_image_1 | default: default_vehicle_image
+                  assign gallery_main_asset = 'cleardrive-option-17-pro-e-main.png'
+                when 2
+                  assign gallery_group = 'pro'
+                  assign gallery_group_label = 'Pro'
+                  assign gallery_main_image = section.settings.option_main_image_2
+                  assign gallery_main_asset = 'cleardrive-option-18-pro-main.png'
+                when 3
+                  assign gallery_group = 'max'
+                  assign gallery_group_label = 'Max'
+                  assign gallery_main_image = section.settings.option_main_image_3
+                  assign gallery_main_asset = 'cleardrive-option-19-ultra-max-main.png'
+                when 4
+                  assign gallery_group = 'ultra'
+                  assign gallery_group_label = 'Ultra'
+                  assign gallery_main_image = section.settings.option_main_image_4
+                  assign gallery_main_asset = 'cleardrive-option-19-ultra-max-main.png'
+              endcase
+            %}
+            <button type="button" class="vehicle-gallery__thumbnail{% if option_index == 1 %} is-active{% endif %}" role="tab" aria-selected="{% if option_index == 1 %}true{% else %}false{% endif %}" data-gallery-item data-gallery-group="{{ gallery_group }}" data-media-type="image" data-option-main="true" data-image="{% if gallery_main_image != blank %}{{ gallery_main_image | image_url: width: 1800 }}{% else %}{{ gallery_main_asset | asset_url }}{% endif %}" aria-label="View {{ gallery_group_label }} main image"{% unless option_index == 1 %} hidden{% endunless %}>
+              {% if gallery_main_image != blank %}
+                {{ gallery_main_image | image_url: width: 360 | image_tag: loading: 'lazy', widths: '160, 240, 360', sizes: '140px', alt: product_image_alt }}
+              {% else %}
+                <img src="{{ gallery_main_asset | asset_url }}" width="1254" height="1254" loading="lazy" alt="{{ gallery_group_label }} {{ product_image_alt | escape }}">
+              {% endif %}
+            </button>
+            {% for image_index in (2..4) %}
+              {% if option_index == 1 %}
+                {% assign image_key = 'gallery_' | append: image_index %}
+              {% else %}
+                {% assign image_key = gallery_group | append: '_gallery_' | append: image_index %}
+              {% endif %}
+              {% assign gallery_image = section.settings[image_key] %}
+              {% if gallery_image != blank %}
+                <button type="button" class="vehicle-gallery__thumbnail" role="tab" aria-selected="false" data-gallery-item data-gallery-group="{{ gallery_group }}" data-media-type="image" data-image="{{ gallery_image | image_url: width: 1800 }}" aria-label="View {{ gallery_group_label }} photo {{ image_index }}"{% unless option_index == 1 %} hidden{% endunless %}>
+                  {{ gallery_image | image_url: width: 360 | image_tag: loading: 'lazy', widths: '160, 240, 360', sizes: '140px', alt: product_image_alt }}
+                </button>
+              {% endif %}
+            {% endfor %}
           {% endfor %}
           {% if section.settings.gallery_video != blank %}
-            <button type="button" class="vehicle-gallery__thumbnail vehicle-gallery__thumbnail--video" role="tab" aria-selected="false" data-gallery-item data-media-type="video" aria-label="Play product video">
+            <button type="button" class="vehicle-gallery__thumbnail vehicle-gallery__thumbnail--video" role="tab" aria-selected="false" data-gallery-item data-gallery-group="shared" data-media-type="video" aria-label="Play product video">
               {% if section.settings.gallery_video.preview_image != blank %}
                 {{ section.settings.gallery_video.preview_image | image_url: width: 360 | image_tag: loading: 'lazy', widths: '160, 240, 360', sizes: '140px', alt: product_image_alt }}
               {% else %}
@@ -135,25 +171,25 @@
         <div class="vehicle-options">
           <h2>Select Option</h2>
           <label class="vehicle-option is-selected">
-            <input type="radio" name="vehicle-option-{{ section.id }}" value="{{ core_variant.id }}" data-option data-price="{{ standard_price | escape }}" data-available="{{ core_variant.available }}" data-option-main="{% if section.settings.option_main_image_1 != blank %}{{ section.settings.option_main_image_1 | image_url: width: 1800 }}{% else %}{{ 'cleardrive-option-17-pro-e-main.png' | asset_url }}{% endif %}" checked>
+            <input type="radio" name="vehicle-option-{{ section.id }}" value="{{ core_variant.id }}" data-option data-price="{{ standard_price | escape }}" data-available="{{ core_variant.available }}" data-gallery-group="core" checked>
             <span class="vehicle-option__media">{% if option_1_image != blank %}{{ option_1_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-17-pro-e-preview.png' | asset_url }}" width="2048" height="768" loading="lazy" alt="17 Pro E display preview">{% endif %}</span>
             <span class="vehicle-option__copy"><strong>Core for {{ vehicle_product.title | escape }}</strong><b>{{ standard_price }}</b></span>
             <small class="vehicle-option__stock">{% if core_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if pro_variant == blank %} is-unavailable{% endif %}">
-            {% if pro_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ pro_variant.id }}" data-option data-price="{{ pro_price | escape }}" data-available="{{ pro_variant.available }}" data-option-main="{% if section.settings.option_main_image_2 != blank %}{{ section.settings.option_main_image_2 | image_url: width: 1800 }}{% else %}{{ 'cleardrive-option-18-pro-main.png' | asset_url }}{% endif %}">{% endif %}
+            {% if pro_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ pro_variant.id }}" data-option data-price="{{ pro_price | escape }}" data-available="{{ pro_variant.available }}" data-gallery-group="pro">{% endif %}
             <span class="vehicle-option__media">{% if option_2_image != blank %}{{ option_2_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-18-pro-preview.png' | asset_url }}" width="2149" height="732" loading="lazy" alt="18 Pro display preview">{% endif %}</span>
             <span class="vehicle-option__copy"><strong>Pro for {{ vehicle_product.title | escape }}</strong>{% if pro_variant != blank %}<b>{{ pro_price }}</b>{% else %}<b>—</b>{% endif %}</span>
             <small class="vehicle-option__stock">{% if pro_variant != blank and pro_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if max_variant == blank %} is-unavailable{% endif %}">
-            {% if max_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ max_variant.id }}" data-option data-price="{{ max_price | escape }}" data-available="{{ max_variant.available }}" data-option-main="{% if section.settings.option_main_image_3 != blank %}{{ section.settings.option_main_image_3 | image_url: width: 1800 }}{% else %}{{ 'cleardrive-option-19-ultra-max-main.png' | asset_url }}{% endif %}">{% endif %}
+            {% if max_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ max_variant.id }}" data-option data-price="{{ max_price | escape }}" data-available="{{ max_variant.available }}" data-gallery-group="max">{% endif %}
             <span class="vehicle-option__media">{% if option_3_image != blank %}{{ option_3_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="19 Ultra and Max display preview">{% endif %}</span>
             <span class="vehicle-option__copy"><strong>Max for {{ vehicle_product.title | escape }}</strong>{% if max_variant != blank %}<b>{{ max_price }}</b>{% else %}<b>—</b>{% endif %}</span>
             <small class="vehicle-option__stock">{% if max_variant != blank and max_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if ultra_variant == blank %} is-unavailable{% endif %}">
-            {% if ultra_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ ultra_variant.id }}" data-option data-price="{{ ultra_price | escape }}" data-available="{{ ultra_variant.available }}" data-option-main="{% if section.settings.option_main_image_4 != blank %}{{ section.settings.option_main_image_4 | image_url: width: 1800 }}{% else %}{{ 'cleardrive-option-19-ultra-max-main.png' | asset_url }}{% endif %}">{% endif %}
+            {% if ultra_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ ultra_variant.id }}" data-option data-price="{{ ultra_price | escape }}" data-available="{{ ultra_variant.available }}" data-gallery-group="ultra">{% endif %}
             <span class="vehicle-option__media">{% if option_4_image != blank %}{{ option_4_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="19 Ultra and Max display preview">{% endif %}</span>
             <span class="vehicle-option__copy"><strong>Ultra for {{ vehicle_product.title | escape }}</strong>{% if ultra_variant != blank %}<b>{{ ultra_price }}</b>{% else %}<b>—</b>{% endif %}</span>
             <small class="vehicle-option__stock">{% if ultra_variant != blank and ultra_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
@@ -218,7 +254,7 @@
   .vehicle-gallery__stage-arrow{position:absolute;top:50%;z-index:2;display:grid;place-items:center;width:46px;height:46px;transform:translateY(-50%);padding:0;border:0;border-radius:50%;background:rgba(35,38,42,.78);color:#fff;font-size:32px;line-height:1;cursor:pointer;transition:opacity .2s ease}.vehicle-gallery__stage-arrow--previous{left:14px}.vehicle-gallery__stage-arrow--next{right:14px}.vehicle-gallery__stage-arrow:disabled{opacity:.28;cursor:default}
   .vehicle-gallery__video-wrap{position:absolute;inset:0;background:#0b0c0d}.vehicle-gallery__video-wrap[hidden]{display:none}.vehicle-gallery__video{width:100%;height:100%;object-fit:contain;background:#0b0c0d}
   .vehicle-gallery__thumbnail-rail{position:absolute;left:50%;bottom:24px;z-index:4;width:min(calc(100% - 160px),520px);height:78px;transform:translateX(-50%);overflow:hidden;isolation:isolate;border:1px solid rgba(255,255,255,.48);border-radius:14px;background:rgba(255,255,255,.7);box-shadow:0 12px 30px rgba(15,18,22,.16);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}.vehicle-gallery__thumbnail-rail:before,.vehicle-gallery__thumbnail-rail:after{display:none}.vehicle-gallery__thumbnails{position:relative;z-index:1;height:100%;display:flex;align-items:center;gap:10px;overflow-x:auto;padding:8px 44px;scroll-snap-type:x proximity;scrollbar-width:none}.vehicle-gallery__thumbnails::-webkit-scrollbar{display:none}
-  .vehicle-gallery__thumbnail{position:relative;flex:0 0 82px;height:60px;padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;background:#f4f5f6;opacity:.7;cursor:pointer;scroll-snap-align:start;transition:opacity .2s ease,border-color .2s ease,transform .2s ease}.vehicle-gallery__thumbnail:hover,.vehicle-gallery__thumbnail:focus-visible{opacity:1}.vehicle-gallery__thumbnail.is-active{border-color:var(--blue);opacity:1;transform:translateY(-1px)}.vehicle-gallery__thumbnail img{display:block;width:100%;height:100%;object-fit:cover}.vehicle-gallery__thumbnail--video{display:grid;place-items:center;color:#fff;background:#0b0c0d;font-size:12px;line-height:16px;letter-spacing:-.02em}.vehicle-gallery__thumbnail--video img{opacity:.75}.vehicle-gallery__play{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:30px;height:30px;transform:translate(-50%,-50%);border-radius:50%;background:rgba(22,24,27,.84);color:#fff;font-size:11px;line-height:14px;letter-spacing:-.02em;text-indent:2px}
+  .vehicle-gallery__thumbnail{position:relative;flex:0 0 82px;height:60px;padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;background:#f4f5f6;opacity:.7;cursor:pointer;scroll-snap-align:start;transition:opacity .2s ease,border-color .2s ease,transform .2s ease}.vehicle-gallery__thumbnail[hidden]{display:none}.vehicle-gallery__thumbnail:hover,.vehicle-gallery__thumbnail:focus-visible{opacity:1}.vehicle-gallery__thumbnail.is-active{border-color:var(--blue);opacity:1;transform:translateY(-1px)}.vehicle-gallery__thumbnail img{display:block;width:100%;height:100%;object-fit:cover}.vehicle-gallery__thumbnail--video{display:grid;place-items:center;color:#fff;background:#0b0c0d;font-size:12px;line-height:16px;letter-spacing:-.02em}.vehicle-gallery__thumbnail--video img{opacity:.75}.vehicle-gallery__play{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:30px;height:30px;transform:translate(-50%,-50%);border-radius:50%;background:rgba(22,24,27,.84);color:#fff;font-size:11px;line-height:14px;letter-spacing:-.02em;text-indent:2px}
   .vehicle-gallery__thumbnail-previous,.vehicle-gallery__thumbnail-next{position:absolute;top:50%;z-index:3;width:38px;height:50px;transform:translateY(-50%);border:0;background:rgba(255,255,255,.74);color:#202326;font-size:28px;line-height:38px;cursor:pointer;transition:opacity .2s ease}.vehicle-gallery__thumbnail-previous{left:0;border-radius:0 25px 25px 0}.vehicle-gallery__thumbnail-next{right:0;border-radius:25px 0 0 25px}.vehicle-gallery__thumbnail-previous:disabled,.vehicle-gallery__thumbnail-next:disabled{opacity:.24;cursor:default}
   .vehicle-buy{min-width:0;padding:54px clamp(44px,4vw,76px) 80px}.vehicle-buy__inner{width:620px;max-width:100%}.vehicle-buy h1{font-size:24px;font-weight:600;line-height:28px;letter-spacing:-.03em;margin:0 0 28px;color:#333}
   .vehicle-year label{display:block;margin:0 0 9px;font-size:14px;line-height:20px;font-weight:400}.vehicle-select-wrap{position:relative}.vehicle-select-wrap:after{content:"⌄";position:absolute;right:16px;top:50%;transform:translateY(-57%);pointer-events:none}.vehicle-year select{appearance:none;width:100%;height:50px;border:1px solid #cfd3d5;border-radius:2px;background:#fff;padding:0 44px 0 16px;color:#333;font-size:14px;line-height:20px;font-weight:400}
@@ -296,23 +332,36 @@
     const galleryEmpty = root.querySelector('[data-gallery-empty]');
     const galleryVideoWrap = root.querySelector('[data-gallery-video]');
     const galleryVideo = root.querySelector('.vehicle-gallery__video');
-    const mediaItems = [...root.querySelectorAll('[data-gallery-item]')];
+    const allMediaItems = [...root.querySelectorAll('[data-gallery-item]')];
     const mainPrevious = root.querySelector('[data-gallery-main-previous]');
     const mainNext = root.querySelector('[data-gallery-main-next]');
     const thumbnailRail = root.querySelector('.vehicle-gallery__thumbnails');
     const thumbnailPrevious = root.querySelector('[data-gallery-scroll-previous]');
     const thumbnailNext = root.querySelector('[data-gallery-scroll-next]');
-    let activeMediaIndex = mediaItems.findIndex((item) => item.classList.contains('is-active'));
-    if (activeMediaIndex < 0) activeMediaIndex = 0;
-    const showMedia = (item) => {
+    let mediaItems = [];
+    let activeMediaIndex = 0;
+    let mediaTransitionTimer;
+    const updateThumbnailNavigation = () => {
+      if (!thumbnailRail) return;
+      if (thumbnailPrevious) thumbnailPrevious.disabled = thumbnailRail.scrollLeft <= 4;
+      if (thumbnailNext) thumbnailNext.disabled = thumbnailRail.scrollLeft + thumbnailRail.clientWidth >= thumbnailRail.scrollWidth - 4;
+    };
+    const updateMainNavigation = () => {
+      const disabled = mediaItems.length < 2;
+      if (mainPrevious) mainPrevious.disabled = disabled;
+      if (mainNext) mainNext.disabled = disabled;
+    };
+    const showMedia = (item, immediate = false) => {
+      if (!item || item.hidden) return;
       activeMediaIndex = mediaItems.indexOf(item);
       const isVideo = item.dataset.mediaType === 'video';
-      galleryStage?.classList.remove('is-option-main');
-      mediaItems.forEach((mediaItem) => {
+      galleryStage?.classList.toggle('is-option-main', item.dataset.optionMain === 'true');
+      allMediaItems.forEach((mediaItem) => {
         const isActive = mediaItem === item;
         mediaItem.classList.toggle('is-active', isActive);
         mediaItem.setAttribute('aria-selected', isActive ? 'true' : 'false');
       });
+      window.clearTimeout(mediaTransitionTimer);
       if (isVideo) {
         hero?.setAttribute('hidden', '');
         galleryEmpty?.setAttribute('hidden', '');
@@ -320,44 +369,46 @@
           galleryVideoWrap.removeAttribute('hidden');
           galleryVideo.play().catch(() => {});
         }
+        updateMainNavigation();
         return;
       }
       if (hero && item.dataset.image) {
-        hero.style.opacity = '0';
-        setTimeout(() => {
+        const updateHero = () => {
           hero.src = item.dataset.image;
           hero.srcset = '';
           hero.removeAttribute('hidden');
           hero.style.opacity = '1';
-        }, 130);
+        };
+        if (immediate) {
+          updateHero();
+        } else {
+          hero.style.opacity = '0';
+          mediaTransitionTimer = window.setTimeout(updateHero, 130);
+        }
       }
-      galleryEmpty?.removeAttribute('hidden');
-      if (galleryVideoWrap) {
-        galleryVideo.pause();
-        galleryVideoWrap.setAttribute('hidden', '');
-      }
-    };
-    const showOptionMainImage = (imageUrl) => {
-      if (!hero || !imageUrl) return;
-      galleryStage?.classList.add('is-option-main');
-      mediaItems.forEach((mediaItem) => {
-        mediaItem.classList.remove('is-active');
-        mediaItem.setAttribute('aria-selected', 'false');
-      });
-      hero.style.opacity = '0';
-      setTimeout(() => {
-        hero.src = imageUrl;
-        hero.srcset = '';
-        hero.removeAttribute('hidden');
-        hero.style.opacity = '1';
-      }, 130);
       galleryEmpty?.setAttribute('hidden', '');
       if (galleryVideoWrap) {
         galleryVideo.pause();
         galleryVideoWrap.setAttribute('hidden', '');
       }
+      updateMainNavigation();
     };
-    mediaItems.forEach((item) => item.addEventListener('click', () => showMedia(item)));
+    const showGalleryGroup = (galleryGroup, immediate = false) => {
+      allMediaItems.forEach((item) => {
+        const isVisible = item.dataset.galleryGroup === galleryGroup || item.dataset.galleryGroup === 'shared';
+        item.hidden = !isVisible;
+        if (!isVisible) {
+          item.classList.remove('is-active');
+          item.setAttribute('aria-selected', 'false');
+        }
+      });
+      mediaItems = allMediaItems.filter((item) => !item.hidden);
+      activeMediaIndex = 0;
+      thumbnailRail?.scrollTo({ left: 0, behavior: 'auto' });
+      showMedia(mediaItems[0], immediate);
+      requestAnimationFrame(updateThumbnailNavigation);
+    };
+    allMediaItems.forEach((item) => item.addEventListener('click', () => showMedia(item)));
     mainPrevious?.addEventListener('click', () => {
       if (mediaItems.length < 2) return;
       showMedia(mediaItems[(activeMediaIndex - 1 + mediaItems.length) % mediaItems.length]);
@@ -366,13 +417,6 @@
       if (mediaItems.length < 2) return;
       showMedia(mediaItems[(activeMediaIndex + 1) % mediaItems.length]);
     });
-    if (mainPrevious) mainPrevious.disabled = mediaItems.length < 2;
-    if (mainNext) mainNext.disabled = mediaItems.length < 2;
-    const updateThumbnailNext = () => {
-      if (!thumbnailRail) return;
-      if (thumbnailPrevious) thumbnailPrevious.disabled = thumbnailRail.scrollLeft <= 4;
-      if (thumbnailNext) thumbnailNext.disabled = thumbnailRail.scrollLeft + thumbnailRail.clientWidth >= thumbnailRail.scrollWidth - 4;
-    };
     const thumbnailScrollStep = () => Math.max(thumbnailRail.clientWidth * .72, 220);
     thumbnailPrevious?.addEventListener('click', () => {
       if (!thumbnailRail) return;
@@ -386,9 +430,9 @@
       if (!thumbnailRail) return;
       thumbnailRail.scrollBy({ left: thumbnailScrollStep(), behavior: 'smooth' });
     });
-    thumbnailRail?.addEventListener('scroll', updateThumbnailNext, { passive: true });
-    window.addEventListener('resize', updateThumbnailNext);
-    requestAnimationFrame(updateThumbnailNext);
+    thumbnailRail?.addEventListener('scroll', updateThumbnailNavigation, { passive: true });
+    window.addEventListener('resize', updateThumbnailNavigation);
+    showGalleryGroup(root.querySelector('[data-option]:checked')?.dataset.galleryGroup || 'core', true);
     root.querySelector('[data-year]')?.addEventListener('change', (event) => { window.location.href = event.target.value; });
     root.querySelectorAll('[data-option]').forEach((input) => input.addEventListener('change', () => {
       root.querySelectorAll('.vehicle-option').forEach((card) => card.classList.remove('is-selected'));
@@ -400,7 +444,7 @@
       root.querySelector('[data-bar-stock-detail]').textContent = available ? 'Ready to ship' : 'Currently unavailable';
       root.querySelectorAll('[data-variant]').forEach((field) => { field.value = input.value; });
       root.querySelectorAll('.vehicle-fixed-buy__actions button').forEach((button) => { button.disabled = !available; });
-      showOptionMainImage(input.dataset.optionMain);
+      showGalleryGroup(input.dataset.galleryGroup);
     }));
     const guideVideo = root.querySelector('.vehicle-video__element');
     const sound = root.querySelector('[data-sound]');
@@ -424,19 +468,33 @@
     {"type":"image_picker","id":"brand_logo","label":"Vehicle brand logo"},
     {"type":"product","id":"year_2019_product","label":"2019–2021 product"},
     {"type":"product","id":"year_2025_product","label":"2025+ product"},
-    {"type":"image_picker","id":"gallery_1","label":"Product image 1"},
-    {"type":"image_picker","id":"gallery_2","label":"Product image 2"},
-    {"type":"image_picker","id":"gallery_3","label":"Product image 3"},
-    {"type":"image_picker","id":"gallery_4","label":"Product image 4"},
+    {"type":"header","content":"Core product images"},
+    {"type":"image_picker","id":"gallery_1","label":"Core main image"},
+    {"type":"image_picker","id":"gallery_2","label":"Core image 2"},
+    {"type":"image_picker","id":"gallery_3","label":"Core image 3"},
+    {"type":"image_picker","id":"gallery_4","label":"Core image 4"},
+    {"type":"header","content":"Pro product images"},
+    {"type":"image_picker","id":"option_main_image_2","label":"Pro main image"},
+    {"type":"image_picker","id":"pro_gallery_2","label":"Pro image 2"},
+    {"type":"image_picker","id":"pro_gallery_3","label":"Pro image 3"},
+    {"type":"image_picker","id":"pro_gallery_4","label":"Pro image 4"},
+    {"type":"header","content":"Max product images"},
+    {"type":"image_picker","id":"option_main_image_3","label":"Max main image"},
+    {"type":"image_picker","id":"max_gallery_2","label":"Max image 2"},
+    {"type":"image_picker","id":"max_gallery_3","label":"Max image 3"},
+    {"type":"image_picker","id":"max_gallery_4","label":"Max image 4"},
+    {"type":"header","content":"Ultra product images"},
+    {"type":"image_picker","id":"option_main_image_4","label":"Ultra main image"},
+    {"type":"image_picker","id":"ultra_gallery_2","label":"Ultra image 2"},
+    {"type":"image_picker","id":"ultra_gallery_3","label":"Ultra image 3"},
+    {"type":"image_picker","id":"ultra_gallery_4","label":"Ultra image 4"},
+    {"type":"header","content":"Shared product video"},
     {"type":"video","id":"gallery_video","label":"Product gallery video"},
+    {"type":"header","content":"Option card images"},
     {"type":"image_picker","id":"option_image_1","label":"Core option image"},
     {"type":"image_picker","id":"option_image_2","label":"Pro option image"},
     {"type":"image_picker","id":"option_image_3","label":"Max option image"},
     {"type":"image_picker","id":"option_image_4","label":"Ultra option image"},
-    {"type":"image_picker","id":"option_main_image_1","label":"Core option main image"},
-    {"type":"image_picker","id":"option_main_image_2","label":"Pro option main image"},
-    {"type":"image_picker","id":"option_main_image_3","label":"Max option main image"},
-    {"type":"image_picker","id":"option_main_image_4","label":"Ultra option main image"},
     {"type":"video","id":"installation_video","label":"Installation video"},
     {"type":"image_picker","id":"poster_1","label":"Poster 1"},
     {"type":"image_picker","id":"poster_2","label":"Poster 2"},
