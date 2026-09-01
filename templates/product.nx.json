@@ -14,7 +14,13 @@
       "type": "naview-vehicle-product",
       "settings": {
         "fallback_image": "shopify://shop_images/lexus-nx-2026.png",
-        "brand_logo": "shopify://shop_images/lexus-logo.png"
+        "brand_logo": "shopify://shop_images/lexus-logo.png",
+        "rav4_2019_product": "toyota-rav4-2019-2025",
+        "rav4_2026_product": "toyota-rav4",
+        "crv_2017_product": "honda-cr-v-2017-2022",
+        "crv_2023_product": "honda-cr-v",
+        "f150_2021_product": "ford-f-150",
+        "nx_2022_product": "lexus-nx"
       },
       "blocks": {
         "feature_display": {"type":"feature","settings":{"icon":"display","text":"9.66\" IPS touchscreen, 1920 × 480 resolution, and 1,500-nit peak brightness"}},

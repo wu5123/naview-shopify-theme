@@ -18,8 +18,23 @@
   assign option_3_image = section.settings.option_image_3
   assign option_4_image = section.settings.option_image_4
   assign vehicle_page_url = vehicle_product.url
-  assign product_image_alt = vehicle_product.title | append: ' custom-fit digital rear mirror'
-  assign feature_image_alt = vehicle_product.title | append: ' product feature'
+  assign vehicle_key = ''
+  assign vehicle_display_name = vehicle_product.title
+  if vehicle_product.handle contains 'toyota-rav4' or vehicle_product.title contains 'RAV4'
+    assign vehicle_key = 'rav4'
+    assign vehicle_display_name = 'Toyota RAV4'
+  elsif vehicle_product.handle contains 'honda-cr-v' or vehicle_product.title contains 'CR-V'
+    assign vehicle_key = 'crv'
+    assign vehicle_display_name = 'Honda CR-V'
+  elsif vehicle_product.handle contains 'ford-f-150' or vehicle_product.title contains 'F-150'
+    assign vehicle_key = 'f150'
+    assign vehicle_display_name = 'Ford F-150 Raptor'
+  elsif vehicle_product.handle contains 'lexus-nx' or vehicle_product.title contains 'Lexus NX'
+    assign vehicle_key = 'nx'
+    assign vehicle_display_name = 'Lexus NX'
+  endif
+  assign product_image_alt = vehicle_display_name | append: ' custom-fit digital rear mirror'
+  assign feature_image_alt = vehicle_display_name | append: ' product feature'
 %}
 
 <section class="vehicle-store" data-vehicle="{{ section.id }}" data-currency-code="{{ cart.currency.iso_code | default: shop.currency }}">
@@ -121,16 +136,27 @@
                 alt: ''
             }}
           {% endif %}
-          <span>{{ vehicle_product.title | escape }}</span>
+          <span>{{ vehicle_display_name | escape }}</span>
         </h1>
 
         <div class="vehicle-year">
           <label for="vehicle-year-{{ section.id }}">Select Year</label>
           <div class="vehicle-select-wrap">
             <select id="vehicle-year-{{ section.id }}" data-year>
-              <option value="{{ vehicle_page_url }}">2022–2024</option>
-              <option value="{% if section.settings.year_2019_product != blank %}{{ section.settings.year_2019_product.url }}{% else %}{{ vehicle_page_url }}{% endif %}">2019–2021</option>
-              <option value="{% if section.settings.year_2025_product != blank %}{{ section.settings.year_2025_product.url }}{% else %}{{ vehicle_page_url }}{% endif %}">2025+</option>
+              {% case vehicle_key %}
+                {% when 'rav4' %}
+                  <option value="{% if section.settings.rav4_2019_product != blank %}{{ section.settings.rav4_2019_product.url }}{% else %}/products/toyota-rav4-2019-2025{% endif %}"{% if vehicle_product.handle contains '2019-2025' or section.settings.rav4_2019_product.id == vehicle_product.id %} selected{% endif %}>2019–2025</option>
+                  <option value="{% if section.settings.rav4_2026_product != blank %}{{ section.settings.rav4_2026_product.url }}{% else %}/products/toyota-rav4{% endif %}"{% unless vehicle_product.handle contains '2019-2025' or section.settings.rav4_2019_product.id == vehicle_product.id %} selected{% endunless %}>2026+</option>
+                {% when 'crv' %}
+                  <option value="{% if section.settings.crv_2017_product != blank %}{{ section.settings.crv_2017_product.url }}{% else %}/products/honda-cr-v-2017-2022{% endif %}"{% if vehicle_product.handle contains '2017-2022' or section.settings.crv_2017_product.id == vehicle_product.id %} selected{% endif %}>2017–2022</option>
+                  <option value="{% if section.settings.crv_2023_product != blank %}{{ section.settings.crv_2023_product.url }}{% else %}/products/honda-cr-v{% endif %}"{% unless vehicle_product.handle contains '2017-2022' or section.settings.crv_2017_product.id == vehicle_product.id %} selected{% endunless %}>2023+</option>
+                {% when 'f150' %}
+                  <option value="{% if section.settings.f150_2021_product != blank %}{{ section.settings.f150_2021_product.url }}{% else %}{{ vehicle_page_url }}{% endif %}" selected>2021+</option>
+                {% when 'nx' %}
+                  <option value="{% if section.settings.nx_2022_product != blank %}{{ section.settings.nx_2022_product.url }}{% else %}{{ vehicle_page_url }}{% endif %}" selected>2022+</option>
+                {% else %}
+                  <option value="{{ vehicle_page_url }}" selected>Current model</option>
+              {% endcase %}
             </select>
           </div>
         </div>
@@ -176,25 +202,25 @@
           <label class="vehicle-option is-selected">
             <input type="radio" name="vehicle-option-{{ section.id }}" value="{{ core_variant.id }}" data-option data-price="{{ standard_price | escape }}" data-price-cents="{{ core_variant.price }}" data-available="{{ core_variant.available }}" data-gallery-group="core" checked>
             <span class="vehicle-option__media">{% if option_1_image != blank %}{{ option_1_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-17-pro-e-preview.png' | asset_url }}" width="2048" height="768" loading="lazy" alt="17 Pro E display preview">{% endif %}</span>
-            <span class="vehicle-option__copy"><strong>Core for {{ vehicle_product.title | escape }}</strong><b>{{ standard_price }}</b></span>
+            <span class="vehicle-option__copy"><strong>Core for {{ vehicle_display_name | escape }}</strong><b>{{ standard_price }}</b></span>
             <small class="vehicle-option__stock">{% if core_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if pro_variant == blank %} is-unavailable{% endif %}">
             {% if pro_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ pro_variant.id }}" data-option data-price="{{ pro_price | escape }}" data-price-cents="{{ pro_variant.price }}" data-available="{{ pro_variant.available }}" data-gallery-group="pro">{% endif %}
             <span class="vehicle-option__media">{% if option_2_image != blank %}{{ option_2_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-18-pro-preview.png' | asset_url }}" width="2149" height="732" loading="lazy" alt="18 Pro display preview">{% endif %}</span>
-            <span class="vehicle-option__copy"><strong>Pro for {{ vehicle_product.title | escape }}</strong>{% if pro_variant != blank %}<b>{{ pro_price }}</b>{% else %}<b>—</b>{% endif %}</span>
+            <span class="vehicle-option__copy"><strong>Pro for {{ vehicle_display_name | escape }}</strong>{% if pro_variant != blank %}<b>{{ pro_price }}</b>{% else %}<b>—</b>{% endif %}</span>
             <small class="vehicle-option__stock">{% if pro_variant != blank and pro_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if max_variant == blank %} is-unavailable{% endif %}">
             {% if max_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ max_variant.id }}" data-option data-price="{{ max_price | escape }}" data-price-cents="{{ max_variant.price }}" data-available="{{ max_variant.available }}" data-gallery-group="max">{% endif %}
             <span class="vehicle-option__media">{% if option_3_image != blank %}{{ option_3_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="19 Ultra and Max display preview">{% endif %}</span>
-            <span class="vehicle-option__copy"><strong>Max for {{ vehicle_product.title | escape }}</strong>{% if max_variant != blank %}<b>{{ max_price }}</b>{% else %}<b>—</b>{% endif %}</span>
+            <span class="vehicle-option__copy"><strong>Max for {{ vehicle_display_name | escape }}</strong>{% if max_variant != blank %}<b>{{ max_price }}</b>{% else %}<b>—</b>{% endif %}</span>
             <small class="vehicle-option__stock">{% if max_variant != blank and max_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if ultra_variant == blank %} is-unavailable{% endif %}">
             {% if ultra_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ ultra_variant.id }}" data-option data-price="{{ ultra_price | escape }}" data-price-cents="{{ ultra_variant.price }}" data-available="{{ ultra_variant.available }}" data-gallery-group="ultra">{% endif %}
             <span class="vehicle-option__media">{% if option_4_image != blank %}{{ option_4_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="19 Ultra and Max display preview">{% endif %}</span>
-            <span class="vehicle-option__copy"><strong>Ultra for {{ vehicle_product.title | escape }}</strong>{% if ultra_variant != blank %}<b>{{ ultra_price }}</b>{% else %}<b>—</b>{% endif %}</span>
+            <span class="vehicle-option__copy"><strong>Ultra for {{ vehicle_display_name | escape }}</strong>{% if ultra_variant != blank %}<b>{{ ultra_price }}</b>{% else %}<b>—</b>{% endif %}</span>
             <small class="vehicle-option__stock">{% if ultra_variant != blank and ultra_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-installation-option{% if installation_variant == blank or installation_variant.available == false %} is-unavailable{% endif %}">
@@ -603,8 +629,13 @@
   "settings": [
     {"type":"image_picker","id":"fallback_image","label":"Fallback product image"},
     {"type":"image_picker","id":"brand_logo","label":"Vehicle brand logo"},
-    {"type":"product","id":"year_2019_product","label":"2019–2021 product"},
-    {"type":"product","id":"year_2025_product","label":"2025+ product"},
+    {"type":"header","content":"Year product pages"},
+    {"type":"product","id":"rav4_2019_product","label":"RAV4 2019–2025 product"},
+    {"type":"product","id":"rav4_2026_product","label":"RAV4 2026+ product"},
+    {"type":"product","id":"crv_2017_product","label":"CR-V 2017–2022 product"},
+    {"type":"product","id":"crv_2023_product","label":"CR-V 2023+ product"},
+    {"type":"product","id":"f150_2021_product","label":"F-150 Raptor 2021+ product"},
+    {"type":"product","id":"nx_2022_product","label":"Lexus NX 2022+ product"},
     {"type":"header","content":"Core product images"},
     {"type":"image_picker","id":"gallery_1","label":"Core main image"},
     {"type":"image_picker","id":"gallery_2","label":"Core image 2"},
