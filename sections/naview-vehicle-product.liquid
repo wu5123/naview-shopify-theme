@@ -240,8 +240,8 @@
       </div>
       <div class="vehicle-fixed-buy__actions">
         <strong data-bar-price>{{ standard_price }}</strong>
-        <form method="post" action="{{ routes.cart_add_url }}"><input type="hidden" name="id" value="{{ core_variant.id }}" data-variant><button class="vehicle-fixed-buy__cart" type="submit" {% unless standard_variant.available %}disabled{% endunless %}>Add to Cart</button></form>
-        <form method="post" action="{{ routes.cart_add_url }}"><input type="hidden" name="id" value="{{ core_variant.id }}" data-variant><input type="hidden" name="return_to" value="/checkout"><button class="vehicle-fixed-buy__now" type="submit" {% unless standard_variant.available %}disabled{% endunless %}>Buy Now</button></form>
+        <form method="post" action="{{ routes.cart_add_url }}"><button class="vehicle-fixed-buy__cart" type="submit" name="id" value="{{ core_variant.id }}" data-variant {% unless standard_variant.available %}disabled{% endunless %}>Add to Cart</button></form>
+        <form method="post" action="{{ routes.cart_add_url }}"><input type="hidden" name="return_to" value="/checkout"><button class="vehicle-fixed-buy__now" type="submit" name="id" value="{{ core_variant.id }}" data-variant {% unless standard_variant.available %}disabled{% endunless %}>Buy Now</button></form>
       </div>
     </div>
   </div>
