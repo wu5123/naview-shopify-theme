@@ -574,25 +574,80 @@
       const selectedVariantId = selectedOption.value;
       const installationVariantId = includeService ? installationService.dataset.variantId : '';
 
+      // Shopify merges lines only when both the variant and line properties match.
+      // Keep this key deterministic so adding the same product/service selection
+      // again increments the existing pair instead of creating duplicate rows.
       const bundleId = includeService
-        ? `cleardrive-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+        ? `cleardrive-${selectedVariantId}-${installationVariantId}`
         : '';
-      const items = [{
-        id: Number(selectedVariantId),
-        quantity,
-        ...(bundleId ? { properties: { _cleardrive_bundle: bundleId, _cleardrive_role: 'product' } } : {})
-      }];
-      if (installationVariantId) {
-        items.push({
-          id: Number(installationVariantId),
-          quantity,
-          properties: { _cleardrive_bundle: bundleId, _cleardrive_role: 'service' }
-        });
-      }
       button.disabled = true;
       button.setAttribute('aria-busy', 'true');
 
       try {
+        let effectiveQuantity = quantity;
+
+        // Consolidate lines created by the older random bundle keys. This is a
+        // one-time migration for carts that already contained duplicate rows
+        // before bundle IDs became deterministic.
+        if (bundleId) {
+          const cartResponse = await fetch(`${cartRootUrl}.js`, {
+            headers: { Accept: 'application/json' },
+            credentials: 'same-origin'
+          });
+
+          if (cartResponse.ok) {
+            const cartData = await cartResponse.json();
+            const cartItems = Array.isArray(cartData.items) ? cartData.items : [];
+            const legacyProductLines = cartItems.filter((item) => (
+              Number(item.id) === Number(selectedVariantId)
+              && item.properties?._cleardrive_role === 'product'
+              && item.properties?._cleardrive_bundle
+              && item.properties._cleardrive_bundle !== bundleId
+            ));
+            const legacyBundleIds = new Set(legacyProductLines
+              .map((item) => item.properties._cleardrive_bundle)
+              .filter((legacyId) => cartItems.some((item) => (
+                Number(item.id) === Number(installationVariantId)
+                && item.properties?._cleardrive_role === 'service'
+                && item.properties?._cleardrive_bundle === legacyId
+              ))));
+
+            if (legacyBundleIds.size) {
+              const updates = {};
+              let legacyQuantity = 0;
+
+              cartItems.forEach((item) => {
+                const legacyId = item.properties?._cleardrive_bundle;
+                if (!legacyBundleIds.has(legacyId)) return;
+                if (item.properties?._cleardrive_role === 'product') legacyQuantity += Number(item.quantity) || 0;
+                updates[item.key] = 0;
+              });
+
+              const migrationResponse = await fetch(`${cartRootUrl}/update.js`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({ updates })
+              });
+
+              if (migrationResponse.ok) effectiveQuantity += legacyQuantity;
+            }
+          }
+        }
+
+        const items = [{
+          id: Number(selectedVariantId),
+          quantity: effectiveQuantity,
+          ...(bundleId ? { properties: { _cleardrive_bundle: bundleId, _cleardrive_role: 'product' } } : {})
+        }];
+        if (installationVariantId) {
+          items.push({
+            id: Number(installationVariantId),
+            quantity: effectiveQuantity,
+            properties: { _cleardrive_bundle: bundleId, _cleardrive_role: 'service' }
+          });
+        }
+
         const response = await fetch(`${cartRootUrl}/add.js`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
