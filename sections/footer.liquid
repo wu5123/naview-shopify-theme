@@ -145,20 +145,14 @@
     <div class="nv-footer__main">
       <div class="nv-footer__brand">
         <a class="nv-footer__brand-link" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
-          {% if section.settings.logo != blank %}
-            {{
-              section.settings.logo
-              | image_url: width: 480
-              | image_tag:
-                class: 'nv-footer__logo',
-                loading: 'lazy',
-                widths: '120, 180, 240, 360, 480',
-                sizes: '(min-width: 990px) 190px, 160px',
-                alt: section.settings.brand_name
-            }}
-          {% else %}
-            <span class="nv-footer__wordmark">{{ section.settings.brand_name | escape }}</span>
-          {% endif %}
+          <img
+            class="nv-footer__logo"
+            src="{{ 'cleardrive-logo.png' | asset_url }}"
+            width="2172"
+            height="724"
+            loading="lazy"
+            alt="{{ section.settings.brand_name | default: shop.name | escape }}"
+          >
         </a>
 
         <div class="nv-footer__brand-copy">
