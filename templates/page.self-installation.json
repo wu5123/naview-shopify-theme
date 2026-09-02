@@ -1,0 +1,258 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "self-installation-guide",
+      "blocks": {
+        "tool_phillips": {"type":"tool","settings":{"short_label":"PH","title":"Phillips driver"}},
+        "tool_trim": {"type":"tool","settings":{"short_label":"PRY","title":"Plastic trim tool"}},
+        "tool_socket": {"type":"tool","settings":{"short_label":"SOCK","title":"Socket set"}},
+        "tool_fish": {"type":"tool","settings":{"short_label":"FISH","title":"Fish tape"}},
+        "tool_tape": {"type":"tool","settings":{"short_label":"TAPE","title":"Electrical or fabric tape"}},
+        "tool_cloth": {"type":"tool","settings":{"short_label":"CLOTH","title":"Microfiber cloth"}},
+
+        "part_mirror": {"type":"part","settings":{"group":"Kit A","title":"Digital rearview mirror","quantity":"x1","image_alt":"ClearDrive digital rearview mirror","fallback_asset":"self-install-crv-mirror.png"}},
+        "part_front_camera": {"type":"part","settings":{"group":"Kit A","title":"Front camera housing","quantity":"x1","image_alt":"Honda CR-V vehicle-specific front camera housing","fallback_asset":"self-install-crv-front-camera.png"}},
+        "part_mount": {"type":"part","settings":{"group":"Kit A","title":"Vehicle-specific mount","quantity":"x1","image_alt":"Honda CR-V vehicle-specific mirror mount","fallback_asset":"self-install-crv-mount.png"}},
+        "part_cover": {"type":"part","settings":{"group":"Kit A","title":"Mirror back cover","quantity":"x1","image_alt":"ClearDrive mirror back cover","fallback_asset":"self-install-crv-mirror-cover.png"}},
+        "part_rear_camera": {"type":"part","settings":{"group":"Kit B","title":"Third brake light rear camera","quantity":"x1","image_alt":"Honda CR-V third brake light rear camera","fallback_asset":"self-install-crv-rear-camera.png"}},
+        "part_extension": {"type":"part","settings":{"group":"Kit B","title":"Video extension cable","quantity":"x1","image_alt":"ClearDrive rear camera video extension cable","fallback_asset":"self-install-crv-extension-cable.png"}},
+        "part_harness": {"type":"part","settings":{"group":"Kit B","title":"Vehicle-specific power harness","quantity":"x1","image_alt":"Honda CR-V plug-and-play power harness","fallback_asset":"self-install-crv-power-harness.png"}},
+
+        "step_prepare": {
+          "type":"step",
+          "settings":{
+            "phase":"prepare",
+            "step_number":"1",
+            "title":"Prepare the vehicle",
+            "body":"<ol><li>Park on a level surface, switch the ignition off, apply the parking brake, and open the liftgate.</li><li>Disconnect the negative 12-V battery terminal and wait at least 3 minutes before working near overhead trim or SRS components.</li><li>Protect the windshield, dashboard, and trim with a clean cloth. Confirm all supplied parts are present.</li></ol>",
+            "image_alt":"ClearDrive mirror ready for installation",
+            "fallback_asset":"self-install-crv-mirror.png",
+            "show_wiring_diagram":false
+          }
+        },
+        "step_remove_mirror": {
+          "type":"step",
+          "settings":{
+            "phase":"prepare",
+            "step_number":"2",
+            "title":"Remove the original rearview mirror",
+            "body":"<ol><li>Release the trim shroud around the original mirror base with a plastic trim tool.</li><li>Support the mirror, loosen the mount fastener with the correct driver or bit, then slide the mirror off the windshield mount.</li><li>Disconnect any factory mirror connector by its locking tab, never by pulling the wires.</li></ol>",
+            "warning":"Do not twist the mirror or pry against the windshield glass.",
+            "image_alt":"Removing the original Honda CR-V rearview mirror",
+            "fallback_asset":"self-install-crv-remove-mirror.jpg",
+            "show_wiring_diagram":false
+          }
+        },
+        "step_install_mirror": {
+          "type":"step",
+          "settings":{
+            "phase":"mirror",
+            "step_number":"3",
+            "title":"Install the ClearDrive mirror and front camera housing",
+            "body":"<ol><li>Position the vehicle-specific mount and front camera housing at the factory mirror location.</li><li>Slide the ClearDrive mirror onto the mount and tighten the retaining fastener until secure.</li><li>Route the mirror leads upward behind the housing, leaving enough slack for normal mirror adjustment.</li></ol>",
+            "warning":"Tighten only enough to secure the mirror. Overtightening can damage the mount or windshield.",
+            "image_alt":"Installing the ClearDrive mirror and front camera housing",
+            "fallback_asset":"self-install-crv-install-mirror.jpg",
+            "show_wiring_diagram":false
+          }
+        },
+        "step_console": {
+          "type":"step",
+          "settings":{
+            "phase":"mirror",
+            "step_number":"4",
+            "title":"Lower the overhead console",
+            "body":"<ol><li>Open the sunglass holder and use a plastic trim tool to release the overhead console clips.</li><li>Support the console as it lowers.</li><li>Press the locking tab to disconnect the factory plug.</li></ol>",
+            "warning":"Never pull on the factory wires when releasing a connector.",
+            "image_alt":"Releasing the Honda CR-V overhead console",
+            "fallback_asset":"self-install-crv-lower-console.jpg",
+            "show_wiring_diagram":false
+          }
+        },
+        "step_harness": {
+          "type":"step",
+          "settings":{
+            "phase":"mirror",
+            "step_number":"5",
+            "title":"Install the vehicle-specific power harness",
+            "body":"<ol><li>Insert the ClearDrive T-harness between the factory roof connector and the overhead console connector.</li><li>Connect the dedicated mirror power lead. Match keyed plugs by shape and color and do not force a connector.</li><li>Confirm that every locking tab is fully seated.</li></ol><p>No factory wire cutting or splicing is required.</p>",
+            "show_wiring_diagram":true
+          }
+        },
+        "step_connect_extension": {
+          "type":"step",
+          "settings":{
+            "phase":"mirror",
+            "step_number":"6",
+            "title":"Connect the rear camera extension cable",
+            "body":"<ol><li>Join the matching mirror and video extension connectors until fully seated.</li><li>Secure the connection so it cannot rattle, then place the excess harness above the headliner without pinching it.</li><li>Reconnect and press the overhead console into place until every clip is seated.</li></ol>",
+            "image_alt":"Connecting the ClearDrive rear camera extension cable",
+            "fallback_asset":"self-install-crv-connect-cable.jpg",
+            "show_wiring_diagram":false
+          }
+        },
+        "step_front_headliner": {
+          "type":"step",
+          "settings":{
+            "phase":"cable",
+            "step_number":"7",
+            "title":"Hide the cable at the front headliner",
+            "body":"<ol><li>Leave a small service loop at the mirror so it can be adjusted without pulling the cable.</li><li>Use a plastic trim tool to tuck the extension cable above the front edge of the headliner.</li><li>Keep the cable clear of the windshield camera, sensors, and sun visor hardware.</li></ol>",
+            "image_alt":"ClearDrive cable routed at the front headliner",
+            "fallback_asset":"self-install-crv-front-headliner.jpg",
+            "show_wiring_diagram":false
+          }
+        },
+        "step_roofline": {
+          "type":"step",
+          "settings":{
+            "phase":"cable",
+            "step_number":"8",
+            "title":"Route along the passenger-side roofline",
+            "body":"<ol><li>Continue the cable rearward behind the headliner and upper door seals.</li><li>Use existing factory harness paths where possible and secure loose sections with fabric tape or cable ties.</li><li>Avoid sharp edges, moving trim, and all side-curtain airbag deployment paths.</li></ol>",
+            "warning":"Route behind the airbag path, never between an airbag and the occupant.",
+            "image_alt":"Cable routing along the Honda CR-V passenger-side roofline",
+            "fallback_asset":"self-install-crv-roofline.jpg",
+            "show_wiring_diagram":false
+          }
+        },
+        "step_liftgate_entry": {
+          "type":"step",
+          "settings":{
+            "phase":"cable",
+            "step_number":"9",
+            "title":"Bring the extension cable to the liftgate",
+            "body":"<ol><li>At the rear headliner, pull back only enough weatherstrip to access the factory cable route.</li><li>Guide the extension cable into the upper liftgate area. Use a fish tape if needed and protect the connector while pulling.</li><li>Confirm the cable is not trapped under the weatherstrip or trim clips.</li></ol>",
+            "image_alt":"Guiding the rear camera cable into the Honda CR-V liftgate",
+            "fallback_asset":"self-install-crv-liftgate-entry.jpg",
+            "show_wiring_diagram":false
+          }
+        },
+        "step_upper_trim": {
+          "type":"step",
+          "settings":{
+            "phase":"rear",
+            "step_number":"10",
+            "title":"Access the upper liftgate",
+            "body":"<ol><li>Open and support the liftgate.</li><li>Release the upper interior trim panel with a plastic trim tool, working evenly from one end to the other.</li><li>Set the panel on a clean surface and identify the factory route to the third brake light.</li></ol>",
+            "image_alt":"Removing the upper Honda CR-V liftgate trim",
+            "fallback_asset":"self-install-crv-upper-trim.jpg",
+            "show_wiring_diagram":false
+          }
+        },
+        "step_feed_liftgate": {
+          "type":"step",
+          "settings":{
+            "phase":"rear",
+            "step_number":"11",
+            "title":"Feed the camera cable through the liftgate",
+            "body":"<ol><li>Route the video extension through the factory liftgate opening or rubber wiring boot.</li><li>Pull only from the protected cable body. Never pull directly on a connector or bend it sharply.</li><li>Reseat the rubber boot or grommet completely to preserve the water seal.</li></ol>",
+            "warning":"A loose grommet can allow water into the liftgate. Inspect the complete sealing lip.",
+            "image_alt":"Feeding the ClearDrive camera cable through the liftgate",
+            "fallback_asset":"self-install-crv-feed-liftgate.jpg",
+            "show_wiring_diagram":false
+          }
+        },
+        "step_remove_light": {
+          "type":"step",
+          "settings":{
+            "phase":"rear",
+            "step_number":"12",
+            "title":"Remove the original third brake light",
+            "body":"<ol><li>Remove the factory brake-light fasteners from inside the liftgate and retain them for reuse.</li><li>Press the locking tab and disconnect the original brake-light plug.</li><li>From outside the vehicle, support and remove the lamp assembly without scratching the painted spoiler.</li></ol>",
+            "image_alt":"Removing the original Honda CR-V third brake light",
+            "fallback_asset":"self-install-crv-remove-brake-light.jpg",
+            "show_wiring_diagram":false
+          }
+        },
+        "step_camera_light": {
+          "type":"step",
+          "settings":{
+            "phase":"rear",
+            "step_number":"13",
+            "title":"Install the ClearDrive camera brake light",
+            "body":"<ol><li>Clean the mounting surface and confirm the supplied seal is correctly positioned.</li><li>Connect the factory brake-light plug and the ClearDrive camera lead.</li><li>Position the assembly in the original opening and install the retained fasteners evenly.</li></ol>",
+            "warning":"Do not overtighten plastic mounting points.",
+            "image_alt":"Installing the ClearDrive third brake light camera",
+            "fallback_asset":"self-install-crv-install-camera-light.jpg",
+            "show_wiring_diagram":false
+          }
+        },
+        "step_test": {
+          "type":"step",
+          "settings":{
+            "phase":"rear",
+            "step_number":"14",
+            "title":"Reassemble and test the system",
+            "body":"<ol><li>Secure all cable slack away from hinges, gas struts, clips, and latch mechanisms, then reinstall every trim panel and weatherstrip.</li><li>Reconnect the negative battery terminal and switch the ignition to ACC.</li><li>Verify front and rear camera views, confirm the third brake light illuminates, and make sure the rear image is level and unobstructed.</li></ol>",
+            "image_alt":"ClearDrive rear camera image after installation",
+            "fallback_asset":"self-install-crv-test-image.jpg",
+            "show_wiring_diagram":false
+          }
+        },
+
+        "check_prepare": {"type":"check","settings":{"phase":"prepare","label":"Vehicle protected and negative battery terminal disconnected"}},
+        "check_mirror_mount": {"type":"check","settings":{"phase":"mirror","label":"Mirror mount is secure"}},
+        "check_mirror_plugs": {"type":"check","settings":{"phase":"mirror","label":"All plugs are fully locked"}},
+        "check_mirror_wires": {"type":"check","settings":{"phase":"mirror","label":"No factory wires were cut"}},
+        "check_mirror_console": {"type":"check","settings":{"phase":"mirror","label":"Overhead console clips are seated"}},
+        "check_cable_trim": {"type":"check","settings":{"phase":"cable","label":"Cable is hidden behind trim"}},
+        "check_cable_airbag": {"type":"check","settings":{"phase":"cable","label":"Airbag deployment path remains clear"}},
+        "check_cable_tension": {"type":"check","settings":{"phase":"cable","label":"No connector is under tension"}},
+        "check_cable_seal": {"type":"check","settings":{"phase":"cable","label":"Weatherstrip seals evenly"}},
+        "check_rear_mirror": {"type":"check","settings":{"phase":"rear","label":"Mirror is stable and adjustable"}},
+        "check_rear_views": {"type":"check","settings":{"phase":"rear","label":"Front and rear images display"}},
+        "check_rear_brake": {"type":"check","settings":{"phase":"rear","label":"Third brake light operates"}},
+        "check_rear_panels": {"type":"check","settings":{"phase":"rear","label":"All panels and seals are seated"}},
+        "check_final_brake": {"type":"check","settings":{"phase":"final","label":"Brake light verified"}},
+        "check_final_level": {"type":"check","settings":{"phase":"final","label":"Camera image is level"}},
+        "check_final_liftgate": {"type":"check","settings":{"phase":"final","label":"Liftgate opens freely"}},
+        "check_final_harness": {"type":"check","settings":{"phase":"final","label":"Harness cannot be pinched"}},
+        "check_final_airbag": {"type":"check","settings":{"phase":"final","label":"Airbag paths are clear"}},
+        "check_final_trim": {"type":"check","settings":{"phase":"final","label":"All trim clips are seated"}},
+
+        "faq_power": {"type":"faq","settings":{"question":"The mirror does not power on. What should I check?","answer":"<p>Confirm the ignition is in ACC or ON, the 12-V battery terminal is connected, and both sides of the vehicle-specific T-harness are fully locked. Inspect the applicable vehicle fuse only after checking the connectors. Do not bypass a fuse or probe airbag wiring.</p>"}},
+        "faq_rear_image": {"type":"faq","settings":{"question":"The display powers on, but there is no rear camera image.","answer":"<p>Power the vehicle off. Reseat the matching video connectors at the mirror and rear camera, then inspect the extension cable for a pinched section. Confirm the connector was not damaged while being pulled through the liftgate boot.</p>"}},
+        "faq_brake": {"type":"faq","settings":{"question":"The camera works, but the third brake light does not illuminate.","answer":"<p>Do not drive until the brake light operates correctly. Recheck the original brake-light plug, its locking tab, and the retained factory fuse. If the connector or vehicle wiring differs from the guide, use a qualified automotive installer.</p>"}},
+        "faq_mirror": {"type":"faq","settings":{"question":"Can the ClearDrive unit still be used as a conventional mirror?","answer":"<p>Yes. With the display off, the reflective surface can be used as a conventional mirror. Use the display or mode control supplied with your product version to switch views. Always adjust the mirror before driving.</p>"}}
+      },
+      "block_order": [
+        "tool_phillips","tool_trim","tool_socket","tool_fish","tool_tape","tool_cloth",
+        "part_mirror","part_front_camera","part_mount","part_cover","part_rear_camera","part_extension","part_harness",
+        "step_prepare","step_remove_mirror","step_install_mirror","step_console","step_harness","step_connect_extension","step_front_headliner","step_roofline","step_liftgate_entry","step_upper_trim","step_feed_liftgate","step_remove_light","step_camera_light","step_test",
+        "check_prepare","check_mirror_mount","check_mirror_plugs","check_mirror_wires","check_mirror_console","check_cable_trim","check_cable_airbag","check_cable_tension","check_cable_seal","check_rear_mirror","check_rear_views","check_rear_brake","check_rear_panels","check_final_brake","check_final_level","check_final_liftgate","check_final_harness","check_final_airbag","check_final_trim",
+        "faq_power","faq_rear_image","faq_brake","faq_mirror"
+      ],
+      "settings": {
+        "eyebrow": "Self installation",
+        "heading": "Install Your ClearDrive Mirror",
+        "subheading": "A vehicle-specific, step-by-step guide for the fifth-generation Honda CR-V.",
+        "hero_alt": "ClearDrive digital rearview mirror for Honda CR-V",
+        "vehicle": "Honda CR-V · Fifth generation",
+        "model_years": "2017-2022",
+        "difficulty": "Intermediate",
+        "estimated_time": "60-90 minutes",
+        "before_text": "This guide is based on the supplied Honda CR-V installation footage and vehicle-specific kit. Trim, connector, and fastener details can vary. If your vehicle differs from the images, stop and contact a qualified installer.",
+        "safety_text": "Verify exact model-year compatibility before disassembly. Disconnect the negative 12-V battery terminal and wait at least 3 minutes before working near overhead trim or SRS components.",
+        "driver_warning": "The camera system is a visibility aid only. It does not replace mirrors, shoulder checks, or safe driving judgment. Confirm the area around the vehicle directly before moving.",
+        "pdf_label": "Download PDF guide",
+        "support_heading": "Installation support is available",
+        "support_text": "If a connector, fastener, or trim panel differs from this guide, stop before forcing it. Contact ClearDrive support or book a professional installation.",
+        "support_label": "Contact support",
+        "support_link": "https://wa.me/16137969403",
+        "installation_label": "Toronto installation service",
+        "installation_link": "/pages/installation-service"
+      }
+    }
+  },
+  "order": ["main"]
+}

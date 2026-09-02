@@ -1,0 +1,1379 @@
+{% liquid
+  assign guide_id = 'self-installation-' | append: section.id
+  assign hero_alt = section.settings.hero_alt | default: section.settings.heading
+%}
+
+<section class="self-installation-guide" aria-labelledby="{{ guide_id }}-title">
+  <div class="self-installation-guide__hero">
+    <div class="self-installation-guide__hero-copy">
+      {% if section.settings.eyebrow != blank %}
+        <p class="self-installation-guide__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      <h1 id="{{ guide_id }}-title">{{ section.settings.heading | escape }}</h1>
+      {% if section.settings.subheading != blank %}
+        <p class="self-installation-guide__lede">{{ section.settings.subheading | escape }}</p>
+      {% endif %}
+
+      <div class="self-installation-guide__facts" aria-label="Installation overview">
+        <div>
+          <span>Vehicle</span>
+          <strong>{{ section.settings.vehicle | escape }}</strong>
+        </div>
+        <div>
+          <span>Model years</span>
+          <strong>{{ section.settings.model_years | escape }}</strong>
+        </div>
+        <div>
+          <span>Difficulty</span>
+          <strong>{{ section.settings.difficulty | escape }}</strong>
+        </div>
+        <div>
+          <span>Estimated time</span>
+          <strong>{{ section.settings.estimated_time | escape }}</strong>
+        </div>
+      </div>
+
+      <div class="self-installation-guide__hero-actions">
+        <a class="self-installation-guide__button self-installation-guide__button--primary" href="#{{ guide_id }}-prepare">
+          Start installation
+        </a>
+        {% if section.settings.pdf_link != blank %}
+          <a class="self-installation-guide__button self-installation-guide__button--secondary" href="{{ section.settings.pdf_link }}" target="_blank" rel="noopener noreferrer">
+            {{ section.settings.pdf_label | escape }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="self-installation-guide__hero-media">
+      {% if section.settings.hero_image != blank %}
+        {{
+          section.settings.hero_image
+          | image_url: width: 1400
+          | image_tag:
+            class: 'self-installation-guide__hero-image',
+            loading: 'eager',
+            widths: '480, 720, 960, 1200, 1400',
+            sizes: '(min-width: 990px) 46vw, calc(100vw - 40px)',
+            alt: hero_alt
+        }}
+      {% else %}
+        <img
+          class="self-installation-guide__hero-image"
+          src="{{ 'self-install-crv-mirror.png' | asset_url }}"
+          alt="{{ hero_alt | escape }}"
+          width="590"
+          height="235"
+          loading="eager"
+        >
+      {% endif %}
+      <span>OEM-style · Plug-and-play</span>
+    </div>
+  </div>
+
+  <div class="self-installation-guide__shell">
+    <aside class="self-installation-guide__nav" aria-label="Installation guide sections">
+      <p>On this page</p>
+      <a href="#{{ guide_id }}-before">Before you begin</a>
+      <a href="#{{ guide_id }}-kit">Tools and kit contents</a>
+      <a href="#{{ guide_id }}-prepare">Prepare the vehicle</a>
+      <a href="#{{ guide_id }}-mirror">Mirror and power</a>
+      <a href="#{{ guide_id }}-cable">Cable routing</a>
+      <a href="#{{ guide_id }}-rear">Rear camera and testing</a>
+      <a href="#{{ guide_id }}-checklist">Final checklist</a>
+      <a href="#{{ guide_id }}-faq">FAQ</a>
+    </aside>
+
+    <div class="self-installation-guide__content">
+      <section id="{{ guide_id }}-before" class="self-installation-guide__intro" aria-labelledby="{{ guide_id }}-before-title">
+        <div>
+          <p class="self-installation-guide__section-kicker">Read before installation</p>
+          <h2 id="{{ guide_id }}-before-title">A safe installation starts here</h2>
+          <p>{{ section.settings.before_text | escape }}</p>
+        </div>
+        <div class="self-installation-guide__warning" role="note">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.7 20h18.6L12 3Zm0 5.1v5.4m0 3.3v.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div>
+            <strong>Safety first</strong>
+            <p>{{ section.settings.safety_text | escape }}</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="{{ guide_id }}-kit" class="self-installation-guide__kit" aria-labelledby="{{ guide_id }}-kit-title">
+        <p class="self-installation-guide__section-kicker">Get ready</p>
+        <h2 id="{{ guide_id }}-kit-title">Tools and kit contents</h2>
+
+        <h3>Recommended tools</h3>
+        <div class="self-installation-guide__tools">
+          {% for block in section.blocks %}
+            {% if block.type == 'tool' %}
+              <div class="self-installation-guide__tool" {{ block.shopify_attributes }}>
+                <span aria-hidden="true">{{ block.settings.short_label | escape }}</span>
+                <strong>{{ block.settings.title | escape }}</strong>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <h3>What is included</h3>
+        <div class="self-installation-guide__parts">
+          {% for block in section.blocks %}
+            {% if block.type == 'part' %}
+              {% liquid
+                assign part_alt = block.settings.image_alt | default: block.settings.title
+                assign part_fallback = block.settings.fallback_asset | strip
+              %}
+              <article class="self-installation-guide__part" {{ block.shopify_attributes }}>
+                <div class="self-installation-guide__part-image">
+                  {% if block.settings.image != blank %}
+                    {{
+                      block.settings.image
+                      | image_url: width: 760
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '240, 360, 520, 760',
+                        sizes: '(min-width: 990px) 18vw, 42vw',
+                        alt: part_alt
+                    }}
+                  {% elsif part_fallback != blank %}
+                    <img src="{{ part_fallback | asset_url }}" alt="{{ part_alt | escape }}" width="760" height="570" loading="lazy">
+                  {% endif %}
+                </div>
+                <div>
+                  <span>{{ block.settings.group | escape }}</span>
+                  <strong>{{ block.settings.title | escape }}</strong>
+                  <small>{{ block.settings.quantity | escape }}</small>
+                </div>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+
+      {% assign guide_phases = 'prepare,mirror,cable,rear' | split: ',' %}
+      {% for phase in guide_phases %}
+        {% case phase %}
+          {% when 'prepare' %}
+            {% assign phase_number = '01' %}
+            {% assign phase_title = 'Prepare the vehicle' %}
+            {% assign phase_description = 'Protect the vehicle, disconnect power, and remove the original mirror safely.' %}
+          {% when 'mirror' %}
+            {% assign phase_number = '02' %}
+            {% assign phase_title = 'Mirror and power connections' %}
+            {% assign phase_description = 'Install the ClearDrive mirror and connect the vehicle-specific plug-and-play harness.' %}
+          {% when 'cable' %}
+            {% assign phase_number = '03' %}
+            {% assign phase_title = 'Hide and route the cable' %}
+            {% assign phase_description = 'Follow the factory trim path while protecting the side-curtain airbag deployment area.' %}
+          {% when 'rear' %}
+            {% assign phase_number = '04' %}
+            {% assign phase_title = 'Rear camera and final testing' %}
+            {% assign phase_description = 'Install the brake-light camera, restore the trim, and verify every function.' %}
+        {% endcase %}
+
+        <section id="{{ guide_id }}-{{ phase }}" class="self-installation-guide__phase" aria-labelledby="{{ guide_id }}-{{ phase }}-title">
+          <div class="self-installation-guide__phase-heading">
+            <span>{{ phase_number }}</span>
+            <div>
+              <h2 id="{{ guide_id }}-{{ phase }}-title">{{ phase_title }}</h2>
+              <p>{{ phase_description }}</p>
+            </div>
+          </div>
+
+          <div class="self-installation-guide__steps">
+            {% for block in section.blocks %}
+              {% if block.type == 'step' and block.settings.phase == phase %}
+                {% liquid
+                  assign step_alt = block.settings.image_alt | default: block.settings.title
+                  assign step_fallback = block.settings.fallback_asset | strip
+                %}
+                <article class="self-installation-guide__step" {{ block.shopify_attributes }}>
+                  <div class="self-installation-guide__step-copy">
+                    <span class="self-installation-guide__step-number">Step {{ block.settings.step_number | escape }}</span>
+                    <h3>{{ block.settings.title | escape }}</h3>
+                    <div class="self-installation-guide__step-body rte">{{ block.settings.body }}</div>
+                    {% if block.settings.warning != blank %}
+                      <div class="self-installation-guide__step-warning">
+                        <strong>Caution</strong>
+                        <span>{{ block.settings.warning | escape }}</span>
+                      </div>
+                    {% endif %}
+                  </div>
+
+                  {% if block.settings.show_wiring_diagram %}
+                    <div class="self-installation-guide__wiring" aria-label="Plug-and-play power harness connection diagram">
+                      <div>OEM roof connector</div><span aria-hidden="true">→</span><div>ClearDrive T-harness</div><span aria-hidden="true">→</span><div>Overhead console</div>
+                      <b aria-hidden="true">↓</b>
+                      <div>ClearDrive mirror</div><span aria-hidden="true">→</span><div>Rear camera extension</div>
+                    </div>
+                  {% elsif block.settings.image != blank %}
+                    <div class="self-installation-guide__step-media">
+                      {{
+                        block.settings.image
+                        | image_url: width: 1500
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '480, 720, 960, 1200, 1500',
+                          sizes: '(min-width: 990px) 38vw, calc(100vw - 48px)',
+                          alt: step_alt
+                      }}
+                    </div>
+                  {% elsif step_fallback != blank %}
+                    <div class="self-installation-guide__step-media">
+                      <img src="{{ step_fallback | asset_url }}" alt="{{ step_alt | escape }}" width="1500" height="800" loading="lazy">
+                    </div>
+                  {% endif %}
+                </article>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          <div class="self-installation-guide__review">
+            <strong>Install review</strong>
+            <ul>
+              {% for block in section.blocks %}
+                {% if block.type == 'check' and block.settings.phase == phase %}
+                  <li {{ block.shopify_attributes }}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    {{ block.settings.label | escape }}
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </section>
+      {% endfor %}
+
+      <section id="{{ guide_id }}-checklist" class="self-installation-guide__final-check" aria-labelledby="{{ guide_id }}-checklist-title">
+        <div>
+          <p class="self-installation-guide__section-kicker">Before driving</p>
+          <h2 id="{{ guide_id }}-checklist-title">Final safety checklist</h2>
+        </div>
+        <ul>
+          {% for block in section.blocks %}
+            {% if block.type == 'check' and block.settings.phase == 'final' %}
+              <li {{ block.shopify_attributes }}>
+                <span aria-hidden="true"></span>
+                {{ block.settings.label | escape }}
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+        <div class="self-installation-guide__driver-warning">
+          <strong>Driver safety warning</strong>
+          <p>{{ section.settings.driver_warning | escape }}</p>
+        </div>
+      </section>
+
+      <section id="{{ guide_id }}-faq" class="self-installation-guide__faq" aria-labelledby="{{ guide_id }}-faq-title">
+        <p class="self-installation-guide__section-kicker">Troubleshooting</p>
+        <h2 id="{{ guide_id }}-faq-title">Frequently asked questions</h2>
+        <div>
+          {% for block in section.blocks %}
+            {% if block.type == 'faq' %}
+              <details {{ block.shopify_attributes }}>
+                <summary>
+                  {{ block.settings.question | escape }}
+                  <span aria-hidden="true">+</span>
+                </summary>
+                <div class="rte">{{ block.settings.answer }}</div>
+              </details>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="self-installation-guide__support" aria-label="Installation support">
+        <div>
+          <p class="self-installation-guide__section-kicker">Need a hand?</p>
+          <h2>{{ section.settings.support_heading | escape }}</h2>
+          <p>{{ section.settings.support_text | escape }}</p>
+        </div>
+        <div>
+          {% if section.settings.support_link != blank %}
+            <a class="self-installation-guide__button self-installation-guide__button--secondary" href="{{ section.settings.support_link }}">
+              {{ section.settings.support_label | escape }}
+            </a>
+          {% endif %}
+          {% if section.settings.installation_link != blank %}
+            <a class="self-installation-guide__button self-installation-guide__button--primary" href="{{ section.settings.installation_link }}">
+              {{ section.settings.installation_label | escape }}
+            </a>
+          {% endif %}
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .self-installation-guide {
+    --guide-blue: #0866f5;
+    --guide-navy: #071c3b;
+    --guide-ink: #172033;
+    --guide-muted: #667085;
+    --guide-line: #dce3ec;
+    --guide-soft: #f4f7fb;
+    --guide-warning: #fff5cf;
+    background: #fff;
+    color: var(--guide-ink);
+  }
+
+  .self-installation-guide * {
+    box-sizing: border-box;
+  }
+
+  .self-installation-guide__hero {
+    width: min(1280px, calc(100% - 64px));
+    margin: 0 auto;
+    padding: 70px 0 64px;
+    display: grid;
+    grid-template-columns: minmax(0, 0.94fr) minmax(420px, 1.06fr);
+    align-items: center;
+    gap: clamp(42px, 6vw, 88px);
+  }
+
+  .self-installation-guide__eyebrow,
+  .self-installation-guide__section-kicker {
+    margin: 0 0 12px;
+    color: var(--guide-blue);
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .self-installation-guide h1,
+  .self-installation-guide h2,
+  .self-installation-guide h3,
+  .self-installation-guide p {
+    margin-top: 0;
+  }
+
+  .self-installation-guide h1 {
+    margin-bottom: 20px;
+    color: var(--guide-navy);
+    font-size: clamp(42px, 5vw, 72px);
+    line-height: 0.98;
+    font-weight: 720;
+    letter-spacing: -0.055em;
+  }
+
+  .self-installation-guide__lede {
+    max-width: 650px;
+    margin-bottom: 28px;
+    color: var(--guide-muted);
+    font-size: clamp(18px, 1.8vw, 23px);
+    line-height: 1.5;
+  }
+
+  .self-installation-guide__facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--guide-line);
+    border-radius: 16px;
+    background: var(--guide-line);
+  }
+
+  .self-installation-guide__facts div {
+    min-height: 84px;
+    padding: 17px 19px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    background: #fff;
+  }
+
+  .self-installation-guide__facts span,
+  .self-installation-guide__part span {
+    color: var(--guide-muted);
+    font-size: 12px;
+    line-height: 1.3;
+    font-weight: 650;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .self-installation-guide__facts strong {
+    color: var(--guide-navy);
+    font-size: 16px;
+    line-height: 1.35;
+  }
+
+  .self-installation-guide__hero-actions,
+  .self-installation-guide__support > div:last-child {
+    margin-top: 26px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .self-installation-guide__button {
+    min-height: 48px;
+    padding: 0 23px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--guide-blue);
+    border-radius: 999px;
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  }
+
+  .self-installation-guide__button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgb(8 102 245 / 18%);
+  }
+
+  .self-installation-guide__button:focus-visible,
+  .self-installation-guide a:focus-visible,
+  .self-installation-guide summary:focus-visible {
+    outline: 3px solid rgb(8 102 245 / 40%);
+    outline-offset: 3px;
+  }
+
+  .self-installation-guide__button--primary {
+    background: var(--guide-blue);
+    color: #fff;
+  }
+
+  .self-installation-guide__button--secondary {
+    background: #fff;
+    color: var(--guide-blue);
+  }
+
+  .self-installation-guide__hero-media {
+    position: relative;
+    min-height: 390px;
+    padding: 52px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 30px;
+    background:
+      radial-gradient(circle at 50% 35%, rgb(43 117 237 / 17%), transparent 45%),
+      linear-gradient(145deg, #0c1522, #02050a 72%);
+    box-shadow: 0 28px 80px rgb(7 28 59 / 18%);
+  }
+
+  .self-installation-guide__hero-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 30px rgb(0 0 0 / 42%));
+  }
+
+  .self-installation-guide__hero-media > span {
+    position: absolute;
+    left: 24px;
+    bottom: 22px;
+    padding: 8px 13px;
+    border: 1px solid rgb(255 255 255 / 18%);
+    border-radius: 999px;
+    background: rgb(255 255 255 / 10%);
+    color: #fff;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .self-installation-guide__shell {
+    width: min(1280px, calc(100% - 64px));
+    margin: 0 auto;
+    padding: 30px 0 100px;
+    display: grid;
+    grid-template-columns: 230px minmax(0, 1fr);
+    align-items: start;
+    gap: 58px;
+    border-top: 1px solid var(--guide-line);
+  }
+
+  .self-installation-guide__nav {
+    position: sticky;
+    top: 110px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border: 1px solid var(--guide-line);
+    border-radius: 18px;
+    background: #fff;
+  }
+
+  .self-installation-guide__nav p {
+    margin: 0 0 8px;
+    color: var(--guide-navy);
+    font-size: 14px;
+    font-weight: 750;
+  }
+
+  .self-installation-guide__nav a {
+    padding: 8px 0;
+    color: var(--guide-muted);
+    font-size: 13px;
+    line-height: 1.35;
+    text-decoration: none;
+  }
+
+  .self-installation-guide__nav a:hover {
+    color: var(--guide-blue);
+  }
+
+  .self-installation-guide__content > section {
+    scroll-margin-top: 100px;
+  }
+
+  .self-installation-guide__intro,
+  .self-installation-guide__kit,
+  .self-installation-guide__phase,
+  .self-installation-guide__final-check,
+  .self-installation-guide__faq {
+    padding: 64px 0;
+    border-bottom: 1px solid var(--guide-line);
+  }
+
+  .self-installation-guide__intro {
+    padding-top: 34px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+    gap: 42px;
+    align-items: center;
+  }
+
+  .self-installation-guide h2 {
+    margin-bottom: 16px;
+    color: var(--guide-navy);
+    font-size: clamp(30px, 3.3vw, 46px);
+    line-height: 1.08;
+    font-weight: 720;
+    letter-spacing: -0.04em;
+  }
+
+  .self-installation-guide__intro > div:first-child > p:last-child,
+  .self-installation-guide__phase-heading p,
+  .self-installation-guide__support p {
+    margin-bottom: 0;
+    color: var(--guide-muted);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .self-installation-guide__warning {
+    min-height: 150px;
+    padding: 24px;
+    display: flex;
+    gap: 16px;
+    border: 1px solid #f0cf55;
+    border-radius: 18px;
+    background: var(--guide-warning);
+  }
+
+  .self-installation-guide__warning svg {
+    flex: 0 0 26px;
+    width: 26px;
+    height: 26px;
+    color: #af7a00;
+  }
+
+  .self-installation-guide__warning strong,
+  .self-installation-guide__driver-warning strong {
+    display: block;
+    margin-bottom: 7px;
+    color: #624400;
+    font-size: 15px;
+  }
+
+  .self-installation-guide__warning p,
+  .self-installation-guide__driver-warning p {
+    margin: 0;
+    color: #6f5211;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .self-installation-guide__kit h3 {
+    margin: 32px 0 16px;
+    color: var(--guide-navy);
+    font-size: 17px;
+    line-height: 1.3;
+  }
+
+  .self-installation-guide__tools {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .self-installation-guide__tool {
+    min-height: 126px;
+    padding: 16px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: 1px solid var(--guide-line);
+    border-radius: 14px;
+    text-align: center;
+  }
+
+  .self-installation-guide__tool span {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--guide-blue);
+    border-radius: 50%;
+    color: var(--guide-blue);
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .self-installation-guide__tool strong {
+    color: var(--guide-ink);
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .self-installation-guide__parts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .self-installation-guide__part {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--guide-line);
+    border-radius: 16px;
+    background: #fff;
+  }
+
+  .self-installation-guide__part-image {
+    aspect-ratio: 4 / 3;
+    padding: 14px;
+    display: grid;
+    place-items: center;
+    background: var(--guide-soft);
+  }
+
+  .self-installation-guide__part-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+
+  .self-installation-guide__part > div:last-child {
+    min-height: 105px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .self-installation-guide__part strong {
+    color: var(--guide-navy);
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .self-installation-guide__part small {
+    margin-top: auto;
+    color: var(--guide-blue);
+    font-size: 12px;
+    font-weight: 750;
+  }
+
+  .self-installation-guide__phase-heading {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .self-installation-guide__phase-heading > span {
+    flex: 0 0 54px;
+    width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    background: var(--guide-blue);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .self-installation-guide__phase-heading h2 {
+    margin: 0 0 7px;
+  }
+
+  .self-installation-guide__steps {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .self-installation-guide__step {
+    display: grid;
+    grid-template-columns: minmax(0, 0.93fr) minmax(360px, 1.07fr);
+    overflow: hidden;
+    border: 1px solid var(--guide-line);
+    border-radius: 20px;
+    background: #fff;
+  }
+
+  .self-installation-guide__step-copy {
+    padding: clamp(24px, 3vw, 38px);
+  }
+
+  .self-installation-guide__step-number {
+    display: inline-block;
+    margin-bottom: 11px;
+    color: var(--guide-blue);
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .self-installation-guide__step h3 {
+    margin-bottom: 15px;
+    color: var(--guide-navy);
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+  }
+
+  .self-installation-guide__step-body,
+  .self-installation-guide__step-body p,
+  .self-installation-guide__step-body li {
+    color: #465168;
+    font-size: 14px;
+    line-height: 1.62;
+  }
+
+  .self-installation-guide__step-body ol,
+  .self-installation-guide__step-body ul {
+    margin: 0;
+    padding-left: 19px;
+  }
+
+  .self-installation-guide__step-body li + li {
+    margin-top: 7px;
+  }
+
+  .self-installation-guide__step-warning {
+    margin-top: 20px;
+    padding: 13px 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 10px;
+    background: var(--guide-warning);
+    color: #6f5211;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .self-installation-guide__step-warning strong {
+    color: #8a5a00;
+    font-size: 11px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .self-installation-guide__step-media {
+    min-height: 330px;
+    background: #0e1724;
+  }
+
+  .self-installation-guide__step-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .self-installation-guide__wiring {
+    min-height: 330px;
+    padding: 34px;
+    display: grid;
+    grid-template-columns: 1fr auto 1.2fr auto 1fr;
+    align-content: center;
+    align-items: center;
+    gap: 10px;
+    background: var(--guide-soft);
+  }
+
+  .self-installation-guide__wiring div {
+    min-height: 72px;
+    padding: 10px;
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--guide-blue);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--guide-navy);
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.3;
+    font-weight: 750;
+  }
+
+  .self-installation-guide__wiring span,
+  .self-installation-guide__wiring b {
+    color: var(--guide-blue);
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .self-installation-guide__wiring b {
+    grid-column: 3;
+  }
+
+  .self-installation-guide__wiring b + div {
+    grid-column: 2 / 4;
+  }
+
+  .self-installation-guide__review {
+    margin-top: 18px;
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 130px minmax(0, 1fr);
+    align-items: start;
+    gap: 20px;
+    border-radius: 16px;
+    background: var(--guide-soft);
+  }
+
+  .self-installation-guide__review > strong {
+    color: var(--guide-navy);
+    font-size: 14px;
+  }
+
+  .self-installation-guide__review ul {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 22px;
+    list-style: none;
+  }
+
+  .self-installation-guide__review li {
+    display: flex;
+    gap: 8px;
+    color: #465168;
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .self-installation-guide__review svg {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--guide-blue);
+  }
+
+  .self-installation-guide__final-check {
+    display: grid;
+    grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.3fr);
+    gap: 36px 52px;
+  }
+
+  .self-installation-guide__final-check ul {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    list-style: none;
+  }
+
+  .self-installation-guide__final-check li {
+    min-height: 54px;
+    padding: 13px 15px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    border: 1px solid var(--guide-line);
+    border-radius: 12px;
+    color: var(--guide-ink);
+    font-size: 13px;
+    line-height: 1.35;
+    font-weight: 650;
+  }
+
+  .self-installation-guide__final-check li span {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid #9aa5b5;
+    border-radius: 4px;
+  }
+
+  .self-installation-guide__driver-warning {
+    grid-column: 1 / -1;
+    padding: 20px 22px;
+    border-radius: 14px;
+    background: var(--guide-warning);
+  }
+
+  .self-installation-guide__faq > div {
+    border-top: 1px solid var(--guide-line);
+  }
+
+  .self-installation-guide__faq details {
+    border-bottom: 1px solid var(--guide-line);
+  }
+
+  .self-installation-guide__faq summary {
+    min-height: 76px;
+    padding: 20px 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    color: var(--guide-navy);
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1.4;
+    font-weight: 700;
+    list-style: none;
+  }
+
+  .self-installation-guide__faq summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .self-installation-guide__faq summary span {
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--guide-soft);
+    color: var(--guide-blue);
+    font-size: 20px;
+    font-weight: 400;
+    transition: transform 160ms ease;
+  }
+
+  .self-installation-guide__faq details[open] summary span {
+    transform: rotate(45deg);
+  }
+
+  .self-installation-guide__faq details > div {
+    max-width: 820px;
+    padding: 0 48px 22px 2px;
+    color: var(--guide-muted);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .self-installation-guide__support {
+    margin-top: 64px;
+    padding: clamp(30px, 5vw, 56px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 40px;
+    border-radius: 24px;
+    background: var(--guide-navy);
+  }
+
+  .self-installation-guide__support h2,
+  .self-installation-guide__support p {
+    color: #fff;
+  }
+
+  .self-installation-guide__support h2 {
+    margin-bottom: 10px;
+  }
+
+  .self-installation-guide__support p {
+    max-width: 650px;
+    opacity: 0.74;
+  }
+
+  .self-installation-guide__support .self-installation-guide__section-kicker {
+    color: #7db0ff;
+  }
+
+  .self-installation-guide__support > div:last-child {
+    margin-top: 0;
+    justify-content: flex-end;
+  }
+
+  .self-installation-guide__support .self-installation-guide__button--secondary {
+    border-color: rgb(255 255 255 / 45%);
+    background: transparent;
+    color: #fff;
+  }
+
+  @media (max-width: 1100px) {
+    .self-installation-guide__hero {
+      grid-template-columns: minmax(0, 1fr) minmax(380px, 0.9fr);
+      gap: 42px;
+    }
+
+    .self-installation-guide__shell {
+      grid-template-columns: 200px minmax(0, 1fr);
+      gap: 34px;
+    }
+
+    .self-installation-guide__tools {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .self-installation-guide__parts {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .self-installation-guide__step {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .self-installation-guide__step-media,
+    .self-installation-guide__wiring {
+      min-height: 380px;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .self-installation-guide__hero,
+    .self-installation-guide__shell {
+      width: min(100% - 40px, 720px);
+    }
+
+    .self-installation-guide__hero {
+      padding: 48px 0;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .self-installation-guide__hero-media {
+      min-height: 350px;
+      grid-row: 1;
+    }
+
+    .self-installation-guide__shell {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+
+    .self-installation-guide__nav {
+      position: static;
+      margin-top: 24px;
+      padding: 14px;
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 7px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      scrollbar-width: none;
+    }
+
+    .self-installation-guide__nav::-webkit-scrollbar,
+    .self-installation-guide__nav p {
+      display: none;
+    }
+
+    .self-installation-guide__nav a {
+      flex: 0 0 auto;
+      padding: 9px 13px;
+      border: 1px solid var(--guide-line);
+      border-radius: 999px;
+      background: #fff;
+      font-size: 12px;
+    }
+
+    .self-installation-guide__intro {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .self-installation-guide__parts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .self-installation-guide__final-check,
+    .self-installation-guide__support {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .self-installation-guide__support > div:last-child {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .self-installation-guide__hero,
+    .self-installation-guide__shell {
+      width: calc(100% - 24px);
+    }
+
+    .self-installation-guide__hero {
+      padding: 20px 0 38px;
+      gap: 30px;
+    }
+
+    .self-installation-guide__hero-copy {
+      padding: 0 4px;
+    }
+
+    .self-installation-guide h1 {
+      font-size: clamp(38px, 12vw, 52px);
+      line-height: 1.01;
+    }
+
+    .self-installation-guide__lede {
+      font-size: 17px;
+    }
+
+    .self-installation-guide__facts div {
+      min-height: 76px;
+      padding: 14px;
+    }
+
+    .self-installation-guide__facts strong {
+      font-size: 14px;
+    }
+
+    .self-installation-guide__hero-actions,
+    .self-installation-guide__support > div:last-child {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .self-installation-guide__button {
+      width: 100%;
+    }
+
+    .self-installation-guide__hero-media {
+      min-height: 265px;
+      padding: 40px 22px;
+      border-radius: 20px;
+    }
+
+    .self-installation-guide__hero-media > span {
+      left: 16px;
+      bottom: 15px;
+      font-size: 10px;
+    }
+
+    .self-installation-guide__shell {
+      padding-bottom: 58px;
+    }
+
+    .self-installation-guide__intro,
+    .self-installation-guide__kit,
+    .self-installation-guide__phase,
+    .self-installation-guide__final-check,
+    .self-installation-guide__faq {
+      padding: 48px 0;
+    }
+
+    .self-installation-guide__nav {
+      margin: 14px -12px 0;
+      padding-inline: 12px;
+    }
+
+    .self-installation-guide__warning {
+      padding: 18px;
+    }
+
+    .self-installation-guide__tools {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .self-installation-guide__parts {
+      gap: 9px;
+    }
+
+    .self-installation-guide__part-image {
+      padding: 9px;
+    }
+
+    .self-installation-guide__part > div:last-child {
+      min-height: 104px;
+      padding: 12px;
+    }
+
+    .self-installation-guide__part strong {
+      font-size: 12px;
+    }
+
+    .self-installation-guide__phase-heading {
+      gap: 14px;
+    }
+
+    .self-installation-guide__phase-heading > span {
+      flex-basis: 46px;
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      font-size: 14px;
+    }
+
+    .self-installation-guide__step {
+      border-radius: 16px;
+    }
+
+    .self-installation-guide__step-copy {
+      padding: 22px 19px;
+    }
+
+    .self-installation-guide__step-media,
+    .self-installation-guide__wiring {
+      min-height: 230px;
+    }
+
+    .self-installation-guide__wiring {
+      padding: 22px 14px;
+      grid-template-columns: 1fr;
+      gap: 7px;
+    }
+
+    .self-installation-guide__wiring div,
+    .self-installation-guide__wiring b,
+    .self-installation-guide__wiring b + div {
+      grid-column: 1;
+    }
+
+    .self-installation-guide__wiring span {
+      transform: rotate(90deg);
+      line-height: 1;
+    }
+
+    .self-installation-guide__wiring b {
+      line-height: 1;
+    }
+
+    .self-installation-guide__review {
+      padding: 18px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .self-installation-guide__review ul,
+    .self-installation-guide__final-check ul {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .self-installation-guide__driver-warning {
+      padding: 18px;
+    }
+
+    .self-installation-guide__faq summary {
+      font-size: 15px;
+    }
+
+    .self-installation-guide__support {
+      margin-top: 48px;
+      padding: 28px 22px;
+      border-radius: 18px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Self installation guide",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Self installation"},
+    {"type":"text","id":"heading","label":"Heading","default":"Install Your ClearDrive Mirror"},
+    {"type":"textarea","id":"subheading","label":"Intro","default":"A vehicle-specific, step-by-step guide for the fifth-generation Honda CR-V."},
+    {"type":"image_picker","id":"hero_image","label":"Hero image override"},
+    {"type":"text","id":"hero_alt","label":"Hero image alt text","default":"ClearDrive digital rearview mirror"},
+    {"type":"text","id":"vehicle","label":"Vehicle","default":"Honda CR-V · Fifth generation"},
+    {"type":"text","id":"model_years","label":"Model years","default":"2017-2022"},
+    {"type":"text","id":"difficulty","label":"Difficulty","default":"Intermediate"},
+    {"type":"text","id":"estimated_time","label":"Estimated time","default":"60-90 minutes"},
+    {"type":"textarea","id":"before_text","label":"Before installation text","default":"This guide is based on the supplied Honda CR-V installation footage and vehicle-specific kit. Trim, connector, and fastener details can vary. If your vehicle differs from the images, stop and contact a qualified installer."},
+    {"type":"textarea","id":"safety_text","label":"Safety warning","default":"Verify exact model-year compatibility before disassembly. Disconnect the negative 12-V battery terminal and wait at least 3 minutes before working near overhead trim or SRS components."},
+    {"type":"textarea","id":"driver_warning","label":"Driver safety warning","default":"The camera system is a visibility aid only. It does not replace mirrors, shoulder checks, or safe driving judgment. Confirm the area around the vehicle directly before moving."},
+    {"type":"text","id":"pdf_label","label":"PDF button label","default":"Download PDF guide"},
+    {"type":"url","id":"pdf_link","label":"PDF file link"},
+    {"type":"text","id":"support_heading","label":"Support heading","default":"Installation support is available"},
+    {"type":"textarea","id":"support_text","label":"Support text","default":"If a connector, fastener, or trim panel differs from this guide, stop before forcing it. Contact ClearDrive support or book a professional installation."},
+    {"type":"text","id":"support_label","label":"Support button label","default":"Contact support"},
+    {"type":"url","id":"support_link","label":"Support button link"},
+    {"type":"text","id":"installation_label","label":"Installation button label","default":"Toronto installation service"},
+    {"type":"url","id":"installation_link","label":"Installation page link"}
+  ],
+  "blocks": [
+    {
+      "type": "tool",
+      "name": "Tool",
+      "settings": [
+        {"type":"text","id":"short_label","label":"Short label","default":"TOOL"},
+        {"type":"text","id":"title","label":"Name","default":"Installation tool"}
+      ]
+    },
+    {
+      "type": "part",
+      "name": "Kit part",
+      "settings": [
+        {"type":"select","id":"group","label":"Kit group","options":[{"value":"Kit A","label":"Kit A"},{"value":"Kit B","label":"Kit B"}],"default":"Kit A"},
+        {"type":"text","id":"title","label":"Part name","default":"ClearDrive part"},
+        {"type":"text","id":"quantity","label":"Quantity","default":"x1"},
+        {"type":"image_picker","id":"image","label":"Image override (Shopify Files)"},
+        {"type":"text","id":"image_alt","label":"Image alt text"},
+        {"type":"text","id":"fallback_asset","label":"Built-in fallback asset"}
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Installation step",
+      "settings": [
+        {"type":"select","id":"phase","label":"Guide phase","options":[{"value":"prepare","label":"Prepare the vehicle"},{"value":"mirror","label":"Mirror and power"},{"value":"cable","label":"Cable routing"},{"value":"rear","label":"Rear camera and testing"}],"default":"prepare"},
+        {"type":"text","id":"step_number","label":"Step number","default":"1"},
+        {"type":"text","id":"title","label":"Title","default":"Installation step"},
+        {"type":"richtext","id":"body","label":"Instructions","default":"<p>Add the instructions for this step.</p>"},
+        {"type":"textarea","id":"warning","label":"Caution note"},
+        {"type":"image_picker","id":"image","label":"Image override (Shopify Files)"},
+        {"type":"text","id":"image_alt","label":"Image alt text"},
+        {"type":"text","id":"fallback_asset","label":"Built-in fallback asset"},
+        {"type":"checkbox","id":"show_wiring_diagram","label":"Show plug-and-play wiring diagram","default":false}
+      ]
+    },
+    {
+      "type": "check",
+      "name": "Checklist item",
+      "settings": [
+        {"type":"select","id":"phase","label":"Checklist group","options":[{"value":"prepare","label":"Prepare the vehicle"},{"value":"mirror","label":"Mirror and power"},{"value":"cable","label":"Cable routing"},{"value":"rear","label":"Rear camera and testing"},{"value":"final","label":"Final checklist"}],"default":"final"},
+        {"type":"text","id":"label","label":"Checklist text","default":"Check completed"}
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        {"type":"text","id":"question","label":"Question","default":"Frequently asked question"},
+        {"type":"richtext","id":"answer","label":"Answer","default":"<p>Add the answer here.</p>"}
+      ]
+    }
+  ],
+  "presets": [
+    {"name":"Self installation guide"}
+  ]
+}
+{% endschema %}
