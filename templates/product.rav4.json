@@ -64,6 +64,7 @@
         "crv_2023_product": "honda-cr-v",
         "f150_2021_product": "ford-f-150",
         "nx_2022_product": "lexus-nx",
+        "enable_desktop_image_zoom": true,
         "core_model_label": "Core",
         "pro_model_label": "Pro",
         "max_model_label": "Max",
