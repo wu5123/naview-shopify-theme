@@ -213,25 +213,53 @@
           <label class="vehicle-option is-selected">
             <input type="radio" name="vehicle-option-{{ section.id }}" value="{{ core_variant.id }}" data-option data-price="{{ standard_price | escape }}" data-price-cents="{{ core_variant.price }}" data-available="{{ core_variant.available }}" data-gallery-group="core" checked>
             <span class="vehicle-option__media">{% if option_1_image != blank %}{{ option_1_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-17-pro-e-preview.png' | asset_url }}" width="2048" height="768" loading="lazy" alt="17 Pro E display preview">{% endif %}</span>
-            <span class="vehicle-option__copy"><strong>Core for {{ vehicle_display_name | escape }}</strong><b>{{ standard_price }}</b></span>
+            <span class="vehicle-option__copy">
+              <strong>Core for {{ vehicle_display_name | escape }}</strong>
+              <span class="vehicle-option__summary vehicle-option__summary--desktop">Reliable recording for everyday driving</span>
+              <span class="vehicle-option__specs vehicle-option__specs--desktop">1080p Front · 1080p Rear · HD Analog</span>
+              <span class="vehicle-option__summary vehicle-option__summary--mobile">Clear and reliable for everyday driving</span>
+              <span class="vehicle-option__specs vehicle-option__specs--mobile">1080p Front &amp; Rear</span>
+              <b>{{ standard_price }}</b>
+            </span>
             <small class="vehicle-option__stock">{% if core_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if pro_variant == blank %} is-unavailable{% endif %}">
             {% if pro_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ pro_variant.id }}" data-option data-price="{{ pro_price | escape }}" data-price-cents="{{ pro_variant.price }}" data-available="{{ pro_variant.available }}" data-gallery-group="pro">{% endif %}
             <span class="vehicle-option__media">{% if option_2_image != blank %}{{ option_2_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-18-pro-preview.png' | asset_url }}" width="2149" height="732" loading="lazy" alt="18 Pro display preview">{% endif %}</span>
-            <span class="vehicle-option__copy"><strong>Pro for {{ vehicle_display_name | escape }}</strong>{% if pro_variant != blank %}<b>{{ pro_price }}</b>{% else %}<b>—</b>{% endif %}</span>
+            <span class="vehicle-option__copy">
+              <span class="vehicle-option__heading"><strong>Pro for {{ vehicle_display_name | escape }}</strong><span class="vehicle-option__badge">Recommended</span></span>
+              <span class="vehicle-option__summary vehicle-option__summary--desktop">Sharper details and smoother rear video</span>
+              <span class="vehicle-option__specs vehicle-option__specs--desktop">2K Sony Front · Rear 60fps · LVDS Digital</span>
+              <span class="vehicle-option__summary vehicle-option__summary--mobile">Sharper detail and smoother video</span>
+              <span class="vehicle-option__specs vehicle-option__specs--mobile">2K Sony · Rear 60fps</span>
+              {% if pro_variant != blank %}<b>{{ pro_price }}</b>{% else %}<b>—</b>{% endif %}
+            </span>
             <small class="vehicle-option__stock">{% if pro_variant != blank and pro_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if max_variant == blank %} is-unavailable{% endif %}">
             {% if max_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ max_variant.id }}" data-option data-price="{{ max_price | escape }}" data-price-cents="{{ max_variant.price }}" data-available="{{ max_variant.available }}" data-gallery-group="max">{% endif %}
             <span class="vehicle-option__media">{% if option_3_image != blank %}{{ option_3_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="19 Ultra and Max display preview">{% endif %}</span>
-            <span class="vehicle-option__copy"><strong>Max for {{ vehicle_display_name | escape }}</strong>{% if max_variant != blank %}<b>{{ max_price }}</b>{% else %}<b>—</b>{% endif %}</span>
+            <span class="vehicle-option__copy">
+              <strong>Max for {{ vehicle_display_name | escape }}</strong>
+              <span class="vehicle-option__summary vehicle-option__summary--desktop">Faster response, smoother performance and longer recording</span>
+              <span class="vehicle-option__specs vehicle-option__specs--desktop">Dual-Core 1.2GHz · 4GB DDR · Supports up to 512GB microSD</span>
+              <span class="vehicle-option__summary vehicle-option__summary--mobile">Faster performance and longer recording</span>
+              <span class="vehicle-option__specs vehicle-option__specs--mobile">1.2GHz · 4GB · Up to 512GB</span>
+              {% if max_variant != blank %}<b>{{ max_price }}</b>{% else %}<b>—</b>{% endif %}
+            </span>
             <small class="vehicle-option__stock">{% if max_variant != blank and max_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-option{% if ultra_variant == blank %} is-unavailable{% endif %}">
             {% if ultra_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ ultra_variant.id }}" data-option data-price="{{ ultra_price | escape }}" data-price-cents="{{ ultra_variant.price }}" data-available="{{ ultra_variant.available }}" data-gallery-group="ultra">{% endif %}
             <span class="vehicle-option__media">{% if option_4_image != blank %}{{ option_4_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="19 Ultra and Max display preview">{% endif %}</span>
-            <span class="vehicle-option__copy"><strong>Ultra for {{ vehicle_display_name | escape }}</strong>{% if ultra_variant != blank %}<b>{{ ultra_price }}</b>{% else %}<b>—</b>{% endif %}</span>
+            <span class="vehicle-option__copy">
+              <strong>Ultra for {{ vehicle_display_name | escape }}</strong>
+              <span class="vehicle-option__summary vehicle-option__summary--desktop">A clearer, more comfortable view under strong glare</span>
+              <span class="vehicle-option__specs vehicle-option__specs--desktop">Exclusive LC Anti-Glare · 2K Front · Rear 60fps</span>
+              <span class="vehicle-option__summary vehicle-option__summary--mobile">More comfortable viewing under glare</span>
+              <span class="vehicle-option__specs vehicle-option__specs--mobile">Exclusive LC Anti-Glare · 2K · 60fps</span>
+              {% if ultra_variant != blank %}<b>{{ ultra_price }}</b>{% else %}<b>—</b>{% endif %}
+            </span>
             <small class="vehicle-option__stock">{% if ultra_variant != blank and ultra_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
           <label class="vehicle-installation-option{% if installation_variant == blank or installation_variant.available == false %} is-unavailable{% endif %}">
@@ -354,6 +382,7 @@
   .vehicle-info-card{background:var(--soft);border-radius:12px;overflow:hidden;margin-top:8px}.vehicle-info-row{display:grid;grid-template-columns:34px 1fr 18px;gap:12px;padding:20px 26px}.vehicle-info-icon{width:28px;height:28px;color:#626669}.vehicle-info-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.9;fill:currentColor;stroke-linecap:round;stroke-linejoin:round}.vehicle-info-copy p{font-size:14px;line-height:20px;font-weight:400;margin:0 0 6px}.vehicle-info-copy p:last-child{margin-bottom:0}.vehicle-info-arrow{font-size:30px;color:#555;align-self:center}
   .vehicle-features-card{margin-top:18px}.vehicle-features-card__list{display:grid;gap:4px}.vehicle-feature{display:flex;gap:14px;align-items:center;padding:10px 0}.vehicle-feature__icon{flex:0 0 27px;width:27px;height:27px;color:#1c2734}.vehicle-feature__icon svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.vehicle-feature p{margin:0;color:#39424e;font-size:14px;line-height:20px}
   .vehicle-options{margin-top:34px}.vehicle-options h2{font-size:20px;line-height:24px;font-weight:600;letter-spacing:-.03em;margin:0 0 22px}.vehicle-option{position:relative;min-height:158px;border:1px solid #d4d7d9;border-radius:10px;padding:20px 22px 42px;display:grid;grid-template-columns:148px 1fr;gap:16px;align-items:center;margin:0 0 12px;background:#fff;cursor:pointer}.vehicle-option.is-selected{border:2px solid var(--blue);padding:19px 21px 41px}.vehicle-option.is-unavailable{cursor:not-allowed}.vehicle-option input{position:absolute;opacity:0;pointer-events:none}.vehicle-option__media{width:148px;height:84px;display:grid;place-items:center;background:#fff;overflow:hidden;color:#999;font-size:12px;line-height:16px;letter-spacing:-.02em}.vehicle-option__media--placeholder{border:1px dashed #cfd3d5;background:#fafbfb}.vehicle-option__media img{display:block;width:100%;height:100%;object-fit:contain}.vehicle-option__copy{display:flex;flex-direction:column;justify-content:center}.vehicle-option__copy strong{display:block;font-size:16px;line-height:24px;font-weight:400;letter-spacing:-.02em}.vehicle-option__copy b{display:block;font-size:14px;line-height:20px;margin-top:8px;font-weight:400;letter-spacing:-.02em}.vehicle-option__stock{position:absolute;right:22px;bottom:18px;font-size:12px;line-height:16px;color:#167b42;font-weight:400;letter-spacing:-.02em}.vehicle-option.is-unavailable .vehicle-option__stock{color:#777}
+  .vehicle-option{min-height:196px;padding-top:20px}.vehicle-option.is-selected{padding-top:19px}.vehicle-option__heading{display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap}.vehicle-option__badge{display:inline-flex;align-items:center;justify-content:center;min-height:20px;padding:2px 8px;border-radius:10px;background:var(--blue);color:#fff;font-size:10px;line-height:14px;font-weight:600;letter-spacing:.01em;text-transform:uppercase;white-space:nowrap}.vehicle-option__summary{display:block;margin-top:5px;color:#4a5055;font-size:13px;line-height:18px;font-weight:400;letter-spacing:-.01em}.vehicle-option__specs{display:block;margin-top:3px;color:#1763b7;font-size:12px;line-height:17px;font-weight:600;letter-spacing:-.01em}.vehicle-option__summary--mobile,.vehicle-option__specs--mobile{display:none}
   .vehicle-installation-option{position:relative;width:100%;height:80px;margin:0 0 12px;padding:0 22px;display:flex;align-items:center;gap:15px;border:1px solid #d4d7d9;border-radius:10px;background:#fff;cursor:pointer;transition:border-color .18s ease,background-color .18s ease}.vehicle-installation-option:hover{border-color:#aeb3b7}.vehicle-installation-option.is-unavailable{cursor:not-allowed;color:#777}.vehicle-installation-option input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.vehicle-installation-option__check{position:relative;flex:0 0 26px;width:26px;height:26px;display:grid;place-items:center;border:2px solid #292d30;border-radius:3px;background:#fff}.vehicle-installation-option__check svg{display:block;width:22px;height:22px;fill:none;stroke:#13a64b;stroke-width:3.8;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:scale(.78);transform-origin:50% 50%;transition:opacity .16s ease,transform .16s ease}.vehicle-installation-option input:checked+.vehicle-installation-option__check svg{opacity:1;transform:scale(1)}.vehicle-installation-option input:focus-visible+.vehicle-installation-option__check{outline:2px solid var(--blue);outline-offset:3px}.vehicle-installation-option__text{min-width:0;flex:1;font-size:16px;line-height:22px;font-weight:400;letter-spacing:-.02em;color:#303233}.vehicle-installation-option__text small{font:inherit;color:#5f6468}.vehicle-installation-option__price{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:14px;line-height:20px;font-weight:400;color:#45494c;white-space:nowrap}.vehicle-installation-option__price-line{display:flex;align-items:baseline;gap:7px}.vehicle-installation-option__price s{color:#777d82;font-size:12px}.vehicle-installation-option__price strong{color:#d52d22;font-size:14px;font-weight:600}.vehicle-installation-option__price>small{display:flex;align-items:center;gap:3px;color:#d52d22;font-size:10px;line-height:12px;font-weight:600}.vehicle-installation-option__price>small svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   .vehicle-content{width:min(1348px,calc(100% - 48px));margin:0 auto}.vehicle-feature-poster{padding-top:86px;background:#fff}.vehicle-feature-poster__frame{position:relative;height:590px;overflow:hidden;background:#f2f4f5}.vehicle-feature-poster__image{display:block;width:100%;height:100%;object-fit:cover}.vehicle-feature-poster__contact{position:absolute;left:42%;top:76.5%;z-index:2;display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 31px;transform:translateY(-50%);border:1px solid #fff;border-radius:100px;color:#111820;background:#fff;font-size:16px;font-weight:400;line-height:20px;letter-spacing:-.32px;text-decoration:none;white-space:nowrap;transition:background-color 300ms ease,border-color 300ms ease,transform 300ms ease}.vehicle-feature-poster__contact:hover{border-color:#f0f1f2;background:#f0f1f2;transform:translateY(calc(-50% - 2px))}.vehicle-feature-poster__contact:focus-visible{outline:2px solid #111820;outline-offset:4px}.vehicle-guide{padding:86px 0 28px;background:#fff}.vehicle-guide h2{font-size:24px;line-height:28px;text-align:center;margin:0 0 32px;font-weight:600;letter-spacing:-.03em}.vehicle-video{position:relative;aspect-ratio:16/7;background:#0a0a0a;overflow:hidden}.vehicle-video__element{width:100%;height:100%;object-fit:cover}.vehicle-video__empty{height:100%;display:grid;place-content:center;text-align:center;color:#fff}.vehicle-video__empty span{font-size:24px;line-height:28px;font-weight:600;letter-spacing:-.03em}.vehicle-video__empty p{font-size:14px;line-height:20px;color:#aaa;margin:12px 0 0}.vehicle-video__sound{position:absolute;right:20px;bottom:20px;border:0;background:#fff;color:#111;padding:11px 16px;font-size:14px;line-height:20px;font-weight:600}
   .vehicle-feature-poster__picture{display:block;width:100%;height:100%}.vehicle-feature-poster__mobile-copy{display:none}
@@ -368,6 +397,15 @@
     .vehicle-fixed-buy__inner{grid-template-rows:24px 50px;row-gap:8px;align-content:center;align-items:center;padding:10px 0 12px}
     .vehicle-fixed-buy__actions>strong{top:12px}
     .vehicle-fixed-buy__actions :is(button,a){height:50px;border-radius:25px;font-size:15px;line-height:20px}
+    .vehicle-option{min-height:176px;padding:15px 15px 38px;align-items:center}
+    .vehicle-option.is-selected{padding:14px 14px 37px}
+    .vehicle-option__copy strong{font-size:15px;line-height:21px}
+    .vehicle-option__heading{gap:5px}
+    .vehicle-option__badge{min-height:18px;padding:2px 6px;border-radius:9px;font-size:8px;line-height:12px}
+    .vehicle-option__summary--desktop,.vehicle-option__specs--desktop{display:none}
+    .vehicle-option__summary--mobile{display:block;margin-top:4px;font-size:12px;line-height:16px}
+    .vehicle-option__specs--mobile{display:block;margin-top:2px;font-size:11px;line-height:15px}
+    .vehicle-option__copy b{margin-top:5px;font-size:13px;line-height:18px}
   }
 
   @media(max-width:620px){
