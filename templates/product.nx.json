@@ -20,7 +20,11 @@
         "crv_2017_product": "honda-cr-v-2017-2022",
         "crv_2023_product": "honda-cr-v",
         "f150_2021_product": "ford-f-150",
-        "nx_2022_product": "lexus-nx"
+        "nx_2022_product": "lexus-nx",
+        "gallery_1": "shopify://shop_images/cleardrive-core-model-spec-poster.png",
+        "option_main_image_2": "shopify://shop_images/cleardrive-pro-model-spec-poster.png",
+        "option_main_image_3": "shopify://shop_images/cleardrive-max-model-spec-poster.png",
+        "option_main_image_4": "shopify://shop_images/cleardrive-ultra-model-spec-poster.png"
       },
       "blocks": {
         "feature_display": {"type":"feature","settings":{"icon":"display","text":"9.66\" IPS touchscreen, 1920 × 480 resolution, and 1,500-nit peak brightness"}},

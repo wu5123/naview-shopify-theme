@@ -28,7 +28,10 @@
         "crv_2023_product": "honda-cr-v",
         "f150_2021_product": "ford-f-150",
         "nx_2022_product": "lexus-nx",
-        "gallery_1": "shopify://shop_images/ChatGPT_Image_2026_8_18_16_37_33.png"
+        "gallery_1": "shopify://shop_images/cleardrive-core-model-spec-poster.png",
+        "option_main_image_2": "shopify://shop_images/cleardrive-pro-model-spec-poster.png",
+        "option_main_image_3": "shopify://shop_images/cleardrive-max-model-spec-poster.png",
+        "option_main_image_4": "shopify://shop_images/cleardrive-ultra-model-spec-poster.png"
       }
     }
   },
