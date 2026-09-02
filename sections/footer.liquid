@@ -78,10 +78,7 @@
       </div>
 
       <div class="nv-footer__fitment-actions">
-        <a class="nv-footer__fitment-request" href="{{ vehicle_request_url }}">
-          <span>Can't find your vehicle?</span>
-          <span aria-hidden="true">→</span>
-        </a>
+        <span class="nv-footer__fitment-request">Can't find your vehicle?</span>
 
         <a
           class="nv-footer__fitment-whatsapp"
@@ -308,7 +305,7 @@
 
   .nv-footer__fitment {
     display: grid;
-    grid-template-columns: auto minmax(260px, 1fr) auto;
+    grid-template-columns: auto minmax(260px, max-content) minmax(360px, 1fr);
     align-items: center;
     gap: 18px 28px;
     padding: 30px 0;
@@ -360,8 +357,9 @@
   .nv-footer__fitment-actions {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 20px;
+    width: 100%;
   }
 
   .nv-footer__fitment-request {
@@ -376,14 +374,7 @@
     line-height: 1.35;
     font-weight: 500;
     white-space: nowrap;
-    text-decoration-line: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
-    transition: color 180ms ease;
-  }
-
-  .nv-footer__fitment-request:hover {
-    color: #6b6b6b;
+    text-decoration: none;
   }
 
   .nv-footer__fitment-whatsapp {
@@ -725,7 +716,7 @@
 
   @media screen and (min-width: 1200px) {
     .nv-footer__fitment {
-      grid-template-columns: auto minmax(300px, 1fr) auto;
+      grid-template-columns: auto minmax(300px, max-content) minmax(360px, 1fr);
     }
   }
 
@@ -788,8 +779,11 @@
 
     .nv-footer__fitment-actions {
       grid-column: 1 / -1;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       gap: 15px;
+      text-align: center;
     }
 
     .nv-footer__fitment-request {
