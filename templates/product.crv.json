@@ -65,10 +65,22 @@
         "f150_2021_product": "ford-f-150",
         "nx_2022_product": "lexus-nx",
         "enable_desktop_image_zoom": true,
+        "show_model_label_overlay": false,
+        "core_model_label": "Core",
+        "pro_model_label": "Pro",
+        "max_model_label": "Max",
+        "ultra_model_label": "Ultra",
         "gallery_1": "shopify://shop_images/cleardrive-core-model-spec-poster.png",
+        "gallery_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_16_39_50.png",
+        "gallery_3": "shopify://shop_images/dual-front-rear-camera-digital-mirror-poster.png",
         "option_main_image_2": "shopify://shop_images/cleardrive-pro-model-spec-poster.png",
+        "pro_gallery_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_16_39_50_983c27eb-fe2e-4d65-bc70-29d7d54e5ccc.png",
+        "pro_gallery_3": "shopify://shop_images/dual-front-rear-camera-digital-mirror-poster.png",
         "option_main_image_3": "shopify://shop_images/cleardrive-max-model-spec-poster.png",
-        "option_main_image_4": "shopify://shop_images/cleardrive-ultra-model-spec-poster.png"
+        "max_gallery_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_16_39_50_983c27eb-fe2e-4d65-bc70-29d7d54e5ccc.png",
+        "max_gallery_3": "shopify://shop_images/dual-front-rear-camera-digital-mirror-poster.png",
+        "option_main_image_4": "shopify://shop_images/cleardrive-ultra-model-spec-poster.png",
+        "ultra_gallery_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_16_39_50_983c27eb-fe2e-4d65-bc70-29d7d54e5ccc.png"
       }
     }
   },
