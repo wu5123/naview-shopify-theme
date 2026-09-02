@@ -212,7 +212,39 @@
           </section>
         {% endif %}
 
-        <div class="vehicle-options">
+        <div class="vehicle-mobile-purchase" id="vehicle-mobile-purchase-{{ section.id }}" data-mobile-purchase>
+          <div class="vehicle-mobile-purchase__backdrop" data-mobile-purchase-close aria-hidden="true"></div>
+          <div class="vehicle-mobile-purchase__dialog" data-mobile-purchase-dialog>
+            <div class="vehicle-mobile-purchase__header">
+              <div>
+                <strong id="vehicle-mobile-purchase-title-{{ section.id }}">Select your model</strong>
+                <span>Choose a model, quantity, and installation service</span>
+              </div>
+              <button class="vehicle-mobile-purchase__close" type="button" data-mobile-purchase-close aria-label="Close product options">×</button>
+            </div>
+            <div class="vehicle-mobile-purchase__body" data-mobile-purchase-body>
+              <div class="vehicle-mobile-purchase__summary">
+                <button class="vehicle-mobile-purchase__image-button" type="button" data-mobile-purchase-image-open aria-label="Enlarge selected model image">
+                  {% if initial_gallery_image != blank %}
+                    <img class="vehicle-mobile-purchase__image" data-mobile-purchase-image src="{{ initial_gallery_image | image_url: width: 720 }}" srcset="{{ initial_gallery_image | image_url: width: 360 }} 360w, {{ initial_gallery_image | image_url: width: 540 }} 540w, {{ initial_gallery_image | image_url: width: 720 }} 720w" sizes="42vw" width="720" height="720" loading="lazy" alt="{{ product_image_alt | escape }}">
+                  {% else %}
+                    <img class="vehicle-mobile-purchase__image" data-mobile-purchase-image src="{{ 'cleardrive-option-17-pro-e-main.png' | asset_url }}" width="1254" height="1254" loading="lazy" alt="{{ product_image_alt | escape }}">
+                  {% endif %}
+                  <span aria-hidden="true">Tap to enlarge</span>
+                </button>
+                <div class="vehicle-mobile-purchase__summary-copy">
+                  <strong data-mobile-purchase-model>Core for {{ vehicle_display_name | escape }}</strong>
+                  <b data-mobile-purchase-price>{{ standard_price }}</b>
+                  <div class="vehicle-mobile-purchase__quantity" aria-label="Quantity selector">
+                    <button type="button" data-mobile-quantity-decrease aria-label="Decrease quantity" disabled>−</button>
+                    <output data-mobile-quantity-value aria-live="polite">1</output>
+                    <button type="button" data-mobile-quantity-increase aria-label="Increase quantity">+</button>
+                  </div>
+                  <small data-mobile-purchase-stock>{% if standard_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
+                </div>
+              </div>
+
+              <div class="vehicle-options">
           <div class="vehicle-options__header">
             <h2>Select Option</h2>
             <button class="vehicle-options__compare" type="button" data-model-compare-open aria-haspopup="dialog" aria-controls="vehicle-model-compare-{{ section.id }}">Compare Models</button>
@@ -269,19 +301,22 @@
             </span>
             <small class="vehicle-option__stock">{% if ultra_variant != blank and ultra_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
           </label>
-          <label class="vehicle-installation-option{% if installation_variant == blank or installation_variant.available == false %} is-unavailable{% endif %}">
-            {% if installation_variant != blank %}<input type="checkbox" data-installation-service data-variant-id="{{ installation_variant.id }}" data-price-cents="{{ installation_variant.price }}" data-available="{{ installation_variant.available }}"{% unless installation_variant.available %} disabled{% endunless %}>{% endif %}
-            <span class="vehicle-installation-option__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6.5"/></svg></span>
-            <span class="vehicle-installation-option__text">Installation Service <small>(Toronto Only)</small></span>
-            <span class="vehicle-installation-option__price">
-              {% if installation_variant != blank %}
-                <span class="vehicle-installation-option__price-line">{% if installation_variant.compare_at_price > installation_variant.price %}<s>{{ installation_compare_price }}</s>{% endif %}<strong>{{ installation_price }}</strong></span>
-                {% if installation_variant.compare_at_price > installation_variant.price %}<small><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h7l7 7-6 6-8-8V4Z"/><circle cx="7" cy="8" r="1.2"/></svg>Promotion</small>{% endif %}
-              {% else %}
-                —
-              {% endif %}
-            </span>
-          </label>
+                <label class="vehicle-installation-option{% if installation_variant == blank or installation_variant.available == false %} is-unavailable{% endif %}">
+                  {% if installation_variant != blank %}<input type="checkbox" data-installation-service data-variant-id="{{ installation_variant.id }}" data-price-cents="{{ installation_variant.price }}" data-available="{{ installation_variant.available }}"{% unless installation_variant.available %} disabled{% endunless %}>{% endif %}
+                  <span class="vehicle-installation-option__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6.5"/></svg></span>
+                  <span class="vehicle-installation-option__text">Installation Service <small>(Toronto Only)</small></span>
+                  <span class="vehicle-installation-option__price">
+                    {% if installation_variant != blank %}
+                      <span class="vehicle-installation-option__price-line">{% if installation_variant.compare_at_price > installation_variant.price %}<s>{{ installation_compare_price }}</s>{% endif %}<strong>{{ installation_price }}</strong></span>
+                      {% if installation_variant.compare_at_price > installation_variant.price %}<small><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h7l7 7-6 6-8-8V4Z"/><circle cx="7" cy="8" r="1.2"/></svg>Promotion</small>{% endif %}
+                    {% else %}
+                      —
+                    {% endif %}
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </aside>
@@ -375,6 +410,13 @@
       </div>
     </div>
   {% endif %}
+  <div class="vehicle-mobile-image-zoom" data-mobile-purchase-image-zoom hidden>
+    <div class="vehicle-mobile-image-zoom__backdrop" data-mobile-purchase-image-zoom-close aria-hidden="true"></div>
+    <div class="vehicle-mobile-image-zoom__dialog" role="dialog" aria-modal="true" aria-label="Enlarged selected model image" tabindex="-1">
+      <img class="vehicle-mobile-image-zoom__image" data-mobile-purchase-image-zoom-image width="1800" height="1800" alt="">
+      <button class="vehicle-mobile-image-zoom__close" type="button" data-mobile-purchase-image-zoom-close aria-label="Close enlarged image">×</button>
+    </div>
+  </div>
   <div class="vehicle-fixed-buy" data-fixed-buy>
     <div class="vehicle-fixed-buy__inner">
       <div class="vehicle-fixed-buy__stock">
@@ -414,6 +456,7 @@
   .vehicle-features-card{margin-top:18px}.vehicle-features-card__list{display:grid;gap:4px}.vehicle-feature{display:flex;gap:14px;align-items:center;padding:10px 0}.vehicle-feature__icon{flex:0 0 27px;width:27px;height:27px;color:#1c2734}.vehicle-feature__icon svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.vehicle-feature p{margin:0;color:#39424e;font-size:14px;line-height:20px}
   .vehicle-options{margin-top:34px}.vehicle-options__header{display:flex;align-items:center;justify-content:flex-start;gap:18px;margin:0 0 22px}.vehicle-options h2{font-size:20px;line-height:24px;font-weight:600;letter-spacing:-.03em;margin:0}.vehicle-options__compare{min-height:36px;padding:7px 17px;border:1px solid var(--blue);border-radius:18px;background:#fff;color:var(--blue);font-size:13px;line-height:18px;font-weight:600;white-space:nowrap;cursor:pointer;transition:background-color .18s ease,color .18s ease,transform .18s ease}.vehicle-options__compare:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}.vehicle-options__compare:focus-visible{outline:2px solid var(--blue);outline-offset:3px}.vehicle-option{position:relative;min-height:158px;border:1px solid #d4d7d9;border-radius:10px;padding:20px 22px 42px;display:grid;grid-template-columns:148px 1fr;gap:16px;align-items:center;margin:0 0 12px;background:#fff;cursor:pointer}.vehicle-option.is-selected{border:2px solid var(--blue);padding:19px 21px 41px}.vehicle-option.is-unavailable{cursor:not-allowed}.vehicle-option input{position:absolute;opacity:0;pointer-events:none}.vehicle-option__media{width:148px;height:84px;display:grid;place-items:center;background:#fff;overflow:hidden;color:#999;font-size:12px;line-height:16px;letter-spacing:-.02em}.vehicle-option__media--placeholder{border:1px dashed #cfd3d5;background:#fafbfb}.vehicle-option__media img{display:block;width:100%;height:100%;object-fit:contain}.vehicle-option__copy{display:flex;flex-direction:column;justify-content:center}.vehicle-option__copy strong{display:block;font-size:16px;line-height:24px;font-weight:400;letter-spacing:-.02em}.vehicle-option__copy b{display:block;font-size:14px;line-height:20px;margin-top:8px;font-weight:400;letter-spacing:-.02em}.vehicle-option__stock{position:absolute;right:22px;bottom:18px;font-size:12px;line-height:16px;color:#167b42;font-weight:400;letter-spacing:-.02em}.vehicle-option.is-unavailable .vehicle-option__stock{color:#777}
   .vehicle-option{min-height:196px;padding-top:20px}.vehicle-option.is-selected{padding-top:19px}.vehicle-option__heading{display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap}.vehicle-option__badge{display:inline-flex;align-items:center;justify-content:center;min-height:20px;padding:2px 8px;border-radius:10px;background:var(--blue);color:#fff;font-size:10px;line-height:14px;font-weight:600;letter-spacing:.01em;text-transform:uppercase;white-space:nowrap}.vehicle-option__summary{display:block;margin-top:5px;color:#4a5055;font-size:13px;line-height:18px;font-weight:400;letter-spacing:-.01em}.vehicle-option__specs{display:block;margin-top:3px;color:#1763b7;font-size:12px;line-height:17px;font-weight:600;letter-spacing:-.01em}.vehicle-option__summary--mobile,.vehicle-option__specs--mobile{display:none}
+  .vehicle-mobile-purchase,.vehicle-mobile-purchase__dialog,.vehicle-mobile-purchase__body{display:contents}.vehicle-mobile-purchase__backdrop,.vehicle-mobile-purchase__header,.vehicle-mobile-purchase__summary{display:none}.vehicle-mobile-image-zoom{display:none}
   .vehicle-installation-option{position:relative;width:100%;height:80px;margin:0 0 12px;padding:0 22px;display:flex;align-items:center;gap:15px;border:1px solid #d4d7d9;border-radius:10px;background:#fff;cursor:pointer;transition:border-color .18s ease,background-color .18s ease}.vehicle-installation-option:hover{border-color:#aeb3b7}.vehicle-installation-option.is-unavailable{cursor:not-allowed;color:#777}.vehicle-installation-option input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.vehicle-installation-option__check{position:relative;flex:0 0 26px;width:26px;height:26px;display:grid;place-items:center;border:2px solid #292d30;border-radius:3px;background:#fff}.vehicle-installation-option__check svg{display:block;width:22px;height:22px;fill:none;stroke:#13a64b;stroke-width:3.8;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:scale(.78);transform-origin:50% 50%;transition:opacity .16s ease,transform .16s ease}.vehicle-installation-option input:checked+.vehicle-installation-option__check svg{opacity:1;transform:scale(1)}.vehicle-installation-option input:focus-visible+.vehicle-installation-option__check{outline:2px solid var(--blue);outline-offset:3px}.vehicle-installation-option__text{min-width:0;flex:1;font-size:16px;line-height:22px;font-weight:400;letter-spacing:-.02em;color:#303233}.vehicle-installation-option__text small{font:inherit;color:#5f6468}.vehicle-installation-option__price{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:14px;line-height:20px;font-weight:400;color:#45494c;white-space:nowrap}.vehicle-installation-option__price-line{display:flex;align-items:baseline;gap:7px}.vehicle-installation-option__price s{color:#777d82;font-size:12px}.vehicle-installation-option__price strong{color:#d52d22;font-size:14px;font-weight:600}.vehicle-installation-option__price>small{display:flex;align-items:center;gap:3px;color:#d52d22;font-size:10px;line-height:12px;font-weight:600}.vehicle-installation-option__price>small svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   .vehicle-content{width:min(1348px,calc(100% - 48px));margin:0 auto}.vehicle-feature-poster{padding-top:86px;background:#fff}.vehicle-feature-poster__frame{position:relative;height:590px;overflow:hidden;background:#f2f4f5}.vehicle-feature-poster__image{display:block;width:100%;height:100%;object-fit:cover}.vehicle-feature-poster__contact{position:absolute;left:42%;top:76.5%;z-index:2;display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 31px;transform:translateY(-50%);border:1px solid #fff;border-radius:100px;color:#111820;background:#fff;font-size:16px;font-weight:400;line-height:20px;letter-spacing:-.32px;text-decoration:none;white-space:nowrap;transition:background-color 300ms ease,border-color 300ms ease,transform 300ms ease}.vehicle-feature-poster__contact:hover{border-color:#f0f1f2;background:#f0f1f2;transform:translateY(calc(-50% - 2px))}.vehicle-feature-poster__contact:focus-visible{outline:2px solid #111820;outline-offset:4px}.vehicle-guide{padding:86px 0 28px;background:#fff}.vehicle-guide h2{font-size:24px;line-height:28px;text-align:center;margin:0 0 32px;font-weight:600;letter-spacing:-.03em}.vehicle-video{position:relative;aspect-ratio:16/7;background:#0a0a0a;overflow:hidden}.vehicle-video__element{width:100%;height:100%;object-fit:cover}.vehicle-video__empty{height:100%;display:grid;place-content:center;text-align:center;color:#fff}.vehicle-video__empty span{font-size:24px;line-height:28px;font-weight:600;letter-spacing:-.03em}.vehicle-video__empty p{font-size:14px;line-height:20px;color:#aaa;margin:12px 0 0}.vehicle-video__sound{position:absolute;right:20px;bottom:20px;border:0;background:#fff;color:#111;padding:11px 16px;font-size:14px;line-height:20px;font-weight:600}
   .vehicle-feature-poster__picture{display:block;width:100%;height:100%}.vehicle-feature-poster__mobile-copy{display:none}
@@ -453,6 +496,35 @@
     .vehicle-model-compare__close{width:40px;height:40px;flex-basis:40px}
     .vehicle-model-compare__viewport{aspect-ratio:auto;place-items:center start;padding:12px 0;touch-action:pan-x pan-y pinch-zoom}
     .vehicle-model-compare__viewport img{width:1100px;max-width:none;max-height:none;height:auto;box-shadow:none}
+  }
+
+  @media(max-width:620px){
+    .vehicle-mobile-purchase{position:fixed;inset:0 0 108px;z-index:2500;display:none;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease}
+    .vehicle-mobile-purchase.is-open{display:block;opacity:1;visibility:visible}
+    .vehicle-mobile-purchase__backdrop{position:absolute;inset:0;display:block;background:rgba(7,12,20,.54);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+    .vehicle-mobile-purchase__dialog{position:relative;z-index:1;width:100%;height:100%;min-height:0;display:flex;flex-direction:column;background:#fff;box-shadow:0 -16px 48px rgba(0,0,0,.22);transform:translateY(18px);transition:transform .18s ease}
+    .vehicle-mobile-purchase.is-open .vehicle-mobile-purchase__dialog{transform:translateY(0)}
+    .vehicle-mobile-purchase__header{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:calc(12px + env(safe-area-inset-top,0px)) 14px 12px;border-bottom:1px solid #e4e7ea;background:#fff}
+    .vehicle-mobile-purchase__header>div{min-width:0}.vehicle-mobile-purchase__header strong{display:block;color:#111b2d;font-size:17px;line-height:22px;font-weight:600}.vehicle-mobile-purchase__header span{display:block;margin-top:2px;color:#6b7178;font-size:11px;line-height:15px}
+    .vehicle-mobile-purchase__close{flex:0 0 40px;width:40px;height:40px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:#f0f3f6;color:#111b2d;font-size:29px;line-height:1;cursor:pointer}
+    .vehicle-mobile-purchase__close:focus-visible,.vehicle-mobile-purchase__image-button:focus-visible,.vehicle-mobile-purchase__quantity button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+    .vehicle-mobile-purchase__body{min-height:0;display:block;overflow-y:auto;padding:14px 14px 26px;background:#fff;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+    .vehicle-mobile-purchase__summary{display:grid;grid-template-columns:minmax(0,42%) minmax(0,1fr);gap:14px;align-items:center;margin-bottom:18px;padding:12px;border:1px solid #e0e3e6;border-radius:14px;background:#f7f8fa}
+    .vehicle-mobile-purchase__image-button{position:relative;width:100%;aspect-ratio:1/1;display:block;overflow:hidden;padding:0;border:0;border-radius:10px;background:#fff;cursor:zoom-in}
+    .vehicle-mobile-purchase__image{display:block;width:100%;height:100%;object-fit:contain}
+    .vehicle-mobile-purchase__image-button>span{position:absolute;left:6px;right:6px;bottom:6px;padding:3px 5px;border-radius:10px;background:rgba(10,16,25,.68);color:#fff;font-size:9px;line-height:12px;text-align:center;pointer-events:none}
+    .vehicle-mobile-purchase__summary-copy{min-width:0}.vehicle-mobile-purchase__summary-copy>strong{display:block;color:#27303a;font-size:14px;line-height:19px;font-weight:600}.vehicle-mobile-purchase__summary-copy>b{display:block;margin-top:6px;color:#ef5b18;font-size:18px;line-height:23px;font-weight:600}.vehicle-mobile-purchase__summary-copy>small{display:block;margin-top:6px;color:#167b42;font-size:11px;line-height:15px}
+    .vehicle-mobile-purchase__quantity{width:116px;height:40px;display:grid;grid-template-columns:38px 40px 38px;align-items:center;margin-top:10px;overflow:hidden;border:1px solid #d9dde1;border-radius:9px;background:#fff}
+    .vehicle-mobile-purchase__quantity button{width:38px;height:38px;padding:0;border:0;background:#fff;color:#222a31;font-size:22px;line-height:1;cursor:pointer}.vehicle-mobile-purchase__quantity button:disabled{color:#b7bcc1;cursor:default}.vehicle-mobile-purchase__quantity output{display:grid;place-items:center;height:24px;border-left:1px solid #e2e5e8;border-right:1px solid #e2e5e8;color:#222a31;font-size:15px;line-height:20px}
+    .vehicle-mobile-purchase .vehicle-options{margin-top:0}.vehicle-mobile-purchase .vehicle-options__header{margin-bottom:12px}.vehicle-mobile-purchase .vehicle-options h2{font-size:17px;line-height:22px}
+    .vehicle-mobile-purchase .vehicle-option{grid-template-columns:88px minmax(0,1fr);gap:10px;min-height:116px;margin-bottom:9px;padding:12px 12px 30px;border-radius:10px;align-items:center}
+    .vehicle-mobile-purchase .vehicle-option.is-selected{padding:11px 11px 29px}
+    .vehicle-mobile-purchase .vehicle-option__media{width:82px;height:62px}
+    .vehicle-mobile-purchase .vehicle-option__copy strong{font-size:14px;line-height:18px}.vehicle-mobile-purchase .vehicle-option__summary--mobile{font-size:11px;line-height:14px}.vehicle-mobile-purchase .vehicle-option__specs--mobile{font-size:10px;line-height:14px}.vehicle-mobile-purchase .vehicle-option__copy b{margin-top:3px;font-size:12px;line-height:16px}.vehicle-mobile-purchase .vehicle-option__stock{right:12px;bottom:9px;font-size:10px;line-height:14px}
+    .vehicle-mobile-purchase .vehicle-option__badge{font-size:7px;line-height:10px}.vehicle-mobile-purchase .vehicle-installation-option{margin-bottom:0}
+    .vehicle-store.is-mobile-purchase-open .vehicle-fixed-buy{z-index:2600}
+    .vehicle-mobile-image-zoom{position:fixed;inset:0;z-index:3400;display:grid;place-items:center;padding:18px;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease}.vehicle-mobile-image-zoom[hidden]{display:none!important}.vehicle-mobile-image-zoom.is-open{opacity:1;visibility:visible}
+    .vehicle-mobile-image-zoom__backdrop{position:absolute;inset:0;background:rgba(4,8,14,.9);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}.vehicle-mobile-image-zoom__dialog{position:relative;z-index:1;width:100%;max-height:calc(100dvh - 36px);aspect-ratio:1/1;overflow:hidden;border-radius:14px;background:#fff;box-shadow:0 24px 70px rgba(0,0,0,.5);transform:scale(.98);transition:transform .18s ease}.vehicle-mobile-image-zoom.is-open .vehicle-mobile-image-zoom__dialog{transform:scale(1)}.vehicle-mobile-image-zoom__image{display:block;width:100%;height:100%;object-fit:contain}.vehicle-mobile-image-zoom__close{position:absolute;top:10px;right:10px;width:42px;height:42px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.94);color:#111b2d;box-shadow:0 3px 14px rgba(0,0,0,.16);font-size:30px;line-height:1;cursor:pointer}
   }
 
   @media(max-width:620px){
@@ -885,6 +957,22 @@
     const installationService = root.querySelector('[data-installation-service]');
     const addToCartButtons = [...root.querySelectorAll('[data-purchase-action="cart"]')];
     const buyNowLink = root.querySelector('[data-purchase-action="checkout"]');
+    const mobilePurchaseQuery = window.matchMedia('(max-width: 620px)');
+    const mobilePurchase = root.querySelector('[data-mobile-purchase]');
+    const mobilePurchaseDialog = root.querySelector('[data-mobile-purchase-dialog]');
+    const mobilePurchaseBody = root.querySelector('[data-mobile-purchase-body]');
+    const mobilePurchaseClose = [...root.querySelectorAll('[data-mobile-purchase-close]')];
+    const mobilePurchaseImage = root.querySelector('[data-mobile-purchase-image]');
+    const mobilePurchaseImageOpen = root.querySelector('[data-mobile-purchase-image-open]');
+    const mobilePurchaseModel = root.querySelector('[data-mobile-purchase-model]');
+    const mobilePurchasePrice = root.querySelector('[data-mobile-purchase-price]');
+    const mobilePurchaseStock = root.querySelector('[data-mobile-purchase-stock]');
+    const quantityDecrease = root.querySelector('[data-mobile-quantity-decrease]');
+    const quantityIncrease = root.querySelector('[data-mobile-quantity-increase]');
+    const quantityValue = root.querySelector('[data-mobile-quantity-value]');
+    const mobileImageZoom = root.querySelector('[data-mobile-purchase-image-zoom]');
+    const mobileImageZoomImage = root.querySelector('[data-mobile-purchase-image-zoom-image]');
+    const mobileImageZoomClose = [...root.querySelectorAll('[data-mobile-purchase-image-zoom-close]')];
     const cartRootUrl = {{ routes.root_url | append: 'cart' | json }};
     const currencyCode = root.dataset.currencyCode || 'CAD';
     const currencyFormatter = new Intl.NumberFormat('en-CA', {
@@ -898,7 +986,8 @@
       const selectedOption = root.querySelector('[data-option]:checked');
       if (!selectedOption || selectedOption.dataset.available !== 'true') {
         buyNowLink.removeAttribute('href');
-        buyNowLink.setAttribute('aria-disabled', 'true');
+        if (mobilePurchaseQuery.matches && !mobilePurchaseIsOpen) buyNowLink.removeAttribute('aria-disabled');
+        else buyNowLink.setAttribute('aria-disabled', 'true');
         return;
       }
       const quantity = Math.max(1, Number.parseInt(buyNowLink.dataset.quantity || '1', 10) || 1);
@@ -909,6 +998,143 @@
       buyNowLink.href = `${cartRootUrl}/${checkoutItems.join(',')}`;
       buyNowLink.removeAttribute('aria-disabled');
     };
+    let purchaseQuantity = 1;
+    let mobilePurchaseIsOpen = false;
+    let mobilePurchaseTrigger = null;
+    let previousMobilePurchaseBodyOverflow = '';
+    let mobileImageZoomHideTimer;
+    const updateMobilePurchaseSummary = () => {
+      const selectedOption = root.querySelector('[data-option]:checked');
+      if (!selectedOption) return;
+      const selectedCard = selectedOption.closest('.vehicle-option');
+      const productPrice = Number.parseInt(selectedOption.dataset.priceCents || '0', 10) || 0;
+      const installationPrice = installationService?.checked
+        ? Number.parseInt(installationService.dataset.priceCents || '0', 10) || 0
+        : 0;
+      const available = selectedOption.dataset.available === 'true';
+      const modelName = selectedCard?.querySelector('.vehicle-option__copy strong')?.textContent?.trim() || 'Selected model';
+      const mainImageItem = allMediaItems.find((item) => (
+        item.dataset.galleryGroup === selectedOption.dataset.galleryGroup
+        && item.dataset.optionMain === 'true'
+      ));
+      const mainImageSource = mainImageItem?.dataset.image;
+
+      if (mobilePurchaseModel) mobilePurchaseModel.textContent = modelName;
+      if (mobilePurchasePrice) mobilePurchasePrice.textContent = formatPrice(productPrice + installationPrice);
+      if (mobilePurchaseStock) {
+        mobilePurchaseStock.textContent = available ? 'In Stock' : 'Out of Stock';
+        mobilePurchaseStock.classList.toggle('is-unavailable', !available);
+      }
+      if (mobilePurchaseImage && mainImageSource) {
+        mobilePurchaseImage.removeAttribute('srcset');
+        mobilePurchaseImage.removeAttribute('sizes');
+        mobilePurchaseImage.src = mainImageSource;
+        mobilePurchaseImage.alt = `${modelName} main image`;
+      }
+    };
+    const setPurchaseQuantity = (nextQuantity) => {
+      purchaseQuantity = Math.min(99, Math.max(1, Number.parseInt(nextQuantity, 10) || 1));
+      addToCartButtons.forEach((button) => { button.dataset.quantity = String(purchaseQuantity); });
+      if (buyNowLink) buyNowLink.dataset.quantity = String(purchaseQuantity);
+      if (quantityValue) quantityValue.textContent = String(purchaseQuantity);
+      if (quantityDecrease) quantityDecrease.disabled = purchaseQuantity <= 1;
+      if (quantityIncrease) quantityIncrease.disabled = purchaseQuantity >= 99;
+      updateBuyNowHref();
+    };
+    const closeMobileImageZoom = (restoreFocus = true) => {
+      if (!mobileImageZoom || mobileImageZoom.hidden) return;
+      mobileImageZoom.classList.remove('is-open');
+      mobileImageZoomHideTimer = window.setTimeout(() => {
+        mobileImageZoom.hidden = true;
+        if (mobileImageZoomImage) mobileImageZoomImage.removeAttribute('src');
+      }, 180);
+      if (restoreFocus) mobilePurchaseImageOpen?.focus({ preventScroll: true });
+    };
+    const openMobileImageZoom = () => {
+      if (!mobilePurchaseQuery.matches || !mobileImageZoom || !mobileImageZoomImage || !mobilePurchaseImage) return;
+      const imageSource = mobilePurchaseImage.currentSrc || mobilePurchaseImage.src;
+      if (!imageSource) return;
+      window.clearTimeout(mobileImageZoomHideTimer);
+      mobileImageZoomImage.src = imageSource;
+      mobileImageZoomImage.alt = mobilePurchaseImage.alt || 'Enlarged selected model image';
+      mobileImageZoom.hidden = false;
+      requestAnimationFrame(() => {
+        mobileImageZoom.classList.add('is-open');
+        mobileImageZoom.querySelector('.vehicle-mobile-image-zoom__close')?.focus();
+      });
+    };
+    const closeMobilePurchase = (restoreFocus = true) => {
+      if (!mobilePurchaseIsOpen || !mobilePurchase) return;
+      closeMobileImageZoom(false);
+      mobilePurchaseIsOpen = false;
+      mobilePurchase.classList.remove('is-open');
+      mobilePurchase.setAttribute('aria-hidden', 'true');
+      mobilePurchase.removeAttribute('role');
+      mobilePurchase.removeAttribute('aria-modal');
+      mobilePurchase.removeAttribute('aria-labelledby');
+      root.classList.remove('is-mobile-purchase-open');
+      document.body.style.overflow = previousMobilePurchaseBodyOverflow;
+      if (mobilePurchaseQuery.matches) {
+        addToCartButtons.forEach((button) => { button.disabled = false; });
+        buyNowLink?.removeAttribute('aria-disabled');
+      }
+      addToCartButtons.forEach((button) => button.setAttribute('aria-expanded', 'false'));
+      buyNowLink?.setAttribute('aria-expanded', 'false');
+      if (restoreFocus) mobilePurchaseTrigger?.focus({ preventScroll: true });
+    };
+    const openMobilePurchase = (trigger) => {
+      if (!mobilePurchaseQuery.matches || !mobilePurchase || mobilePurchaseIsOpen) return false;
+      mobilePurchaseTrigger = trigger || document.activeElement;
+      previousMobilePurchaseBodyOverflow = document.body.style.overflow;
+      mobilePurchaseIsOpen = true;
+      updateMobilePurchaseSummary();
+      mobilePurchase.setAttribute('role', 'dialog');
+      mobilePurchase.setAttribute('aria-modal', 'true');
+      mobilePurchase.setAttribute('aria-labelledby', 'vehicle-mobile-purchase-title-{{ section.id }}');
+      mobilePurchase.setAttribute('aria-hidden', 'false');
+      mobilePurchase.classList.add('is-open');
+      root.classList.add('is-mobile-purchase-open');
+      document.body.style.overflow = 'hidden';
+      const available = root.querySelector('[data-option]:checked')?.dataset.available === 'true';
+      addToCartButtons.forEach((button) => { button.disabled = !available; });
+      updateBuyNowHref();
+      addToCartButtons.forEach((button) => button.setAttribute('aria-expanded', 'true'));
+      buyNowLink?.setAttribute('aria-expanded', 'true');
+      mobilePurchaseBody?.scrollTo({ top: 0 });
+      requestAnimationFrame(() => mobilePurchase.querySelector('.vehicle-mobile-purchase__close')?.focus());
+      return true;
+    };
+    const configureMobilePurchase = () => {
+      if (!mobilePurchase) return;
+      if (mobilePurchaseQuery.matches) {
+        if (!mobilePurchaseIsOpen) mobilePurchase.setAttribute('aria-hidden', 'true');
+        addToCartButtons.forEach((button) => {
+          button.disabled = false;
+          button.setAttribute('aria-haspopup', 'dialog');
+          button.setAttribute('aria-controls', 'vehicle-mobile-purchase-{{ section.id }}');
+        });
+        if (buyNowLink) {
+          buyNowLink.removeAttribute('aria-disabled');
+          buyNowLink.setAttribute('aria-haspopup', 'dialog');
+          buyNowLink.setAttribute('aria-controls', 'vehicle-mobile-purchase-{{ section.id }}');
+        }
+        return;
+      }
+      closeMobilePurchase(false);
+      mobilePurchase.removeAttribute('aria-hidden');
+      mobilePurchase.removeAttribute('role');
+      mobilePurchase.removeAttribute('aria-modal');
+      mobilePurchase.removeAttribute('aria-labelledby');
+      const available = root.querySelector('[data-option]:checked')?.dataset.available === 'true';
+      addToCartButtons.forEach((button) => {
+        button.disabled = !available;
+        button.removeAttribute('aria-haspopup');
+        button.removeAttribute('aria-controls');
+      });
+      buyNowLink?.removeAttribute('aria-haspopup');
+      buyNowLink?.removeAttribute('aria-controls');
+      updateBuyNowHref();
+    };
     const updateLivePrice = () => {
       const selectedOption = root.querySelector('[data-option]:checked');
       if (!selectedOption) return;
@@ -917,8 +1143,47 @@
         ? Number.parseInt(installationService.dataset.priceCents || '0', 10) || 0
         : 0;
       root.querySelector('[data-bar-price]').textContent = formatPrice(productPrice + installationPrice);
+      updateMobilePurchaseSummary();
       updateBuyNowHref();
     };
+    quantityDecrease?.addEventListener('click', () => setPurchaseQuantity(purchaseQuantity - 1));
+    quantityIncrease?.addEventListener('click', () => setPurchaseQuantity(purchaseQuantity + 1));
+    mobilePurchaseClose.forEach((control) => control.addEventListener('click', () => closeMobilePurchase()));
+    mobilePurchaseImageOpen?.addEventListener('click', openMobileImageZoom);
+    mobileImageZoomClose.forEach((control) => control.addEventListener('click', () => closeMobileImageZoom()));
+    buyNowLink?.addEventListener('click', (event) => {
+      if (!mobilePurchaseQuery.matches || mobilePurchaseIsOpen) return;
+      event.preventDefault();
+      openMobilePurchase(buyNowLink);
+    });
+    mobilePurchaseQuery.addEventListener('change', configureMobilePurchase);
+    mobilePurchaseDialog?.addEventListener('keydown', (event) => {
+      if (event.key !== 'Tab' || !mobilePurchaseIsOpen) return;
+      const focusable = [...mobilePurchaseDialog.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])')]
+        .filter((element) => element.getClientRects().length > 0);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+    configureMobilePurchase();
+    setPurchaseQuantity(1);
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      if (mobileImageZoom && !mobileImageZoom.hidden) {
+        closeMobileImageZoom();
+      } else if ((modelCompare && !modelCompare.hidden) || (imageZoom && !imageZoom.hidden)) {
+        return;
+      } else if (mobilePurchaseIsOpen) {
+        closeMobilePurchase();
+      }
+    });
     installationService?.addEventListener('change', updateLivePrice);
     updateLivePrice();
     root.querySelectorAll('[data-option]').forEach((input) => input.addEventListener('change', () => {
@@ -932,11 +1197,17 @@
         field.value = input.value;
         field.setAttribute('value', input.value);
       });
-      root.querySelectorAll('.vehicle-fixed-buy__actions button').forEach((button) => { button.disabled = !available; });
+      root.querySelectorAll('.vehicle-fixed-buy__actions button').forEach((button) => {
+        button.disabled = !available && (!mobilePurchaseQuery.matches || mobilePurchaseIsOpen);
+      });
       updateLivePrice();
       if (input.dataset.galleryGroup) showGalleryGroup(input.dataset.galleryGroup);
     }));
     addToCartButtons.forEach((button) => button.addEventListener('click', async () => {
+      if (mobilePurchaseQuery.matches && !mobilePurchaseIsOpen) {
+        openMobilePurchase(button);
+        return;
+      }
       const selectedOption = root.querySelector('[data-option]:checked');
       if (!selectedOption || selectedOption.dataset.available !== 'true') return;
       const includeService = Boolean(installationService?.checked && installationService.dataset.available === 'true');
@@ -1068,6 +1339,7 @@
           }
         });
 
+        closeMobilePurchase(false);
         customElements.whenDefined('theme-drawer').then(() => {
           const cartDrawer = document.getElementById('cart-drawer');
           if (cartDrawer && !cartDrawer.isOpen && typeof cartDrawer.open === 'function') cartDrawer.open();
@@ -1077,7 +1349,7 @@
         console.error('Cleardrive cart error:', error);
         window.alert(error.message || 'Unable to add the selected items. Please try again.');
       } finally {
-        button.disabled = false;
+        button.disabled = root.querySelector('[data-option]:checked')?.dataset.available !== 'true';
         button.removeAttribute('aria-busy');
       }
     }));
