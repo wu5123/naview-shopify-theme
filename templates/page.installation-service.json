@@ -1,0 +1,30 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "installation-service-page",
+      "settings": {
+        "heading": "Toronto installation service",
+        "desktop_image": "shopify://shop_images/black-f150-installation-service-banner-1348x590.png",
+        "mobile_image": "shopify://shop_images/cleardrive-installation-poster-mobile.png",
+        "mobile_title": "Need Professional Installation?",
+        "mobile_subtitle": "Let Our Toronto Installation Team Handle It.",
+        "mobile_details": "Fast scheduling. Fair pricing.\nVehicle-specific installation with no cutting or damage.",
+        "mobile_region_prefix": "Greater",
+        "mobile_region_highlight": "Toronto Only",
+        "button_label": "Contact Us",
+        "button_link": "https://wa.me/16137969403",
+        "open_in_new_tab": true
+      }
+    }
+  },
+  "order": ["main"]
+}

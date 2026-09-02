@@ -1,0 +1,260 @@
+{% liquid
+  assign page_heading = section.settings.heading | default: page.title
+  assign desktop_image = section.settings.desktop_image
+  assign mobile_image = section.settings.mobile_image
+%}
+
+<section class="installation-service-page" aria-labelledby="installation-service-title-{{ section.id }}">
+  <div class="installation-service-page__inner">
+    <h1 id="installation-service-title-{{ section.id }}">{{ page_heading | escape }}</h1>
+
+    <div class="installation-service-page__banner">
+      {% if desktop_image != blank %}
+        <picture class="installation-service-page__picture">
+          {% if mobile_image != blank %}
+            <source
+              media="(max-width: 620px)"
+              srcset="{{ mobile_image | image_url: width: 420 }} 420w, {{ mobile_image | image_url: width: 696 }} 696w, {{ mobile_image | image_url: width: 1000 }} 1000w"
+              sizes="calc(100vw - 24px)"
+            >
+          {% endif %}
+          {{
+            desktop_image
+            | image_url: width: 2200
+            | image_tag:
+              class: 'installation-service-page__image',
+              loading: 'eager',
+              widths: '720, 1080, 1348, 1800, 2200',
+              sizes: '(min-width: 1440px) 1348px, calc(100vw - 64px)',
+              alt: page_heading
+          }}
+        </picture>
+      {% else %}
+        <div class="installation-service-page__placeholder">Choose the installation service banner in the theme editor.</div>
+      {% endif %}
+
+      <div class="installation-service-page__mobile-copy">
+        <strong>{{ section.settings.mobile_title | escape }}</strong>
+        <span class="installation-service-page__mobile-subtitle">{{ section.settings.mobile_subtitle | escape }}</span>
+        <span class="installation-service-page__mobile-details">{{ section.settings.mobile_details | escape | newline_to_br }}</span>
+        <span class="installation-service-page__mobile-region">
+          <span>{{ section.settings.mobile_region_prefix | escape }}</span>
+          <b>{{ section.settings.mobile_region_highlight | escape }}</b>
+        </span>
+      </div>
+
+      {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+        <a
+          class="installation-service-page__contact"
+          href="{{ section.settings.button_link }}"
+          {% if section.settings.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+        >
+          {{ section.settings.button_label | escape }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .installation-service-page {
+    padding: 54px 0 90px;
+    background: #fff;
+    color: #111820;
+  }
+
+  .installation-service-page__inner {
+    width: min(1348px, calc(100% - 64px));
+    margin: 0 auto;
+  }
+
+  .installation-service-page h1 {
+    margin: 0 0 34px;
+    text-align: center;
+    font-size: clamp(34px, 3.2vw, 52px);
+    line-height: 1.08;
+    font-weight: 650;
+    letter-spacing: -0.045em;
+  }
+
+  .installation-service-page__banner {
+    position: relative;
+    aspect-ratio: 1348 / 590;
+    overflow: hidden;
+    background: #e9ecef;
+  }
+
+  .installation-service-page__picture,
+  .installation-service-page__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .installation-service-page__image {
+    object-fit: cover;
+  }
+
+  .installation-service-page__placeholder {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    color: #68717a;
+    text-align: center;
+  }
+
+  .installation-service-page__mobile-copy {
+    display: none;
+  }
+
+  .installation-service-page__contact {
+    position: absolute;
+    left: 42%;
+    top: 76.5%;
+    z-index: 2;
+    min-width: 142px;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 30px;
+    transform: translateY(-50%);
+    border: 1px solid #fff;
+    border-radius: 999px;
+    background: #fff;
+    color: #111820;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: 0 5px 20px rgb(0 0 0 / 12%);
+    transition: transform 180ms ease, background-color 180ms ease;
+  }
+
+  .installation-service-page__contact:hover {
+    background: #f3f5f7;
+    transform: translateY(calc(-50% - 2px));
+  }
+
+  .installation-service-page__contact:focus-visible {
+    outline: 3px solid #0060ef;
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 620px) {
+    .installation-service-page {
+      padding: 34px 0 58px;
+    }
+
+    .installation-service-page__inner {
+      width: calc(100% - 24px);
+    }
+
+    .installation-service-page h1 {
+      margin-bottom: 24px;
+      font-size: 31px;
+      line-height: 1.12;
+    }
+
+    .installation-service-page__banner {
+      aspect-ratio: 696 / 520;
+    }
+
+    .installation-service-page__mobile-copy {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: block;
+      padding: 20px;
+      color: #fff;
+      pointer-events: none;
+      text-shadow: 0 1px 8px rgb(0 0 0 / 42%);
+    }
+
+    .installation-service-page__mobile-copy strong {
+      display: block;
+      max-width: 290px;
+      font-size: 24px;
+      line-height: 1.05;
+      font-weight: 650;
+      letter-spacing: -0.04em;
+    }
+
+    .installation-service-page__mobile-subtitle {
+      display: block;
+      max-width: 305px;
+      margin-top: 6px;
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 600;
+    }
+
+    .installation-service-page__mobile-details {
+      display: block;
+      max-width: 275px;
+      margin-top: 16px;
+      color: rgb(255 255 255 / 92%);
+      font-size: 12px;
+      line-height: 17px;
+    }
+
+    .installation-service-page__mobile-region {
+      position: absolute;
+      left: 20px;
+      bottom: 75px;
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+      color: #f09418;
+      font-size: 17px;
+      line-height: 22px;
+    }
+
+    .installation-service-page__mobile-region b {
+      font-size: 21px;
+      font-weight: 650;
+    }
+
+    .installation-service-page__contact {
+      left: 20px;
+      top: auto;
+      bottom: 20px;
+      min-width: 132px;
+      min-height: 42px;
+      padding: 0 22px;
+      transform: none;
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    .installation-service-page__contact:hover {
+      transform: translateY(-2px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Installation service page",
+  "settings": [
+    {"type":"text","id":"heading","label":"Page heading","default":"Toronto installation service"},
+    {"type":"image_picker","id":"desktop_image","label":"Desktop banner"},
+    {"type":"image_picker","id":"mobile_image","label":"Mobile banner"},
+    {"type":"header","content":"Mobile banner text"},
+    {"type":"text","id":"mobile_title","label":"Title","default":"Need Professional Installation?"},
+    {"type":"text","id":"mobile_subtitle","label":"Subtitle","default":"Let Our Toronto Installation Team Handle It."},
+    {"type":"textarea","id":"mobile_details","label":"Details","default":"Fast scheduling. Fair pricing.\nVehicle-specific installation with no cutting or damage."},
+    {"type":"text","id":"mobile_region_prefix","label":"Region prefix","default":"Greater"},
+    {"type":"text","id":"mobile_region_highlight","label":"Region highlight","default":"Toronto Only"},
+    {"type":"header","content":"Contact button"},
+    {"type":"text","id":"button_label","label":"Button label","default":"Contact Us"},
+    {"type":"url","id":"button_link","label":"Button link"},
+    {"type":"checkbox","id":"open_in_new_tab","label":"Open link in a new tab","default":true}
+  ],
+  "presets": [
+    {"name":"Installation service page"}
+  ]
+}
+{% endschema %}
