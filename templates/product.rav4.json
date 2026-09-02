@@ -64,6 +64,10 @@
         "crv_2023_product": "honda-cr-v",
         "f150_2021_product": "ford-f-150",
         "nx_2022_product": "lexus-nx",
+        "core_model_label": "Core",
+        "pro_model_label": "Pro",
+        "max_model_label": "Max",
+        "ultra_model_label": "Ultra",
         "gallery_1": "shopify://shop_images/ChatGPT_Image_2026_9_1_12_05_17_2.png",
         "gallery_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_16_39_50.png",
         "gallery_3": "shopify://shop_images/dual-front-rear-camera-digital-mirror-poster.png",
@@ -90,7 +94,13 @@
         "poster_3": "shopify://shop_images/ip68-waterproof-camera-poster-328x354-4x_1_1d849321-0f2d-457f-ade9-ff8a4224f2e9.png",
         "poster_4": "shopify://shop_images/loop-recording-poster-square_047ad400-e64f-4daa-a02d-568c099e2ee9.png",
         "poster_5": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_03_00_1_3b517c8e-c5ad-4afd-bc3e-01e6c1a8009e.png",
-        "poster_6": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_14_57_1_b9842189-8675-4ff7-b155-d33e07e21201.png"
+        "poster_6": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_14_57_1_b9842189-8675-4ff7-b155-d33e07e21201.png",
+        "mobile_poster_1": "shopify://shop_images/ips-auto-sensing-poster-square_1692d2e6-e8ff-4294-97a1-093965fd6c43.png",
+        "mobile_poster_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_26_59_a16adbc4-ceac-4c3d-ac1c-3b325e70f1a6.png",
+        "mobile_poster_3": "shopify://shop_images/ip68-waterproof-camera-poster-328x354-4x_1_13c7076d-86d7-4b2d-8007-7a91658d604a.png",
+        "mobile_poster_4": "shopify://shop_images/loop-recording-poster-square_88148ba9-1174-4d01-865a-544aa4b8bbaf.png",
+        "mobile_poster_5": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_03_00_2_9c8b4497-de72-47f9-8eeb-228f8ea03297.png",
+        "mobile_poster_6": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_14_57_2_92c5e0df-cc27-41fa-b119-9622ed5353cc.png"
       }
     }
   },
