@@ -203,13 +203,10 @@
         "check_prepare": {"type":"check","settings":{"phase":"prepare","label":"Vehicle protected and negative battery terminal disconnected"}},
         "check_mirror_mount": {"type":"check","settings":{"phase":"mirror","label":"Mirror mount is secure"}},
         "check_mirror_plugs": {"type":"check","settings":{"phase":"mirror","label":"All plugs are fully locked"}},
-        "check_mirror_wires": {"type":"check","settings":{"phase":"mirror","label":"No factory wires were cut"}},
         "check_mirror_console": {"type":"check","settings":{"phase":"mirror","label":"Overhead console clips are seated"}},
-        "check_cable_trim": {"type":"check","settings":{"phase":"cable","label":"Cable is hidden behind trim"}},
         "check_cable_airbag": {"type":"check","settings":{"phase":"cable","label":"Airbag deployment path remains clear"}},
         "check_cable_tension": {"type":"check","settings":{"phase":"cable","label":"No connector is under tension"}},
         "check_cable_seal": {"type":"check","settings":{"phase":"cable","label":"Weatherstrip seals evenly"}},
-        "check_rear_mirror": {"type":"check","settings":{"phase":"rear","label":"Mirror is stable and adjustable"}},
         "check_rear_views": {"type":"check","settings":{"phase":"rear","label":"Front and rear images display"}},
         "check_rear_brake": {"type":"check","settings":{"phase":"rear","label":"Third brake light operates"}},
         "check_rear_panels": {"type":"check","settings":{"phase":"rear","label":"All panels and seals are seated"}},
@@ -229,7 +226,7 @@
         "tool_phillips","tool_trim","tool_socket","tool_fish","tool_tape","tool_cloth",
         "part_mirror","part_front_camera","part_mount","part_cover","part_rear_camera","part_extension","part_harness",
         "step_prepare","step_remove_mirror","step_install_mirror","step_console","step_harness","step_connect_extension","step_front_headliner","step_roofline","step_liftgate_entry","step_upper_trim","step_feed_liftgate","step_remove_light","step_camera_light","step_test",
-        "check_prepare","check_mirror_mount","check_mirror_plugs","check_mirror_wires","check_mirror_console","check_cable_trim","check_cable_airbag","check_cable_tension","check_cable_seal","check_rear_mirror","check_rear_views","check_rear_brake","check_rear_panels","check_final_brake","check_final_level","check_final_liftgate","check_final_harness","check_final_airbag","check_final_trim",
+        "check_prepare","check_mirror_mount","check_mirror_plugs","check_mirror_console","check_cable_airbag","check_cable_tension","check_cable_seal","check_rear_views","check_rear_brake","check_rear_panels","check_final_brake","check_final_level","check_final_liftgate","check_final_harness","check_final_airbag","check_final_trim",
         "faq_power","faq_rear_image","faq_brake","faq_mirror"
       ],
       "settings": {
