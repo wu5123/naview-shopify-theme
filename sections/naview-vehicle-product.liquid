@@ -520,7 +520,9 @@
   }
 </style>
 
-<script>
+<script type="module">
+  import { CartLinesUpdateEvent } from '@shopify/events';
+
   (() => {
     const root = document.querySelector('[data-vehicle="{{ section.id }}"]');
     if (!root) return;
@@ -940,6 +942,10 @@
       const quantity = Math.max(1, Number.parseInt(button.dataset.quantity || '1', 10) || 1);
       const selectedVariantId = selectedOption.value;
       const installationVariantId = includeService ? installationService.dataset.variantId : '';
+      const cartSectionIds = [...new Set([...document.querySelectorAll('cart-items-component')]
+        .map((component) => component.dataset.sectionId)
+        .filter(Boolean))];
+      const cartUpdate = CartLinesUpdateEvent.createPromise();
 
       // Shopify merges lines only when both the variant and line properties match.
       // Keep this key deterministic so adding the same product/service selection
@@ -949,6 +955,16 @@
         : '';
       button.disabled = true;
       button.setAttribute('aria-busy', 'true');
+
+      root.dispatchEvent(new CartLinesUpdateEvent({
+        action: 'add',
+        context: 'product',
+        lines: [
+          { merchandiseId: selectedVariantId, quantity },
+          ...(installationVariantId ? [{ merchandiseId: installationVariantId, quantity }] : [])
+        ],
+        promise: cartUpdate.promise
+      }));
 
       try {
         let effectiveQuantity = quantity;
@@ -1019,14 +1035,47 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           credentials: 'same-origin',
-          body: JSON.stringify({ items })
+          body: JSON.stringify({
+            items,
+            sections: cartSectionIds.join(','),
+            sections_url: window.location.pathname
+          })
         });
         const responseData = await response.json();
         if (!response.ok) throw new Error(responseData.description || 'Unable to add the selected items.');
-        window.location.assign(cartRootUrl);
+
+        let cartData;
+        try {
+          const cartResponse = await fetch(`${cartRootUrl}.js`, {
+            headers: { Accept: 'application/json' },
+            credentials: 'same-origin'
+          });
+          if (cartResponse.ok) cartData = await cartResponse.json();
+        } catch (refreshError) {
+          console.warn('Cleardrive cart count refresh failed:', refreshError);
+        }
+
+        cartUpdate.resolve({
+          cart: cartData ? CartLinesUpdateEvent.createCartFromAjaxResponse(cartData) : undefined,
+          detail: {
+            items: cartData?.items || responseData.items || [],
+            itemCount: cartData?.item_count,
+            source: 'cleardrive-vehicle-product',
+            sourceId: root.dataset.vehicle,
+            sections: responseData.sections,
+            didError: false
+          }
+        });
+
+        customElements.whenDefined('theme-drawer').then(() => {
+          const cartDrawer = document.getElementById('cart-drawer');
+          if (cartDrawer && !cartDrawer.isOpen && typeof cartDrawer.open === 'function') cartDrawer.open();
+        });
       } catch (error) {
+        cartUpdate.reject(error);
         console.error('Cleardrive cart error:', error);
         window.alert(error.message || 'Unable to add the selected items. Please try again.');
+      } finally {
         button.disabled = false;
         button.removeAttribute('aria-busy');
       }

@@ -431,7 +431,7 @@
         <a class="cleardrive-header__track-order" href="{{ routes.root_url }}#track-order">Track Order</a>
         <a class="cleardrive-header__mobile-find" href="{{ routes.root_url }}#cleardrive-models">Find Vehicle</a>
         {{ search }}
-        {% if settings.cart_type == 'drawer' and template.name != 'cart' %}
+        {% if settings.cart_type == 'drawer' and template.name == 'product' %}
           <button
             class="cleardrive-header__cart header-actions__action button-unstyled"
             type="button"
