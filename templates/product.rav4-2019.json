@@ -81,12 +81,19 @@
         "ultra_gallery_3": "shopify://shop_images/dual-front-rear-camera-digital-mirror-poster.png",
         "ultra_gallery_4": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_18_20_e0d45fe4-17b2-4c33-9ed9-c376254ca94b.png",
         "guide_poster": "shopify://shop_images/black-f150-installation-service-banner-1348x590.png",
-        "poster_1": "shopify://shop_images/ips-auto-sensing-poster-square.png",
-        "poster_2": "shopify://shop_images/loop-recording-poster-square.png",
-        "poster_3": "shopify://shop_images/ip68-waterproof-camera-poster-328x354-4x_1.png",
-        "poster_4": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_14_57_2.png",
-        "poster_5": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_26_59_c5c548e2-03fe-42c4-842a-24fafe7ff4b4.png",
-        "poster_6": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_03_00_2.png"
+        "installation_video_url": "https://youtu.be/tNBj_hhEuHM?si=G27Qq60GCBQH25vt",
+        "poster_1": "shopify://shop_images/ips-auto-sensing-poster-555x720_c402e070-d818-4947-a22b-cafe2474ee09.png",
+        "poster_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_26_59.png",
+        "poster_3": "shopify://shop_images/ip68-waterproof-camera-poster-328x354-4x_1_1d849321-0f2d-457f-ade9-ff8a4224f2e9.png",
+        "poster_4": "shopify://shop_images/loop-recording-poster-square_047ad400-e64f-4daa-a02d-568c099e2ee9.png",
+        "poster_5": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_03_00_1_3b517c8e-c5ad-4afd-bc3e-01e6c1a8009e.png",
+        "poster_6": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_14_57_1_b9842189-8675-4ff7-b155-d33e07e21201.png",
+        "mobile_poster_1": "shopify://shop_images/ips-auto-sensing-poster-square_1692d2e6-e8ff-4294-97a1-093965fd6c43.png",
+        "mobile_poster_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_26_59_a16adbc4-ceac-4c3d-ac1c-3b325e70f1a6.png",
+        "mobile_poster_3": "shopify://shop_images/ip68-waterproof-camera-poster-328x354-4x_1_13c7076d-86d7-4b2d-8007-7a91658d604a.png",
+        "mobile_poster_4": "shopify://shop_images/loop-recording-poster-square_88148ba9-1174-4d01-865a-544aa4b8bbaf.png",
+        "mobile_poster_5": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_03_00_2_9c8b4497-de72-47f9-8eeb-228f8ea03297.png",
+        "mobile_poster_6": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_14_57_2_92c5e0df-cc27-41fa-b119-9622ed5353cc.png"
       }
     }
   },
