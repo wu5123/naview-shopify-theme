@@ -382,7 +382,7 @@
             aria-label="Mobile navigation"
           >
             <div class="cleardrive-mobile-menu__panel-header">
-              <span>Cleardrive</span>
+              <a class="cleardrive-mobile-menu__home" href="{{ routes.root_url }}">Homepage</a>
               <button
                 class="button-unstyled cleardrive-mobile-menu__close"
                 type="button"
@@ -1394,6 +1394,17 @@
       justify-content: center;
       color: var(--color-foreground);
       cursor: pointer;
+    }
+
+    .cleardrive-mobile-menu__home {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .cleardrive-mobile-menu__home:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 4px;
+      border-radius: 2px;
     }
 
     .cleardrive-mobile-menu__links {
