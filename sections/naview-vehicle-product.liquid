@@ -39,6 +39,23 @@
   assign installation_contact_url = section.settings.installation_contact_link | default: contact_page_url
 %}
 
+{% capture vehicle_year_options %}
+  {% case vehicle_key %}
+    {% when 'rav4' %}
+      <option value="{% if section.settings.rav4_2019_product != blank %}{{ section.settings.rav4_2019_product.url }}{% else %}/products/toyota-rav4-2019-2025{% endif %}"{% if vehicle_product.handle contains '2019-2025' or section.settings.rav4_2019_product.id == vehicle_product.id %} selected{% endif %}>2019–2025</option>
+      <option value="{% if section.settings.rav4_2026_product != blank %}{{ section.settings.rav4_2026_product.url }}{% else %}/products/toyota-rav4{% endif %}"{% unless vehicle_product.handle contains '2019-2025' or section.settings.rav4_2019_product.id == vehicle_product.id %} selected{% endunless %}>2026+</option>
+    {% when 'crv' %}
+      <option value="{% if section.settings.crv_2017_product != blank %}{{ section.settings.crv_2017_product.url }}{% else %}/products/honda-cr-v-2017-2022{% endif %}"{% if vehicle_product.handle contains '2017-2022' or section.settings.crv_2017_product.id == vehicle_product.id %} selected{% endif %}>2017–2022</option>
+      <option value="{% if section.settings.crv_2023_product != blank %}{{ section.settings.crv_2023_product.url }}{% else %}/products/honda-cr-v{% endif %}"{% unless vehicle_product.handle contains '2017-2022' or section.settings.crv_2017_product.id == vehicle_product.id %} selected{% endunless %}>2023+</option>
+    {% when 'f150' %}
+      <option value="{% if section.settings.f150_2021_product != blank %}{{ section.settings.f150_2021_product.url }}{% else %}{{ vehicle_page_url }}{% endif %}" selected>2021+</option>
+    {% when 'nx' %}
+      <option value="{% if section.settings.nx_2022_product != blank %}{{ section.settings.nx_2022_product.url }}{% else %}{{ vehicle_page_url }}{% endif %}" selected>2022+</option>
+    {% else %}
+      <option value="{{ vehicle_page_url }}" selected>Current model</option>
+  {% endcase %}
+{% endcapture %}
+
 <section class="vehicle-store" data-vehicle="{{ section.id }}" data-currency-code="{{ cart.currency.iso_code | default: shop.currency }}">
   <div class="vehicle-store__product">
     <div class="vehicle-gallery">
@@ -160,20 +177,7 @@
           <label for="vehicle-year-{{ section.id }}">Select Year</label>
           <div class="vehicle-select-wrap">
             <select id="vehicle-year-{{ section.id }}" data-year>
-              {% case vehicle_key %}
-                {% when 'rav4' %}
-                  <option value="{% if section.settings.rav4_2019_product != blank %}{{ section.settings.rav4_2019_product.url }}{% else %}/products/toyota-rav4-2019-2025{% endif %}"{% if vehicle_product.handle contains '2019-2025' or section.settings.rav4_2019_product.id == vehicle_product.id %} selected{% endif %}>2019–2025</option>
-                  <option value="{% if section.settings.rav4_2026_product != blank %}{{ section.settings.rav4_2026_product.url }}{% else %}/products/toyota-rav4{% endif %}"{% unless vehicle_product.handle contains '2019-2025' or section.settings.rav4_2019_product.id == vehicle_product.id %} selected{% endunless %}>2026+</option>
-                {% when 'crv' %}
-                  <option value="{% if section.settings.crv_2017_product != blank %}{{ section.settings.crv_2017_product.url }}{% else %}/products/honda-cr-v-2017-2022{% endif %}"{% if vehicle_product.handle contains '2017-2022' or section.settings.crv_2017_product.id == vehicle_product.id %} selected{% endif %}>2017–2022</option>
-                  <option value="{% if section.settings.crv_2023_product != blank %}{{ section.settings.crv_2023_product.url }}{% else %}/products/honda-cr-v{% endif %}"{% unless vehicle_product.handle contains '2017-2022' or section.settings.crv_2017_product.id == vehicle_product.id %} selected{% endunless %}>2023+</option>
-                {% when 'f150' %}
-                  <option value="{% if section.settings.f150_2021_product != blank %}{{ section.settings.f150_2021_product.url }}{% else %}{{ vehicle_page_url }}{% endif %}" selected>2021+</option>
-                {% when 'nx' %}
-                  <option value="{% if section.settings.nx_2022_product != blank %}{{ section.settings.nx_2022_product.url }}{% else %}{{ vehicle_page_url }}{% endif %}" selected>2022+</option>
-                {% else %}
-                  <option value="{{ vehicle_page_url }}" selected>Current model</option>
-              {% endcase %}
+              {{ vehicle_year_options }}
             </select>
           </div>
         </div>
@@ -243,6 +247,15 @@
                     <button type="button" data-mobile-quantity-increase aria-label="Increase quantity">+</button>
                   </div>
                   <small data-mobile-purchase-stock>{% if standard_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
+                </div>
+              </div>
+
+              <div class="vehicle-year vehicle-year--mobile">
+                <label for="vehicle-year-mobile-{{ section.id }}">Select Year</label>
+                <div class="vehicle-select-wrap">
+                  <select id="vehicle-year-mobile-{{ section.id }}" data-year>
+                    {{ vehicle_year_options }}
+                  </select>
                 </div>
               </div>
 
@@ -459,7 +472,7 @@
   .vehicle-gallery__thumbnail{position:relative;flex:0 0 82px;height:60px;padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;background:#f4f5f6;opacity:.7;cursor:pointer;scroll-snap-align:start;transition:opacity .2s ease,border-color .2s ease,transform .2s ease}.vehicle-gallery__thumbnail[hidden]{display:none}.vehicle-gallery__thumbnail:hover,.vehicle-gallery__thumbnail:focus-visible{opacity:1}.vehicle-gallery__thumbnail.is-active{border-color:var(--blue);opacity:.7;transform:translateY(-1px)}.vehicle-gallery__thumbnail img{display:block;width:100%;height:100%;object-fit:cover}.vehicle-gallery__thumbnail--video{display:grid;place-items:center;color:#fff;background:#0b0c0d;font-size:12px;line-height:16px;letter-spacing:-.02em}.vehicle-gallery__thumbnail--video img{opacity:.75}.vehicle-gallery__play{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:30px;height:30px;transform:translate(-50%,-50%);border-radius:50%;background:rgba(22,24,27,.84);color:#fff;font-size:11px;line-height:14px;letter-spacing:-.02em;text-indent:2px}
   .vehicle-gallery__thumbnail-previous,.vehicle-gallery__thumbnail-next{position:absolute;top:50%;z-index:3;width:34px;height:34px;transform:translateY(-50%);border:0;border-radius:50%;background:rgba(17,24,32,.5);color:#fff;font-size:24px;line-height:1;cursor:pointer;transition:opacity .2s ease,background-color .2s ease}.vehicle-gallery__thumbnail-previous{left:4px}.vehicle-gallery__thumbnail-next{right:4px}.vehicle-gallery__thumbnail-previous:hover,.vehicle-gallery__thumbnail-next:hover{background:rgba(17,24,32,.72)}.vehicle-gallery__thumbnail-previous:disabled,.vehicle-gallery__thumbnail-next:disabled{opacity:.24;cursor:default}
   .vehicle-buy{min-width:0;padding:0 clamp(44px,4vw,76px) 80px}.vehicle-buy__inner{width:620px;max-width:100%}.vehicle-buy h1{font-size:24px;font-weight:600;line-height:28px;letter-spacing:-.03em;margin:0 0 28px;color:#333}
-  .vehicle-year label{display:block;margin:0 0 9px;font-size:14px;line-height:20px;font-weight:400}.vehicle-select-wrap{position:relative}.vehicle-select-wrap:after{content:"⌄";position:absolute;right:16px;top:50%;transform:translateY(-57%);pointer-events:none}.vehicle-year select{appearance:none;width:100%;height:50px;border:1px solid #cfd3d5;border-radius:2px;background:#fff;padding:0 44px 0 16px;color:#333;font-size:14px;line-height:20px;font-weight:400}
+  .vehicle-year--mobile{display:none}.vehicle-year label{display:block;margin:0 0 9px;font-size:14px;line-height:20px;font-weight:400}.vehicle-select-wrap{position:relative}.vehicle-select-wrap:after{content:"⌄";position:absolute;right:16px;top:50%;transform:translateY(-57%);pointer-events:none}.vehicle-year select{appearance:none;width:100%;height:50px;border:1px solid #cfd3d5;border-radius:2px;background:#fff;padding:0 44px 0 16px;color:#333;font-size:14px;line-height:20px;font-weight:400}
   .vehicle-price{font-size:18px;line-height:24px;font-weight:600;letter-spacing:-.02em;margin:26px 0 20px}
   .vehicle-info-card{background:var(--soft);border-radius:12px;overflow:hidden;margin-top:8px}.vehicle-info-row{display:grid;grid-template-columns:34px 1fr 18px;gap:12px;padding:20px 26px}.vehicle-info-icon{width:28px;height:28px;color:#626669}.vehicle-info-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.9;fill:currentColor;stroke-linecap:round;stroke-linejoin:round}.vehicle-info-copy p{font-size:14px;line-height:20px;font-weight:400;margin:0 0 6px}.vehicle-info-copy p:last-child{margin-bottom:0}.vehicle-info-arrow{font-size:30px;color:#555;align-self:center}
   .vehicle-features-card{margin-top:18px}.vehicle-features-card__list{display:grid;gap:4px}.vehicle-feature{display:flex;gap:14px;align-items:center;padding:10px 0}.vehicle-feature__icon{flex:0 0 27px;width:27px;height:27px;color:#1c2734}.vehicle-feature__icon svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.vehicle-feature p{margin:0;color:#39424e;font-size:14px;line-height:20px}
@@ -508,6 +521,9 @@
   }
 
   @media(max-width:620px){
+    .vehicle-gallery__stage-arrow{display:none}
+    .vehicle-buy__inner>.vehicle-year{display:none}
+    .vehicle-mobile-purchase .vehicle-year--mobile{display:block;margin:0 0 18px}
     .vehicle-mobile-purchase{position:fixed;inset:0 0 108px;z-index:2500;display:none;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease}
     .vehicle-mobile-purchase.is-open{display:block;opacity:1;visibility:visible}
     .vehicle-mobile-purchase__backdrop{position:absolute;inset:0;display:block;background:rgba(7,12,20,.54);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
@@ -962,7 +978,9 @@
     thumbnailRail?.addEventListener('scroll', updateThumbnailNavigation, { passive: true });
     window.addEventListener('resize', updateThumbnailNavigation);
     showGalleryGroup(root.querySelector('[data-option]:checked')?.dataset.galleryGroup || 'core', true);
-    root.querySelector('[data-year]')?.addEventListener('change', (event) => { window.location.href = event.target.value; });
+    root.querySelectorAll('[data-year]').forEach((yearSelect) => {
+      yearSelect.addEventListener('change', (event) => { window.location.href = event.target.value; });
+    });
     const installationService = root.querySelector('[data-installation-service]');
     const addToCartButtons = [...root.querySelectorAll('[data-purchase-action="cart"]')];
     const buyNowLink = root.querySelector('[data-purchase-action="checkout"]');
