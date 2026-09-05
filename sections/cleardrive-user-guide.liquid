@@ -1,0 +1,199 @@
+{% liquid
+  assign guide_id = 'user-guide-' | append: section.id
+  assign manual_url = section.settings.manual_url
+%}
+{{ 'cleardrive-user-guide.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cleardrive-user-guide.js' | asset_url }}" defer="defer"></script>
+
+<cleardrive-user-guide class="cd-ug" id="{{ guide_id }}">
+  <div class="cd-ug__wrap">
+    <header class="cd-ug__hero">
+      <div class="cd-ug__hero-copy">
+        <p class="cd-ug__eyebrow">CLEARDRIVE / OWNER'S GUIDE</p>
+        <h1>{{ section.settings.heading | escape }}</h1>
+        <p class="cd-ug__lead">{{ section.settings.intro | escape }}</p>
+        <div class="cd-ug__actions">
+          <a class="cd-ug__button" href="#{{ guide_id }}-start">Start here <span aria-hidden="true">↓</span></a>
+          {% if manual_url != blank %}<a class="cd-ug__text-link" href="{{ manual_url }}" target="_blank" rel="noopener">Read the full manual <span aria-hidden="true">↗</span><span class="visually-hidden"> (PDF, opens in a new tab)</span></a>{% endif %}
+        </div>
+        <p class="cd-ug__scope">19 Series · Max &amp; Ultra<br>Menus and features depend on your kit and firmware.</p>
+      </div>
+      <div class="cd-ug__hero-visual">
+        <span class="cd-ug__visual-label">YOUR MIRROR, MADE FAMILIAR.</span>
+        <img src="{{ 'cleardrive-guide-hero.webp' | asset_url }}" alt="ClearDrive 19 Series mirror showing its Quick Access, Driving Recorder, Playback and Settings menu" width="1600" height="852" loading="eager" fetchpriority="high">
+        <div class="cd-ug__visual-footer"><span>Set up.</span><span>Find your view.</span><span>Keep the moment.</span></div>
+      </div>
+    </header>
+
+    <nav class="cd-ug__shortcuts" aria-label="Popular guide topics">
+      <a href="#{{ guide_id }}-start"><span class="cd-ug__shortcut-no">01</span><span><strong>First time using it?</strong><small>Get ready for your first drive.</small></span><span aria-hidden="true">↗</span></a>
+      <a href="#{{ guide_id }}-controls"><span class="cd-ug__shortcut-no">02</span><span><strong>Learn the controls</strong><small>Know what each tap does.</small></span><span aria-hidden="true">↗</span></a>
+      <a href="#{{ guide_id }}-recordings"><span class="cd-ug__shortcut-no">03</span><span><strong>Find a recording</strong><small>Play, protect and back up a clip.</small></span><span aria-hidden="true">↗</span></a>
+    </nav>
+
+    <div class="cd-ug__layout">
+      <aside class="cd-ug__sidebar">
+        <details class="cd-ug__contents" open>
+          <summary>In this guide <span aria-hidden="true">+</span></summary>
+          <nav aria-label="On this page">
+            <a href="#{{ guide_id }}-start" aria-current="location">Quick setup</a>
+            <a href="#{{ guide_id }}-controls">Touch controls</a>
+            <a href="#{{ guide_id }}-view">Your view &amp; brightness</a>
+            <a href="#{{ guide_id }}-recordings">Recordings &amp; saved clips</a>
+            <a href="#{{ guide_id }}-settings">Everyday settings</a>
+            <a href="#{{ guide_id }}-parking">Parking &amp; impact protection</a>
+            <a href="#{{ guide_id }}-help">Troubleshooting</a>
+            <a href="#{{ guide_id }}-manual">Manual &amp; support</a>
+          </nav>
+        </details>
+        <p class="cd-ug__sidebar-note">Already installed?<br>You're in the right place.<br><a href="{{ section.settings.installation_url }}">Need installation help? ↗</a></p>
+      </aside>
+
+      <article class="cd-ug__article" aria-label="ClearDrive 19 Series operating guide">
+        <section class="cd-ug__chapter" id="{{ guide_id }}-start" data-guide-chapter aria-labelledby="{{ guide_id }}-start-title">
+          <p class="cd-ug__eyebrow">01 / QUICK SETUP</p>
+          <h2 id="{{ guide_id }}-start-title">Ready for your first drive.</h2>
+          <p class="cd-ug__intro">With the system installed, these four checks get your mirror ready to use.</p>
+          <div class="cd-ug__note"><strong>Set up while parked.</strong> Adjust the mirror, use menus and review recordings only when safely stopped. Keep using your mirrors, direct observation and shoulder checks.</div>
+          <ol class="cd-ug__setup">
+            {% for block in section.blocks %}
+              {% if block.type == 'setup' %}
+                <li {{ block.shopify_attributes }}>
+                  <span class="cd-ug__step-number" aria-hidden="true">{{ block.settings.number | escape }}</span>
+                  <div><h3>{{ block.settings.title | escape }}</h3><div class="cd-ug__copy">{{ block.settings.body }}</div></div>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ol>
+          <details class="cd-ug__disclosure">
+            <summary>Where do I format the card? <span aria-hidden="true">+</span></summary>
+            <div class="cd-ug__disclosure-body">
+              <p><strong>Home → Quick Access → Format Card → Confirm.</strong> You can also find Format Card in System Settings.</p>
+              <p class="cd-ug__caution">Formatting permanently erases every video and photo, including locked files. Back up anything important first.</p>
+              {% render 'cleardrive-guide-figure', asset: 'cleardrive-guide-format-card.webp', alt: 'Format Card confirmation warns that all data, including locked files, will be erased', caption: 'The confirmation screen appears before the card is erased.' %}
+            </div>
+          </details>
+        </section>
+
+        <section class="cd-ug__chapter" id="{{ guide_id }}-controls" data-guide-chapter aria-labelledby="{{ guide_id }}-controls-title">
+          <p class="cd-ug__eyebrow">02 / TOUCH CONTROLS</p>
+          <h2 id="{{ guide_id }}-controls-title">A few taps. The essentials.</h2>
+          <p class="cd-ug__intro">Tap anywhere on the live camera view to reveal the control bar. The six controls below follow the same left-to-right order as your mirror.</p>
+          {% render 'cleardrive-guide-figure', asset: 'cleardrive-guide-live-controls.webp', alt: 'Live recording view with Home, Photo, Record, Auto Brightness, Lock and Microphone controls along the bottom', caption: 'Tap the live view to show the controls. Screen examples are from the 19 Series manual.' %}
+          <p class="cd-ug__explore-label">Choose a control to learn what it does.</p>
+          <div class="cd-ug__control-tabs" role="tablist" aria-label="Mirror control explanations" data-control-tabs>
+            {% assign controls = 'Home,Photo,Record,Brightness,Lock,Microphone' | split: ',' %}
+            {% for control in controls %}
+              <button type="button" role="tab" id="{{ guide_id }}-tab-{{ forloop.index }}" aria-controls="{{ guide_id }}-panel-{{ forloop.index }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-control-tab>
+                <span aria-hidden="true">0{{ forloop.index }}</span>{{ control }}
+              </button>
+            {% endfor %}
+          </div>
+          <div class="cd-ug__control-panels">
+            {% for control in controls %}
+              <div class="cd-ug__control-panel" role="tabpanel" id="{{ guide_id }}-panel-{{ forloop.index }}" aria-labelledby="{{ guide_id }}-tab-{{ forloop.index }}" tabindex="0" data-control-panel>
+                {% case control %}
+                  {% when 'Home' %}<h3>Your starting point.</h3><p>Open the four main menus: <strong>Quick Access</strong> for shortcuts, <strong>Driving Recorder</strong> for the live view, <strong>Playback</strong> for saved files, and <strong>Settings</strong> for preferences.</p>{% assign control_asset = 'cleardrive-guide-home.webp' %}{% assign control_alt = 'The four main menus on the Home screen' %}
+                  {% when 'Photo' %}<h3>Take a still photo.</h3><p>Tap Photo to save a still image to the microSD card. Look for <strong>Photo Captured</strong>, then find it in <strong>Home → Playback → Photos</strong>.</p>{% assign control_asset = 'cleardrive-guide-photo.webp' %}{% assign control_alt = 'Photo Captured confirmation on the live view' %}
+                  {% when 'Record' %}<h3>Start or stop recording.</h3><p>Tap Record to change the recording state. <strong>Recording Started</strong> confirms that recording has begun. Check the recording indicator before setting off.</p>{% assign control_asset = 'cleardrive-guide-record.webp' %}{% assign control_alt = 'Recording Started confirmation on the live view' %}
+                  {% when 'Brightness' %}<h3>Let the screen adapt.</h3><p>Turn Auto Brightness on to let the light sensor adjust the screen. Turn it off to adjust brightness manually with the on-screen slider.</p>{% assign control_asset = 'cleardrive-guide-brightness.webp' %}{% assign control_alt = 'Manual brightness slider across the top of the mirror screen' %}
+                  {% when 'Lock' %}<h3>Keep the current clip.</h3><p>Tap Lock to protect the recording you are making. <strong>Video Locked</strong> confirms the change. Find it later in <strong>Home → Playback → Locked</strong> and back it up.</p>{% assign control_asset = 'cleardrive-guide-lock.webp' %}{% assign control_alt = 'Video Locked confirmation on the live view' %}
+                  {% when 'Microphone' %}<h3>Choose whether to record sound.</h3><p>Tap Microphone to turn audio recording on or off. The confirmation reads <strong>Microphone On</strong> or <strong>Microphone Off</strong>. Audio cannot be added later to a clip recorded with the microphone off.</p>{% assign control_asset = 'cleardrive-guide-microphone.webp' %}{% assign control_alt = 'Microphone On confirmation on the live view' %}
+                {% endcase %}
+                {% render 'cleardrive-guide-figure', asset: control_asset, alt: control_alt %}
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+
+        <section class="cd-ug__chapter" id="{{ guide_id }}-view" data-guide-chapter aria-labelledby="{{ guide_id }}-view-title">
+          <p class="cd-ug__eyebrow">03 / VIEW &amp; COMFORT</p>
+          <h2 id="{{ guide_id }}-view-title">Make the view work for you.</h2>
+          <div class="cd-ug__two-col">
+            <div><span class="cd-ug__gesture" aria-hidden="true">← →</span><h3>Swipe to switch cameras.</h3><p>On dual-camera models, swipe left or right on the live view to cycle through front, rear and split-screen views.</p><p>Before driving, check that the rear image is level and unobstructed.</p></div>
+            <div><span class="cd-ug__gesture cd-ug__gesture--power" aria-hidden="true">{% render 'cleardrive-guide-icon', icon: 'power' %}</span><h3>One press for mirror mode.</h3><p>Short-press the physical Power / Display button to turn the screen off or back on. With the display off, use the reflective mirror.</p><p><strong>Ultra:</strong> on supported models, LC anti-glare helps reduce harsh rear headlight glare in reflective mirror mode.</p></div>
+          </div>
+          <div class="cd-ug__tip"><strong>Screen too bright at night?</strong><p>Enable Auto Brightness, or turn it off and reduce brightness manually. You can also set an automatic screen-off timer in <strong>Settings → System → Auto Screen Off</strong>.</p></div>
+        </section>
+
+        <section class="cd-ug__chapter" id="{{ guide_id }}-recordings" data-guide-chapter aria-labelledby="{{ guide_id }}-recordings-title">
+          <p class="cd-ug__eyebrow">04 / RECORDINGS</p>
+          <h2 id="{{ guide_id }}-recordings-title">Find it. Protect it. Save a copy.</h2>
+          <p class="cd-ug__intro">Open <strong>Home → Playback</strong>. Choose a folder on the left, then select a file to watch.</p>
+          {% render 'cleardrive-guide-figure', asset: 'cleardrive-guide-playback.webp', alt: 'Playback screen with Normal, Locked and Photos folders, file list and video preview', caption: 'Playback controls let you watch clips, adjust volume, lock or unlock files, and delete files.' %}
+          <dl class="cd-ug__folders"><div><dt>Normal</dt><dd>Everyday recordings. Older normal clips are replaced as the card fills.</dd></div><div><dt>Locked</dt><dd>Protected clips. Review and back them up regularly to keep storage available.</dd></div><div><dt>Photos</dt><dd>Still images taken with the Photo control on the live screen.</dd></div></dl>
+          <div class="cd-ug__save">
+            <h3>Something important happened?</h3>
+            <ol><li><strong>Stop somewhere safe.</strong> Then tap Lock to protect the current clip.</li><li><strong>Find the file in Playback.</strong> Check the Locked folder and nearby Normal clips for the footage you need.</li><li><strong>Back up the original file.</strong> Stop recording and power off before removing the card. Use a card reader to copy the file to your computer.</li></ol>
+            <p>Locking protects a clip from normal loop recording; it is not a backup. Formatting still erases locked files, and deleted files cannot be recovered.</p>
+          </div>
+          <details class="cd-ug__disclosure"><summary>How do I lock or unlock an older clip? <span aria-hidden="true">+</span></summary><div class="cd-ug__disclosure-body"><p>Select the video in Playback and use the lock control. Locking a Normal video moves it to the Locked folder; unlocking returns it to Normal. Back up important files before deleting clips to free space.</p></div></details>
+        </section>
+
+        <section class="cd-ug__chapter" id="{{ guide_id }}-settings" data-guide-chapter aria-labelledby="{{ guide_id }}-settings-title">
+          <p class="cd-ug__eyebrow">05 / EVERYDAY SETTINGS</p>
+          <h2 id="{{ guide_id }}-settings-title">Small changes. A better daily drive.</h2>
+          <p class="cd-ug__intro">Open <strong>Home → Settings</strong>. Swipe vertically in System Settings to see more options.</p>
+          <div class="cd-ug__settings">
+            {% for block in section.blocks %}{% if block.type == 'setting' %}
+              <details class="cd-ug__disclosure" {{ block.shopify_attributes }}>
+                <summary><span><strong>{{ block.settings.title | escape }}</strong><small>{{ block.settings.path | escape }}</small></span><span aria-hidden="true">+</span></summary>
+                <div class="cd-ug__disclosure-body"><div class="cd-ug__copy">{{ block.settings.body }}</div>{% if block.settings.image_asset != blank %}{% render 'cleardrive-guide-figure', asset: block.settings.image_asset, alt: block.settings.title %}{% endif %}</div>
+              </details>
+            {% endif %}{% endfor %}
+          </div>
+        </section>
+
+        <section class="cd-ug__chapter" id="{{ guide_id }}-parking" data-guide-chapter aria-labelledby="{{ guide_id }}-parking-title">
+          <p class="cd-ug__eyebrow">06 / PARKING &amp; PROTECTION</p>
+          <h2 id="{{ guide_id }}-parking-title">Know what gets protected.</h2>
+          <div class="cd-ug__two-col">
+            <div><h3>While you are driving.</h3><p>The G-sensor can detect a sudden impact and lock the current recording. You can also protect a clip yourself with the Lock control.</p><p>Find the option under <strong>Settings → Recording → Collision Lock Sensitivity</strong>.</p></div>
+            <div><h3>While you are parked.</h3><p>On compatible kits, Parking Monitor can respond to vibration or impact while the vehicle is parked. Choose <strong>High, Medium, Low or Off</strong> in Quick Access or System Settings.</p><p>Higher sensitivity can trigger more clips from doors, vibration or nearby activity.</p></div>
+          </div>
+          <div class="cd-ug__note"><strong>Parking monitoring needs compatible constant power.</strong> It depends on your vehicle-specific harness, installation, available power, card space and firmware. It does not guarantee that every event will be recorded.</div>
+          {% render 'cleardrive-guide-figure', asset: 'cleardrive-guide-parking.webp', alt: 'Parking Monitor sensitivity choices: High, Medium, Low and Off', caption: 'Review locked clips regularly. Back up the ones you need and remove unneeded files.' %}
+        </section>
+
+        <section class="cd-ug__chapter" id="{{ guide_id }}-help" data-guide-chapter aria-labelledby="{{ guide_id }}-help-title">
+          <p class="cd-ug__eyebrow">07 / TROUBLESHOOTING</p>
+          <h2 id="{{ guide_id }}-help-title">A quick fix starts here.</h2>
+          <p class="cd-ug__intro">Park safely before checking the device. Choose the issue you are seeing.</p>
+          <div class="cd-ug__faq">
+            {% for block in section.blocks %}{% if block.type == 'faq' %}
+              <details class="cd-ug__disclosure" {{ block.shopify_attributes }}><summary>{{ block.settings.question | escape }}<span aria-hidden="true">+</span></summary><div class="cd-ug__disclosure-body cd-ug__copy">{{ block.settings.answer }}</div></details>
+            {% endif %}{% endfor %}
+          </div>
+          <div class="cd-ug__care"><h3>A little care goes a long way.</h3><p>Wipe the mirror and camera lenses with a soft, dry microfiber cloth. Keep vents clear and check for loose mounts or cables. Avoid harsh cleaners and never spray liquid directly onto the system. The mirror itself is for interior use and must stay dry.</p></div>
+        </section>
+
+        <section class="cd-ug__chapter cd-ug__resources" id="{{ guide_id }}-manual" data-guide-chapter aria-labelledby="{{ guide_id }}-manual-title">
+          <p class="cd-ug__eyebrow">KEEP THIS HANDY</p>
+          <h2 id="{{ guide_id }}-manual-title">Your guide, whenever you need it.</h2>
+          <p>This guide is based on the ClearDrive 19 Series English user manual. Screens and available functions can vary by firmware and vehicle kit. For Core or Pro, contact us for the instructions for your model.</p>
+          {% if manual_url != blank %}<a class="cd-ug__download" href="{{ manual_url }}" target="_blank" rel="noopener"><span class="cd-ug__pdf-icon" aria-hidden="true">PDF</span><span><strong>19 Series User Manual</strong><small>English · 23 pages · 3.2 MB</small></span><span aria-hidden="true">↓</span><span class="visually-hidden"> (opens in a new tab)</span></a>{% endif %}
+          <div class="cd-ug__support"><div><h3>Still need a hand?</h3><p>Tell us your vehicle, model and what you see on the screen.</p><a class="cd-ug__text-link" href="mailto:cleardriveca@gmail.com">cleardriveca@gmail.com</a></div><a class="cd-ug__button" href="{{ section.settings.contact_url }}">Contact support <span aria-hidden="true">↗</span></a></div>
+          <a class="cd-ug__back-top" href="#{{ guide_id }}">Back to top ↑</a>
+        </section>
+      </article>
+    </div>
+  </div>
+</cleardrive-user-guide>
+
+{% schema %}
+{
+  "name": "ClearDrive user guide",
+  "settings": [
+    {"type":"text","id":"heading","label":"Page heading","default":"Get to know your ClearDrive."},
+    {"type":"textarea","id":"intro","label":"Introduction","default":"Set up your mirror, find the view you like, and know how to save a recording when it matters."},
+    {"type":"url","id":"manual_url","label":"User manual PDF"},
+    {"type":"url","id":"installation_url","label":"Installation guide","default":"/pages/self-installation?view=self-installation"},
+    {"type":"url","id":"contact_url","label":"Contact page","default":"/pages/contact"}
+  ],
+  "blocks": [
+    {"type":"setup","name":"Quick setup step","limit":4,"settings":[{"type":"text","id":"number","label":"Step number"},{"type":"text","id":"title","label":"Title"},{"type":"richtext","id":"body","label":"Instructions"}]},
+    {"type":"setting","name":"Settings explanation","settings":[{"type":"text","id":"title","label":"Title"},{"type":"text","id":"path","label":"Menu path"},{"type":"richtext","id":"body","label":"Explanation"},{"type":"text","id":"image_asset","label":"Theme image filename"}]},
+    {"type":"faq","name":"Troubleshooting question","settings":[{"type":"text","id":"question","label":"Question"},{"type":"richtext","id":"answer","label":"Answer"}]}
+  ]
+}
+{% endschema %}

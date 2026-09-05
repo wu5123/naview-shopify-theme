@@ -1,0 +1,8 @@
+{% comment %}Source screenshots from the ClearDrive 19 Series user manual.{% endcomment %}
+<figure class="cd-ug__figure">
+  <a href="{{ asset | asset_url }}" target="_blank" rel="noopener" data-guide-zoom data-caption="{{ alt | escape }}" aria-label="Enlarge: {{ alt | escape }}">
+    <img src="{{ asset | asset_url }}" alt="{{ alt | escape }}" width="1600" height="380" loading="lazy">
+    <span class="cd-ug__enlarge" aria-hidden="true">↗</span>
+  </a>
+  {% if caption != blank %}<figcaption>{{ caption }}</figcaption>{% endif %}
+</figure>
