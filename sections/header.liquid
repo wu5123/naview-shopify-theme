@@ -408,6 +408,9 @@
               <a href="{{ routes.root_url }}#guides">Guides</a>
               <a href="{{ routes.root_url }}pages/contact">Contact</a>
               <a href="{{ routes.root_url }}#track-order">Track Order</a>
+              {% if shop.customer_accounts_enabled %}
+                <a href="{{ routes.account_url }}">Account</a>
+              {% endif %}
             </nav>
           </aside>
         </details>
@@ -431,6 +434,25 @@
         <a class="cleardrive-header__track-order" href="{{ routes.root_url }}#track-order">Track Order</a>
         <a class="cleardrive-header__mobile-find" href="{{ routes.root_url }}#cleardrive-models">Find Vehicle</a>
         {{ search }}
+        {% if shop.customer_accounts_enabled %}
+          <div class="cleardrive-header__account">
+            <shopify-account
+              menu="{{ section.settings.customer_account_menu }}"
+              aria-label="{{ 'content.account_title' | t }}"
+            >
+              {% if customer %}
+                <div class="cleardrive-header__account-fallback"></div>
+              {% else %}
+                <span slot="signed-out-avatar" class="cleardrive-header__account-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="presentation">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path>
+                  </svg>
+                </span>
+              {% endif %}
+            </shopify-account>
+          </div>
+        {% endif %}
         {% if settings.cart_type == 'drawer' and template.name == 'product' %}
           <button
             class="cleardrive-header__cart header-actions__action button-unstyled"
@@ -1275,10 +1297,62 @@
   }
 
   .cleardrive-header__right .search-action,
+  .cleardrive-header__account,
   .cleardrive-header__cart {
     display: flex;
     align-items: center;
     flex: 0 0 auto;
+  }
+
+  .cleardrive-header__account {
+    width: 40px;
+    height: 44px;
+    justify-content: center;
+    color: var(--color-foreground);
+  }
+
+  .cleardrive-header__account shopify-account {
+    --shopify-account-font-heading: var(--font-heading--family);
+    --shopify-account-font-heading-weight: var(--font-heading--weight);
+    --shopify-account-font-body: var(--font-body--family);
+    --shopify-account-font-body-weight: var(--font-body--weight);
+    --shopify-account-radius-base: var(--style-border-radius-popover);
+    --shopify-account-radius-button: var(--style-border-radius-buttons-primary);
+    --shopify-account-radius-button-small: var(--style-border-radius-buttons-primary);
+    --shopify-account-radius-input: var(--style-border-radius-buttons-primary);
+    --shopify-account-color-background: var(--color-background);
+    --shopify-account-color-text: var(--color-foreground);
+    --shopify-account-color-accent: var(--color-primary-button-background);
+    --shopify-account-color-accent-text: var(--color-primary-button-text);
+    --shopify-account-dialog-position-top: var(--header-group-height);
+    min-width: 40px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: normal;
+  }
+
+  .cleardrive-header__account-icon,
+  .cleardrive-header__account-icon svg {
+    display: block;
+    width: 22px;
+    height: 22px;
+  }
+
+  .cleardrive-header__account-icon svg {
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .cleardrive-header__account-fallback {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-primary-button-background, #111);
   }
 
   .cleardrive-header__cart {
@@ -1485,6 +1559,12 @@
     .cleardrive-header__cart {
       width: 40px;
       height: 44px;
+    }
+
+    @media screen and (max-width: 340px) {
+      .cleardrive-header__mobile-find {
+        display: none;
+      }
     }
 
     .cleardrive-header__nav,
