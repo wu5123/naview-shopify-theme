@@ -12,7 +12,6 @@
   assign ultra_price = ultra_variant.price | money_with_currency
   assign installation_price = installation_variant.price | money_with_currency
   assign installation_compare_price = installation_variant.compare_at_price | money_with_currency
-  assign default_vehicle_image = product.featured_image | default: section.settings.fallback_image
   assign option_1_image = section.settings.option_image_1
   assign option_2_image = section.settings.option_image_2
   assign option_3_image = section.settings.option_image_3
@@ -62,7 +61,7 @@
       <div class="vehicle-media-window">
         <div class="vehicle-gallery__stage">
           <div class="vehicle-gallery__visual">
-            {% assign initial_gallery_image = section.settings.gallery_1 | default: section.settings.option_main_image_1 | default: default_vehicle_image %}
+            {% assign initial_gallery_image = section.settings.core_main_image %}
             {% assign initial_model_label = '' %}
             {% if section.settings.show_model_label_overlay %}
               {% assign initial_model_label = section.settings.core_model_label | default: 'Core' %}
@@ -70,7 +69,7 @@
             {% if initial_gallery_image != blank %}
               {{ initial_gallery_image | image_url: width: 1800 | image_tag: class: 'vehicle-gallery__hero', loading: 'eager', widths: '720, 1080, 1440, 1800', sizes: '(min-width: 990px) 50vw, 100vw', alt: product_image_alt }}
             {% else %}
-              <img class="vehicle-gallery__hero" src="{{ 'cleardrive-option-17-pro-e-main.png' | asset_url }}" width="1254" height="1254" loading="eager" alt="{{ product_image_alt | escape }}">
+              <img class="vehicle-gallery__hero" src="{{ 'cleardrive-core-poster-v3.png' | asset_url }}" width="1254" height="1254" loading="eager" alt="{{ product_image_alt | escape }}">
             {% endif %}
             <span class="vehicle-gallery__model-label" data-gallery-model-label aria-hidden="true">{{ initial_model_label | escape }}</span>
           </div>
@@ -97,26 +96,26 @@
                   assign gallery_group = 'core'
                   assign gallery_group_label = 'Core'
                   assign gallery_model_label = section.settings.core_model_label | default: 'Core'
-                  assign gallery_main_image = section.settings.gallery_1 | default: section.settings.option_main_image_1 | default: default_vehicle_image
-                  assign gallery_main_asset = 'cleardrive-option-17-pro-e-main.png'
+                  assign gallery_main_image = section.settings.core_main_image
+                  assign gallery_main_asset = 'cleardrive-core-poster-v3.png'
                 when 2
                   assign gallery_group = 'pro'
                   assign gallery_group_label = 'Pro'
                   assign gallery_model_label = section.settings.pro_model_label | default: 'Pro'
-                  assign gallery_main_image = section.settings.option_main_image_2
-                  assign gallery_main_asset = 'cleardrive-option-18-pro-main.png'
+                  assign gallery_main_image = section.settings.pro_main_image
+                  assign gallery_main_asset = 'cleardrive-pro-poster-v3.png'
                 when 3
                   assign gallery_group = 'max'
                   assign gallery_group_label = 'Max'
                   assign gallery_model_label = section.settings.max_model_label | default: 'Max'
-                  assign gallery_main_image = section.settings.option_main_image_3
-                  assign gallery_main_asset = 'cleardrive-option-19-ultra-max-main.png'
+                  assign gallery_main_image = section.settings.max_main_image
+                  assign gallery_main_asset = 'cleardrive-max-poster-v3.png'
                 when 4
                   assign gallery_group = 'ultra'
                   assign gallery_group_label = 'Ultra'
                   assign gallery_model_label = section.settings.ultra_model_label | default: 'Ultra'
-                  assign gallery_main_image = section.settings.option_main_image_4
-                  assign gallery_main_asset = 'cleardrive-option-19-ultra-max-main.png'
+                  assign gallery_main_image = section.settings.ultra_main_image
+                  assign gallery_main_asset = 'cleardrive-ultra-poster-v3.png'
               endcase
             %}
             <button type="button" class="vehicle-gallery__thumbnail{% if option_index == 1 %} is-active{% endif %}" role="tab" aria-selected="{% if option_index == 1 %}true{% else %}false{% endif %}" data-gallery-item data-gallery-group="{{ gallery_group }}" data-media-type="image" data-option-main="true" data-model-label="{% if section.settings.show_model_label_overlay %}{{ gallery_model_label | escape }}{% endif %}" data-image="{% if gallery_main_image != blank %}{{ gallery_main_image | image_url: width: 1800 }}{% else %}{{ gallery_main_asset | asset_url }}{% endif %}" aria-label="View {{ gallery_group_label }} main image"{% unless option_index == 1 %} hidden{% endunless %}>
@@ -126,11 +125,23 @@
                 <img src="{{ gallery_main_asset | asset_url }}" width="1254" height="1254" loading="lazy" alt="{{ gallery_group_label }} {{ product_image_alt | escape }}">
               {% endif %}
             </button>
-            {% for image_index in (2..4) %}
-              {% if option_index == 1 %}
-                {% assign image_key = 'gallery_' | append: image_index %}
+            {% for image_index in (2..5) %}
+              {% assign previous_image_index = image_index | minus: 1 %}
+              {% if image_index == 2 %}
+                {% case option_index %}
+                  {% when 1 %}
+                    {% assign image_key = 'gallery_1' %}
+                  {% when 2 %}
+                    {% assign image_key = 'option_main_image_2' %}
+                  {% when 3 %}
+                    {% assign image_key = 'option_main_image_3' %}
+                  {% when 4 %}
+                    {% assign image_key = 'option_main_image_4' %}
+                {% endcase %}
+              {% elsif option_index == 1 %}
+                {% assign image_key = 'gallery_' | append: previous_image_index %}
               {% else %}
-                {% assign image_key = gallery_group | append: '_gallery_' | append: image_index %}
+                {% assign image_key = gallery_group | append: '_gallery_' | append: previous_image_index %}
               {% endif %}
               {% assign gallery_image = section.settings[image_key] %}
               {% if gallery_image != blank %}
@@ -1409,25 +1420,29 @@
     {"type":"text","id":"max_model_label","label":"Max main-image text","default":"Max"},
     {"type":"text","id":"ultra_model_label","label":"Ultra main-image text","default":"Ultra"},
     {"type":"header","content":"Core product images"},
-    {"type":"image_picker","id":"gallery_1","label":"Core main image"},
-    {"type":"image_picker","id":"gallery_2","label":"Core image 2"},
-    {"type":"image_picker","id":"gallery_3","label":"Core image 3"},
-    {"type":"image_picker","id":"gallery_4","label":"Core image 4"},
+    {"type":"image_picker","id":"core_main_image","label":"Core main image (poster)"},
+    {"type":"image_picker","id":"gallery_1","label":"Core image 2"},
+    {"type":"image_picker","id":"gallery_2","label":"Core image 3"},
+    {"type":"image_picker","id":"gallery_3","label":"Core image 4"},
+    {"type":"image_picker","id":"gallery_4","label":"Core image 5"},
     {"type":"header","content":"Pro product images"},
-    {"type":"image_picker","id":"option_main_image_2","label":"Pro main image"},
-    {"type":"image_picker","id":"pro_gallery_2","label":"Pro image 2"},
-    {"type":"image_picker","id":"pro_gallery_3","label":"Pro image 3"},
-    {"type":"image_picker","id":"pro_gallery_4","label":"Pro image 4"},
+    {"type":"image_picker","id":"pro_main_image","label":"Pro main image (poster)"},
+    {"type":"image_picker","id":"option_main_image_2","label":"Pro image 2"},
+    {"type":"image_picker","id":"pro_gallery_2","label":"Pro image 3"},
+    {"type":"image_picker","id":"pro_gallery_3","label":"Pro image 4"},
+    {"type":"image_picker","id":"pro_gallery_4","label":"Pro image 5"},
     {"type":"header","content":"Max product images"},
-    {"type":"image_picker","id":"option_main_image_3","label":"Max main image"},
-    {"type":"image_picker","id":"max_gallery_2","label":"Max image 2"},
-    {"type":"image_picker","id":"max_gallery_3","label":"Max image 3"},
-    {"type":"image_picker","id":"max_gallery_4","label":"Max image 4"},
+    {"type":"image_picker","id":"max_main_image","label":"Max main image (poster)"},
+    {"type":"image_picker","id":"option_main_image_3","label":"Max image 2"},
+    {"type":"image_picker","id":"max_gallery_2","label":"Max image 3"},
+    {"type":"image_picker","id":"max_gallery_3","label":"Max image 4"},
+    {"type":"image_picker","id":"max_gallery_4","label":"Max image 5"},
     {"type":"header","content":"Ultra product images"},
-    {"type":"image_picker","id":"option_main_image_4","label":"Ultra main image"},
-    {"type":"image_picker","id":"ultra_gallery_2","label":"Ultra image 2"},
-    {"type":"image_picker","id":"ultra_gallery_3","label":"Ultra image 3"},
-    {"type":"image_picker","id":"ultra_gallery_4","label":"Ultra image 4"},
+    {"type":"image_picker","id":"ultra_main_image","label":"Ultra main image (poster)"},
+    {"type":"image_picker","id":"option_main_image_4","label":"Ultra image 2"},
+    {"type":"image_picker","id":"ultra_gallery_2","label":"Ultra image 3"},
+    {"type":"image_picker","id":"ultra_gallery_3","label":"Ultra image 4"},
+    {"type":"image_picker","id":"ultra_gallery_4","label":"Ultra image 5"},
     {"type":"header","content":"Shared product video"},
     {"type":"video","id":"gallery_video","label":"Product gallery video"},
     {"type":"header","content":"Option card images"},
