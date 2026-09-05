@@ -245,7 +245,7 @@
         "support_heading": "Installation support is available",
         "support_text": "If a connector, fastener, or trim panel differs from this guide, stop before forcing it. Contact ClearDrive support or book a professional installation.",
         "support_label": "Contact support",
-        "support_link": "https://wa.me/16137969403",
+        "support_link": "shopify://pages/contact",
         "installation_label": "Toronto installation service",
         "installation_link": "/pages/installation-service"
       }

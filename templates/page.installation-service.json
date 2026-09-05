@@ -21,8 +21,8 @@
         "mobile_region_prefix": "Greater",
         "mobile_region_highlight": "Toronto Only",
         "button_label": "Contact Us",
-        "button_link": "https://wa.me/16137969403",
-        "open_in_new_tab": true
+        "button_link": "shopify://pages/contact",
+        "open_in_new_tab": false
       }
     }
   },

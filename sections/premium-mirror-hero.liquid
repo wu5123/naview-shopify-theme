@@ -3,7 +3,8 @@
   assign poster_image = section.settings.poster_image
   assign overlay_opacity = section.settings.video_overlay | times: 0.01
   assign primary_url = section.settings.primary_link | default: '#cleardrive-models'
-  assign secondary_url = section.settings.secondary_link | default: 'https://wa.me/16137969403'
+  assign contact_page_url = routes.root_url | append: 'pages/contact'
+  assign secondary_url = section.settings.secondary_link | default: contact_page_url
 %}
 
 <section

@@ -35,6 +35,8 @@
   endif
   assign product_image_alt = vehicle_display_name | append: ' custom-fit digital rear mirror'
   assign feature_image_alt = vehicle_display_name | append: ' product feature'
+  assign contact_page_url = routes.root_url | append: 'pages/contact'
+  assign installation_contact_url = section.settings.installation_contact_link | default: contact_page_url
 %}
 
 <section class="vehicle-store" data-vehicle="{{ section.id }}" data-currency-code="{{ cart.currency.iso_code | default: shop.currency }}">
@@ -340,7 +342,7 @@
           <span class="vehicle-feature-poster__mobile-details">Fast scheduling. Fair pricing.<br>Vehicle-specific installation with no cutting or damage.</span>
           <span class="vehicle-feature-poster__mobile-region"><span>Greater</span> <strong>Toronto Only</strong></span>
         </div>
-        <a class="vehicle-feature-poster__contact" href="https://wa.me/16137969403" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp">Contact Us</a>
+        <a class="vehicle-feature-poster__contact" href="{{ installation_contact_url }}">{{ section.settings.installation_contact_label | escape }}</a>
       </div>
     </div>
   </section>
@@ -1411,6 +1413,8 @@
     {"type":"image_picker","id":"option_image_3","label":"Max option image"},
     {"type":"image_picker","id":"option_image_4","label":"Ultra option image"},
     {"type":"header","content":"Installation guide media"},
+    {"type":"text","id":"installation_contact_label","label":"Contact button label","default":"Contact Us"},
+    {"type":"url","id":"installation_contact_link","label":"Contact button link"},
     {"type":"image_picker","id":"guide_poster","label":"Desktop poster (1348×590)"},
     {"type":"image_picker","id":"guide_poster_mobile","label":"Mobile poster (348×260)"},
     {"type":"video_url","id":"installation_video_url","label":"Installation guide YouTube link","accept":["youtube"],"default":"https://youtu.be/tNBj_hhEuHM?si=G27Qq60GCBQH25vt"},
