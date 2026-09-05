@@ -79,7 +79,10 @@
       </div>
 
       <div class="nv-footer__fitment-actions">
-        <span class="nv-footer__fitment-request">Can't find your vehicle?</span>
+        <span class="nv-footer__fitment-request">
+          {{ section.settings.cta_label | default: "Can't find your vehicle?" | escape }}
+          <span class="nv-footer__fitment-request-arrow" aria-hidden="true">→</span>
+        </span>
 
         <a
           class="nv-footer__fitment-contact"
@@ -365,15 +368,21 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     min-height: 44px;
     padding: 0;
     color: #1f1f1f;
-    font-size: 13px;
+    font-size: 17px;
     line-height: 1.35;
-    font-weight: 500;
+    font-weight: 700;
     white-space: nowrap;
     text-decoration: none;
+  }
+
+  .nv-footer__fitment-request-arrow {
+    font-size: 1.25em;
+    line-height: 1;
+    font-weight: 700;
   }
 
   .nv-footer__fitment-contact {
@@ -726,7 +735,7 @@
 
     .nv-footer__fitment-actions {
       grid-column: 2;
-      justify-content: flex-start;
+      justify-content: center;
     }
 
     .nv-footer__trust {
@@ -787,7 +796,8 @@
 
     .nv-footer__fitment-request {
       min-height: 40px;
-      font-size: 12px;
+      font-size: 15px;
+      font-weight: 700;
     }
 
     .nv-footer__fitment-contact {
