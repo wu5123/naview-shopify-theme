@@ -141,6 +141,7 @@
         "youtube_link": "https://youtube.com/@digitalmirrorinstallation?si=8Jg1emlR-_WLp2Vs",
         "facebook_link": "https://www.facebook.com/share/1D4C1XBg3q/?mibextid=wwXIfr",
         "tiktok_link": "https://www.tiktok.com/@cleardrive44?_r=1&_t=ZS-99TxEEjJKLq",
+        "contact_email": "cleardriveca@gmail.com",
         "rav4_link": "shopify://products/toyota-rav4",
         "crv_link": "shopify://products/honda-cr-v",
         "nx_link": "shopify://products/lexus-nx",
@@ -171,23 +172,11 @@
             "case": "none"
           },
           "blocks": {}
-        },
-        "social_links_Ew63Kq": {
-          "type": "social-links",
-          "settings": {
-            "facebook_url": "https://www.facebook.com/share/1D4C1XBg3q/?mibextid=wwXIfr",
-            "instagram_url": "https://www.instagram.com/cleardrive_ca?igsi=MjNhdXRtaDltdjhh&utm_source=qr",
-            "youtube_url": "https://youtube.com/@digitalmirrorinstallation?si=8Jg1emlR-_WLp2Vs",
-            "tiktok_url": "https://www.tiktok.com/@cleardrive44?_r=1&_t=ZS-99TxEEjJKLq",
-            "twitter_url": "https://x.com/"
-          },
-          "blocks": {}
         }
       },
       "block_order": [
         "footer_copyright_jweRK8",
-        "footer_policy_list_VCdnpa",
-        "social_links_Ew63Kq"
+        "footer_policy_list_VCdnpa"
       ],
       "name": "t:names.utilities",
       "settings": {
