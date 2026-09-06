@@ -7,6 +7,21 @@
   assign section_dom_id = 'naview-video-' | append: section.id
   assign showcase_video = section.settings.showcase_video
   assign buy_now_url = section.settings.buy_now_link | default: '#cleardrive-models'
+  assign price_product_handles = 'toyota-rav4,honda-cr-v,lexus-nx,ford-f-150' | split: ','
+  assign starting_price = nil
+  for handle in price_product_handles
+    assign price_product = all_products[handle]
+    for price_variant in price_product.variants
+      assign variant_name = price_variant.title | downcase
+      unless variant_name contains 'installation'
+        if price_variant.available
+          if starting_price == nil or price_variant.price < starting_price
+            assign starting_price = price_variant.price
+          endif
+        endif
+      endunless
+    endfor
+  endfor
 %}
 
 <section
@@ -51,8 +66,8 @@
 
     <div class="naview-video__product-copy">
       <h2 class="naview-video__product-title">Tailored to Fit Your Vehicle</h2>
-      <p class="naview-video__price">from CAD 999</p>
-      <a class="naview-video__buy-button" href="{{ buy_now_url }}">Buy Now</a>
+      {% if starting_price != nil %}<p class="naview-video__price">From {{ starting_price | money_with_currency }}</p>{% endif %}
+      <a class="naview-video__buy-button" href="{{ buy_now_url }}">{{ section.settings.button_label | escape }}</a>
     </div>
 
     {% if showcase_video != blank %}
@@ -442,6 +457,7 @@
   "tag": "section",
   "class": "section-naview-video",
   "settings": [
+    {"type":"text","id":"button_label","label":"Button label","default":"Shop Models"},
     {
       "type": "video",
       "id": "showcase_video",
@@ -451,7 +467,7 @@
     {
       "type": "url",
       "id": "buy_now_link",
-      "label": "Buy Now link",
+      "label": "Button link",
       "info": "Defaults to the vehicle model section when left blank."
     },
     {

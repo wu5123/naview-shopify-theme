@@ -31,7 +31,7 @@
           assign vehicle_link = block.settings.link
         %}
 
-        <article class="naview-model-card" role="listitem" {{ block.shopify_attributes }}>
+        <div class="naview-model-card" role="listitem" {{ block.shopify_attributes }}>
           {% if vehicle_link != blank %}
             <a
               class="naview-model-card__link"
@@ -95,7 +95,7 @@
           {% else %}
             </div>
           {% endif %}
-        </article>
+        </div>
       {% endfor %}
     </div>
   </div>

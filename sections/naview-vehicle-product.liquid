@@ -251,7 +251,7 @@
                 </button>
                 <div class="vehicle-mobile-purchase__summary-copy">
                   <strong data-mobile-purchase-model>Core for {{ vehicle_display_name | escape }}</strong>
-                  <b data-mobile-purchase-price>{{ standard_price }}</b>
+                  <b data-mobile-purchase-price aria-live="polite">{{ standard_price }}</b>
                   <div class="vehicle-mobile-purchase__quantity" aria-label="Quantity selector">
                     <button type="button" data-mobile-quantity-decrease aria-label="Decrease quantity" disabled>−</button>
                     <output data-mobile-quantity-value aria-live="polite">1</output>
@@ -457,7 +457,7 @@
         <span><strong data-bar-stock>{% if standard_variant.available %}In Stock{% else %}Out of Stock{% endif %}</strong><small data-bar-stock-detail>{% if standard_variant.available %}Ready to ship{% else %}Currently unavailable{% endif %}</small></span>
       </div>
       <div class="vehicle-fixed-buy__actions">
-        <strong data-bar-price>{{ standard_price }}</strong>
+        <strong data-bar-price aria-live="polite">{{ standard_price }}</strong>
         <button class="vehicle-fixed-buy__cart" type="button" value="{{ core_variant.id }}" data-variant data-purchase-action="cart" data-quantity="1" {% unless standard_variant.available %}disabled{% endunless %}>Add to Cart</button>
         <a class="vehicle-fixed-buy__now" href="{{ routes.root_url }}cart/{{ core_variant.id }}:1" data-purchase-action="checkout" data-quantity="1"{% unless standard_variant.available %} aria-disabled="true"{% endunless %}>Buy Now</a>
       </div>
@@ -486,6 +486,7 @@
   .vehicle-year--mobile{display:none}.vehicle-year label{display:block;margin:0 0 9px;font-size:14px;line-height:20px;font-weight:400}.vehicle-select-wrap{position:relative}.vehicle-select-wrap:after{content:"⌄";position:absolute;right:16px;top:50%;transform:translateY(-57%);pointer-events:none}.vehicle-year select{appearance:none;width:100%;height:50px;border:1px solid #cfd3d5;border-radius:2px;background:#fff;padding:0 44px 0 16px;color:#333;font-size:14px;line-height:20px;font-weight:400}
   .vehicle-price{font-size:18px;line-height:24px;font-weight:600;letter-spacing:-.02em;margin:26px 0 20px}
   .vehicle-info-card{background:var(--soft);border-radius:12px;overflow:hidden;margin-top:8px}.vehicle-info-row{display:grid;grid-template-columns:34px 1fr 18px;gap:12px;padding:20px 26px}.vehicle-info-icon{width:28px;height:28px;color:#626669}.vehicle-info-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.9;fill:currentColor;stroke-linecap:round;stroke-linejoin:round}.vehicle-info-copy p{font-size:14px;line-height:20px;font-weight:400;margin:0 0 6px}.vehicle-info-copy p:last-child{margin-bottom:0}.vehicle-info-arrow{font-size:30px;color:#555;align-self:center}
+  [data-bar-price]::before{content:attr(data-price-label);display:inline-block;margin-right:6px;font-size:10px;line-height:12px;font-weight:400}
   .vehicle-features-card{margin-top:18px}.vehicle-features-card__list{display:grid;gap:4px}.vehicle-feature{display:flex;gap:14px;align-items:center;padding:10px 0}.vehicle-feature__icon{flex:0 0 27px;width:27px;height:27px;color:#1c2734}.vehicle-feature__icon svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.vehicle-feature p{margin:0;color:#39424e;font-size:14px;line-height:20px}
   .vehicle-options{margin-top:34px}.vehicle-options__header{display:flex;align-items:center;justify-content:flex-start;gap:18px;margin:0 0 22px}.vehicle-options h2{font-size:20px;line-height:24px;font-weight:600;letter-spacing:-.03em;margin:0}.vehicle-options__compare{min-height:36px;padding:7px 17px;border:1px solid var(--blue);border-radius:18px;background:#fff;color:var(--blue);font-size:13px;line-height:18px;font-weight:600;white-space:nowrap;cursor:pointer;transition:background-color .18s ease,color .18s ease,transform .18s ease}.vehicle-options__compare:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}.vehicle-options__compare:focus-visible{outline:2px solid var(--blue);outline-offset:3px}.vehicle-option{position:relative;min-height:158px;border:1px solid #d4d7d9;border-radius:10px;padding:20px 22px 42px;display:grid;grid-template-columns:148px 1fr;gap:16px;align-items:center;margin:0 0 12px;background:#fff;cursor:pointer}.vehicle-option.is-selected{border:2px solid var(--blue);padding:19px 21px 41px}.vehicle-option.is-unavailable{cursor:not-allowed}.vehicle-option input{position:absolute;opacity:0;pointer-events:none}.vehicle-option__media{width:148px;height:84px;display:grid;place-items:center;background:#fff;overflow:hidden;color:#999;font-size:12px;line-height:16px;letter-spacing:-.02em}.vehicle-option__media--placeholder{border:1px dashed #cfd3d5;background:#fafbfb}.vehicle-option__media img{display:block;width:100%;height:100%;object-fit:contain}.vehicle-option__copy{display:flex;flex-direction:column;justify-content:center}.vehicle-option__copy strong{display:block;font-size:16px;line-height:24px;font-weight:400;letter-spacing:-.02em}.vehicle-option__copy b{display:block;font-size:14px;line-height:20px;margin-top:8px;font-weight:400;letter-spacing:-.02em}.vehicle-option__stock{position:absolute;right:22px;bottom:18px;font-size:12px;line-height:16px;color:#167b42;font-weight:400;letter-spacing:-.02em}.vehicle-option.is-unavailable .vehicle-option__stock{color:#777}
   .vehicle-option{min-height:196px;padding-top:20px}.vehicle-option.is-selected{padding-top:19px}.vehicle-option__heading{display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap}.vehicle-option__badge{display:inline-flex;align-items:center;justify-content:center;min-height:20px;padding:2px 8px;border-radius:10px;background:var(--blue);color:#fff;font-size:10px;line-height:14px;font-weight:600;letter-spacing:.01em;text-transform:uppercase;white-space:nowrap}.vehicle-option__summary{display:block;margin-top:5px;color:#4a5055;font-size:13px;line-height:18px;font-weight:400;letter-spacing:-.01em}.vehicle-option__specs{display:block;margin-top:3px;color:#1763b7;font-size:12px;line-height:17px;font-weight:600;letter-spacing:-.01em}.vehicle-option__summary--mobile,.vehicle-option__specs--mobile{display:none}
@@ -648,6 +649,11 @@
     const modelCompareClose = [...root.querySelectorAll('[data-model-compare-close]')];
     let previousBodyOverflow = '';
     let modelCompareHideTimer;
+    let comparisonInertState = [];
+    const restoreComparisonBackground = () => {
+      comparisonInertState.forEach(([element, wasInert]) => { element.inert = wasInert; });
+      comparisonInertState = [];
+    };
     const loadModelCompareImage = () => {
       if (!modelCompareImage) return;
       if (!modelCompareImage.getAttribute('src')) modelCompareImage.src = modelCompareImage.dataset.src;
@@ -658,21 +664,32 @@
       }
     };
     const openModelCompare = () => {
-      if (!modelCompare) return;
+      if (!modelCompare || modelCompare.classList.contains('is-open')) return;
       window.clearTimeout(modelCompareHideTimer);
       loadModelCompareImage();
       previousBodyOverflow = document.body.style.overflow;
       modelCompare.hidden = false;
       document.body.style.overflow = 'hidden';
       if (modelCompareViewport) modelCompareViewport.scrollTo({ left: 0, top: 0 });
-      requestAnimationFrame(() => {
-        modelCompare.classList.add('is-open');
-        modelCompare.querySelector('.vehicle-model-compare__close')?.focus();
-      });
+      // Make only the modal's ancestor path interactive, including when nested over the purchase sheet.
+      let branch = modelCompare;
+      while (branch.parentElement && branch !== document.body) {
+        [...branch.parentElement.children].forEach((sibling) => {
+          if (sibling !== branch && sibling instanceof HTMLElement) {
+            comparisonInertState.push([sibling, sibling.inert]);
+            sibling.inert = true;
+          }
+        });
+        branch = branch.parentElement;
+      }
+      modelCompare.classList.add('is-open');
+      modelCompare.getBoundingClientRect();
+      modelCompare.querySelector('.vehicle-model-compare__close')?.focus({ preventScroll: true });
     };
     const closeModelCompare = () => {
       if (!modelCompare || modelCompare.hidden) return;
       modelCompare.classList.remove('is-open');
+      restoreComparisonBackground();
       document.body.style.overflow = previousBodyOverflow;
       modelCompareHideTimer = window.setTimeout(() => { modelCompare.hidden = true; }, 180);
       modelCompareOpen?.focus();
@@ -682,6 +699,18 @@
     modelCompareOpen?.addEventListener('focus', loadModelCompareImage, { once: true });
     modelCompareOpen?.addEventListener('touchstart', loadModelCompareImage, { once: true, passive: true });
     modelCompareClose.forEach((control) => control.addEventListener('click', closeModelCompare));
+    modelCompare?.addEventListener('keydown', (event) => {
+      if (event.key !== 'Tab') return;
+      const controls = [...modelCompare.querySelectorAll('button:not([disabled]),a[href],[tabindex="0"]')]
+        .filter((element) => element.getClientRects().length);
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault(); last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault(); first?.focus();
+      }
+    });
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && modelCompare?.classList.contains('is-open')) closeModelCompare();
     });
@@ -1063,7 +1092,7 @@
       const mainImageSource = mainImageItem?.dataset.image;
 
       if (mobilePurchaseModel) mobilePurchaseModel.textContent = modelName;
-      if (mobilePurchasePrice) mobilePurchasePrice.textContent = formatPrice(productPrice + installationPrice);
+      if (mobilePurchasePrice) mobilePurchasePrice.textContent = `${purchaseQuantity > 1 ? "Subtotal: " : ""}${formatPrice((productPrice + installationPrice) * purchaseQuantity)}`;
       if (mobilePurchaseStock) {
         mobilePurchaseStock.textContent = available ? 'In Stock' : 'Out of Stock';
         mobilePurchaseStock.classList.toggle('is-unavailable', !available);
@@ -1082,7 +1111,7 @@
       if (quantityValue) quantityValue.textContent = String(purchaseQuantity);
       if (quantityDecrease) quantityDecrease.disabled = purchaseQuantity <= 1;
       if (quantityIncrease) quantityIncrease.disabled = purchaseQuantity >= 99;
-      updateBuyNowHref();
+      updateLivePrice();
     };
     const closeMobileImageZoom = (restoreFocus = true) => {
       if (!mobileImageZoom || mobileImageZoom.hidden) return;
@@ -1185,7 +1214,9 @@
       const installationPrice = installationService?.checked
         ? Number.parseInt(installationService.dataset.priceCents || '0', 10) || 0
         : 0;
-      root.querySelector('[data-bar-price]').textContent = formatPrice(productPrice + installationPrice);
+      const barPrice = root.querySelector('[data-bar-price]');
+      barPrice.textContent = formatPrice((productPrice + installationPrice) * purchaseQuantity);
+      barPrice.dataset.priceLabel = purchaseQuantity > 1 ? 'Subtotal' : '';
       updateMobilePurchaseSummary();
       updateBuyNowHref();
     };

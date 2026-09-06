@@ -358,13 +358,10 @@
   <div
     class="header__underlay header__underlay-open"
   ></div>
-  {%- if request.page_type == 'index' -%}
-    <h1 class="visually-hidden">{{ shop.name }}</h1>
-  {%- endif -%}
-  <div class="header__row header__row--top cleardrive-header__row">
+  <div class="header__row header__row--top cleardrive-header__row" ref="headerRowTop">
     <div class="cleardrive-header__inner">
       <div class="cleardrive-header__left">
-        <details class="cleardrive-mobile-menu">
+        <details class="cleardrive-mobile-menu" ref="headerDrawerContainer">
           <summary aria-label="Open navigation menu">
             <span class="svg-wrapper" aria-hidden="true">
               {{ 'icon-menu.svg' | inline_asset_content }}
@@ -407,7 +404,7 @@
               </details>
               <a href="{{ routes.root_url }}pages/guides">Guides</a>
               <a href="{{ routes.root_url }}pages/contact">Contact</a>
-              <a href="{{ routes.root_url }}#track-order">Track Order</a>
+              <a href="{{ routes.account_url }}">Track Order</a>
               {% if shop.customer_accounts_enabled %}
                 <a href="{{ routes.account_url }}">Account</a>
               {% endif %}
@@ -416,7 +413,7 @@
         </details>
         {{ logo }}
         <span class="cleardrive-header__divider" aria-hidden="true"></span>
-        <nav class="cleardrive-header__nav" aria-label="Primary navigation">
+        <nav ref="headerMenu" class="cleardrive-header__nav" aria-label="Primary navigation">
           <a href="{{ routes.root_url }}#cleardrive-models">Find Your Vehicle</a>
           <div class="cleardrive-header__installation-menu" tabindex="0">
             <span class="cleardrive-header__installation-label">Installation</span>
@@ -431,7 +428,7 @@
       </div>
 
       <div class="cleardrive-header__right">
-        <a class="cleardrive-header__track-order" href="{{ routes.root_url }}#track-order">Track Order</a>
+        <a class="cleardrive-header__track-order" href="{{ routes.account_url }}">Track Order</a>
         <a class="cleardrive-header__mobile-find" href="{{ routes.root_url }}#cleardrive-models">Find Vehicle</a>
         {{ search }}
         {% if shop.customer_accounts_enabled %}
