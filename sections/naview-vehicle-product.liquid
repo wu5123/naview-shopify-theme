@@ -382,6 +382,27 @@
     </div>
   </section>
 
+  <section class="vehicle-guide">
+    <div class="vehicle-content">
+      <h2>Installation Guide</h2>
+      <div class="vehicle-video">
+        {% if section.settings.installation_video_url != blank %}
+          <iframe
+            class="vehicle-video__element"
+            src="https://www.youtube-nocookie.com/embed/{{ section.settings.installation_video_url.id }}?rel=0&playsinline=1"
+            title="Installation Guide"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        {% else %}
+          <div class="vehicle-video__empty"><span>Installation Guide</span><p>Add a YouTube link in the theme editor.</p></div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
   <section class="vehicle-posters">
     <div class="vehicle-content vehicle-poster-grid">
       {% for i in (1..6) %}
@@ -1694,6 +1715,7 @@
     {"type":"url","id":"installation_contact_link","label":"Contact button link"},
     {"type":"image_picker","id":"guide_poster","label":"Desktop poster (1348×590)"},
     {"type":"image_picker","id":"guide_poster_mobile","label":"Mobile poster (348×260)"},
+    {"type":"video_url","id":"installation_video_url","label":"Installation guide YouTube link","accept":["youtube"],"default":"https://youtu.be/tNBj_hhEuHM?si=G27Qq60GCBQH25vt"},
     {"type":"header","content":"Desktop poster grid"},
     {"type":"image_picker","id":"poster_1","label":"Desktop poster 1"},
     {"type":"image_picker","id":"poster_2","label":"Desktop poster 2"},
