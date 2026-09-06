@@ -457,8 +457,12 @@
   <div class="vehicle-mobile-image-zoom" data-mobile-purchase-image-zoom hidden>
     <div class="vehicle-mobile-image-zoom__backdrop" data-mobile-purchase-image-zoom-close aria-hidden="true"></div>
     <div class="vehicle-mobile-image-zoom__dialog" role="dialog" aria-modal="true" aria-label="Enlarged selected model image" tabindex="-1">
-      <img class="vehicle-mobile-image-zoom__image" data-mobile-purchase-image-zoom-image width="1800" height="1800" alt="">
-      <button class="vehicle-mobile-image-zoom__close" type="button" data-mobile-purchase-image-zoom-close aria-label="Close enlarged image">×</button>
+      <div class="vehicle-mobile-image-zoom__viewport" data-mobile-purchase-image-zoom-viewport>
+        <img class="vehicle-mobile-image-zoom__image" id="vehicle-mobile-image-zoom-image-{{ section.id }}" data-mobile-purchase-image-zoom-image width="1800" height="1800" alt="" draggable="false">
+        <img class="vehicle-mobile-image-zoom__image vehicle-mobile-image-zoom__image--preview" data-mobile-purchase-image-zoom-preview width="1800" height="1800" alt="" draggable="false" hidden aria-hidden="true">
+        <button class="vehicle-mobile-image-zoom__close" type="button" data-mobile-purchase-image-zoom-close aria-label="Close enlarged image">×</button>
+      </div>
+      <div class="vehicle-mobile-image-zoom__thumbnails" data-mobile-purchase-image-zoom-thumbnails role="tablist" aria-label="Choose enlarged product image"></div>
     </div>
   </div>
   <div class="vehicle-fixed-buy" data-fixed-buy>
@@ -574,11 +578,11 @@
     .vehicle-mobile-purchase .vehicle-option__badge{font-size:7px;line-height:10px}.vehicle-mobile-purchase .vehicle-installation-option{margin-bottom:0}
     .vehicle-store.is-mobile-purchase-open .vehicle-fixed-buy{z-index:2600}
     .vehicle-mobile-image-zoom{position:fixed;inset:0;z-index:3400;display:grid;place-items:center;padding:18px;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease}.vehicle-mobile-image-zoom[hidden]{display:none!important}.vehicle-mobile-image-zoom.is-open{opacity:1;visibility:visible}
-    .vehicle-mobile-image-zoom__backdrop{position:absolute;inset:0;background:rgba(4,8,14,.9);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}.vehicle-mobile-image-zoom__dialog{position:relative;z-index:1;width:100%;max-height:calc(100dvh - 36px);aspect-ratio:1/1;overflow:hidden;border-radius:14px;background:#fff;box-shadow:0 24px 70px rgba(0,0,0,.5);transform:scale(.98);transition:transform .18s ease}.vehicle-mobile-image-zoom.is-open .vehicle-mobile-image-zoom__dialog{transform:scale(1)}.vehicle-mobile-image-zoom__image{display:block;width:100%;height:100%;object-fit:contain}.vehicle-mobile-image-zoom__close{position:absolute;top:10px;right:10px;width:42px;height:42px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.94);color:#111b2d;box-shadow:0 3px 14px rgba(0,0,0,.16);font-size:30px;line-height:1;cursor:pointer}
+    .vehicle-mobile-image-zoom__backdrop{position:absolute;inset:0;background:rgba(4,8,14,.9);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}.vehicle-mobile-image-zoom__dialog{position:relative;z-index:1;width:min(100%,calc(100dvh - 126px));max-width:584px;max-height:calc(100dvh - 36px);overflow:hidden;border-radius:14px;background:#fff;box-shadow:0 24px 70px rgba(0,0,0,.5);transform:scale(.98);transition:transform .18s ease}.vehicle-mobile-image-zoom.is-open .vehicle-mobile-image-zoom__dialog{transform:scale(1)}.vehicle-mobile-image-zoom__viewport{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;background:#fff;touch-action:pan-y;cursor:grab}.vehicle-mobile-image-zoom__viewport:active{cursor:grabbing}.vehicle-mobile-image-zoom__image{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none;will-change:transform}.vehicle-mobile-image-zoom__image--preview[hidden]{display:none}.vehicle-mobile-image-zoom__close{position:absolute;top:10px;right:10px;z-index:2;width:42px;height:42px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.94);color:#111b2d;box-shadow:0 3px 14px rgba(0,0,0,.16);font-size:30px;line-height:1;cursor:pointer}.vehicle-mobile-image-zoom__close:focus-visible,.vehicle-mobile-image-zoom__thumbnail:focus-visible{outline:2px solid var(--blue);outline-offset:2px}.vehicle-mobile-image-zoom__thumbnails{height:88px;display:flex;gap:8px;align-items:center;overflow-x:auto;padding:10px 14px;border-top:1px solid #e1e5e9;background:#fff;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:none}.vehicle-mobile-image-zoom__thumbnails::-webkit-scrollbar{display:none}.vehicle-mobile-image-zoom__thumbnail{flex:0 0 68px;width:68px;height:68px;display:block;overflow:hidden;padding:0;border:2px solid transparent;border-radius:9px;background:#f5f6f8;scroll-snap-align:center;cursor:pointer}.vehicle-mobile-image-zoom__thumbnail.is-active{border-color:var(--blue);box-shadow:0 0 0 1px rgba(20,105,244,.18)}.vehicle-mobile-image-zoom__thumbnail img{display:block;width:100%;height:100%;object-fit:cover}
   }
 
   @media(max-width:620px) and (prefers-reduced-motion:reduce){
-    .vehicle-mobile-purchase,.vehicle-mobile-purchase__backdrop,.vehicle-mobile-purchase__dialog{transition-duration:.01ms}
+    .vehicle-mobile-purchase,.vehicle-mobile-purchase__backdrop,.vehicle-mobile-purchase__dialog,.vehicle-mobile-image-zoom,.vehicle-mobile-image-zoom__dialog{transition-duration:.01ms}
   }
 
   @media(max-width:620px){
@@ -1065,7 +1069,10 @@
     const quantityIncrease = root.querySelector('[data-mobile-quantity-increase]');
     const quantityValue = root.querySelector('[data-mobile-quantity-value]');
     const mobileImageZoom = root.querySelector('[data-mobile-purchase-image-zoom]');
+    const mobileImageZoomViewport = root.querySelector('[data-mobile-purchase-image-zoom-viewport]');
     const mobileImageZoomImage = root.querySelector('[data-mobile-purchase-image-zoom-image]');
+    const mobileImageZoomPreview = root.querySelector('[data-mobile-purchase-image-zoom-preview]');
+    const mobileImageZoomThumbnails = root.querySelector('[data-mobile-purchase-image-zoom-thumbnails]');
     const mobileImageZoomClose = [...root.querySelectorAll('[data-mobile-purchase-image-zoom-close]')];
     const cartRootUrl = {{ routes.root_url | append: 'cart' | json }};
     const currencyCode = root.dataset.currencyCode || 'CAD';
@@ -1097,6 +1104,17 @@
     let mobilePurchaseTrigger = null;
     let previousMobilePurchaseBodyOverflow = '';
     let mobileImageZoomHideTimer;
+    let mobileImageZoomSwipeTimer;
+    let mobileImageZoomItems = [];
+    let mobileImageZoomIndex = 0;
+    let mobileImageZoomPointerId = null;
+    let mobileImageZoomStartX = 0;
+    let mobileImageZoomStartY = 0;
+    let mobileImageZoomDeltaX = 0;
+    let mobileImageZoomSwipeDirection = 0;
+    let mobileImageZoomTargetIndex = -1;
+    let mobileImageZoomDragging = false;
+    let mobileImageZoomAnimating = false;
     const updateMobilePurchaseSummary = () => {
       const selectedOption = root.querySelector('[data-option]:checked');
       if (!selectedOption) return;
@@ -1135,28 +1153,217 @@
       if (quantityIncrease) quantityIncrease.disabled = purchaseQuantity >= 99;
       updateLivePrice();
     };
+    const mobileImageSource = (item) => (
+      item?.dataset.image || item?.querySelector('img')?.currentSrc || item?.querySelector('img')?.src || ''
+    );
+    const mobileImageLabel = (item) => (
+      item?.getAttribute('aria-label')?.replace(/^View /, '') || 'Selected model image'
+    );
+    const resetMobileImageZoomSwipe = () => {
+      window.clearTimeout(mobileImageZoomSwipeTimer);
+      if (mobileImageZoomImage) {
+        mobileImageZoomImage.style.transition = '';
+        mobileImageZoomImage.style.transform = '';
+      }
+      if (mobileImageZoomPreview) {
+        mobileImageZoomPreview.style.transition = '';
+        mobileImageZoomPreview.style.transform = '';
+        mobileImageZoomPreview.hidden = true;
+        mobileImageZoomPreview.removeAttribute('src');
+      }
+      mobileImageZoomPointerId = null;
+      mobileImageZoomDeltaX = 0;
+      mobileImageZoomSwipeDirection = 0;
+      mobileImageZoomTargetIndex = -1;
+      mobileImageZoomDragging = false;
+      mobileImageZoomAnimating = false;
+    };
+    const showMobileImageZoomItem = (nextIndex, focusThumbnail = false) => {
+      if (!mobileImageZoomImage || !mobileImageZoomItems.length) return;
+      mobileImageZoomIndex = (nextIndex + mobileImageZoomItems.length) % mobileImageZoomItems.length;
+      const item = mobileImageZoomItems[mobileImageZoomIndex];
+      const source = mobileImageSource(item);
+      if (!source) return;
+      mobileImageZoomImage.src = source;
+      mobileImageZoomImage.alt = `${mobileImageLabel(item)}, enlarged`;
+      const thumbnailButtons = [...(mobileImageZoomThumbnails?.querySelectorAll('[data-mobile-image-zoom-index]') || [])];
+      thumbnailButtons.forEach((button, index) => {
+        const isActive = index === mobileImageZoomIndex;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        button.tabIndex = isActive ? 0 : -1;
+      });
+      const activeThumbnail = thumbnailButtons[mobileImageZoomIndex];
+      if (activeThumbnail && mobileImageZoomThumbnails) {
+        const targetLeft = activeThumbnail.offsetLeft - (mobileImageZoomThumbnails.clientWidth - activeThumbnail.offsetWidth) / 2;
+        mobileImageZoomThumbnails.scrollTo({
+          left: Math.max(0, targetLeft),
+          behavior: mobileImageZoom.classList.contains('is-open') ? 'smooth' : 'auto'
+        });
+        if (focusThumbnail) activeThumbnail.focus({ preventScroll: true });
+      }
+    };
+    const buildMobileImageZoomThumbnails = () => {
+      if (!mobileImageZoomThumbnails) return;
+      const fragment = document.createDocumentFragment();
+      mobileImageZoomItems.forEach((item, index) => {
+        const sourceImage = item.querySelector('img');
+        const button = document.createElement('button');
+        const image = document.createElement('img');
+        button.type = 'button';
+        button.className = 'vehicle-mobile-image-zoom__thumbnail';
+        button.setAttribute('role', 'tab');
+        button.setAttribute('aria-selected', 'false');
+        button.setAttribute('aria-controls', 'vehicle-mobile-image-zoom-image-{{ section.id }}');
+        button.setAttribute('aria-label', `Show enlarged ${mobileImageLabel(item)}`);
+        button.dataset.mobileImageZoomIndex = String(index);
+        image.src = sourceImage?.currentSrc || sourceImage?.src || mobileImageSource(item);
+        image.alt = '';
+        image.width = 160;
+        image.height = 160;
+        image.loading = 'eager';
+        button.append(image);
+        button.addEventListener('click', () => {
+          resetMobileImageZoomSwipe();
+          showMobileImageZoomItem(index, true);
+        });
+        fragment.append(button);
+      });
+      mobileImageZoomThumbnails.replaceChildren(fragment);
+    };
+    const prepareMobileImageZoomSwipe = (direction) => {
+      if (!mobileImageZoomPreview || mobileImageZoomItems.length < 2) return false;
+      const targetIndex = (mobileImageZoomIndex + direction + mobileImageZoomItems.length) % mobileImageZoomItems.length;
+      const targetItem = mobileImageZoomItems[targetIndex];
+      const source = mobileImageSource(targetItem);
+      if (!source) return false;
+      mobileImageZoomSwipeDirection = direction;
+      mobileImageZoomTargetIndex = targetIndex;
+      mobileImageZoomPreview.src = source;
+      mobileImageZoomPreview.hidden = false;
+      mobileImageZoomPreview.style.transition = 'none';
+      mobileImageZoomImage.style.transition = 'none';
+      return true;
+    };
+    const positionMobileImageZoomFrames = (distanceX) => {
+      if (!mobileImageZoomViewport || !mobileImageZoomPreview || !mobileImageZoomSwipeDirection) return;
+      const width = Math.max(1, mobileImageZoomViewport.clientWidth);
+      mobileImageZoomImage.style.transform = `translate3d(${distanceX}px,0,0)`;
+      mobileImageZoomPreview.style.transform = `translate3d(${distanceX + mobileImageZoomSwipeDirection * width}px,0,0)`;
+    };
+    const settleMobileImageZoomSwipe = (complete) => {
+      if (!mobileImageZoomViewport || !mobileImageZoomPreview || !mobileImageZoomSwipeDirection || mobileImageZoomTargetIndex < 0) {
+        resetMobileImageZoomSwipe();
+        return;
+      }
+      const direction = mobileImageZoomSwipeDirection;
+      const targetIndex = mobileImageZoomTargetIndex;
+      const width = Math.max(1, mobileImageZoomViewport.clientWidth);
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const duration = reducedMotion ? 1 : 240;
+      const transition = `transform ${duration}ms cubic-bezier(.22,.7,.2,1)`;
+      mobileImageZoomAnimating = true;
+      mobileImageZoomImage.style.transition = transition;
+      mobileImageZoomPreview.style.transition = transition;
+      requestAnimationFrame(() => {
+        mobileImageZoomImage.style.transform = `translate3d(${complete ? -direction * width : 0}px,0,0)`;
+        mobileImageZoomPreview.style.transform = `translate3d(${complete ? 0 : direction * width}px,0,0)`;
+      });
+      mobileImageZoomSwipeTimer = window.setTimeout(() => {
+        if (complete) showMobileImageZoomItem(targetIndex);
+        resetMobileImageZoomSwipe();
+      }, duration + 20);
+    };
     const closeMobileImageZoom = (restoreFocus = true) => {
       if (!mobileImageZoom || mobileImageZoom.hidden) return;
+      resetMobileImageZoomSwipe();
       mobileImageZoom.classList.remove('is-open');
       mobileImageZoomHideTimer = window.setTimeout(() => {
         mobileImageZoom.hidden = true;
         if (mobileImageZoomImage) mobileImageZoomImage.removeAttribute('src');
+        mobileImageZoomThumbnails?.replaceChildren();
+        mobileImageZoomItems = [];
       }, 180);
       if (restoreFocus) mobilePurchaseImageOpen?.focus({ preventScroll: true });
     };
     const openMobileImageZoom = () => {
       if (!mobilePurchaseQuery.matches || !mobileImageZoom || !mobileImageZoomImage || !mobilePurchaseImage) return;
-      const imageSource = mobilePurchaseImage.currentSrc || mobilePurchaseImage.src;
-      if (!imageSource) return;
+      mobileImageZoomItems = mediaItems.filter((item) => item.dataset.mediaType === 'image' && Boolean(mobileImageSource(item)));
+      if (!mobileImageZoomItems.length) return;
       window.clearTimeout(mobileImageZoomHideTimer);
-      mobileImageZoomImage.src = imageSource;
-      mobileImageZoomImage.alt = mobilePurchaseImage.alt || 'Enlarged selected model image';
+      resetMobileImageZoomSwipe();
+      buildMobileImageZoomThumbnails();
+      const mainImageIndex = mobileImageZoomItems.findIndex((item) => item.dataset.optionMain === 'true');
+      showMobileImageZoomItem(mainImageIndex >= 0 ? mainImageIndex : 0);
       mobileImageZoom.hidden = false;
       requestAnimationFrame(() => {
         mobileImageZoom.classList.add('is-open');
         mobileImageZoom.querySelector('.vehicle-mobile-image-zoom__close')?.focus();
       });
     };
+    mobileImageZoomViewport?.addEventListener('pointerdown', (event) => {
+      if (mobileImageZoomAnimating || mobileImageZoomItems.length < 2 || event.target.closest('button')) return;
+      mobileImageZoomPointerId = event.pointerId;
+      mobileImageZoomStartX = event.clientX;
+      mobileImageZoomStartY = event.clientY;
+      mobileImageZoomDeltaX = 0;
+      mobileImageZoomDragging = false;
+    });
+    mobileImageZoomViewport?.addEventListener('pointermove', (event) => {
+      if (event.pointerId !== mobileImageZoomPointerId || mobileImageZoomAnimating) return;
+      const distanceX = event.clientX - mobileImageZoomStartX;
+      const distanceY = event.clientY - mobileImageZoomStartY;
+      if (!mobileImageZoomDragging) {
+        if (Math.abs(distanceX) < 8 && Math.abs(distanceY) < 8) return;
+        if (Math.abs(distanceY) >= Math.abs(distanceX)) {
+          resetMobileImageZoomSwipe();
+          return;
+        }
+        mobileImageZoomDragging = true;
+        try { mobileImageZoomViewport.setPointerCapture(event.pointerId); } catch (error) {}
+      }
+      const direction = distanceX < 0 ? 1 : -1;
+      if (direction !== mobileImageZoomSwipeDirection && !prepareMobileImageZoomSwipe(direction)) return;
+      mobileImageZoomDeltaX = Math.max(-mobileImageZoomViewport.clientWidth, Math.min(mobileImageZoomViewport.clientWidth, distanceX));
+      positionMobileImageZoomFrames(mobileImageZoomDeltaX);
+      if (event.cancelable) event.preventDefault();
+    });
+    mobileImageZoomViewport?.addEventListener('pointerup', (event) => {
+      if (event.pointerId !== mobileImageZoomPointerId) return;
+      mobileImageZoomPointerId = null;
+      if (!mobileImageZoomDragging) {
+        resetMobileImageZoomSwipe();
+        return;
+      }
+      const threshold = Math.min(72, mobileImageZoomViewport.clientWidth * .18);
+      settleMobileImageZoomSwipe(Math.abs(mobileImageZoomDeltaX) >= threshold);
+    });
+    mobileImageZoomViewport?.addEventListener('pointercancel', () => {
+      if (mobileImageZoomDragging) settleMobileImageZoomSwipe(false);
+      else resetMobileImageZoomSwipe();
+    });
+    mobileImageZoom?.addEventListener('keydown', (event) => {
+      if (mobileImageZoom.hidden) return;
+      if ((event.key === 'ArrowLeft' || event.key === 'ArrowRight') && mobileImageZoomItems.length > 1) {
+        event.preventDefault();
+        resetMobileImageZoomSwipe();
+        showMobileImageZoomItem(mobileImageZoomIndex + (event.key === 'ArrowRight' ? 1 : -1), event.target.closest('[data-mobile-image-zoom-index]'));
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = [...mobileImageZoom.querySelectorAll('button:not([disabled]),[tabindex]:not([tabindex="-1"])')]
+        .filter((element) => element.getClientRects().length > 0);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
     const closeMobilePurchase = (restoreFocus = true) => {
       if (!mobilePurchaseIsOpen || !mobilePurchase) return;
       closeMobileImageZoom(false);
