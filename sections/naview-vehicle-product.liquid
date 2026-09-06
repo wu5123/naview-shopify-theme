@@ -205,29 +205,35 @@
           </div>
         </div>
 
-        {% if section.blocks.size > 0 %}
-          <section class="vehicle-features-card" aria-label="Product features">
-            <div class="vehicle-features-card__list">
-              {% for block in section.blocks %}
-                <div class="vehicle-feature" {{ block.shopify_attributes }}>
-                  <div class="vehicle-feature__icon" aria-hidden="true">
-                    {% case block.settings.icon %}
-                      {% when 'display' %}
-                        <svg viewBox="0 0 32 32"><rect x="5" y="6" width="22" height="16" rx="1"/><path d="M16 22v4M10 27h12"/></svg>
-                      {% when 'touch' %}
-                        <svg viewBox="0 0 32 32"><path d="M14 28V15.5a2 2 0 0 1 4 0v5.2l1.1-1.1a2 2 0 0 1 2.8 0l.4.4.7-.7a2 2 0 0 1 2.8 0l.8.8.4-.4a2 2 0 0 1 2.8 0l.2.2c.8.8 1.2 1.9 1.1 3L29.7 28"/><path d="M14 18.5l-2.2-2.2a2 2 0 0 0-2.8 0l-.2.2a2 2 0 0 0 0 2.8l5.2 5.2"/><path d="M7 6h8M7 10h5"/></svg>
-                      {% when 'shield' %}
-                        <svg viewBox="0 0 32 32"><path d="M16 3.8 26 7.6v7.2c0 6.1-4.2 10.9-10 13.4-5.8-2.5-10-7.3-10-13.4V7.6L16 3.8Z"/><path d="m11.5 15.8 3 3 6-6"/></svg>
-                      {% else %}
-                        <svg viewBox="0 0 32 32"><path d="M5 10h6l1.6-2.5h6.8L21 10h6v16H5Z"/><circle cx="16" cy="18" r="4.2"/></svg>
-                    {% endcase %}
-                  </div>
-                  <p>{{ block.settings.text | escape | newline_to_br }}</p>
-                </div>
-              {% endfor %}
+        <section class="vehicle-features-card" aria-labelledby="vehicle-features-title-{{ section.id }}" data-product-features>
+          <div class="vehicle-features-card__header">
+            <h2 id="vehicle-features-title-{{ section.id }}">Product features</h2>
+            <strong data-product-features-model aria-live="polite">Core specifications</strong>
+          </div>
+          <div class="vehicle-features-card__list">
+            <div class="vehicle-feature">
+              <div class="vehicle-feature__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 10h6l1.6-2.5h6.8L21 10h6v16H5Z"/><circle cx="16" cy="18" r="4.2"/></svg></div>
+              <p><strong>Front camera</strong><span data-product-feature-text>FH8333 + MIS2031 CMOS · HDR multi-frame fusion · Enhanced night vision · 1080p at 25fps</span></p>
             </div>
-          </section>
-        {% endif %}
+            <div class="vehicle-feature">
+              <div class="vehicle-feature__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 10h6l1.6-2.5h6.8L21 10h6v16H5Z"/><circle cx="16" cy="18" r="4.2"/></svg></div>
+              <p><strong>Rear camera</strong><span data-product-feature-text>FH8333 + MIS2031 CMOS · HDR multi-frame fusion · IP68 water resistance · 1080p at 30fps</span></p>
+            </div>
+            <div class="vehicle-feature">
+              <div class="vehicle-feature__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="8" y="8" width="16" height="16" rx="2"/><path d="M12 3v5M20 3v5M12 24v5M20 24v5M3 12h5M3 20h5M24 12h5M24 20h5"/></svg></div>
+              <p><strong>Processor and memory</strong><span data-product-feature-text>Dual-core 240MHz AC57090 · 2GB DDR</span></p>
+            </div>
+            <div class="vehicle-feature">
+              <div class="vehicle-feature__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="5" y="6" width="22" height="16" rx="1"/><path d="M16 22v4M10 27h12"/></svg></div>
+              <p><strong>Display and storage</strong><span data-product-feature-text>1920 × 480 ultra-wide display · Supports up to 256GB microSD</span></p>
+            </div>
+            <div class="vehicle-feature">
+              <div class="vehicle-feature__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3.8 26 7.6v7.2c0 6.1-4.2 10.9-10 13.4-5.8-2.5-10-7.3-10-13.4V7.6L16 3.8Z"/><path d="m11.5 15.8 3 3 6-6"/></svg></div>
+              <p><strong>Power, cooling and signal</strong><span data-product-feature-text>≤1000mA at 12V · 4.0 automotive-grade aluminum cooling · HD Analog</span></p>
+            </div>
+          </div>
+          <p class="vehicle-features-card__shared"><strong>Shared across all models</strong><span>9–16V wide-range input · Enhanced front night vision · IP68-rated rear camera · Ultra-wide display</span></p>
+        </section>
 
         <div class="vehicle-mobile-purchase" id="vehicle-mobile-purchase-{{ section.id }}" data-mobile-purchase>
           <div class="vehicle-mobile-purchase__backdrop" data-mobile-purchase-close aria-hidden="true"></div>
@@ -518,7 +524,7 @@
   .vehicle-year--mobile{display:none}.vehicle-year label{display:block;margin:0 0 9px;font-size:14px;line-height:20px;font-weight:400}.vehicle-select-wrap{position:relative}.vehicle-select-wrap:after{content:"⌄";position:absolute;right:16px;top:50%;transform:translateY(-57%);pointer-events:none}.vehicle-year select{appearance:none;width:100%;height:50px;border:1px solid #cfd3d5;border-radius:2px;background:#fff;padding:0 44px 0 16px;color:#333;font-size:14px;line-height:20px;font-weight:400}
   .vehicle-price{font-size:18px;line-height:24px;font-weight:600;letter-spacing:-.02em;margin:26px 0 20px}
   .vehicle-info-card{background:var(--soft);border-radius:12px;overflow:hidden;margin-top:8px}.vehicle-info-row{display:grid;grid-template-columns:34px 1fr 18px;gap:12px;padding:20px 26px}.vehicle-info-icon{width:28px;height:28px;color:#626669}.vehicle-info-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.9;fill:currentColor;stroke-linecap:round;stroke-linejoin:round}.vehicle-info-copy p{font-size:14px;line-height:20px;font-weight:400;margin:0 0 6px}.vehicle-info-copy p:last-child{margin-bottom:0}.vehicle-info-arrow{font-size:30px;color:#555;align-self:center}
-  .vehicle-features-card{margin-top:18px}.vehicle-features-card__list{display:grid;gap:4px}.vehicle-feature{display:flex;gap:14px;align-items:center;padding:10px 0}.vehicle-feature__icon{flex:0 0 27px;width:27px;height:27px;color:#1c2734}.vehicle-feature__icon svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.vehicle-feature p{margin:0;color:#39424e;font-size:14px;line-height:20px}
+  .vehicle-features-card{margin-top:18px;padding:18px;border:1px solid #e0e4e8;border-radius:12px;background:var(--soft)}.vehicle-features-card__header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid #dce1e5}.vehicle-features-card__header h2{margin:0;color:#172131;font-size:17px;line-height:22px;font-weight:600}.vehicle-features-card__header strong{color:var(--blue);font-size:12px;line-height:17px;font-weight:600;white-space:nowrap}.vehicle-features-card__list{display:grid;gap:2px;padding-top:4px}.vehicle-feature{display:flex;gap:14px;align-items:flex-start;padding:10px 0}.vehicle-feature__icon{flex:0 0 27px;width:27px;height:27px;margin-top:1px;color:#1c2734}.vehicle-feature__icon svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.vehicle-feature p{margin:0;color:#39424e;font-size:13px;line-height:18px}.vehicle-feature p strong{display:block;color:#172131;font-size:13px;line-height:18px;font-weight:600}.vehicle-feature p span{display:block;margin-top:2px}.vehicle-features-card__shared{margin:4px 0 0;padding-top:12px;border-top:1px solid #dce1e5;color:#59616a;font-size:11px;line-height:16px}.vehicle-features-card__shared strong{display:block;color:#27303a;font-weight:600}.vehicle-features-card__shared span{display:block;margin-top:2px}
   .vehicle-options{margin-top:34px}.vehicle-options__header{display:flex;align-items:center;justify-content:flex-start;gap:18px;margin:0 0 22px}.vehicle-options h2{font-size:20px;line-height:24px;font-weight:600;letter-spacing:-.03em;margin:0}.vehicle-options__compare{min-height:36px;padding:7px 17px;border:1px solid var(--blue);border-radius:18px;background:#fff;color:var(--blue);font-size:13px;line-height:18px;font-weight:600;white-space:nowrap;cursor:pointer;transition:background-color .18s ease,color .18s ease,transform .18s ease}.vehicle-options__compare:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}.vehicle-options__compare:focus-visible{outline:2px solid var(--blue);outline-offset:3px}.vehicle-option{position:relative;min-height:158px;border:1px solid #d4d7d9;border-radius:10px;padding:20px 22px 42px;display:grid;grid-template-columns:148px 1fr;gap:16px;align-items:center;margin:0 0 12px;background:#fff;cursor:pointer}.vehicle-option.is-selected{border:2px solid var(--blue);padding:19px 21px 41px}.vehicle-option.is-unavailable{cursor:not-allowed}.vehicle-option input{position:absolute;opacity:0;pointer-events:none}.vehicle-option__media{width:148px;height:84px;display:grid;place-items:center;background:#fff;overflow:hidden;color:#999;font-size:12px;line-height:16px;letter-spacing:-.02em}.vehicle-option__media--placeholder{border:1px dashed #cfd3d5;background:#fafbfb}.vehicle-option__media img{display:block;width:100%;height:100%;object-fit:contain}.vehicle-option__copy{display:flex;flex-direction:column;justify-content:center}.vehicle-option__copy strong{display:block;font-size:16px;line-height:24px;font-weight:400;letter-spacing:-.02em}.vehicle-option__copy b{display:block;font-size:14px;line-height:20px;margin-top:8px;font-weight:400;letter-spacing:-.02em}.vehicle-option__stock{position:absolute;right:22px;bottom:18px;font-size:12px;line-height:16px;color:#167b42;font-weight:400;letter-spacing:-.02em}.vehicle-option.is-unavailable .vehicle-option__stock{color:#777}
   .vehicle-option{min-height:196px;padding-top:20px}.vehicle-option.is-selected{padding-top:19px}.vehicle-option__heading{display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap}.vehicle-option__badge{display:inline-flex;align-items:center;justify-content:center;min-height:20px;padding:2px 8px;border-radius:10px;background:var(--blue);color:#fff;font-size:10px;line-height:14px;font-weight:600;letter-spacing:.01em;text-transform:uppercase;white-space:nowrap}.vehicle-option__summary{display:block;margin-top:5px;color:#4a5055;font-size:13px;line-height:18px;font-weight:400;letter-spacing:-.01em}.vehicle-option__specs{display:block;margin-top:3px;color:#1763b7;font-size:12px;line-height:17px;font-weight:600;letter-spacing:-.01em}.vehicle-option__summary--mobile,.vehicle-option__specs--mobile{display:none}
   .vehicle-mobile-purchase,.vehicle-mobile-purchase__dialog,.vehicle-mobile-purchase__body{display:contents}.vehicle-mobile-purchase__backdrop,.vehicle-mobile-purchase__header,.vehicle-mobile-purchase__summary{display:none}.vehicle-mobile-image-zoom{display:none}
@@ -1113,6 +1119,57 @@
       currencyDisplay: 'narrowSymbol'
     });
     const formatPrice = (cents) => `${currencyFormatter.format(cents / 100)} ${currencyCode}`;
+    const productFeaturesModel = root.querySelector('[data-product-features-model]');
+    const productFeatureTexts = [...root.querySelectorAll('[data-product-feature-text]')];
+    const productFeatureSpecs = {
+      core: {
+        title: 'Core specifications',
+        rows: [
+          'FH8333 + MIS2031 CMOS · HDR multi-frame fusion · Enhanced night vision · 1080p at 25fps',
+          'FH8333 + MIS2031 CMOS · HDR multi-frame fusion · IP68 water resistance · 1080p at 30fps',
+          'Dual-core 240MHz AC57090 · 2GB DDR',
+          '1920 × 480 ultra-wide display · Supports up to 256GB microSD',
+          '≤1000mA at 12V · 4.0 automotive-grade aluminum cooling · HD Analog'
+        ]
+      },
+      pro: {
+        title: 'Pro specifications',
+        rows: [
+          'Sony IMX662 CMOS · Wide dynamic range (WDR) · Enhanced night vision · 2K at 30fps',
+          'Sony IMX662 CMOS · Wide dynamic range (WDR) · IP68 water resistance · 1080p at 60fps',
+          'SA230 CPU · 2GB DDR',
+          '1920 × 480 ultra-wide display · Supports up to 128GB microSD',
+          '≤1200mA at 12V · 5.0 automotive-grade aluminum cooling · LVDS Digital'
+        ]
+      },
+      max: {
+        title: 'Max specifications',
+        rows: [
+          'RLC90311T + GC6613 CMOS · HDR multi-frame fusion · Enhanced night vision · 2K at 30fps',
+          'RLC90311T + Sony IMX462LQR-C · HDR multi-frame fusion · IP68 water resistance · 1080p at 60fps',
+          'Dual-core 1.2GHz ASTARN141V50 · 4GB DDR',
+          '1920 × 384 ultra-wide display · Supports up to 512GB microSD',
+          '≤1100mA at 12V · 2K front / 1080p rear video quality · LVDS Digital'
+        ]
+      },
+      ultra: {
+        title: 'Ultra specifications',
+        rows: [
+          'RLC90311T + GC6613 CMOS · HDR multi-frame fusion · Enhanced night vision · 2K at 30fps',
+          'RLC90311T + Sony IMX462LQR-C · HDR multi-frame fusion · IP68 water resistance · 1080p at 60fps',
+          'Dual-core 1.2GHz ASTARN141V50 · 4GB DDR',
+          '1920 × 384 ultra-wide display · Supports up to 512GB microSD',
+          '≤1100mA at 12V · LC anti-glare · LVDS Digital'
+        ]
+      }
+    };
+    const updateProductFeatures = (group) => {
+      const specs = productFeatureSpecs[group] || productFeatureSpecs.core;
+      if (productFeaturesModel) productFeaturesModel.textContent = specs.title;
+      productFeatureTexts.forEach((element, index) => {
+        element.textContent = specs.rows[index] || '';
+      });
+    };
     const updateBuyNowHref = () => {
       if (!buyNowLink) return;
       const selectedOption = root.querySelector('[data-option]:checked');
@@ -1525,6 +1582,7 @@
       }
     });
     installationService?.addEventListener('change', updateLivePrice);
+    updateProductFeatures(root.querySelector('[data-option]:checked')?.dataset.galleryGroup || 'core');
     updateLivePrice();
     root.querySelectorAll('[data-option]').forEach((input) => input.addEventListener('change', () => {
       root.querySelectorAll('.vehicle-option').forEach((card) => card.classList.remove('is-selected'));
@@ -1537,9 +1595,10 @@
         field.value = input.value;
         field.setAttribute('value', input.value);
       });
-      root.querySelectorAll('.vehicle-fixed-buy__actions button').forEach((button) => {
+      addToCartButtons.forEach((button) => {
         button.disabled = !available && (!mobilePurchaseQuery.matches || mobilePurchaseIsOpen);
       });
+      updateProductFeatures(input.dataset.galleryGroup || 'core');
       updateLivePrice();
       if (input.dataset.galleryGroup) showGalleryGroup(input.dataset.galleryGroup);
     }));
