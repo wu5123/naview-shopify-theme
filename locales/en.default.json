@@ -192,10 +192,10 @@
     "featured_products": "Featured products",
     "filters": "Filters",
     "grid_view": {
-      "default_view": "Default",
+      "default_view": "Standard grid view",
       "grid_fieldset": "Column grid",
-      "single_item": "Single",
-      "zoom_out": "Zoom out"
+      "single_item": "Single-column view",
+      "zoom_out": "Compact grid view"
     },
     "inventory_low_stock_show_count": {
       "one": "{{ count }} left",

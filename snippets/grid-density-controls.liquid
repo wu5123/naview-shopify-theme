@@ -125,6 +125,11 @@
   .column-options__option {
     display: none;
     position: relative;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
   }
 
   .column-options__option:has(.column-picker-mobile--single),
@@ -186,6 +191,8 @@
   }
 
   .column-picker {
+    display: grid;
+    place-items: center;
     color: rgb(var(--color-rgb, var(--color-foreground-rgb)) / var(--opacity-50));
     padding: var(--padding-2xs);
     border-radius: var(--style-border-radius-xs);
