@@ -13,8 +13,7 @@
         <h1>{{ section.settings.heading | escape }}</h1>
         <p class="cd-ug__lead">{{ section.settings.intro | escape }}</p>
         <div class="cd-ug__actions">
-          <a class="cd-ug__button" href="#{{ guide_id }}-start">Start here <span aria-hidden="true">↓</span></a>
-          {% if manual_url != blank %}<a class="cd-ug__text-link" href="{{ manual_url }}" target="_blank" rel="noopener">Read the full manual <span aria-hidden="true">↗</span><span class="visually-hidden"> (PDF, opens in a new tab)</span></a>{% endif %}
+          {% if manual_url != blank %}<a class="cd-ug__button" href="{{ manual_url }}" target="_blank" rel="noopener">Read the full manual <span aria-hidden="true">↗</span><span class="visually-hidden"> (PDF, opens in a new tab)</span></a>{% endif %}
         </div>
         <p class="cd-ug__scope">19 Series · Max &amp; Ultra<br>Menus and features depend on your kit and firmware.</p>
       </div>
@@ -184,7 +183,7 @@
 {
   "name": "ClearDrive user guide",
   "settings": [
-    {"type":"text","id":"heading","label":"Page heading","default":"Get to know your ClearDrive."},
+    {"type":"text","id":"heading","label":"Page heading","default":"Get to know your Digital mirror."},
     {"type":"textarea","id":"intro","label":"Introduction","default":"Set up your mirror, find the view you like, and know how to save a recording when it matters."},
     {"type":"url","id":"manual_url","label":"User manual PDF"},
     {"type":"url","id":"installation_url","label":"Installation guide"},
