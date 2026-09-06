@@ -596,6 +596,13 @@
     .vehicle-mobile-purchase,.vehicle-mobile-purchase__backdrop,.vehicle-mobile-purchase__dialog,.vehicle-mobile-image-zoom,.vehicle-mobile-image-zoom__dialog{transition-duration:.01ms}
   }
 
+  @media(max-width:350px){
+    .vehicle-fixed-buy__stock{gap:0}
+    .vehicle-fixed-buy__stock svg{display:none}
+    .vehicle-mobile-purchase__price-row{gap:5px}
+    .vehicle-mobile-purchase__price-row--subtotal b{font-size:14px;line-height:19px}
+  }
+
   @media(max-width:620px){
     .vehicle-feature-poster__mobile-copy{position:absolute;inset:0;z-index:1;display:block;padding:18px;color:#fff;pointer-events:none;text-shadow:0 1px 8px rgba(0,0,0,.34)}
     .vehicle-feature-poster__mobile-title{display:block;max-width:270px;font-size:22px;line-height:24px;font-weight:600;letter-spacing:-.04em}
