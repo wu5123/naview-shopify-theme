@@ -173,11 +173,13 @@ export class CartItemsComponent extends createViewEventElement(Component) {
     if (!cartItemRowToRemove) return;
 
     const bundleId = cartItemRowToRemove.dataset.cleardriveBundle;
+    const bundleRole = cartItemRowToRemove.dataset.cleardriveRole;
     const bundledRows = bundleId
       ? this.refs.cartItemRows.filter((row) => row.dataset.cleardriveBundle === bundleId)
       : [];
+    const removeWholeBundle = bundleRole !== 'service' && bundledRows.length > 1;
 
-    if (bundledRows.length > 1) {
+    if (removeWholeBundle) {
       this.updateBundleQuantity({ rows: bundledRows, quantity: 0, action: 'clear' });
     } else {
       this.updateQuantity({
@@ -187,7 +189,7 @@ export class CartItemsComponent extends createViewEventElement(Component) {
       });
     }
 
-    const primaryRowsToRemove = bundledRows.length > 1 ? bundledRows : [cartItemRowToRemove];
+    const primaryRowsToRemove = removeWholeBundle ? bundledRows : [cartItemRowToRemove];
     const rowsToRemove = [
       ...primaryRowsToRemove,
       // Get all nested lines of the row to remove
