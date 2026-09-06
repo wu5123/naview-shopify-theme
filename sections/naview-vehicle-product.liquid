@@ -233,9 +233,20 @@
           <div class="vehicle-mobile-purchase__backdrop" data-mobile-purchase-close aria-hidden="true"></div>
           <div class="vehicle-mobile-purchase__dialog" data-mobile-purchase-dialog>
             <div class="vehicle-mobile-purchase__header">
-              <div>
-                <strong id="vehicle-mobile-purchase-title-{{ section.id }}">Select your model</strong>
-                <span>Choose a model, quantity, and installation service</span>
+              <div class="vehicle-mobile-purchase__vehicle">
+                {% if section.settings.brand_logo != blank %}
+                  {{
+                    section.settings.brand_logo
+                    | image_url: width: 160
+                    | image_tag:
+                      widths: '64, 96, 128, 160',
+                      sizes: '64px',
+                      loading: 'eager',
+                      class: 'vehicle-mobile-purchase__brand-logo',
+                      alt: ''
+                  }}
+                {% endif %}
+                <strong id="vehicle-mobile-purchase-title-{{ section.id }}">{{ vehicle_display_name | escape }}</strong>
               </div>
               <button class="vehicle-mobile-purchase__close" type="button" data-mobile-purchase-close aria-label="Close product options">×</button>
             </div>
@@ -544,7 +555,7 @@
     .vehicle-mobile-purchase__dialog{position:absolute;left:0;right:0;top:15vh;top:15dvh;bottom:108px;z-index:1;width:100%;height:auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;border-radius:18px 18px 0 0;background:#fff;box-shadow:0 -16px 48px rgba(0,0,0,.28);transform:translateY(calc(100% + 108px));transition:transform .34s cubic-bezier(.22,.74,.2,1)}
     .vehicle-mobile-purchase.is-open .vehicle-mobile-purchase__dialog{transform:translateY(0)}
     .vehicle-mobile-purchase__header{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:calc(12px + env(safe-area-inset-top,0px)) 14px 12px;border-bottom:1px solid #e4e7ea;background:#fff}
-    .vehicle-mobile-purchase__header>div{min-width:0}.vehicle-mobile-purchase__header strong{display:block;color:#111b2d;font-size:17px;line-height:22px;font-weight:600}.vehicle-mobile-purchase__header span{display:block;margin-top:2px;color:#6b7178;font-size:11px;line-height:15px}
+    .vehicle-mobile-purchase__vehicle{min-width:0;display:flex;align-items:center;gap:12px}.vehicle-mobile-purchase__brand-logo{display:block;flex:0 0 auto;width:auto;max-width:64px;height:32px;object-fit:contain}.vehicle-mobile-purchase__header strong{display:block;min-width:0;overflow:hidden;color:#111b2d;font-size:18px;line-height:24px;font-weight:600;text-overflow:ellipsis;white-space:nowrap}
     .vehicle-mobile-purchase__close{flex:0 0 40px;width:40px;height:40px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:#f0f3f6;color:#111b2d;font-size:29px;line-height:1;cursor:pointer}
     .vehicle-mobile-purchase__close:focus-visible,.vehicle-mobile-purchase__image-button:focus-visible,.vehicle-mobile-purchase__quantity button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
     .vehicle-mobile-purchase__body{min-height:0;display:block;overflow-y:auto;padding:14px 14px 26px;background:#fff;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
