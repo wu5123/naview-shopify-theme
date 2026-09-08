@@ -32,6 +32,31 @@
     assign vehicle_key = 'nx'
     assign vehicle_display_name = 'Lexus NX'
   endif
+  assign kit_core_asset = ''
+  assign kit_pro_asset = ''
+  assign kit_max_ultra_asset = ''
+  case vehicle_product.handle
+    when 'toyota-rav4-2019-2025'
+      assign kit_core_asset = 'cleardrive-kit-rav4-2020-2025-core.webp'
+      assign kit_pro_asset = 'cleardrive-kit-rav4-2020-2025-pro.webp'
+      assign kit_max_ultra_asset = 'cleardrive-kit-rav4-2020-2025-max-ultra.webp'
+    when 'toyota-rav4'
+      assign kit_core_asset = 'cleardrive-kit-rav4-2026-core.webp'
+      assign kit_pro_asset = 'cleardrive-kit-rav4-2026-pro.webp'
+      assign kit_max_ultra_asset = 'cleardrive-kit-rav4-2026-max-ultra.webp'
+    when 'honda-cr-v-2017-2022'
+      assign kit_core_asset = 'cleardrive-kit-crv-2016-2021-core.webp'
+      assign kit_pro_asset = 'cleardrive-kit-crv-2016-2021-pro.webp'
+      assign kit_max_ultra_asset = 'cleardrive-kit-crv-2016-2021-max-ultra.webp'
+    when 'honda-cr-v'
+      assign kit_core_asset = 'cleardrive-kit-crv-6th-gen-core.webp'
+      assign kit_pro_asset = 'cleardrive-kit-crv-6th-gen-pro.webp'
+      assign kit_max_ultra_asset = 'cleardrive-kit-crv-6th-gen-max-ultra.webp'
+    when 'lexus-nx'
+      assign kit_core_asset = 'cleardrive-kit-lexus-nx-2015-2020-core.webp'
+      assign kit_pro_asset = 'cleardrive-kit-lexus-nx-2015-2020-pro.webp'
+      assign kit_max_ultra_asset = 'cleardrive-kit-lexus-nx-2015-2020-max-ultra.webp'
+  endcase
   assign product_image_alt = vehicle_display_name | append: ' custom-fit digital rear mirror'
   assign feature_image_alt = vehicle_display_name | append: ' product feature'
   assign contact_page_url = routes.root_url | append: 'pages/contact'
@@ -41,15 +66,15 @@
 {% capture vehicle_year_options %}
   {% case vehicle_key %}
     {% when 'rav4' %}
-      <option value="{% if section.settings.rav4_2019_product != blank %}{{ section.settings.rav4_2019_product.url }}{% else %}/products/toyota-rav4-2019-2025{% endif %}"{% if vehicle_product.handle contains '2019-2025' or section.settings.rav4_2019_product.id == vehicle_product.id %} selected{% endif %}>2019–2025</option>
-      <option value="{% if section.settings.rav4_2026_product != blank %}{{ section.settings.rav4_2026_product.url }}{% else %}/products/toyota-rav4{% endif %}"{% unless vehicle_product.handle contains '2019-2025' or section.settings.rav4_2019_product.id == vehicle_product.id %} selected{% endunless %}>2026+</option>
+      <option value="{% if section.settings.rav4_2019_product != blank %}{{ section.settings.rav4_2019_product.url }}{% else %}/products/toyota-rav4-2019-2025{% endif %}"{% if vehicle_product.handle contains '2019-2025' or section.settings.rav4_2019_product.id == vehicle_product.id %} selected{% endif %}>2020–2025</option>
+      <option value="{% if section.settings.rav4_2026_product != blank %}{{ section.settings.rav4_2026_product.url }}{% else %}/products/toyota-rav4{% endif %}"{% unless vehicle_product.handle contains '2019-2025' or section.settings.rav4_2019_product.id == vehicle_product.id %} selected{% endunless %}>2026</option>
     {% when 'crv' %}
-      <option value="{% if section.settings.crv_2017_product != blank %}{{ section.settings.crv_2017_product.url }}{% else %}/products/honda-cr-v-2017-2022{% endif %}"{% if vehicle_product.handle contains '2017-2022' or section.settings.crv_2017_product.id == vehicle_product.id %} selected{% endif %}>2017–2022</option>
+      <option value="{% if section.settings.crv_2017_product != blank %}{{ section.settings.crv_2017_product.url }}{% else %}/products/honda-cr-v-2017-2022{% endif %}"{% if vehicle_product.handle contains '2017-2022' or section.settings.crv_2017_product.id == vehicle_product.id %} selected{% endif %}>2016–2021</option>
       <option value="{% if section.settings.crv_2023_product != blank %}{{ section.settings.crv_2023_product.url }}{% else %}/products/honda-cr-v{% endif %}"{% unless vehicle_product.handle contains '2017-2022' or section.settings.crv_2017_product.id == vehicle_product.id %} selected{% endunless %}>2023+</option>
     {% when 'f150' %}
       <option value="{% if section.settings.f150_2021_product != blank %}{{ section.settings.f150_2021_product.url }}{% else %}{{ vehicle_page_url }}{% endif %}" selected>2021+</option>
     {% when 'nx' %}
-      <option value="{% if section.settings.nx_2022_product != blank %}{{ section.settings.nx_2022_product.url }}{% else %}{{ vehicle_page_url }}{% endif %}" selected>2022+</option>
+      <option value="{% if section.settings.nx_2022_product != blank %}{{ section.settings.nx_2022_product.url }}{% else %}{{ vehicle_page_url }}{% endif %}" selected>2015–2020</option>
     {% else %}
       <option value="{{ vehicle_page_url }}" selected>Current model</option>
   {% endcase %}
@@ -144,7 +169,22 @@
                 {% assign image_key = gallery_group | append: '_gallery_' | append: previous_image_index %}
               {% endif %}
               {% assign gallery_image = section.settings[image_key] %}
-              {% if gallery_image != blank %}
+              {% assign gallery_asset = '' %}
+              {% if image_index == 3 %}
+                {% case gallery_group %}
+                  {% when 'core' %}
+                    {% assign gallery_asset = kit_core_asset %}
+                  {% when 'pro' %}
+                    {% assign gallery_asset = kit_pro_asset %}
+                  {% when 'max', 'ultra' %}
+                    {% assign gallery_asset = kit_max_ultra_asset %}
+                {% endcase %}
+              {% endif %}
+              {% if gallery_asset != blank %}
+                <button type="button" class="vehicle-gallery__thumbnail" role="tab" aria-selected="false" data-gallery-item data-gallery-group="{{ gallery_group }}" data-media-type="image" data-image="{{ gallery_asset | asset_url }}" aria-label="View {{ gallery_group_label }} package contents"{% unless option_index == 1 %} hidden{% endunless %}>
+                  <img src="{{ gallery_asset | asset_url }}" width="1459" height="1078" loading="lazy" alt="{{ gallery_group_label | escape }} package contents for {{ vehicle_display_name | escape }}">
+                </button>
+              {% elsif gallery_image != blank %}
                 <button type="button" class="vehicle-gallery__thumbnail" role="tab" aria-selected="false" data-gallery-item data-gallery-group="{{ gallery_group }}" data-media-type="image" data-image="{{ gallery_image | image_url: width: 1800 }}" aria-label="View {{ gallery_group_label }} photo {{ image_index }}"{% unless option_index == 1 %} hidden{% endunless %}>
                   {{ gallery_image | image_url: width: 360 | image_tag: loading: 'lazy', widths: '160, 240, 360', sizes: '140px', alt: product_image_alt }}
                 </button>
@@ -1762,12 +1802,12 @@
     {"type":"image_picker","id":"fallback_image","label":"Fallback product image"},
     {"type":"image_picker","id":"brand_logo","label":"Vehicle brand logo"},
     {"type":"header","content":"Year product pages"},
-    {"type":"product","id":"rav4_2019_product","label":"RAV4 2019–2025 product"},
-    {"type":"product","id":"rav4_2026_product","label":"RAV4 2026+ product"},
-    {"type":"product","id":"crv_2017_product","label":"CR-V 2017–2022 product"},
+    {"type":"product","id":"rav4_2019_product","label":"RAV4 2020–2025 product"},
+    {"type":"product","id":"rav4_2026_product","label":"RAV4 2026 product"},
+    {"type":"product","id":"crv_2017_product","label":"CR-V 2016–2021 product"},
     {"type":"product","id":"crv_2023_product","label":"CR-V 2023+ product"},
     {"type":"product","id":"f150_2021_product","label":"F-150 Raptor 2021+ product"},
-    {"type":"product","id":"nx_2022_product","label":"Lexus NX 2022+ product"},
+    {"type":"product","id":"nx_2022_product","label":"Lexus NX 2015–2020 product"},
     {"type":"header","content":"Main image options"},
     {"type":"checkbox","id":"enable_desktop_image_zoom","label":"Enable desktop click-to-zoom","default":true},
     {"type":"checkbox","id":"show_model_label_overlay","label":"Show editable model text over main images","default":false},
