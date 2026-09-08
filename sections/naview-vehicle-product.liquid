@@ -342,7 +342,7 @@
           </div>
           <label class="vehicle-option is-selected">
             <input type="radio" name="vehicle-option-{{ section.id }}" value="{{ core_variant.id }}" data-option data-price="{{ standard_price | escape }}" data-price-cents="{{ core_variant.price }}" data-available="{{ core_variant.available }}" data-gallery-group="core" checked>
-            <span class="vehicle-option__media">{% if option_1_image != blank %}{{ option_1_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-17-pro-e-preview.png' | asset_url }}" width="2048" height="768" loading="lazy" alt="17 Pro E display preview">{% endif %}</span>
+            <span class="vehicle-option__media">{% if option_1_image != blank %}{{ option_1_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-17-pro-e-preview.png' | asset_url }}" width="2048" height="768" loading="lazy" alt="Core display preview">{% endif %}</span>
             <span class="vehicle-option__copy">
               <strong>Core for {{ vehicle_display_name | escape }}</strong>
               <span class="vehicle-option__summary vehicle-option__summary--desktop">Reliable recording for everyday driving</span>
@@ -355,7 +355,7 @@
           </label>
           <label class="vehicle-option{% if pro_variant == blank %} is-unavailable{% endif %}">
             {% if pro_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ pro_variant.id }}" data-option data-price="{{ pro_price | escape }}" data-price-cents="{{ pro_variant.price }}" data-available="{{ pro_variant.available }}" data-gallery-group="pro">{% endif %}
-            <span class="vehicle-option__media">{% if option_2_image != blank %}{{ option_2_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-18-pro-preview.png' | asset_url }}" width="2149" height="732" loading="lazy" alt="18 Pro display preview">{% endif %}</span>
+            <span class="vehicle-option__media">{% if option_2_image != blank %}{{ option_2_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-18-pro-preview.png' | asset_url }}" width="2149" height="732" loading="lazy" alt="Pro display preview">{% endif %}</span>
             <span class="vehicle-option__copy">
               <span class="vehicle-option__heading"><strong>Pro for {{ vehicle_display_name | escape }}</strong><span class="vehicle-option__badge">Recommended</span></span>
               <span class="vehicle-option__summary vehicle-option__summary--desktop">Sharper details and smoother rear video</span>
@@ -368,7 +368,7 @@
           </label>
           <label class="vehicle-option{% if max_variant == blank %} is-unavailable{% endif %}">
             {% if max_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ max_variant.id }}" data-option data-price="{{ max_price | escape }}" data-price-cents="{{ max_variant.price }}" data-available="{{ max_variant.available }}" data-gallery-group="max">{% endif %}
-            <span class="vehicle-option__media">{% if option_3_image != blank %}{{ option_3_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="19 Ultra and Max display preview">{% endif %}</span>
+            <span class="vehicle-option__media">{% if option_3_image != blank %}{{ option_3_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="Max / Ultra display preview">{% endif %}</span>
             <span class="vehicle-option__copy">
               <strong>Max for {{ vehicle_display_name | escape }}</strong>
               <span class="vehicle-option__summary vehicle-option__summary--desktop">Faster response, smoother performance and longer recording</span>
@@ -381,7 +381,7 @@
           </label>
           <label class="vehicle-option{% if ultra_variant == blank %} is-unavailable{% endif %}">
             {% if ultra_variant != blank %}<input type="radio" name="vehicle-option-{{ section.id }}" value="{{ ultra_variant.id }}" data-option data-price="{{ ultra_price | escape }}" data-price-cents="{{ ultra_variant.price }}" data-available="{{ ultra_variant.available }}" data-gallery-group="ultra">{% endif %}
-            <span class="vehicle-option__media">{% if option_4_image != blank %}{{ option_4_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="19 Ultra and Max display preview">{% endif %}</span>
+            <span class="vehicle-option__media">{% if option_4_image != blank %}{{ option_4_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: '' }}{% else %}<img src="{{ 'cleardrive-option-19-ultra-max-preview.png' | asset_url }}" width="2172" height="724" loading="lazy" alt="Max / Ultra display preview">{% endif %}</span>
             <span class="vehicle-option__copy">
               <strong>Ultra for {{ vehicle_display_name | escape }}</strong>
               <span class="vehicle-option__summary vehicle-option__summary--desktop">A clearer, more comfortable view under strong glare</span>
