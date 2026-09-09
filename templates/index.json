@@ -22,7 +22,9 @@
         "hero_desktop_height": 504,
         "hero_mobile_height": 408,
         "video_overlay": 20,
-        "hero_text_color": "#ffffff"
+        "hero_text_color": "#ffffff",
+        "enable_slideshow": true,
+        "preserve_button_position": true
       }
     },
     "naview_vehicle_cards_YKKEUX": {

@@ -1,4 +1,5 @@
 {% liquid
+  assign enable_slideshow = section.settings.enable_slideshow
   assign hero_video = section.settings.hero_video
   assign poster_image = section.settings.poster_image
   assign overlay_opacity = section.settings.video_overlay | times: 0.01
@@ -9,17 +10,25 @@
 
 <section
   id="NaviewVideoHero-{{ section.id }}"
-  class="naview-video-hero"
+  class="naview-video-hero{% if enable_slideshow %} naview-video-hero--slideshow{% if section.settings.preserve_button_position %} naview-video-hero--fixed-buttons{% endif %}{% endif %}"
   style="
     --nv-hero-height: {{ section.settings.hero_desktop_height }}px;
     --nv-mobile-height: {{ section.settings.hero_mobile_height }}px;
     --nv-text-color: {{ section.settings.hero_text_color }};
     --nv-overlay-opacity: {{ overlay_opacity }};
   "
+  {% if enable_slideshow %}data-cleardrive-slideshow data-active-slide="1"{% endif %}
   data-naview-video-hero
 >
   <div class="naview-video-hero__media" aria-hidden="true">
-    {% if hero_video != blank %}
+    {% if enable_slideshow %}
+      {% assign slide_names = 'cleardrive-home-slide-01-20260909.webp,cleardrive-home-slide-02-20260909.webp,cleardrive-home-slide-03-20260909.webp' | split: ',' %}
+      {% for slide_name in slide_names %}
+        <div class="naview-video-hero__slide{% if forloop.first %} is-active{% endif %}" data-hero-slide aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
+          <img src="{{ slide_name | asset_url }}" width="2172" height="724" alt="" {% if forloop.first %}fetchpriority="high"{% endif %} loading="eager" decoding="async">
+        </div>
+      {% endfor %}
+    {% elsif hero_video != blank %}
       {{
         hero_video
         | video_tag:
@@ -87,7 +96,16 @@
       </div>
     </div>
   </div>
+  {% if enable_slideshow %}
+    <div class="naview-video-hero__slideshow-controls" role="group" aria-label="Banner slideshow controls">
+      {% for number in (1..3) %}
+        <button type="button" class="naview-video-hero__slide-dot" data-slide-to="{{ forloop.index0 }}" aria-label="Show banner {{ number }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}"></button>
+      {% endfor %}
+      <button type="button" class="naview-video-hero__pause" data-slideshow-pause data-paused="false" aria-label="Pause slideshow" aria-pressed="false"><span class="pause-icon" aria-hidden="true">Ⅱ</span><span class="play-icon" aria-hidden="true">▶</span></button>
+    </div>
+  {% endif %}
 </section>
+{% if enable_slideshow %}<script src="{{ 'cleardrive-home-slideshow.js' | asset_url }}" defer></script>{% endif %}
 
 {% style %}
   #NaviewVideoHero-{{ section.id }} {
@@ -464,6 +482,44 @@
       transform: none;
     }
   }
+
+  /* The supplied artwork includes its own headlines; keep the CTA layout intact. */
+  #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow .naview-video-hero__line { visibility: hidden; }
+  #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow .naview-video-hero__overlay { display: none; }
+  #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow .naview-video-hero__copy { animation: none; }
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__slide { position: absolute; inset: 0; opacity: 0; transition: opacity 500ms ease; pointer-events: none; }
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__slide.is-active { opacity: 1; }
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__slide img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__slideshow-controls { position: absolute; z-index: 3; right: 24px; bottom: 18px; display: flex; align-items: center; gap: 4px; }
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__slideshow-controls button { display: grid; place-items: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 50%; color: white; background: transparent; cursor: pointer; }
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__slide-dot::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #ffffff60; }
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__slide-dot[aria-current="true"]::after { background: #fff; }
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__slideshow-controls button:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__pause .play-icon,
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__pause[data-paused="true"] .pause-icon { display: none; }
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__pause[data-paused="true"] .play-icon { display: inline; }
+  @media screen and (min-width: 990px) {
+    #NaviewVideoHero-{{ section.id }}.naview-video-hero--fixed-buttons .naview-video-hero__media { height: 240px; }
+  }
+  @media screen and (max-width: 989px) {
+    #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow .naview-video-hero__media { height: calc(100% - 100px); }
+    #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow .naview-video-hero__slideshow-controls { right: 16px; bottom: 76px; }
+  }
+  #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow:not(.naview-video-hero--fixed-buttons) { height: auto; min-height: 0; }
+  #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow:not(.naview-video-hero--fixed-buttons) .naview-video-hero__media { position: relative; height: auto; aspect-ratio: 3 / 1; }
+  #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow:not(.naview-video-hero--fixed-buttons) .naview-video-hero__content { height: auto; padding: 24px 32px; }
+  #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow:not(.naview-video-hero--fixed-buttons) .naview-video-hero__line { display: none; }
+  #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow:not(.naview-video-hero--fixed-buttons) .naview-video-hero__actions { position: static; margin: 0; }
+  @media screen and (min-width: 1600px) {
+    #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow:not(.naview-video-hero--fixed-buttons) .naview-video-hero__content { padding-left: 48px; padding-right: 48px; }
+  }
+  @media screen and (max-width: 989px) {
+    #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow:not(.naview-video-hero--fixed-buttons) .naview-video-hero__content { padding: 24px 20px 60px; }
+    #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow:not(.naview-video-hero--fixed-buttons) .naview-video-hero__slideshow-controls { bottom: 12px; right: 50%; transform: translateX(50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #NaviewVideoHero-{{ section.id }} .naview-video-hero__slide { transition: none; }
+  }
 {% endstyle %}
 
 <script>
@@ -494,6 +550,20 @@
   "tag": "section",
   "class": "section-premium-mirror-hero",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_slideshow",
+      "label": "Show the three image banners",
+      "default": false,
+      "info": "Displays the three supplied banners, hides the original text and rotates every 3.5 seconds."
+    },
+    {
+      "type": "checkbox",
+      "id": "preserve_button_position",
+      "label": "Keep buttons in their original position",
+      "default": true,
+      "info": "When enabled, desktop artwork is reduced to fit above the existing buttons. Turn off for full-width artwork with buttons below."
+    },
     {
       "type": "video",
       "id": "hero_video",
