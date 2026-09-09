@@ -13,6 +13,9 @@
 #track123-app .track123_form_container { padding: 0 !important; background: #fff !important; box-shadow: none !important; }
 #track123-app .track123_form_content { min-height: 0 !important; padding: 0 !important; }
 #track123-app #track123_text_above { padding: 0; margin: 0; }
+#track123-app .track123_tab_tracking_above { padding: 0 !important; background: transparent !important; }
+#track123-app .track123_order_wrapper { padding: 24px 0 0 !important; }
+#track123-app .track123_order_detail_section:has(.cleardrive-track-secondary) { padding: 0 !important; }
 #track123-app .cleardrive-track-heading { margin: 0 auto 30px; text-align: center; }
 #track123-app .cleardrive-track-heading h1,
 #track123-app #track123_track_title { color: #202428; font: 600 28px/1.3 Arial, Helvetica, sans-serif !important; letter-spacing: -.3px; margin: 0 0 12px; max-width: none; text-align: center; }
