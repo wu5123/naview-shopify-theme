@@ -24,7 +24,7 @@
         "video_overlay": 20,
         "hero_text_color": "#ffffff",
         "enable_slideshow": true,
-        "preserve_button_position": true
+        "preserve_button_position": false
       }
     },
     "naview_vehicle_cards_YKKEUX": {
