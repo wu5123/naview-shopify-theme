@@ -19,27 +19,13 @@
   assign facebook_url = section.settings.facebook_link | default: settings.social_facebook_link
   assign tiktok_url = section.settings.tiktok_link | default: settings.social_tiktok_link
 
-  assign payment_methods_url = section.settings.payment_methods_link | default: routes.cart_url
-  assign order_information_url = section.settings.order_information_link | default: vehicle_request_url
-  assign shipping_delivery_url = section.settings.shipping_delivery_link
-  if shipping_delivery_url == blank
-    if shop.shipping_policy != blank
-      assign shipping_delivery_url = shop.shipping_policy.url
-    else
-      assign shipping_delivery_url = routes.root_url
-    endif
-  endif
-  assign return_policy_url = section.settings.return_policy_link
-  if return_policy_url == blank
-    if shop.refund_policy != blank
-      assign return_policy_url = shop.refund_policy.url
-    else
-      assign return_policy_url = routes.root_url
-    endif
-  endif
-  assign technical_support_url = section.settings.technical_support_link | default: vehicle_request_url
-  assign repair_services_url = section.settings.repair_services_link | default: vehicle_request_url
-  assign after_sales_policies_url = section.settings.after_sales_policies_link | default: section.settings.warranty_link | default: vehicle_request_url
+  assign payment_methods_url = section.settings.payment_methods_link | default: '/pages/payment-methods'
+  assign order_information_url = section.settings.order_information_link | default: '/pages/order-information'
+  assign shipping_delivery_url = section.settings.shipping_delivery_link | default: '/pages/shipping-delivery'
+  assign return_policy_url = section.settings.return_policy_link | default: '/pages/return-policy'
+  assign technical_support_url = section.settings.technical_support_link | default: '/pages/technical-support'
+  assign repair_services_url = section.settings.repair_services_link | default: '/pages/repair-services'
+  assign after_sales_policies_url = section.settings.after_sales_policies_link | default: '/pages/after-sales-service-policies'
 
   assign support_email = section.settings.contact_email
   if support_email == blank
