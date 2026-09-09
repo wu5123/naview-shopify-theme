@@ -1,6 +1,7 @@
 {% comment %}Compact product-family links between vehicle cards and benefit content.{% endcomment %}
 
 <section
+  id="cleardrive-products"
   class="cleardrive-family"
   aria-label="{{ section.settings.accessibility_label | escape }}"
   style="--family-top: {{ section.settings.padding_top }}px; --family-bottom: {{ section.settings.padding_bottom }}px;"
@@ -17,13 +18,12 @@
         endif
       %}
 
-      <a
-        class="cleardrive-family__card"
-        href="{{ card_link | default: routes.all_products_collection_url }}"
-        aria-label="View {{ block.settings.title | escape }}"
-        role="listitem"
-        {{ block.shopify_attributes }}
-      >
+      <div class="cleardrive-family__item" role="listitem" {{ block.shopify_attributes }}>
+        <a
+          class="cleardrive-family__card"
+          href="{{ card_link | default: routes.all_products_collection_url }}"
+          aria-label="View {{ block.settings.title | escape }}"
+        >
         <span class="cleardrive-family__media">
           {% if block.settings.image != blank %}
             {{
@@ -48,7 +48,8 @@
           {% endif %}
         </span>
         <span class="cleardrive-family__title">{{ block.settings.title | escape }}</span>
-      </a>
+        </a>
+      </div>
     {% endfor %}
   </div>
 </section>
