@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "cleardrive-track-order",
+      "settings": {
+        "heading": "Track your order",
+        "introduction": "Enter your order number and the email address used at checkout. No account required."
+      },
+      "blocks": {},
+      "block_order": []
+    }
+  },
+  "order": ["main"]
+}

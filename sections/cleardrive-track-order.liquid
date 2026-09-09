@@ -1,0 +1,60 @@
+{{ 'cleardrive-track-order.css' | asset_url | stylesheet_tag }}
+
+<section class="cd-order-lookup" aria-labelledby="cd-order-lookup-title-{{ section.id }}">
+  <div class="cd-order-lookup__inner">
+    <header class="cd-order-lookup__header">
+      <h1 id="cd-order-lookup-title-{{ section.id }}">{{ section.settings.heading | escape }}</h1>
+      <p>{{ section.settings.introduction | escape }}</p>
+    </header>
+
+    <div class="cd-order-lookup__app">
+      {% for block in section.blocks %}
+        {% render block %}
+      {% else %}
+        {% if request.design_mode %}
+          <p class="cd-order-lookup__setup">Add the order tracking app block here before publishing this page.</p>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="cd-order-lookup__account">
+      <p>Have an account? <a href="{{ routes.account_url }}">Sign in</a> to view your orders.</p>
+    </div>
+
+    <div class="cd-order-lookup__help">
+      <details>
+        <summary>Where can I find my order number?</summary>
+        <p>Your order number is in your ClearDrive order confirmation email. Use the email address you entered at checkout.</p>
+      </details>
+      <details>
+        <summary>Why are there no tracking updates yet?</summary>
+        <p>Shipment updates appear after your order is dispatched and the carrier scans your parcel. If you received a shipping confirmation but no updates are available, check again later or contact us.</p>
+      </details>
+      <p class="cd-order-lookup__contact">Need help with your order? <a href="{{ pages['contact'].url | default: '/pages/contact' }}">Contact us</a>.</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "ClearDrive order lookup",
+  "tag": "div",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Track your order"
+    },
+    {
+      "type": "text",
+      "id": "introduction",
+      "label": "Introduction",
+      "default": "Enter your order number and the email address used at checkout. No account required."
+    }
+  ],
+  "blocks": [{ "type": "@app" }],
+  "presets": [{ "name": "ClearDrive order lookup" }]
+}
+{% endschema %}
