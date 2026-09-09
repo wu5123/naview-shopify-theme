@@ -84,6 +84,60 @@
         "padding_bottom": 56
       }
     },
+    "cleardrive_product_family_9Qf3Lm": {
+      "type": "cleardrive-product-family-cards",
+      "blocks": {
+        "family_core_2Dk7Qa": {
+          "type": "product_family",
+          "settings": {
+            "title": "ClearDrive Core",
+            "fallback_asset": "cleardrive-family-core.webp",
+            "variant_id": "50391309582573",
+            "link": ""
+          }
+        },
+        "family_pro_5Hs8Vb": {
+          "type": "product_family",
+          "settings": {
+            "title": "ClearDrive Pro",
+            "fallback_asset": "cleardrive-family-pro.webp",
+            "variant_id": "50391309615341",
+            "link": ""
+          }
+        },
+        "family_max_7Nc4Jt": {
+          "type": "product_family",
+          "settings": {
+            "title": "ClearDrive Max",
+            "fallback_asset": "cleardrive-family-max-ultra.webp",
+            "variant_id": "50606167195885",
+            "link": ""
+          }
+        },
+        "family_ultra_8Wp6Rx": {
+          "type": "product_family",
+          "settings": {
+            "title": "ClearDrive Ultra",
+            "fallback_asset": "cleardrive-family-max-ultra.webp",
+            "variant_id": "50606168473837",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "family_core_2Dk7Qa",
+        "family_pro_5Hs8Vb",
+        "family_max_7Nc4Jt",
+        "family_ultra_8Wp6Rx"
+      ],
+      "name": "Product family cards",
+      "settings": {
+        "accessibility_label": "Choose a ClearDrive mirror",
+        "destination_product": "toyota-rav4",
+        "padding_top": 12,
+        "padding_bottom": 56
+      }
+    },
     "cleardrive_visibility_poster_N5jR2P": {
       "type": "cleardrive-visibility-poster",
       "name": "Cleardrive view poster",
@@ -115,6 +169,7 @@
   "order": [
     "premium_mirror_hero_VAAe94",
     "naview_vehicle_cards_YKKEUX",
+    "cleardrive_product_family_9Qf3Lm",
     "cleardrive_visibility_poster_N5jR2P",
     "cleardrive_why_choose_us_poster_Qm8R4K",
     "cleardrive_blind_spot_grid_7GxW3Q",

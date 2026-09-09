@@ -1,0 +1,238 @@
+{% comment %}Compact product-family links between vehicle cards and benefit content.{% endcomment %}
+
+<section
+  class="cleardrive-family"
+  aria-label="{{ section.settings.accessibility_label | escape }}"
+  style="--family-top: {{ section.settings.padding_top }}px; --family-bottom: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="cleardrive-family__grid" role="list">
+    {% for block in section.blocks %}
+      {% liquid
+        assign card_link = block.settings.link
+        if card_link == blank and section.settings.destination_product != blank
+          assign card_link = section.settings.destination_product.url
+          if block.settings.variant_id != blank
+            assign card_link = card_link | append: '?variant=' | append: block.settings.variant_id
+          endif
+        endif
+      %}
+
+      <a
+        class="cleardrive-family__card"
+        href="{{ card_link | default: routes.all_products_collection_url }}"
+        aria-label="View {{ block.settings.title | escape }}"
+        role="listitem"
+        {{ block.shopify_attributes }}
+      >
+        <span class="cleardrive-family__media">
+          {% if block.settings.image != blank %}
+            {{
+              block.settings.image
+              | image_url: width: 1200
+              | image_tag:
+                widths: '320, 480, 640, 900, 1200',
+                sizes: '(min-width: 990px) 250px, (min-width: 600px) 40vw, 44vw',
+                loading: 'lazy',
+                class: 'cleardrive-family__image',
+                alt: block.settings.title
+            }}
+          {% else %}
+            <img
+              class="cleardrive-family__image"
+              src="{{ block.settings.fallback_asset | asset_url }}"
+              width="1000"
+              height="375"
+              loading="lazy"
+              alt="{{ block.settings.title | escape }}"
+            >
+          {% endif %}
+        </span>
+        <span class="cleardrive-family__title">{{ block.settings.title | escape }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+{% style %}
+  .cleardrive-family {
+    padding: var(--family-top) 24px var(--family-bottom);
+    background: #ffffff;
+  }
+
+  .cleardrive-family *,
+  .cleardrive-family *::before,
+  .cleardrive-family *::after {
+    box-sizing: border-box;
+  }
+
+  .cleardrive-family__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: start;
+    gap: clamp(24px, 3.2vw, 46px);
+    width: min(1080px, 100%);
+    margin: 0 auto;
+  }
+
+  .cleardrive-family__card {
+    display: block;
+    min-width: 0;
+    color: #182332;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .cleardrive-family__media {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 2.7 / 1;
+    overflow: hidden;
+  }
+
+  .cleardrive-family__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
+  }
+
+  .cleardrive-family__title {
+    display: block;
+    margin-top: 13px;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -.015em;
+  }
+
+  .cleardrive-family__card:hover .cleardrive-family__image {
+    transform: translateY(-2px) scale(1.025);
+  }
+
+  .cleardrive-family__card:focus-visible {
+    outline: 2px solid #1659b7;
+    outline-offset: 7px;
+    border-radius: 2px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .cleardrive-family {
+      padding-right: 16px;
+      padding-left: 16px;
+    }
+
+    .cleardrive-family__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px 24px;
+      width: min(520px, 100%);
+    }
+
+    .cleardrive-family__title {
+      margin-top: 9px;
+      font-size: 14px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cleardrive-family__image {
+      transition: none;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Product family cards",
+  "tag": "section",
+  "class": "section-cleardrive-family",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "accessibility_label",
+      "label": "Accessibility label",
+      "default": "Choose a ClearDrive mirror"
+    },
+    {
+      "type": "product",
+      "id": "destination_product",
+      "label": "Destination product"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_family",
+      "name": "Product family",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Product name",
+          "default": "ClearDrive Core"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Product image"
+        },
+        {
+          "type": "select",
+          "id": "fallback_asset",
+          "label": "Built-in product image",
+          "default": "cleardrive-family-core.webp",
+          "options": [
+            { "value": "cleardrive-family-core.webp", "label": "Core" },
+            { "value": "cleardrive-family-pro.webp", "label": "Pro" },
+            { "value": "cleardrive-family-max-ultra.webp", "label": "Max / Ultra" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "variant_id",
+          "label": "Product variant ID"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Optional custom link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product family cards",
+      "blocks": [
+        { "type": "product_family", "settings": { "title": "ClearDrive Core", "fallback_asset": "cleardrive-family-core.webp" } },
+        { "type": "product_family", "settings": { "title": "ClearDrive Pro", "fallback_asset": "cleardrive-family-pro.webp" } },
+        { "type": "product_family", "settings": { "title": "ClearDrive Max", "fallback_asset": "cleardrive-family-max-ultra.webp" } },
+        { "type": "product_family", "settings": { "title": "ClearDrive Ultra", "fallback_asset": "cleardrive-family-max-ultra.webp" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -224,6 +224,8 @@
           <span>{{ vehicle_display_name | escape }}</span>
         </h1>
 
+        {% render 'cleardrive-vehicle-model-picker', section: section, vehicle_key: vehicle_key, id_scope: section.id, modifier: 'vehicle-model-picker--desktop' %}
+
         <div class="vehicle-year">
           <label for="vehicle-year-{{ section.id }}">Select Year</label>
           <div class="vehicle-select-wrap">
@@ -325,6 +327,9 @@
                   <small data-mobile-purchase-stock>{% if standard_variant.available %}In Stock{% else %}Out of Stock{% endif %}</small>
                 </div>
               </div>
+
+              {% assign mobile_model_picker_id = section.id | append: '-mobile' %}
+              {% render 'cleardrive-vehicle-model-picker', section: section, vehicle_key: vehicle_key, id_scope: mobile_model_picker_id, modifier: 'vehicle-model-picker--mobile' %}
 
               <div class="vehicle-year vehicle-year--mobile">
                 <label for="vehicle-year-mobile-{{ section.id }}">Select Year</label>
@@ -561,7 +566,8 @@
   .vehicle-gallery__thumbnail{position:relative;flex:0 0 82px;height:60px;padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;background:#f4f5f6;opacity:.7;cursor:pointer;scroll-snap-align:start;transition:opacity .2s ease,border-color .2s ease,transform .2s ease}.vehicle-gallery__thumbnail[hidden]{display:none}.vehicle-gallery__thumbnail:hover,.vehicle-gallery__thumbnail:focus-visible{opacity:1}.vehicle-gallery__thumbnail.is-active{border-color:var(--blue);opacity:.7;transform:translateY(-1px)}.vehicle-gallery__thumbnail img{display:block;width:100%;height:100%;object-fit:cover}.vehicle-gallery__thumbnail--video{display:grid;place-items:center;color:#fff;background:#0b0c0d;font-size:12px;line-height:16px;letter-spacing:-.02em}.vehicle-gallery__thumbnail--video img{opacity:.75}.vehicle-gallery__play{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:30px;height:30px;transform:translate(-50%,-50%);border-radius:50%;background:rgba(22,24,27,.84);color:#fff;font-size:11px;line-height:14px;letter-spacing:-.02em;text-indent:2px}
   .vehicle-gallery__thumbnail-previous,.vehicle-gallery__thumbnail-next{position:absolute;top:50%;z-index:3;width:34px;height:34px;transform:translateY(-50%);border:0;border-radius:50%;background:rgba(17,24,32,.5);color:#fff;font-size:24px;line-height:1;cursor:pointer;transition:opacity .2s ease,background-color .2s ease}.vehicle-gallery__thumbnail-previous{left:4px}.vehicle-gallery__thumbnail-next{right:4px}.vehicle-gallery__thumbnail-previous:hover,.vehicle-gallery__thumbnail-next:hover{background:rgba(17,24,32,.72)}.vehicle-gallery__thumbnail-previous:disabled,.vehicle-gallery__thumbnail-next:disabled{opacity:.24;cursor:default}
   .vehicle-buy{min-width:0;padding:0 clamp(44px,4vw,76px) 80px}.vehicle-buy__inner{width:620px;max-width:100%}.vehicle-buy h1{font-size:24px;font-weight:600;line-height:28px;letter-spacing:-.03em;margin:0 0 28px;color:#333}
-  .vehicle-year--mobile{display:none}.vehicle-year label{display:block;margin:0 0 9px;font-size:14px;line-height:20px;font-weight:400}.vehicle-select-wrap{position:relative}.vehicle-select-wrap:after{content:"⌄";position:absolute;right:16px;top:50%;transform:translateY(-57%);pointer-events:none}.vehicle-year select{appearance:none;width:100%;height:50px;border:1px solid #cfd3d5;border-radius:2px;background:#fff;padding:0 44px 0 16px;color:#333;font-size:14px;line-height:20px;font-weight:400}
+  .vehicle-year--mobile{display:none}.vehicle-year label,.vehicle-model-picker__label{display:block;margin:0 0 9px;font-size:14px;line-height:20px;font-weight:400}.vehicle-select-wrap{position:relative}.vehicle-select-wrap:after{content:"⌄";position:absolute;right:16px;top:50%;transform:translateY(-57%);pointer-events:none}.vehicle-year select{appearance:none;width:100%;height:50px;border:1px solid #cfd3d5;border-radius:2px;background:#fff;padding:0 44px 0 16px;color:#333;font-size:14px;line-height:20px;font-weight:400}
+  .vehicle-model-picker{position:relative;z-index:20;margin:0 0 18px}.vehicle-model-picker--mobile{display:none}.vehicle-model-picker__trigger{width:100%;height:50px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 16px;border:1px solid #cfd3d5;border-radius:2px;background:#fff;color:#333;cursor:pointer}.vehicle-model-picker__trigger>svg{flex:0 0 16px;width:16px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform .18s ease}.vehicle-model-picker.is-open .vehicle-model-picker__trigger>svg{transform:rotate(180deg)}.vehicle-model-picker__selection{display:flex;align-items:center;gap:13px;min-width:0;font-size:14px;line-height:20px}.vehicle-model-picker__selection span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.vehicle-model-picker__logo{display:block;flex:0 0 46px;width:46px;height:28px;object-fit:contain;object-position:center}.vehicle-model-picker__menu{position:absolute;z-index:30;top:calc(100% + 7px);left:0;width:100%;overflow:hidden;border:1px solid #d5d9dd;border-radius:7px;background:#fff;box-shadow:0 12px 34px rgba(22,31,43,.14)}.vehicle-model-picker__menu[hidden]{display:none}.vehicle-model-picker__option{display:grid;grid-template-columns:46px minmax(0,1fr) 20px;align-items:center;gap:13px;min-height:58px;padding:10px 16px;color:#303233;text-decoration:none;background:#fff;font-size:14px;line-height:20px}.vehicle-model-picker__option+.vehicle-model-picker__option{border-top:1px solid #edf0f2}.vehicle-model-picker__option:hover,.vehicle-model-picker__option:focus-visible{background:#f5f8fb}.vehicle-model-picker__option:focus-visible{outline:2px solid var(--blue);outline-offset:-3px}.vehicle-model-picker__option.is-current{font-weight:600;color:#0b4f9c}.vehicle-model-picker__check{width:18px;height:18px;fill:none;stroke:var(--blue);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
   .vehicle-price{font-size:18px;line-height:24px;font-weight:600;letter-spacing:-.02em;margin:26px 0 20px}
   .vehicle-info-card{background:var(--soft);border-radius:12px;overflow:hidden;margin-top:8px}.vehicle-info-row{display:grid;grid-template-columns:34px 1fr 18px;gap:12px;padding:20px 26px}.vehicle-info-icon{width:28px;height:28px;color:#626669}.vehicle-info-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.9;fill:currentColor;stroke-linecap:round;stroke-linejoin:round}.vehicle-info-copy p{font-size:14px;line-height:20px;font-weight:400;margin:0 0 6px}.vehicle-info-copy p:last-child{margin-bottom:0}.vehicle-info-arrow{font-size:30px;color:#555;align-self:center}
   .vehicle-features-card{margin-top:18px;padding:18px;border:1px solid #e0e4e8;border-radius:12px;background:var(--soft)}.vehicle-features-card__header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid #dce1e5}.vehicle-features-card__header h2{margin:0;color:#172131;font-size:17px;line-height:22px;font-weight:600}.vehicle-features-card__header strong{color:var(--blue);font-size:12px;line-height:17px;font-weight:600;white-space:nowrap}.vehicle-features-card__list{display:grid;gap:2px;padding-top:4px}.vehicle-feature{display:flex;gap:14px;align-items:flex-start;padding:10px 0}.vehicle-feature__icon{flex:0 0 27px;width:27px;height:27px;margin-top:1px;color:#1c2734}.vehicle-feature__icon svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.vehicle-feature p{margin:0;color:#39424e;font-size:13px;line-height:18px}.vehicle-feature p strong{display:block;color:#172131;font-size:13px;line-height:18px;font-weight:600}.vehicle-feature p span{display:block;margin-top:2px}.vehicle-features-card__shared{margin:4px 0 0;padding-top:12px;border-top:1px solid #dce1e5;color:#59616a;font-size:11px;line-height:16px}.vehicle-features-card__shared strong{display:block;color:#27303a;font-weight:600}.vehicle-features-card__shared span{display:block;margin-top:2px}
@@ -612,7 +618,8 @@
 
   @media(max-width:620px){
     .vehicle-gallery__stage-arrow{display:none}
-    .vehicle-buy__inner>.vehicle-year{display:none}
+    .vehicle-buy__inner>.vehicle-year,.vehicle-model-picker--desktop{display:none}
+    .vehicle-mobile-purchase .vehicle-model-picker--mobile{display:block;margin:0 0 18px;z-index:40}
     .vehicle-mobile-purchase .vehicle-year--mobile{display:block;margin:0 0 18px}
     .vehicle-mobile-purchase{position:fixed;inset:0;z-index:2500;display:block;visibility:hidden;pointer-events:none;transition:visibility 0s linear .34s}
     .vehicle-mobile-purchase.is-open{visibility:visible;pointer-events:auto;transition-delay:0s}
@@ -733,6 +740,44 @@
   (() => {
     const root = document.querySelector('[data-vehicle="{{ section.id }}"]');
     if (!root) return;
+    const modelPickers = [...root.querySelectorAll('[data-model-picker]')];
+    const closeModelPicker = (picker, restoreFocus = false) => {
+      const trigger = picker.querySelector('[data-model-picker-trigger]');
+      const menu = picker.querySelector('[data-model-picker-menu]');
+      picker.classList.remove('is-open');
+      trigger?.setAttribute('aria-expanded', 'false');
+      if (menu) menu.hidden = true;
+      if (restoreFocus) trigger?.focus();
+    };
+    modelPickers.forEach((picker) => {
+      const trigger = picker.querySelector('[data-model-picker-trigger]');
+      const menu = picker.querySelector('[data-model-picker-menu]');
+      const options = [...picker.querySelectorAll('[data-model-picker-option]')];
+      trigger?.addEventListener('click', () => {
+        const willOpen = !picker.classList.contains('is-open');
+        modelPickers.forEach((otherPicker) => closeModelPicker(otherPicker));
+        if (!willOpen || !menu) return;
+        picker.classList.add('is-open');
+        trigger.setAttribute('aria-expanded', 'true');
+        menu.hidden = false;
+      });
+      picker.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape' || !picker.classList.contains('is-open')) return;
+        event.preventDefault();
+        closeModelPicker(picker, true);
+      });
+      options.forEach((option) => option.addEventListener('click', () => {
+        const selectedGroup = root.querySelector('[data-option]:checked')?.dataset.galleryGroup || 'core';
+        const destination = new URL(option.href, window.location.origin);
+        destination.searchParams.set('model', selectedGroup);
+        option.href = destination.href;
+      }));
+    });
+    document.addEventListener('click', (event) => {
+      modelPickers.forEach((picker) => {
+        if (!picker.contains(event.target)) closeModelPicker(picker);
+      });
+    });
     const fixedBuy = root.querySelector('[data-fixed-buy]');
     const pageFooter = document.querySelector('footer');
     let footerObserver;
@@ -1642,6 +1687,17 @@
       updateLivePrice();
       if (input.dataset.galleryGroup) showGalleryGroup(input.dataset.galleryGroup);
     }));
+    const requestedSelection = new URLSearchParams(window.location.search);
+    const requestedVariantId = requestedSelection.get('variant');
+    const requestedModel = requestedSelection.get('model');
+    const requestedOption = [...root.querySelectorAll('[data-option]')].find((input) => (
+      (requestedVariantId && input.value === requestedVariantId)
+      || (!requestedVariantId && requestedModel && input.dataset.galleryGroup === requestedModel)
+    ));
+    if (requestedOption && !requestedOption.checked) {
+      requestedOption.checked = true;
+      requestedOption.dispatchEvent(new Event('change', { bubbles: true }));
+    }
     addToCartButtons.forEach((button) => button.addEventListener('click', async () => {
       if (mobilePurchaseQuery.matches && !mobilePurchaseIsOpen) {
         openMobilePurchase(button);

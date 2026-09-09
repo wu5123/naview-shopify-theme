@@ -1,0 +1,78 @@
+{% liquid
+  assign toyota_product = section.settings.rav4_2026_product
+  assign honda_product = section.settings.crv_2023_product
+  assign lexus_product = section.settings.nx_2022_product
+  assign ford_product = section.settings.f150_2021_product
+  assign toyota_url = toyota_product.url | default: '/products/toyota-rav4'
+  assign honda_url = honda_product.url | default: '/products/honda-cr-v'
+  assign lexus_url = lexus_product.url | default: '/products/lexus-nx'
+  assign ford_url = ford_product.url | default: '/products/ford-f-150'
+  assign toyota_logo = images['toyota-logo.png']
+  assign honda_logo = images['honda-logo.png']
+  assign lexus_logo = images['lexus-logo.png']
+  assign ford_logo = images['ford-logo.png']
+  assign current_name = 'Toyota RAV4'
+  assign current_logo = toyota_logo
+  case vehicle_key
+    when 'rav4'
+      assign toyota_url = product.url
+    when 'crv'
+      assign current_name = 'Honda CR-V'
+      assign current_logo = honda_logo
+      assign honda_url = product.url
+    when 'nx'
+      assign current_name = 'Lexus NX'
+      assign current_logo = lexus_logo
+      assign lexus_url = product.url
+    when 'f150'
+      assign current_name = 'Ford F-150'
+      assign current_logo = ford_logo
+      assign ford_url = product.url
+  endcase
+  assign trigger_id = 'vehicle-model-trigger-' | append: id_scope
+  assign menu_id = 'vehicle-model-menu-' | append: id_scope
+%}
+
+<div class="vehicle-model-picker {{ modifier }}" data-model-picker>
+  <span class="vehicle-model-picker__label">Select Model</span>
+  <button
+    class="vehicle-model-picker__trigger"
+    id="{{ trigger_id }}"
+    type="button"
+    aria-haspopup="menu"
+    aria-expanded="false"
+    aria-controls="{{ menu_id }}"
+    data-model-picker-trigger
+  >
+    <span class="vehicle-model-picker__selection">
+      {% if current_logo != blank %}
+        {{ current_logo | image_url: width: 120 | image_tag: loading: 'eager', class: 'vehicle-model-picker__logo', alt: '' }}
+      {% endif %}
+      <span>{{ current_name | escape }}</span>
+    </span>
+    <svg viewBox="0 0 16 10" aria-hidden="true"><path d="m2 2 6 6 6-6"/></svg>
+  </button>
+
+  <div class="vehicle-model-picker__menu" id="{{ menu_id }}" role="menu" data-model-picker-menu hidden>
+    <a class="vehicle-model-picker__option{% if vehicle_key == 'rav4' %} is-current{% endif %}" href="{{ toyota_url }}" role="menuitem"{% if vehicle_key == 'rav4' %} aria-current="page"{% endif %} data-model-picker-option>
+      {% if toyota_logo != blank %}{{ toyota_logo | image_url: width: 120 | image_tag: loading: 'lazy', class: 'vehicle-model-picker__logo', alt: '' }}{% endif %}
+      <span>Toyota RAV4</span>
+      {% if vehicle_key == 'rav4' %}<svg class="vehicle-model-picker__check" viewBox="0 0 18 18" aria-hidden="true"><path d="m3.5 9.5 3.5 3.5 7.5-8"/></svg>{% endif %}
+    </a>
+    <a class="vehicle-model-picker__option{% if vehicle_key == 'crv' %} is-current{% endif %}" href="{{ honda_url }}" role="menuitem"{% if vehicle_key == 'crv' %} aria-current="page"{% endif %} data-model-picker-option>
+      {% if honda_logo != blank %}{{ honda_logo | image_url: width: 120 | image_tag: loading: 'lazy', class: 'vehicle-model-picker__logo', alt: '' }}{% endif %}
+      <span>Honda CR-V</span>
+      {% if vehicle_key == 'crv' %}<svg class="vehicle-model-picker__check" viewBox="0 0 18 18" aria-hidden="true"><path d="m3.5 9.5 3.5 3.5 7.5-8"/></svg>{% endif %}
+    </a>
+    <a class="vehicle-model-picker__option{% if vehicle_key == 'nx' %} is-current{% endif %}" href="{{ lexus_url }}" role="menuitem"{% if vehicle_key == 'nx' %} aria-current="page"{% endif %} data-model-picker-option>
+      {% if lexus_logo != blank %}{{ lexus_logo | image_url: width: 120 | image_tag: loading: 'lazy', class: 'vehicle-model-picker__logo', alt: '' }}{% endif %}
+      <span>Lexus NX</span>
+      {% if vehicle_key == 'nx' %}<svg class="vehicle-model-picker__check" viewBox="0 0 18 18" aria-hidden="true"><path d="m3.5 9.5 3.5 3.5 7.5-8"/></svg>{% endif %}
+    </a>
+    <a class="vehicle-model-picker__option{% if vehicle_key == 'f150' %} is-current{% endif %}" href="{{ ford_url }}" role="menuitem"{% if vehicle_key == 'f150' %} aria-current="page"{% endif %} data-model-picker-option>
+      {% if ford_logo != blank %}{{ ford_logo | image_url: width: 120 | image_tag: loading: 'lazy', class: 'vehicle-model-picker__logo', alt: '' }}{% endif %}
+      <span>Ford F-150</span>
+      {% if vehicle_key == 'f150' %}<svg class="vehicle-model-picker__check" viewBox="0 0 18 18" aria-hidden="true"><path d="m3.5 9.5 3.5 3.5 7.5-8"/></svg>{% endif %}
+    </a>
+  </div>
+</div>
