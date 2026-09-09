@@ -1,0 +1,51 @@
+{{ 'cleardrive-help-center.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cleardrive-help-center.js' | asset_url }}" defer></script>
+
+<div class="cd-help" data-help-center>
+  <div class="cd-help__banner">
+    <div class="cd-help__width"><p>Help Center</p></div>
+  </div>
+  <div class="cd-help__canvas">
+    <div class="cd-help__layout cd-help__width">
+      <aside class="cd-help__sidebar">
+        <details class="cd-help__menu" data-help-menu open>
+          <summary>Help Center topics <span aria-hidden="true"></span></summary>
+          <nav aria-label="Help Center topics">
+            {% assign help_handles = 'payment-methods|order-information|shipping-delivery|return-policy|technical-support|repair-services|after-sales-service-policies' | split: '|' %}
+            {% for help_handle in help_handles %}
+              {% assign help_page = pages[help_handle] %}
+              {% if help_page != blank %}
+                <div class="cd-help__nav-group{% if page.handle == help_handle %} is-current{% endif %}">
+                  <a class="cd-help__nav-title" href="{{ help_page.url }}"{% if page.handle == help_handle %} aria-current="page"{% endif %}>{{ help_page.title | escape }}</a>
+                  {% if page.handle == help_handle %}
+                    <ul class="cd-help__subnav">
+                      {% assign help_sections = page.content | split: '<h2 id="' %}
+                      {% for help_section in help_sections offset: 1 %}
+                        {% assign help_anchor = help_section | split: '"' | first %}
+                        {% assign help_heading = help_section | split: '</h2>' | first | split: '>' | last | strip_html %}
+                        <li><a href="#{{ help_anchor | escape }}">{{ help_heading | escape }}</a></li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </nav>
+        </details>
+        <div class="cd-help__sidebar-contact">
+          <p>Need more help?</p>
+          <a href="{{ routes.root_url }}pages/contact">Contact ClearDrive <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </aside>
+      <article class="cd-help__article" aria-labelledby="help-page-title">
+        <header class="cd-help__article-header"><h1 id="help-page-title">{{ page.title | escape }}</h1></header>
+        <div class="cd-help__body">{{ page.content }}</div>
+        <div class="cd-help__article-contact">
+          <p>Still need assistance?</p>
+          <p>Include your order number so we can help with your request.</p>
+          <a href="mailto:cleardriveca@gmail.com">cleardriveca@gmail.com</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>

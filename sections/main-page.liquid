@@ -1,6 +1,12 @@
 
 
 {% liquid
+  assign help_page_handles = 'payment-methods|order-information|shipping-delivery|return-policy|technical-support|repair-services|after-sales-service-policies' | split: '|'
+%}
+{% if help_page_handles contains page.handle %}
+  {% render 'cleardrive-help-center' %}
+{% else %}
+{% liquid
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
@@ -26,6 +32,8 @@
     {% content_for 'blocks' %}
   </div>
 </div>
+
+{% endif %}
 
 {% schema %}
 {
