@@ -405,7 +405,7 @@
               <a href="{{ routes.root_url }}pages/guides">Guides</a>
               <a href="{{ routes.root_url }}pages/contact">Contact</a>
               <a href="{{ routes.search_url }}">Search</a>
-              <a href="{{ routes.account_url }}">Track Order</a>
+              <a href="/apps/track123">Track Order</a>
               {% if shop.customer_accounts_enabled %}
                 <a href="{{ routes.account_url }}">Account</a>
               {% endif %}
@@ -429,7 +429,7 @@
       </div>
 
       <div class="cleardrive-header__right">
-        <a class="cleardrive-header__track-order" href="{{ routes.account_url }}">Track Order</a>
+        <a class="cleardrive-header__track-order" href="/apps/track123">Track Order</a>
         <a class="cleardrive-header__mobile-find" href="{{ routes.root_url }}#cleardrive-models">Find Vehicle</a>
         {{ search }}
         {% if shop.customer_accounts_enabled %}
