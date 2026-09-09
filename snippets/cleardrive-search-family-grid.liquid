@@ -1,0 +1,63 @@
+{% comment %}
+  Fixed product-family grid for the search modal's empty state.
+  All four cards use real Toyota RAV4 variants so price and availability stay tied to Shopify.
+{% endcomment %}
+
+{% liquid
+  assign family_product = all_products['toyota-rav4']
+  assign family_titles = 'ClearDrive Core|ClearDrive Pro|ClearDrive Max|ClearDrive Ultra' | split: '|'
+  assign family_variant_ids = '50391309582573|50391309615341|50606167195885|50606168473837' | split: '|'
+  assign family_assets = 'cleardrive-family-core.webp|cleardrive-family-pro.webp|cleardrive-family-max-ultra.webp|cleardrive-family-max-ultra.webp' | split: '|'
+  assign family_heights = '375|341|333|333' | split: '|'
+%}
+
+<div
+  id="predictive-search-products"
+  class="cleardrive-search-family"
+  data-cleardrive-family-grid
+>
+  <h3 class="cleardrive-search-family__heading">Choose your ClearDrive</h3>
+
+  <ul
+    class="cleardrive-search-family__grid predictive-search-results__wrapper-products list-unstyled"
+    aria-label="ClearDrive products"
+  >
+    {% for family_title in family_titles %}
+      {% liquid
+        assign family_index = forloop.index0
+        assign variant_id = family_variant_ids[family_index] | plus: 0
+        assign family_variant = family_product.variants | find: 'id', variant_id
+        assign family_url = family_product.url | append: '?variant=' | append: variant_id
+      %}
+
+      <li
+        class="cleardrive-search-family__item predictive-search-results__card predictive-search-results__card--product"
+        ref="resultsItems[]"
+      >
+        <a
+          class="cleardrive-search-family__card"
+          href="{{ family_url }}"
+          aria-label="View {{ family_title }}"
+        >
+          <span class="cleardrive-search-family__media">
+            <img
+              class="cleardrive-search-family__image"
+              src="{{ family_assets[family_index] | asset_url }}"
+              width="1000"
+              height="{{ family_heights[family_index] }}"
+              loading="{% if forloop.index <= 2 %}eager{% else %}lazy{% endif %}"
+              alt="{{ family_title | escape }}"
+            >
+          </span>
+
+          <span class="cleardrive-search-family__details">
+            <span class="cleardrive-search-family__name">{{ family_title }}</span>
+            {% if family_variant != blank %}
+              <span class="cleardrive-search-family__price">{{ family_variant.price | money_with_currency }}</span>
+            {% endif %}
+          </span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

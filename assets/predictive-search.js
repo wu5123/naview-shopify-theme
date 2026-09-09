@@ -421,8 +421,9 @@ class PredictiveSearchComponent extends Component {
     /** This needs to be awaited and not .then so the DOM is already morphed
      * when #closeResults is called and therefore the height is animated */
     const viewedProducts = RecentlyViewed.getProducts();
+    const hasCuratedFamilyGrid = parsedEmptySectionMarkup.querySelector('[data-cleardrive-family-grid]');
 
-    if (viewedProducts.length > 0) {
+    if (viewedProducts.length > 0 && !hasCuratedFamilyGrid) {
       const recentlyViewedMarkup = await this.#getRecentlyViewedProductsMarkup();
       if (!recentlyViewedMarkup) return;
 

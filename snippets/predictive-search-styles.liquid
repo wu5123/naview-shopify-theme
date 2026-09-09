@@ -614,6 +614,160 @@
     }
   }
 
+  /* Curated four-product empty state */
+  .cleardrive-search-family {
+    padding-inline: clamp(18px, 3vw, 34px);
+  }
+
+  .cleardrive-search-family__heading {
+    margin: 0 0 14px;
+    color: #101828;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .cleardrive-search-family__grid.predictive-search-results__wrapper-products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    padding: 0 0 4px;
+  }
+
+  .cleardrive-search-family__item.predictive-search-results__card--product {
+    min-width: 0;
+  }
+
+  .cleardrive-search-family__item.predictive-search-results__card--product:hover,
+  .cleardrive-search-family__item.predictive-search-results__card--product:is(
+      [aria-selected='true'].keyboard-focus,
+      :focus-visible,
+      :has(.cleardrive-search-family__card:focus-visible)
+    ) {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    outline: 0;
+  }
+
+  .cleardrive-search-family__card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(118px, 0.9fr);
+    align-items: center;
+    min-height: 132px;
+    overflow: hidden;
+    color: #101828;
+    text-decoration: none;
+    background: #f6f8fb;
+    border: 1px solid #edf0f4;
+    border-radius: 10px;
+    transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  }
+
+  .cleardrive-search-family__card:hover,
+  .cleardrive-search-family__item[aria-selected='true'] .cleardrive-search-family__card {
+    border-color: #cbd8e8;
+    box-shadow: 0 7px 18px rgb(10 35 70 / 9%);
+    transform: translateY(-1px);
+  }
+
+  .cleardrive-search-family__card:focus-visible {
+    outline: 2px solid #1659b7;
+    outline-offset: 2px;
+  }
+
+  .cleardrive-search-family__media {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    padding: 14px 8px 14px 16px;
+  }
+
+  .cleardrive-search-family__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 92px;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 180ms ease;
+  }
+
+  .cleardrive-search-family__card:hover .cleardrive-search-family__image {
+    transform: scale(1.025);
+  }
+
+  .cleardrive-search-family__details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    align-self: stretch;
+    gap: 5px;
+    padding: 18px 18px 18px 8px;
+  }
+
+  .cleardrive-search-family__name {
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font-size: clamp(15px, 1.25vw, 18px);
+    font-weight: 600;
+    line-height: 1.28;
+  }
+
+  .cleardrive-search-family__price {
+    color: #5b6472;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  @media screen and (max-width: 749px) {
+    .cleardrive-search-family {
+      padding-inline: 16px;
+    }
+
+    .cleardrive-search-family__grid.predictive-search-results__wrapper-products {
+      gap: 12px;
+    }
+
+    .cleardrive-search-family__card {
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(86px, auto) auto;
+      min-height: 0;
+    }
+
+    .cleardrive-search-family__media {
+      min-height: 92px;
+      padding: 13px 10px 6px;
+    }
+
+    .cleardrive-search-family__image {
+      max-height: 72px;
+    }
+
+    .cleardrive-search-family__details {
+      gap: 3px;
+      width: 100%;
+      padding: 7px 11px 12px;
+    }
+
+    .cleardrive-search-family__name {
+      font-size: 14px;
+    }
+
+    .cleardrive-search-family__price {
+      font-size: 12px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cleardrive-search-family__card,
+    .cleardrive-search-family__image {
+      transition: none;
+    }
+  }
+
   .predictive-search-results__resource-header .predictive-search-results__title {
     margin-block-end: 0;
   }
