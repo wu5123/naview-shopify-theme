@@ -23,10 +23,19 @@
   <div class="naview-video-hero__media" aria-hidden="true">
     {% if enable_slideshow %}
       {% assign slide_names = 'cleardrive-home-extended-01-20260909.webp,cleardrive-home-extended-02-20260909.webp,cleardrive-home-extended-03-20260909.webp' | split: ',' %}
+      {% assign mobile_slide_names = 'cleardrive-home-mobile-01-20260910.webp,cleardrive-home-mobile-02-20260910.webp,cleardrive-home-mobile-03-20260910.webp' | split: ',' %}
       <div class="naview-video-hero__track" data-carousel-track>
       {% for slide_name in slide_names %}
         <div class="naview-video-hero__slide{% if forloop.first %} is-active{% endif %}" data-hero-slide aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
-          <img src="{{ slide_name | asset_url }}" width="2172" height="1086" alt="" draggable="false" {% if forloop.first %}fetchpriority="high"{% endif %} loading="eager" decoding="async">
+          <picture class="naview-video-hero__picture">
+            <source
+              media="(max-width: 749px)"
+              srcset="{{ mobile_slide_names[forloop.index0] | asset_url }}"
+              width="1086"
+              height="1448"
+            >
+            <img src="{{ slide_name | asset_url }}" width="2172" height="1086" alt="" draggable="false" {% if forloop.first %}fetchpriority="high"{% endif %} loading="eager" decoding="async">
+          </picture>
         </div>
       {% endfor %}
       </div>
@@ -499,7 +508,9 @@
   #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow .naview-video-hero__media { position: absolute; inset: 0; height: 100%; }
   #NaviewVideoHero-{{ section.id }} .naview-video-hero__track { display: flex; width: 100%; height: 100%; will-change: transform; }
   #NaviewVideoHero-{{ section.id }} .naview-video-hero__slide { flex: 0 0 100%; width: 100%; height: 100%; position: relative; }
-  #NaviewVideoHero-{{ section.id }} .naview-video-hero__slide img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; user-select: none; pointer-events: none; }
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__picture,
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__slide img { display: block; width: 100%; height: 100%; }
+  #NaviewVideoHero-{{ section.id }} .naview-video-hero__slide img { object-fit: cover; object-position: center top; user-select: none; pointer-events: none; }
   #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow .naview-video-hero__content { position: absolute; inset: 0; height: 100%; padding: 0; pointer-events: none; }
   #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow .naview-video-hero__copy { width: 100%; height: 100%; animation: none; }
   #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow .naview-video-hero__actions { position: absolute; left: 32px; right: auto; bottom: 8px; margin: 0; pointer-events: auto; }
@@ -526,6 +537,10 @@
     #NaviewVideoHero-{{ section.id }} .naview-video-hero__slideshow-controls { top: 8px; right: 8px; bottom: auto; }
     #NaviewVideoHero-{{ section.id }} .naview-video-hero__slideshow-controls .naview-video-hero__slide-dot,
     #NaviewVideoHero-{{ section.id }} .naview-video-hero__arrow { display: none; }
+  }
+  @media screen and (max-width: 749px) {
+    #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow { aspect-ratio: 3 / 4; }
+    #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow .naview-video-hero__actions { bottom: 18px; }
   }
   @media screen and (max-width: 370px) {
     #NaviewVideoHero-{{ section.id }}.naview-video-hero--slideshow .naview-video-hero__actions { bottom: 10px; }
