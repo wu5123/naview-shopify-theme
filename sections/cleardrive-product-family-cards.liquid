@@ -2,7 +2,7 @@
 
 <section
   id="cleardrive-products"
-  class="cleardrive-family"
+  class="cleardrive-family{% if section.settings.empty_cart_only %} cleardrive-family--empty-cart-only{% endif %}"
   aria-label="{{ section.settings.accessibility_label | escape }}"
   style="--family-top: {{ section.settings.padding_top }}px; --family-bottom: {{ section.settings.padding_bottom }}px;"
 >
@@ -21,7 +21,7 @@
       <div class="cleardrive-family__item" role="listitem" {{ block.shopify_attributes }}>
         <a
           class="cleardrive-family__card"
-          href="{{ card_link | default: routes.all_products_collection_url }}"
+          href="{{ card_link | default: routes.root_url }}"
           aria-label="View {{ block.settings.title | escape }}"
         >
         <span class="cleardrive-family__media">
@@ -58,6 +58,10 @@
   .cleardrive-family {
     padding: var(--family-top) 24px var(--family-bottom);
     background: #ffffff;
+  }
+
+  body:has(.cart-page:not(.cart-page--empty)) .cleardrive-family--empty-cart-only {
+    display: none;
   }
 
   .cleardrive-family *,
@@ -162,6 +166,12 @@
       "type": "product",
       "id": "destination_product",
       "label": "Destination product"
+    },
+    {
+      "type": "checkbox",
+      "id": "empty_cart_only",
+      "label": "Show only when the cart is empty",
+      "default": false
     },
     {
       "type": "range",
