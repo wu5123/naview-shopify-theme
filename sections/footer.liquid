@@ -5,13 +5,8 @@
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
 
-  assign model_fallback_url = routes.all_products_collection_url
-  if model_fallback_url == blank
-    assign model_fallback_url = routes.root_url
-  endif
-
-  assign vehicle_request_url = '/pages/vehicle-request'
   assign model_cards_url = routes.root_url | append: '#cleardrive-models'
+  assign model_fallback_url = model_cards_url
   assign contact_page_url = routes.root_url | append: 'pages/contact'
   assign contact_url = section.settings.cta_link | default: contact_page_url
   assign instagram_url = section.settings.instagram_link | default: settings.social_instagram_link
