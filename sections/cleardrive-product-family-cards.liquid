@@ -31,7 +31,7 @@
               | image_url: width: 1200
               | image_tag:
                 widths: '320, 480, 640, 900, 1200',
-                sizes: '(min-width: 990px) 250px, (min-width: 600px) 40vw, 44vw',
+                sizes: '(min-width: 990px) 250px, 30vw',
                 loading: 'lazy',
                 class: 'cleardrive-family__image',
                 alt: block.settings.title
@@ -72,10 +72,10 @@
 
   .cleardrive-family__grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: start;
     gap: clamp(24px, 3.2vw, 46px);
-    width: min(1080px, 100%);
+    width: min(810px, 100%);
     margin: 0 auto;
   }
 
@@ -131,14 +131,14 @@
     }
 
     .cleardrive-family__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 28px 24px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px 12px;
       width: min(520px, 100%);
     }
 
     .cleardrive-family__title {
       margin-top: 9px;
-      font-size: 14px;
+      font-size: 13px;
     }
   }
 
@@ -154,7 +154,7 @@
   "name": "Product family cards",
   "tag": "section",
   "class": "section-cleardrive-family",
-  "max_blocks": 4,
+  "max_blocks": 3,
   "settings": [
     {
       "type": "text",
@@ -203,7 +203,7 @@
           "type": "text",
           "id": "title",
           "label": "Product name",
-          "default": "ClearDrive Core"
+          "default": "ClearDrive Pro"
         },
         {
           "type": "image_picker",
@@ -214,11 +214,16 @@
           "type": "select",
           "id": "fallback_asset",
           "label": "Built-in product image",
-          "default": "cleardrive-family-core.webp",
+          "default": "cleardrive-family-pro.webp",
           "options": [
-            { "value": "cleardrive-family-core.webp", "label": "Core" },
-            { "value": "cleardrive-family-pro.webp", "label": "Pro" },
-            { "value": "cleardrive-family-max-ultra.webp", "label": "Max / Ultra" }
+            {
+              "value": "cleardrive-family-pro.webp",
+              "label": "Pro"
+            },
+            {
+              "value": "cleardrive-family-max-ultra.webp",
+              "label": "Max / Ultra"
+            }
           ]
         },
         {
@@ -238,10 +243,27 @@
     {
       "name": "Product family cards",
       "blocks": [
-        { "type": "product_family", "settings": { "title": "ClearDrive Core", "fallback_asset": "cleardrive-family-core.webp" } },
-        { "type": "product_family", "settings": { "title": "ClearDrive Pro", "fallback_asset": "cleardrive-family-pro.webp" } },
-        { "type": "product_family", "settings": { "title": "ClearDrive Max", "fallback_asset": "cleardrive-family-max-ultra.webp" } },
-        { "type": "product_family", "settings": { "title": "ClearDrive Ultra", "fallback_asset": "cleardrive-family-max-ultra.webp" } }
+        {
+          "type": "product_family",
+          "settings": {
+            "title": "ClearDrive Pro",
+            "fallback_asset": "cleardrive-family-pro.webp"
+          }
+        },
+        {
+          "type": "product_family",
+          "settings": {
+            "title": "ClearDrive Max",
+            "fallback_asset": "cleardrive-family-max-ultra.webp"
+          }
+        },
+        {
+          "type": "product_family",
+          "settings": {
+            "title": "ClearDrive Ultra",
+            "fallback_asset": "cleardrive-family-max-ultra.webp"
+          }
+        }
       ]
     }
   ]

@@ -13,13 +13,14 @@
     assign price_product = all_products[handle]
     for price_variant in price_product.variants
       assign variant_name = price_variant.title | downcase
-      unless variant_name contains 'installation'
+      assign price_model = variant_name | split: ' ' | first
+      if price_model == 'pro' or price_model == 'max' or price_model == 'ultra'
         if price_variant.available
           if starting_price == nil or price_variant.price < starting_price
             assign starting_price = price_variant.price
           endif
         endif
-      endunless
+      endif
     endfor
   endfor
 %}

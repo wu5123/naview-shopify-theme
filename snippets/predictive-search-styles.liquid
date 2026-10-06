@@ -629,7 +629,7 @@
   }
 
   .cleardrive-search-family__grid.predictive-search-results__wrapper-products {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
     padding: 0 0 4px;
   }
@@ -652,7 +652,7 @@
 
   .cleardrive-search-family__card {
     display: grid;
-    grid-template-columns: minmax(0, 1.65fr) minmax(118px, 0.9fr);
+    grid-template-columns: 1fr;
     align-items: center;
     min-height: 132px;
     overflow: hidden;
@@ -702,11 +702,12 @@
   .cleardrive-search-family__details {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
     justify-content: center;
     align-self: stretch;
     gap: 5px;
-    padding: 18px 18px 18px 8px;
+    padding: 8px 16px 16px;
   }
 
   .cleardrive-search-family__name {

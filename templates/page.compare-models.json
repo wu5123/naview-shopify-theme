@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "cleardrive-model-comparison",
+      "settings": {
+        "heading": "Compare ClearDrive models",
+        "intro": "<p>Explore Pro, Max and Ultra.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}

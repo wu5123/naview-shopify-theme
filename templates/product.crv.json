@@ -30,21 +30,21 @@
           "type": "feature",
           "settings": {
             "icon": "camera",
-            "text": "Front 2MP camera with automotive-grade MIS2031 sensor and 140° ultra-wide lens"
+            "text": "Front camera with Sony IMX662 sensor and 140° ultra-wide lens"
           }
         },
         "feature_rear_camera": {
           "type": "feature",
           "settings": {
             "icon": "camera",
-            "text": "Rear 2MP camera with automotive-grade MIS2031 sensor and 140° ultra-wide lens"
+            "text": "Rear camera with Sony IMX662 sensor and 140° ultra-wide lens"
           }
         },
         "feature_protection": {
           "type": "feature",
           "settings": {
             "icon": "shield",
-            "text": "WDR, 1080P recording at 25fps, and IP68 waterproof protection"
+            "text": "WDR, 2K front / 1080p rear recording, and IP68 waterproof protection"
           }
         }
       },
@@ -66,18 +66,11 @@
         "nx_2022_product": "lexus-nx",
         "enable_desktop_image_zoom": true,
         "show_model_label_overlay": false,
-        "core_model_label": "Core",
         "pro_model_label": "Pro",
         "max_model_label": "Max",
         "ultra_model_label": "Ultra",
-        "core_main_image": "shopify://shop_images/cleardrive-core-poster-v3.png",
-        "pro_main_image": "shopify://shop_images/cleardrive-pro-poster-v3.png",
         "max_main_image": "shopify://shop_images/cleardrive-max-poster-v3.png",
         "ultra_main_image": "shopify://shop_images/cleardrive-ultra-poster-v3.png",
-        "gallery_1": "shopify://shop_images/cleardrive-core-model-spec-poster.png",
-        "gallery_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_16_39_50.png",
-        "gallery_3": "shopify://shop_images/dual-front-rear-camera-digital-mirror-poster.png",
-        "gallery_4": "shopify://shop_images/ChatGPT_Image_2026_9_1_17_18_20_e0d45fe4-17b2-4c33-9ed9-c376254ca94b.png",
         "option_main_image_2": "shopify://shop_images/cleardrive-pro-model-spec-poster.png",
         "pro_gallery_2": "shopify://shop_images/ChatGPT_Image_2026_9_1_16_39_50_983c27eb-fe2e-4d65-bc70-29d7d54e5ccc.png",
         "pro_gallery_3": "shopify://shop_images/dual-front-rear-camera-digital-mirror-poster.png",

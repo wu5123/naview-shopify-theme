@@ -1,14 +1,14 @@
 {% comment %}
   Fixed product-family grid for the search modal's empty state.
-  All four cards use real Toyota RAV4 variants so price and availability stay tied to Shopify.
+  All three cards use real Toyota RAV4 variants so price and availability stay tied to Shopify.
 {% endcomment %}
 
 {% liquid
   assign family_product = all_products['toyota-rav4']
-  assign family_titles = 'ClearDrive Core|ClearDrive Pro|ClearDrive Max|ClearDrive Ultra' | split: '|'
-  assign family_variant_ids = '50391309582573|50391309615341|50606167195885|50606168473837' | split: '|'
-  assign family_assets = 'cleardrive-family-core.webp|cleardrive-family-pro.webp|cleardrive-family-max-ultra.webp|cleardrive-family-max-ultra.webp' | split: '|'
-  assign family_heights = '375|341|333|333' | split: '|'
+  assign family_titles = 'ClearDrive Pro|ClearDrive Max|ClearDrive Ultra' | split: '|'
+  assign family_variant_ids = '50391309615341|50606167195885|50606168473837' | split: '|'
+  assign family_assets = 'cleardrive-family-pro.webp|cleardrive-family-max-ultra.webp|cleardrive-family-max-ultra.webp' | split: '|'
+  assign family_heights = '341|333|333' | split: '|'
 %}
 
 <div

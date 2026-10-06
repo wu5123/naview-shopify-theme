@@ -65,15 +65,6 @@
     "cleardrive_product_family_empty": {
       "type": "cleardrive-product-family-cards",
       "blocks": {
-        "cart_family_core": {
-          "type": "product_family",
-          "settings": {
-            "title": "ClearDrive Core",
-            "fallback_asset": "cleardrive-family-core.webp",
-            "variant_id": "50391309582573",
-            "link": ""
-          }
-        },
         "cart_family_pro": {
           "type": "product_family",
           "settings": {
@@ -103,7 +94,6 @@
         }
       },
       "block_order": [
-        "cart_family_core",
         "cart_family_pro",
         "cart_family_max",
         "cart_family_ultra"
