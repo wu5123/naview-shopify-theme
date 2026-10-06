@@ -254,6 +254,11 @@
     <div class="cart-totals__item cart-totals__tax-note cart-primary-typography">
       {% render 'tax-info', has_discounts_enabled: settings.show_add_discount_code %}
     </div>
+    {% if cart.requires_shipping %}
+      <p class="cart-totals__delivery cart-primary-typography">
+        Estimated delivery: {{ settings.delivery_estimate | default: '10–16 days' | escape }}
+      </p>
+    {% endif %}
   </div>
 </div>
 
@@ -312,6 +317,12 @@
   }
 
   .cart-totals__tax-note {
+    color: var(--color-foreground-subdued);
+  }
+
+  .cart-totals__delivery {
+    margin: 0;
+    font-size: var(--font-size--2xs);
     color: var(--color-foreground-subdued);
   }
 

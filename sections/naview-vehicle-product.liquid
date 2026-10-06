@@ -16,6 +16,7 @@
   endfor
   assign standard_variant = pro_variant
   assign standard_price = standard_variant.price | money_with_currency
+  assign delivery_estimate = settings.delivery_estimate | default: '10–16 days'
   assign pro_price = pro_variant.price | money_with_currency
   assign max_price = max_variant.price | money_with_currency
   assign ultra_price = ultra_variant.price | money_with_currency
@@ -241,7 +242,7 @@
             <div class="vehicle-info-icon" aria-hidden="true">
               <svg viewBox="0 0 32 32"><path d="M3.5 9.5h15v11h-15zM18.5 13h5.5l4.5 5v2.5h-10z" fill="none"/><circle cx="9" cy="23" r="2.5"/><circle cx="23.5" cy="23" r="2.5"/><path d="M5.5 23h1M11.5 23h9.5M26 23h2"/></svg>
             </div>
-            <div class="vehicle-info-copy"><p>Free Shipping</p><p>Up to 30-Day Returns</p></div>
+            <div class="vehicle-info-copy"><p>Estimated delivery: {{ delivery_estimate | escape }}</p><p>Up to 30-Day Returns</p></div>
             <span class="vehicle-info-arrow" aria-hidden="true">›</span>
           </div>
         </div>
@@ -513,7 +514,7 @@
     <div class="vehicle-fixed-buy__inner">
       <div class="vehicle-fixed-buy__stock">
         <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3.5 9.5h15v11h-15zM18.5 13h5.5l4.5 5v2.5h-10z" fill="none"/><circle cx="9" cy="23" r="2.5"/><circle cx="23.5" cy="23" r="2.5"/><path d="M5.5 23h1M11.5 23h9.5M26 23h2"/></svg>
-        <span><strong data-bar-stock>{% if standard_variant.available %}In Stock{% else %}Out of Stock{% endif %}</strong><small data-bar-stock-detail>{% if standard_variant.available %}Ready to ship{% else %}Currently unavailable{% endif %}</small></span>
+        <span><strong data-bar-stock>{% if standard_variant.available %}In Stock{% else %}Out of Stock{% endif %}</strong><small data-bar-stock-detail data-delivery-label="Delivery: {{ delivery_estimate | escape }}">{% if standard_variant.available %}Delivery: {{ delivery_estimate | escape }}{% else %}Currently unavailable{% endif %}</small></span>
       </div>
       <div class="vehicle-fixed-buy__actions">
         <div class="vehicle-fixed-buy__price-summary" aria-live="polite" aria-atomic="true">
@@ -1618,7 +1619,8 @@
       const available = input.dataset.available === 'true';
       root.querySelector('[data-price]').textContent = input.dataset.price;
       root.querySelector('[data-bar-stock]').textContent = available ? 'In Stock' : 'Out of Stock';
-      root.querySelector('[data-bar-stock-detail]').textContent = available ? 'Ready to ship' : 'Currently unavailable';
+      const stockDetail = root.querySelector('[data-bar-stock-detail]');
+      stockDetail.textContent = available ? stockDetail.dataset.deliveryLabel : 'Currently unavailable';
       root.querySelectorAll('[data-variant]').forEach((field) => {
         field.value = input.value;
         field.setAttribute('value', input.value);

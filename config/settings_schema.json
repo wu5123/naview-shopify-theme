@@ -8,6 +8,17 @@
     "theme_support_url": "https://support.shopify.com/"
   },
   {
+    "name": "Delivery estimate",
+    "settings": [
+      {
+        "type": "text",
+        "id": "delivery_estimate",
+        "label": "Total estimated delivery time",
+        "default": "10–16 days"
+      }
+    ]
+  },
+  {
     "name": "t:names.logo_and_favicon",
     "settings": [
       {
